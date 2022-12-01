@@ -58,7 +58,7 @@
   //注册table数据
   const { prefixCls,tableContext,onExportXls,onImportXls } = useListPage({
       tableProps:{
-           title: 'uae_chinagoods',
+           title: '埋点',
            api: list,
            columns,
            canResize:false,
@@ -78,7 +78,7 @@
             },
       },
        exportConfig: {
-            name:"uae_chinagoods",
+            name:"埋点",
             url: getExportUrl,
           },
           importConfig: {

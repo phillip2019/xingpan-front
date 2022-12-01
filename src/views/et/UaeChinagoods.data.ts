@@ -1,125 +1,145 @@
-import {BasicColumn} from '/@/components/Table';
-import {FormSchema} from '/@/components/Table';
-import { rules} from '/@/utils/helper/validator';
+import { BasicColumn } from '/@/components/Table';
+import { FormSchema } from '/@/components/Table';
+import { rules } from '/@/utils/helper/validator';
 import { render } from '/@/utils/common/renderUtils';
 //列表数据
 export const columns: BasicColumn[] = [
-   {
+  {
     title: 'trackId',
-    align:"center",
-    dataIndex: 'trackId'
-   },
-   {
+    align: 'center',
+    dataIndex: 'trackId',
+  },
+  {
     title: 'distinctId',
-    align:"center",
-    dataIndex: 'distinctId'
-   },
-   {
+    align: 'center',
+    dataIndex: 'distinctId',
+  },
+  {
     title: 'lib',
-    align:"center",
-    dataIndex: 'lib'
-   },
-   {
+    align: 'center',
+    dataIndex: 'lib',
+  },
+  {
     title: 'event',
-    align:"center",
-    dataIndex: 'event_dictText'
-   },
-   {
+    align: 'center',
+    dataIndex: 'event_dictText',
+  },
+  {
     title: 'type',
-    align:"center",
-    dataIndex: 'type'
-   },
-   {
+    align: 'center',
+    dataIndex: 'type',
+  },
+  {
     title: 'allJson',
-    align:"center",
-    dataIndex: 'allJson'
-   },
-   {
+    align: 'center',
+    dataIndex: 'allJson',
+  },
+  {
     title: 'host',
-    align:"center",
-    dataIndex: 'host'
-   },
-   {
+    align: 'center',
+    dataIndex: 'host',
+  },
+  {
     title: 'userAgent',
-    align:"center",
-    dataIndex: 'userAgent'
-   },
-   {
+    align: 'center',
+    dataIndex: 'userAgent',
+  },
+  {
     title: 'uaPlatform',
-    align:"center",
-    dataIndex: 'uaPlatform'
-   },
-   {
+    align: 'center',
+    dataIndex: 'uaPlatform',
+  },
+  {
     title: 'uaBrowser',
-    align:"center",
-    dataIndex: 'uaBrowser'
-   },
-   {
+    align: 'center',
+    dataIndex: 'uaBrowser',
+  },
+  {
     title: 'uaVersion',
-    align:"center",
-    dataIndex: 'uaVersion'
-   },
-   {
+    align: 'center',
+    dataIndex: 'uaVersion',
+  },
+  {
     title: 'uaLanguage',
-    align:"center",
-    dataIndex: 'uaLanguage'
-   },
-   {
+    align: 'center',
+    dataIndex: 'uaLanguage',
+  },
+  {
     title: 'acceptEncoding',
-    align:"center",
-    dataIndex: 'acceptEncoding'
-   },
-   {
+    align: 'center',
+    dataIndex: 'acceptEncoding',
+  },
+  {
     title: 'acceptLanguage',
-    align:"center",
-    dataIndex: 'acceptLanguage'
-   },
-   {
+    align: 'center',
+    dataIndex: 'acceptLanguage',
+  },
+  {
     title: 'ip',
-    align:"center",
-    dataIndex: 'ip'
-   },
-   {
+    align: 'center',
+    dataIndex: 'ip',
+  },
+  {
     title: 'ipCity',
-    align:"center",
-    dataIndex: 'ipCity'
-   },
-   {
+    align: 'center',
+    dataIndex: 'ipCity',
+  },
+  {
     title: 'url',
-    align:"center",
-    dataIndex: 'url'
-   },
-   {
+    align: 'center',
+    dataIndex: 'url',
+  },
+  {
     title: 'referrer',
-    align:"center",
-    dataIndex: 'referrer'
-   },
-   {
+    align: 'center',
+    dataIndex: 'referrer',
+  },
+  {
     title: 'remark',
-    align:"center",
-    dataIndex: 'remark'
-   },
-   {
+    align: 'center',
+    dataIndex: 'remark',
+  },
+  {
     title: 'createdAt',
-    align:"center",
-    dataIndex: 'createdAt'
-   },
-   {
+    align: 'center',
+    dataIndex: 'createdAt',
+  },
+  {
     title: 'date',
-    align:"center",
+    align: 'center',
     dataIndex: 'date',
-    customRender:({text}) =>{
-      return !text?"":(text.length>10?text.substr(0,10):text)
+    customRender: ({ text }) => {
+      return !text ? '' : text.length > 10 ? text.substr(0, 10) : text;
     },
-   },
-   {
+  },
+  {
     title: 'hour',
-    align:"center",
-    dataIndex: 'hour'
-   },
+    align: 'center',
+    dataIndex: 'hour',
+  },
 ];
 //查询数据
 export const searchFormSchema: FormSchema[] = [
+  {
+    label: '项目',
+    field: 'project',
+    component: 'JDictSelectTag',
+    helpMessage: ['请选择项目'],
+    defaultValue: 'chinagoods',
+    componentProps: {
+      dictCode: 'event_project',
+    },
+    show: true,
+    colProps: {
+      span: 12,
+    },
+  },
+  {
+    label: '事件',
+    field: 'event',
+    component: 'Input',
+    show: true,
+  },
 ];
 //表单数据
 export const formSchema: FormSchema[] = [
@@ -142,9 +162,9 @@ export const formSchema: FormSchema[] = [
     label: 'event',
     field: 'event',
     component: 'JSelectMultiple',
-    componentProps:{
-        dictCode:""
-     },
+    componentProps: {
+      dictCode: '',
+    },
   },
   {
     label: 'type',
@@ -236,22 +256,19 @@ export const formSchema: FormSchema[] = [
     field: 'hour',
     component: 'InputNumber',
   },
-	// TODO 主键隐藏字段，目前写死为ID
-	{
-	  label: '',
-	  field: 'id',
-	  component: 'Input',
-	  show: false
-	},
+  {
+    label: '项目',
+    field: 'project',
+    component: 'Input',
+    show: false,
+  },
 ];
 
-
-
 /**
-* 流程表单调用这个方法获取formSchema
-* @param param
-*/
-export function getBpmFormSchema(_formData): FormSchema[]{
+ * 流程表单调用这个方法获取formSchema
+ * @param param
+ */
+export function getBpmFormSchema(_formData): FormSchema[] {
   // 默认和原始表单保持一致 如果流程中配置了权限数据，这里需要单独处理formSchema
   return formSchema;
 }

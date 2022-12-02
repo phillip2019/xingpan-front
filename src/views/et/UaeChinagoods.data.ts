@@ -2,132 +2,91 @@ import { BasicColumn } from '/@/components/Table';
 import { FormSchema } from '/@/components/Table';
 import { rules } from '/@/utils/helper/validator';
 import { render } from '/@/utils/common/renderUtils';
+import { formatTSToDateTime } from '/@/utils/dateUtil';
 //列表数据
 export const columns: BasicColumn[] = [
   {
-    title: 'trackId',
-    align: 'center',
-    dataIndex: 'trackId',
-  },
-  {
-    title: 'distinctId',
+    title: '用户标识',
     align: 'center',
     dataIndex: 'distinctId',
   },
   {
-    title: 'lib',
+    title: '上报包',
     align: 'center',
     dataIndex: 'lib',
   },
   {
-    title: 'event',
+    title: '事件',
     align: 'center',
-    dataIndex: 'event_dictText',
+    dataIndex: 'event',
   },
   {
-    title: 'type',
+    title: '采集类别',
     align: 'center',
     dataIndex: 'type',
   },
   {
-    title: 'allJson',
+    title: '属性内容',
     align: 'center',
     dataIndex: 'allJson',
   },
   {
-    title: 'host',
-    align: 'center',
-    dataIndex: 'host',
-  },
-  {
-    title: 'userAgent',
-    align: 'center',
-    dataIndex: 'userAgent',
-  },
-  {
-    title: 'uaPlatform',
-    align: 'center',
-    dataIndex: 'uaPlatform',
-  },
-  {
-    title: 'uaBrowser',
-    align: 'center',
-    dataIndex: 'uaBrowser',
-  },
-  {
-    title: 'uaVersion',
-    align: 'center',
-    dataIndex: 'uaVersion',
-  },
-  {
-    title: 'uaLanguage',
-    align: 'center',
-    dataIndex: 'uaLanguage',
-  },
-  {
-    title: 'acceptEncoding',
-    align: 'center',
-    dataIndex: 'acceptEncoding',
-  },
-  {
-    title: 'acceptLanguage',
-    align: 'center',
-    dataIndex: 'acceptLanguage',
-  },
-  {
-    title: 'ip',
+    title: 'IP',
     align: 'center',
     dataIndex: 'ip',
   },
   {
-    title: 'ipCity',
+    title: 'ip归属城市',
     align: 'center',
     dataIndex: 'ipCity',
+    customRender: ({ value }) => {
+      const ipCityJson = JSON.parse(value).city;
+      return !ipCityJson ? '' : ipCityJson.names['zh-CN'];
+    },
   },
   {
-    title: 'url',
-    align: 'center',
-    dataIndex: 'url',
-  },
-  {
-    title: 'referrer',
+    title: '上一个页面地址',
     align: 'center',
     dataIndex: 'referrer',
   },
   {
-    title: 'remark',
+    title: '上报备注',
     align: 'center',
     dataIndex: 'remark',
   },
   {
-    title: 'createdAt',
+    title: '时间',
     align: 'center',
     dataIndex: 'createdAt',
-  },
-  {
-    title: 'date',
-    align: 'center',
-    dataIndex: 'date',
-    customRender: ({ text }) => {
-      return !text ? '' : text.length > 10 ? text.substr(0, 10) : text;
+    customRender: ({ value }) => {
+      return !value ? '' : formatTSToDateTime(Number(value));
     },
-  },
-  {
-    title: 'hour',
-    align: 'center',
-    dataIndex: 'hour',
   },
 ];
 //查询数据
 export const searchFormSchema: FormSchema[] = [
   {
-    label: '项目',
-    field: 'project',
-    component: 'JDictSelectTag',
-    helpMessage: ['请选择项目'],
-    defaultValue: 'chinagoods',
+    label: '创建时间',
+    field: 'createdAt',
+    component: 'RangePicker',
     componentProps: {
-      dictCode: 'event_project',
+      valueType: 'Date',
+      showTime: true,
+    },
+    helpMessage: ['请选择事件时间'],
+    show: true,
+    colProps: {
+      span: 30,
+    },
+  },
+  {
+    label: '事件',
+    field: 'event',
+    component: 'JDictSelectTag',
+    helpMessage: ['请选择埋点事件'],
+    defaultValue: '$pageview',
+    componentProps: {
+      dictCode: 'et_event_name',
     },
     show: true,
     colProps: {
@@ -135,89 +94,66 @@ export const searchFormSchema: FormSchema[] = [
     },
   },
   {
-    label: '事件',
-    field: 'event',
-    component: 'Input',
+    label: '环境',
+    field: 'env',
+    component: 'JDictSelectTag',
+    helpMessage: ['请选择埋点环境'],
+    defaultValue: 'test',
+    componentProps: {
+      dictCode: 'et_env',
+    },
     show: true,
+    colProps: {
+      span: 12,
+    },
+  },
+  {
+    label: '项目',
+    field: 'project',
+    component: 'JDictSelectTag',
+    helpMessage: ['请选择项目'],
+    defaultValue: 'chinagoods',
+    componentProps: {
+      dictCode: 'et_project',
+    },
+    show: true,
+    colProps: {
+      span: 12,
+    },
   },
 ];
 //表单数据
 export const formSchema: FormSchema[] = [
   {
-    label: 'trackId',
-    field: 'trackId',
-    component: 'InputNumber',
-  },
-  {
-    label: 'distinctId',
+    label: '用户标识',
     field: 'distinctId',
     component: 'Input',
   },
   {
-    label: 'lib',
+    label: '上报包',
     field: 'lib',
     component: 'Input',
   },
   {
-    label: 'event',
+    label: '事件',
     field: 'event',
-    component: 'JSelectMultiple',
+    component: 'JDictSelectTag',
     componentProps: {
-      dictCode: '',
+      dictCode: 'et_event_name',
     },
   },
   {
-    label: 'type',
+    label: '采集类别',
     field: 'type',
     component: 'Input',
   },
   {
-    label: 'allJson',
+    label: '属性内容',
     field: 'allJson',
     component: 'Input',
   },
   {
-    label: 'host',
-    field: 'host',
-    component: 'Input',
-  },
-  {
-    label: 'userAgent',
-    field: 'userAgent',
-    component: 'Input',
-  },
-  {
-    label: 'uaPlatform',
-    field: 'uaPlatform',
-    component: 'Input',
-  },
-  {
-    label: 'uaBrowser',
-    field: 'uaBrowser',
-    component: 'Input',
-  },
-  {
-    label: 'uaVersion',
-    field: 'uaVersion',
-    component: 'Input',
-  },
-  {
-    label: 'uaLanguage',
-    field: 'uaLanguage',
-    component: 'Input',
-  },
-  {
-    label: 'acceptEncoding',
-    field: 'acceptEncoding',
-    component: 'Input',
-  },
-  {
-    label: 'acceptLanguage',
-    field: 'acceptLanguage',
-    component: 'Input',
-  },
-  {
-    label: 'ip',
+    label: 'IP',
     field: 'ip',
     component: 'Input',
   },
@@ -227,34 +163,19 @@ export const formSchema: FormSchema[] = [
     component: 'Input',
   },
   {
-    label: 'url',
-    field: 'url',
-    component: 'InputTextArea',
-  },
-  {
-    label: 'referrer',
+    label: '上一个页面地址',
     field: 'referrer',
     component: 'Input',
   },
   {
-    label: 'remark',
+    label: '上报备注',
     field: 'remark',
     component: 'Input',
   },
   {
-    label: 'createdAt',
+    label: '时间',
     field: 'createdAt',
     component: 'Input',
-  },
-  {
-    label: 'date',
-    field: 'date',
-    component: 'DatePicker',
-  },
-  {
-    label: 'hour',
-    field: 'hour',
-    component: 'InputNumber',
   },
   {
     label: '项目',

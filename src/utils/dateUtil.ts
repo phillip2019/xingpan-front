@@ -10,6 +10,10 @@ export function formatToDateTime(date: dayjs.Dayjs | undefined = undefined, form
   return dayjs(date).format(format);
 }
 
+export function formatTSToDateTime(ts: number, format = DATE_TIME_FORMAT): string {
+  return dayjs(ts).format(format);
+}
+
 export function formatToDate(date: dayjs.Dayjs | undefined = undefined, format = DATE_FORMAT): string {
   return dayjs(date).format(format);
 }

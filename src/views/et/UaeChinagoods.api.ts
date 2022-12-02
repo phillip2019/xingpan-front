@@ -25,8 +25,7 @@ export const getImportUrl = Api.importExcel;
  * 列表接口
  * @param params
  */
-export const list = (params) =>
-  defHttp.get({url: Api.list, params});
+export const list = (params) => defHttp.get({ url: Api.list, params });
 
 /**
  * 删除单个

@@ -29,6 +29,10 @@ export const columns: BasicColumn[] = [
     title: '属性内容',
     align: 'center',
     dataIndex: 'allJson',
+    customRender: ({ value }) => {
+      const propsData = JSON.parse(value)['properties'];
+      return !propsData ? '' : JSON.stringify(propsData).slice(0, 20);
+    },
   },
   {
     title: 'IP',
@@ -67,16 +71,27 @@ export const columns: BasicColumn[] = [
 export const searchFormSchema: FormSchema[] = [
   {
     label: '创建时间',
-    field: 'createdAt',
+    field: 'createdAtArr',
     component: 'RangePicker',
     componentProps: {
       valueType: 'Date',
       showTime: true,
+      format: 'YYYY-MM-DD HH:mm:ss',
     },
     helpMessage: ['请选择事件时间'],
     show: true,
     colProps: {
       span: 30,
+    },
+  },
+  {
+    label: '用户编号',
+    field: 'distinctId',
+    component: 'Input',
+    helpMessage: ['请输入用户编号'],
+    show: true,
+    colProps: {
+      span: 12,
     },
   },
   {
@@ -148,11 +163,6 @@ export const formSchema: FormSchema[] = [
     component: 'Input',
   },
   {
-    label: '属性内容',
-    field: 'allJson',
-    component: 'Input',
-  },
-  {
     label: 'IP',
     field: 'ip',
     component: 'Input',
@@ -182,6 +192,14 @@ export const formSchema: FormSchema[] = [
     field: 'project',
     component: 'Input',
     show: false,
+  },
+  {
+    label: '属性内容',
+    field: 'allJson',
+    component: 'JCodeEditor',
+    colProps: {
+      span: 24,
+    },
   },
 ];
 

@@ -1,15 +1,19 @@
 <template>
-  <BasicModal v-bind="$attrs" @register="registerModal" destroyOnClose :title="title" :width="896" @ok="handleSubmit">
-    <BasicForm @register="registerForm" />
-  </BasicModal>
+  <BasicDrawer v-bind="$attrs" @register="registerModal" destroyOnClose :title="title" :width="896" @ok="handleSubmit">
+    <div>
+      <BasicForm @register="registerForm" />
+    </div>
+  </BasicDrawer>
 </template>
 
 <script lang="ts" setup>
   import { ref, computed, unref } from 'vue';
+  import { BasicDrawer, useDrawerInner } from '/@/components/Drawer';
   import { BasicModal, useModalInner } from '/@/components/Modal';
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { formSchema } from '../UaeChinagoods.data';
   import { saveOrUpdate } from '../UaeChinagoods.api';
+import { formatTSToDateTime } from '/@/utils/dateUtil';
   // Emits声明
   const emit = defineEmits(['register', 'success']);
   const isUpdate = ref(true);
@@ -21,11 +25,12 @@
     baseColProps: { span: 12 },
   });
   //表单赋值
-  const [registerModal, { setModalProps, closeModal }] = useModalInner(async (data) => {
+  const [registerModal] = useDrawerInner(async (data) => {
     //重置表单
     await resetFields();
-    setModalProps({ confirmLoading: false, showCancelBtn: !!data?.showFooter, showOkBtn: !!data?.showFooter });
+    // setModalProps({ confirmLoading: false, showCancelBtn: !!data?.showFooter, showOkBtn: !!data?.showFooter });
     isUpdate.value = !!data?.isUpdate;
+    data.record['createdAt'] = formatTSToDateTime(Number(data.record['createdAt']));
     if (unref(isUpdate)) {
       //表单赋值
       await setFieldsValue({

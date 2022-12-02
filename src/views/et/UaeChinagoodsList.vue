@@ -1,7 +1,7 @@
 <template>
   <div>
     <!--引用表格-->
-    <BasicTable @register="registerTable" :rowSelection="rowSelection">
+    <BasicTable @register="registerTable" :rowSelection="rowSelection" @row-dbClick="doubleClick">
       <!--插槽:table标题-->
       <template #tableTitle>
         <a-button type="primary" preIcon="ant-design:export-outlined" @click="onExportXls"> 导出</a-button>
@@ -14,10 +14,7 @@
       <template #htmlSlot="{ text }">
         <div v-html="text"></div>
       </template>
-      <!--省市区字段回显插槽-->
-      <template #pcaSlot="{ text }">
-        {{ getAreaTextByCode(text) }}
-      </template>
+
       <template #fileSlot="{ text }">
         <span v-if="!text" style="font-size: 12px; font-style: italic">无文件</span>
         <a-button v-else :ghost="true" type="primary" preIcon="ant-design:download-outlined" size="small" @click="downloadFile(text)">下载</a-button>
@@ -47,9 +44,13 @@
       title: '埋点',
       api: list,
       columns,
+      rowKey: 'distinctId',
       canResize: false,
+      striped: true,
+      clickToRowSelect: false,
+      showIndexColumn: false,
       formConfig: {
-        //labelWidth: 120,
+        labelWidth: 80,
         schemas: searchFormSchema,
         autoSubmitOnEnter: true,
         showAdvancedButton: true,
@@ -62,7 +63,7 @@
       },
     },
     exportConfig: {
-      name: '埋点',
+      name: '埋点事件',
       url: getExportUrl,
     },
     importConfig: {
@@ -71,7 +72,7 @@
     },
   });
 
-  const [registerTable, { reload }, { rowSelection, selectedRowKeys }] = tableContext;
+  const [registerTable, { reload }, { selectedRows, selectedRowKeys, rowSelection }] = tableContext;
 
   /**
    * 新增事件
@@ -99,8 +100,15 @@
     openModal(true, {
       record,
       isUpdate: true,
-      showFooter: false,
+      showFooter: true,
     });
+  }
+
+  /**
+   * 双击查看详情
+   */
+  function doubleClick(record, index) {
+    handleDetail(record);
   }
   /**
    * 删除事件

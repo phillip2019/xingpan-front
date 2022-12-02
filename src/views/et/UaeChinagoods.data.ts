@@ -29,10 +29,6 @@ export const columns: BasicColumn[] = [
     title: '属性内容',
     align: 'center',
     dataIndex: 'allJson',
-    customRender: ({ value }) => {
-      const propsData = JSON.parse(value)['properties'];
-      return !propsData ? '' : JSON.stringify(propsData).slice(0, 20);
-    },
   },
   {
     title: 'IP',

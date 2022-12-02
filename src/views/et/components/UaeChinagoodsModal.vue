@@ -30,18 +30,21 @@ import { formatTSToDateTime } from '/@/utils/dateUtil';
     await resetFields();
     // setModalProps({ confirmLoading: false, showCancelBtn: !!data?.showFooter, showOkBtn: !!data?.showFooter });
     isUpdate.value = !!data?.isUpdate;
-    data.record['createdAt'] = formatTSToDateTime(Number(data.record['createdAt']));
+    const createdAt = data.record['createdAt'];
+    const ipCityJson = JSON.parse(data.record['ipCity']).city;
     if (unref(isUpdate)) {
       //表单赋值
       await setFieldsValue({
         ...data.record,
+        createdAt: formatTSToDateTime(Number(createdAt)),
+        ipCity: !ipCityJson ? '' : ipCityJson.names['zh-CN'],
       });
     }
     // 隐藏底部时禁用整个表单
     setProps({ disabled: !data?.showFooter });
   });
   //设置标题
-  const title = computed(() => (!unref(isUpdate) ? '新增' : '编辑'));
+  const title = computed(() => (!unref(isUpdate) ? '查看' : '查看'));
   //表单提交事件
   async function handleSubmit(v) {
     try {

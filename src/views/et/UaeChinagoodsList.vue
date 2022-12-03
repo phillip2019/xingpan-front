@@ -61,6 +61,11 @@
         width: 120,
         fixed: 'right',
       },
+      pagination: {
+        current: 1,
+        pageSize: 100,
+        pageSizeOptions: ['50', '100', '200'],
+      },
     },
     exportConfig: {
       name: '埋点事件',

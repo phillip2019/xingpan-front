@@ -36,7 +36,7 @@ export const columns: BasicColumn[] = [
     dataIndex: 'ip',
   },
   {
-    title: 'ip归属城市',
+    title: 'IP归属城市',
     align: 'center',
     dataIndex: 'ipCity',
     customRender: ({ value }) => {
@@ -95,7 +95,6 @@ export const searchFormSchema: FormSchema[] = [
     field: 'event',
     component: 'JDictSelectTag',
     helpMessage: ['请选择埋点事件'],
-    defaultValue: '$pageview',
     componentProps: {
       dictCode: 'et_event_name',
     },

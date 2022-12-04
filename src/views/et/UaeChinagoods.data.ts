@@ -41,7 +41,8 @@ export const columns: BasicColumn[] = [
     dataIndex: 'ipCity',
     customRender: ({ value }) => {
       const ipCityJson = JSON.parse(value).city;
-      return !ipCityJson ? '' : ipCityJson.names['zh-CN'];
+      const ipCityName = !ipCityJson ? '' : ipCityJson.names['zh-CN'];
+      return !ipCityName ? '' : ipCityName;
     },
   },
   {

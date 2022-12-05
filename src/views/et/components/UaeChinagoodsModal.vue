@@ -13,7 +13,7 @@
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { formSchema } from '../UaeChinagoods.data';
   import { saveOrUpdate } from '../UaeChinagoods.api';
-import { formatTSToDateTime } from '/@/utils/dateUtil';
+  import { formatTSToDateTime } from '/@/utils/dateUtil';
   // Emits声明
   const emit = defineEmits(['register', 'success']);
   const isUpdate = ref(true);

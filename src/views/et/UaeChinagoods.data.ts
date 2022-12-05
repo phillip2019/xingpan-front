@@ -91,14 +91,24 @@ export const searchFormSchema: FormSchema[] = [
       span: 12,
     },
   },
+  // {
+  //   label: '事件',
+  //   field: 'event',
+  //   component: 'JDictSelectTag',
+  //   helpMessage: ['请选择埋点事件'],
+  //   componentProps: {
+  //     dictCode: 'et_event_name',
+  //   },
+  //   show: true,
+  //   colProps: {
+  //     span: 12,
+  //   },
+  // },
   {
     label: '事件',
     field: 'event',
-    component: 'JDictSelectTag',
-    helpMessage: ['请选择埋点事件'],
-    componentProps: {
-      dictCode: 'et_event_name',
-    },
+    component: 'Input',
+    helpMessage: ['请输入埋点事件英文名'],
     show: true,
     colProps: {
       span: 12,

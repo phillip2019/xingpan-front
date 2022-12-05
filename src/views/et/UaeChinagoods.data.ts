@@ -132,6 +132,17 @@ export const searchFormSchema: FormSchema[] = [
       span: 12,
     },
   },
+  {
+    label: '消息批量大小',
+    field: 'batchSize',
+    component: 'Input',
+    defaultValue: 100,
+    helpMessage: ['消息批量大小'],
+    show: true,
+    colProps: {
+      span: 12,
+    },
+  },
 ];
 //表单数据
 export const formSchema: FormSchema[] = [

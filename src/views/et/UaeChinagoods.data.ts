@@ -136,7 +136,7 @@ export const searchFormSchema: FormSchema[] = [
     label: '消息批量大小',
     field: 'batchSize',
     component: 'Input',
-    defaultValue: 100,
+    defaultValue: 10000,
     helpMessage: ['消息批量大小'],
     show: true,
     colProps: {

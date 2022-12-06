@@ -94,10 +94,21 @@ export const searchFormSchema: FormSchema[] = [
   {
     label: '事件',
     field: 'event',
+    component: 'Input',
+    helpMessage: ['请输入埋点事件名称'],
+    show: true,
+    colProps: {
+      span: 12,
+    },
+  },
+  {
+    label: '客户端',
+    field: 'platformType',
     component: 'JDictSelectTag',
-    helpMessage: ['请选择埋点事件'],
+    helpMessage: ['请选择埋点客户端'],
+    defaultValue: 'pc',
     componentProps: {
-      dictCode: 'et_event_name',
+      dictCode: 'et_platform_type',
     },
     show: true,
     colProps: {

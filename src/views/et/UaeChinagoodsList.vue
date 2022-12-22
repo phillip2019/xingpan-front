@@ -44,7 +44,7 @@
       title: '埋点',
       api: list,
       columns,
-      rowKey: 'distinctId',
+      rowKey: 'trackId',
       canResize: false,
       striped: true,
       clickToRowSelect: false,

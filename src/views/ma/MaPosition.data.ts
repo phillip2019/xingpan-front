@@ -5,7 +5,7 @@ import { render } from '/@/utils/common/renderUtils';
 //列表数据
 export const columns: BasicColumn[] = [
   {
-    title: '编号',
+    title: '点位编号',
     align: 'center',
     sorter: true,
     dataIndex: 'positionNo',
@@ -14,16 +14,16 @@ export const columns: BasicColumn[] = [
     title: '类型',
     align: 'center',
     sorter: true,
-    dataIndex: 'positionType_dictText',
+    dataIndex: 'positionType',
   },
   {
-    title: '序号',
+    title: '点位序号',
     align: 'center',
     sorter: true,
     dataIndex: 'seqNo',
   },
   {
-    title: '编号',
+    title: '活动编号',
     align: 'center',
     sorter: true,
     dataIndex: 'activeId',
@@ -61,21 +61,23 @@ export const columns: BasicColumn[] = [
     title: '二维码',
     align: 'center',
     dataIndex: 'qrCodeUrl',
-    customRender: render.renderImage,
+    customRender: render.renderBigImage,
   },
   {
     title: '状态',
     align: 'center',
     sorter: true,
-    dataIndex: 'status_dictText',
+    dataIndex: 'status',
   },
   {
     title: '创建时间',
     align: 'center',
     dataIndex: 'createTime',
-    customRender: ({ text }) => {
-      return !text ? '' : text.length > 10 ? text.substr(0, 10) : text;
-    },
+  },
+  {
+    title: '创建人',
+    align: 'center',
+    dataIndex: 'createBy',
   },
 ];
 //查询数据

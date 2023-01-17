@@ -8,25 +8,31 @@ export const columns: BasicColumn[] = [
     title: '点位ID',
     align: 'center',
     sorter: true,
-    dataIndex: 'positionId_dictText',
+    dataIndex: 'positionId',
   },
   {
     title: '点位编号',
     align: 'center',
     sorter: true,
-    dataIndex: 'positionNo_dictText',
+    dataIndex: 'positionNo',
   },
   {
     title: '店铺编号',
     align: 'center',
     sorter: true,
-    dataIndex: 'shopId_dictText',
+    dataIndex: 'shopId',
   },
   {
     title: '店铺名称',
     align: 'center',
     sorter: true,
-    dataIndex: 'shopName_dictText',
+    dataIndex: 'shopName',
+  },
+  {
+    title: '店铺二维码',
+    align: 'center',
+    dataIndex: 'qrCodeUrl',
+    customRender: render.renderBigImage,
   },
   {
     title: '店铺主图链接',
@@ -54,14 +60,14 @@ export const columns: BasicColumn[] = [
     dataIndex: 'shopIntroduction',
   },
   {
-    title: '点位店铺微信二维码ticket',
+    title: '创建时间',
     align: 'center',
-    dataIndex: 'qrCodeTicket',
+    dataIndex: 'createTime',
   },
   {
-    title: '点位店铺微信二维码链接',
+    title: '创建人',
     align: 'center',
-    dataIndex: 'qrCodeUrl',
+    dataIndex: 'createBy',
   },
 ];
 //查询数据

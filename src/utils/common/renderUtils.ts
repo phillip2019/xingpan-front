@@ -84,6 +84,35 @@ const render = {
     //update-end-author:taoyan date:2022-5-24 for:  VUEN-1084 【vue3】online表单测试发现的新问题 41、生成的代码，树默认图大小未改
   },
   /**
+   * 渲染大图片
+   * @param text
+   */
+  renderBigImage: ({ text }) => {
+    if (!text) {
+      //update-begin-author:taoyan date:2022-5-24 for:  VUEN-1084 【vue3】online表单测试发现的新问题 41、生成的代码，树默认图大小未改
+      return h(
+        Avatar,
+        { shape: 'square', size: 150 },
+        {
+          icon: () => h(Icon, { icon: 'ant-design:file-image-outlined', size: 150 }),
+        }
+      );
+    }
+    let avatarList = text.split(',');
+    return h(
+      'span',
+      avatarList.map((item) => {
+        return h(Avatar, {
+          src: getFileAccessHttpUrl(item),
+          shape: 'square',
+          size: 150,
+          style: { marginRight: '1px' },
+        });
+      })
+    );
+    //update-end-author:taoyan date:2022-5-24 for:  VUEN-1084 【vue3】online表单测试发现的新问题 41、生成的代码，树默认图大小未改
+  },
+  /**
    * 渲染 Tooltip
    * @param text
    * @param len

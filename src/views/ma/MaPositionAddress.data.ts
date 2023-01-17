@@ -20,19 +20,19 @@ export const columns: BasicColumn[] = [
     title: '市场名称',
     align: 'center',
     sorter: true,
-    dataIndex: 'marketName_dictText',
+    dataIndex: 'marketName',
   },
   {
     title: '市场楼层',
     align: 'center',
     sorter: true,
-    dataIndex: 'floor_dictText',
+    dataIndex: 'floor',
   },
   {
     title: '点位位置类型',
     align: 'center',
     sorter: true,
-    dataIndex: 'positionAddressType_dictText',
+    dataIndex: 'positionAddressType',
   },
   {
     title: '点位详细位置',
@@ -43,13 +43,23 @@ export const columns: BasicColumn[] = [
     title: '市场行业',
     align: 'center',
     sorter: true,
-    dataIndex: 'industryName_dictText',
+    dataIndex: 'industryName',
   },
   {
     title: '点位位置状态',
     align: 'center',
     sorter: true,
-    dataIndex: 'usedStauts_dictText',
+    dataIndex: 'usedStatus',
+  },
+  {
+    title: '创建时间',
+    align: 'center',
+    dataIndex: 'createTime',
+  },
+  {
+    title: '创建人',
+    align: 'center',
+    dataIndex: 'createBy',
   },
 ];
 //查询数据

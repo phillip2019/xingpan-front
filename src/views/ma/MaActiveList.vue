@@ -60,13 +60,13 @@
   import { useListPage } from '/@/hooks/system/useListPage';
   import MaActiveModal from './components/MaActiveModal.vue';
   import { columns, searchFormSchema } from './MaActive.data';
-  import { list, deleteOne, batchDelete, getImportUrl, getExportUrl } from './MaActive.api';
+  import { list, deleteOne, batchDelete, getImportUrl, getExportUrl, getImportYLBUrl } from './MaActive.api';
   import { downloadFile } from '/@/utils/common/renderUtils';
   const checkedKeys = ref<Array<string | number>>([]);
   //注册model
   const [registerModal, { openModal }] = useModal();
   //注册table数据
-  const { prefixCls, tableContext, onExportXls, onImportXls } = useListPage({
+  const { prefixCls, tableContext, onExportXls, onImportXls, handleImportXls} = useListPage({
     tableProps: {
       title: '活动',
       api: list,
@@ -175,20 +175,23 @@
   }
 
   // 导入易拉宝excel
-  function onImportYLBXls(file: any, record) {
+  function onImportYLBXls(file, record) {
     // TODO 上传excel文件
     // TODO 生成微信公众号二维码图片
 
-    // let { url, success } = options?.importConfig ?? {};
-    // //update-begin-author:taoyan date:20220507 for: erp代码生成 子表 导入地址是动态的
-    // let realUrl = typeof url === 'function' ? url() : url;
-    // if (realUrl) {
-    //   await handleImportXls(file, realUrl, success || reload);
-    //   //update-end-author:taoyan date:20220507 for: erp代码生成 子表 导入地址是动态的
-    // } else {
-    //   $message.createMessage.warn('没有传递 importConfig.url 参数');
-    //   await Promise.reject();
-    // }
+    let url = getImportYLBUrl;
+    // 透传活动编号
+    url = url + '?id=' + record.id;
+    console.log(record);
+    //update-begin-author:taoyan date:20220507 for: erp代码生成 子表 导入地址是动态的
+    let realUrl = typeof url === 'function' ? url() : url;
+    if (realUrl) {
+      return handleImportXls(file, realUrl, true || reload);
+      //update-end-author:taoyan date:20220507 for: erp代码生成 子表 导入地址是动态的
+    } else {
+      $message.createMessage.warn('没有传递 importConfig.url 参数');
+      return Promise.reject();
+    }
   }
 </script>
 

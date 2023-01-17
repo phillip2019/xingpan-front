@@ -11,6 +11,7 @@ enum Api {
   deleteBatch = '/ma/active/deleteBatch',
   importExcel = '/ma/active/importExcel',
   exportXls = '/ma/active/exportXls',
+  importYLBExcel = '/ma/active/importYLBExcel',
 }
 /**
  * 导出api
@@ -21,6 +22,10 @@ export const getExportUrl = Api.exportXls;
  * 导入api
  */
 export const getImportUrl = Api.importExcel;
+/**
+ * 导入易拉宝物料api
+ */
+export const getImportYLBUrl = Api.importYLBExcel;
 /**
  * 列表接口
  * @param params

@@ -163,6 +163,7 @@ export function useListPage(options: ListPageOptions) {
     doRequest,
     doDeleteRecord,
     tableContext,
+    handleImportXls,
   };
 }
 

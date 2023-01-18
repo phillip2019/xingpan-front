@@ -93,7 +93,8 @@ export function useMethods() {
    * @param url
    */
   async function exportZip(name, url, params) {
-    const data = await defHttp.get({ url: url, params: params, responseType: 'blob' }, { isTransformResponse: false });
+    params['timeout'] = 30 * 1000;
+    const data = await defHttp.get({ url: url, timeout: 300 * 1000, params: params, responseType: 'blob' }, { isTransformResponse: false });
     if (!data) {
       createMessage.warning('文件下载失败');
       return;

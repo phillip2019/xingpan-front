@@ -26,11 +26,21 @@
       <template #action="{ record }">
         <a-menu>
           <a-menu-item key="1">
-            <j-upload-button type="primary" preIcon="ant-design:import-outlined" @click="function importYLBXls(file) {return onImportYLBXls(file, record)}"
+            <j-upload-button
+              type="primary"
+              preIcon="ant-design:import-outlined"
+              @click="
+                function importYLBXls(file) {
+                  return onImportYLBXls(file, record);
+                }
+              "
               >导入活动易拉宝物料
             </j-upload-button>
           </a-menu-item>
           <a-menu-item key="2">
+            <a-button type="primary" preIcon="ant-design:export-outlined" @click="onExportYLBQrCode(record)">导出易拉宝二维码</a-button>
+          </a-menu-item>
+          <a-menu-item key="3">
             <TableAction :actions="getTableAction(record)" :dropDownActions="getDropDownAction(record)" />
           </a-menu-item>
         </a-menu>
@@ -60,13 +70,14 @@
   import { useListPage } from '/@/hooks/system/useListPage';
   import MaActiveModal from './components/MaActiveModal.vue';
   import { columns, searchFormSchema } from './MaActive.data';
-  import { list, deleteOne, batchDelete, getImportUrl, getExportUrl, getImportYLBUrl } from './MaActive.api';
+  import { list, deleteOne, batchDelete, getImportUrl, getExportUrl, getImportYLBUrl, getExportYLBQrCode } from './MaActive.api';
   import { downloadFile } from '/@/utils/common/renderUtils';
+  import { filterObj } from '/@/utils/common/compUtils';
   const checkedKeys = ref<Array<string | number>>([]);
   //注册model
   const [registerModal, { openModal }] = useModal();
   //注册table数据
-  const { prefixCls, tableContext, onExportXls, onImportXls, handleImportXls} = useListPage({
+  const { prefixCls, tableContext, onExportXls, onImportXls, handleImportXls, handleExportZip } = useListPage({
     tableProps: {
       title: '活动',
       api: list,
@@ -95,7 +106,7 @@
     },
   });
 
-  const [registerTable, { reload }, { rowSelection, selectedRowKeys }] = tableContext;
+  const [registerTable, { getForm, reload }, { rowSelection, selectedRowKeys }] = tableContext;
 
   /**
    * 新增事件
@@ -182,7 +193,6 @@
     let url = getImportYLBUrl;
     // 透传活动编号
     url = url + '?id=' + record.id;
-    console.log(record);
     //update-begin-author:taoyan date:20220507 for: erp代码生成 子表 导入地址是动态的
     let realUrl = typeof url === 'function' ? url() : url;
     if (realUrl) {
@@ -192,6 +202,36 @@
       $message.createMessage.warn('没有传递 importConfig.url 参数');
       return Promise.reject();
     }
+  }
+
+  // 导出易拉宝二维码
+  function onExportYLBQrCode(record) {
+    let realUrl = getExportYLBQrCode + '?id=' + record.id;
+    let title = '易拉宝二维码';
+    let params = {};
+    //update-begin-author:taoyan date:20220507 for: erp代码生成 子表 导出报错，原因未知-
+    let paramsForm = {};
+    try {
+      paramsForm = getForm().validate();
+    } catch (e) {
+      console.error(e);
+    }
+    //update-end-author:taoyan date:20220507 for: erp代码生成 子表 导出报错，原因未知-
+    //如果参数不为空，则整合到一起
+    //update-begin-author:taoyan date:20220507 for: erp代码生成 子表 导出动态设置mainId
+    if (params) {
+      Object.keys(params).map((k) => {
+        let temp = (params as object)[k];
+        if (temp) {
+          paramsForm[k] = unref(temp);
+        }
+      });
+    }
+    //update-end-author:taoyan date:20220507 for: erp代码生成 子表 导出动态设置mainId
+    if (selectedRowKeys.value && selectedRowKeys.value.length > 0) {
+      paramsForm['selections'] = selectedRowKeys.value.join(',');
+    }
+    return handleExportZip(title as string, realUrl, filterObj(paramsForm));
   }
 </script>
 

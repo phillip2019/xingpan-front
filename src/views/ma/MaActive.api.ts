@@ -12,6 +12,7 @@ enum Api {
   importExcel = '/ma/active/importExcel',
   exportXls = '/ma/active/exportXls',
   importYLBExcel = '/ma/active/importYLBExcel',
+  exportYLBQrCode = '/ma/active/exportYLBQrCode',
 }
 /**
  * 导出api
@@ -26,6 +27,11 @@ export const getImportUrl = Api.importExcel;
  * 导入易拉宝物料api
  */
 export const getImportYLBUrl = Api.importYLBExcel;
+
+/**
+ * 导出易拉宝物料二维码
+ */
+export const getExportYLBQrCode = Api.exportYLBQrCode;
 /**
  * 列表接口
  * @param params

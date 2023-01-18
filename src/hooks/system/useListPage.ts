@@ -8,7 +8,7 @@ import { useMessage } from '/@/hooks/web/useMessage';
 import { useMethods } from '/@/hooks/system/useMethods';
 import { useDesign } from '/@/hooks/web/useDesign';
 import { filterObj } from '/@/utils/common/compUtils';
-const { handleExportXls, handleImportXls } = useMethods();
+const { handleExportXls, handleImportXls, handleExportZip } = useMethods();
 
 // 定义 useListPage 方法所需参数
 interface ListPageOptions {
@@ -164,6 +164,7 @@ export function useListPage(options: ListPageOptions) {
     doDeleteRecord,
     tableContext,
     handleImportXls,
+    handleExportZip,
   };
 }
 

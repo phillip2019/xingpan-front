@@ -143,6 +143,7 @@ export class VAxios {
     return this.axiosInstance
       .request<T>({
         ...config,
+        timeout: 300 * 1000,
         method: 'POST',
         data: formData,
         headers: {

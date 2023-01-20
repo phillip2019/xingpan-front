@@ -12,8 +12,7 @@
     :treeData="treeData"
     :multiple="multiple"
     @change="onChange"
-  >
-  </a-tree-select>
+  />
 </template>
 <script lang="ts">
   import { defineComponent, ref, unref, watch } from 'vue';
@@ -103,25 +102,25 @@
         };
         console.info(param);
         loadTreeData(param).then((res) => {
-            if(res && res.length>0){
-                for (let i of res) {
-                    i.value = i.key;
-                    if (i.leaf == false) {
-                        i.isLeaf = false;
-                    } else if (i.leaf == true) {
-                        i.isLeaf = true;
-                    }
-                }
-                treeData.value = res;
-						}
+          if (res && res.length > 0) {
+            for (let i of res) {
+              i.value = i.key;
+              if (i.leaf == false) {
+                i.isLeaf = false;
+              } else if (i.leaf == true) {
+                i.isLeaf = true;
+              }
+            }
+            treeData.value = res;
+          }
         });
       }
 
       function loadItemByCode() {
         if (!props.value || props.value == '0') {
-          if(props.multiple){
+          if (props.multiple) {
             treeValue.value = [];
-          }else{
+          } else {
             treeValue.value = '';
           }
         } else {
@@ -132,7 +131,7 @@
               value: values[index],
               label: item,
             }));
-            if(!props.multiple){
+            if (!props.multiple) {
               treeValue.value = treeValue.value[0];
             }
             onLoadTriggleChange(res[0]);

@@ -2,6 +2,7 @@ import { BasicColumn } from '/@/components/Table';
 import { FormSchema } from '/@/components/Table';
 import { rules } from '/@/utils/helper/validator';
 import { render } from '/@/utils/common/renderUtils';
+import { filterDictTextByCache } from '/@/utils/dict/JDictSelectUtil';
 //列表数据
 export const columns: BasicColumn[] = [
   {
@@ -15,6 +16,7 @@ export const columns: BasicColumn[] = [
     align: 'center',
     sorter: true,
     dataIndex: 'positionType',
+    customRender: ({ text }) => filterDictTextByCache('position_type', text),
   },
   {
     title: '点位序号',
@@ -67,6 +69,7 @@ export const columns: BasicColumn[] = [
     title: '状态',
     align: 'center',
     sorter: true,
+    slots: { customRender: 'status' },
     dataIndex: 'status',
   },
   {
@@ -83,6 +86,28 @@ export const columns: BasicColumn[] = [
 //查询数据
 export const searchFormSchema: FormSchema[] = [
   {
+    label: '市场',
+    field: 'marketName',
+    component: 'JDictSelectTag',
+    componentProps: {
+      dictCode: 'market_name',
+      placeholder: '请选择市场',
+      stringToNumber: false,
+    },
+    colProps: { span: 6 },
+  },
+  {
+    label: '楼层',
+    field: 'floor',
+    component: 'JDictSelectTag',
+    componentProps: {
+      dictCode: 'floor',
+      placeholder: '请选择市场类型',
+      stringToNumber: false,
+    },
+    colProps: { span: 6 },
+  },
+  {
     label: '点位编号',
     field: 'positionNo',
     component: 'Input',
@@ -92,7 +117,11 @@ export const searchFormSchema: FormSchema[] = [
     label: '点位类型',
     field: 'positionType',
     component: 'JDictSelectTag',
-    componentProps: {},
+    componentProps: {
+      dictCode: 'position_type',
+      placeholder: '请选择点位类型',
+      stringToNumber: false,
+    },
     colProps: { span: 6 },
   },
   {
@@ -122,8 +151,13 @@ export const searchFormSchema: FormSchema[] = [
   {
     label: '点位状态',
     field: 'status',
-    component: 'JDictSelectTag',
-    componentProps: {},
+    component: 'Select',
+    componentProps: {
+      options: [
+        { label: '启用', value: '1' },
+        { label: '停用', value: '0' },
+      ],
+    },
     colProps: { span: 6 },
   },
 ];
@@ -143,7 +177,7 @@ export const formSchema: FormSchema[] = [
     defaultValue: 'ylb',
     component: 'JDictSelectTag',
     componentProps: {
-      dictCode: '',
+      dictCode: 'position_type',
     },
     dynamicRules: ({ model, schema }) => {
       return [{ required: true, message: '请输入点位类型!' }];

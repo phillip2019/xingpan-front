@@ -198,10 +198,7 @@ export const formSchema: FormSchema[] = [
   {
     label: '市场行业',
     field: 'industryName',
-    component: 'JDictSelectTag',
-    componentProps: {
-      dictCode: '',
-    },
+    component: 'Input',
     dynamicRules: ({ model, schema }) => {
       return [{ required: true, message: '请输入市场行业!' }];
     },

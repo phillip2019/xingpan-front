@@ -149,8 +149,8 @@ export const searchFormSchema: FormSchema[] = [
     component: 'Select',
     componentProps: {
       options: [
-        { label: '启用', value: '1' },
-        { label: '停用', value: '0' },
+        { label: '启用', value: 1 },
+        { label: '停用', value: 0 },
       ],
     },
     colProps: { span: 6 },
@@ -217,7 +217,7 @@ export const formSchema: FormSchema[] = [
     component: 'Input',
   },
   {
-    label: '点位微信二维码链接',
+    label: '点位微信二维码',
     field: 'qrCodeUrl',
     component: 'JImageUpload',
     componentProps: {},
@@ -225,10 +225,13 @@ export const formSchema: FormSchema[] = [
   {
     label: '点位状态',
     field: 'status',
-    defaultValue: 'enable',
-    component: 'JDictSelectTag',
+    defaultValue: '1',
+    component: 'Select',
     componentProps: {
-      dictCode: '',
+      options: [
+        { label: '启用', value: 1 },
+        { label: '停用', value: 0 },
+      ],
     },
     dynamicRules: ({ model, schema }) => {
       return [{ required: true, message: '请输入点位状态!' }];

@@ -164,7 +164,7 @@ export const formSchema: FormSchema[] = [
     component: 'Input',
   },
   {
-    label: '点位店铺微信二维码ticket',
+    label: '微信二维码ticket',
     field: 'qrCodeTicket',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
@@ -172,11 +172,11 @@ export const formSchema: FormSchema[] = [
     },
   },
   {
-    label: '点位店铺微信二维码链接',
+    label: '二维码',
     field: 'qrCodeUrl',
-    component: 'Input',
+    component: 'JImageUpload',
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入点位店铺微信二维码链接!' }];
+      return [{ required: true, message: '请输入点位店铺微信二维码!' }];
     },
   },
   // TODO 主键隐藏字段，目前写死为ID

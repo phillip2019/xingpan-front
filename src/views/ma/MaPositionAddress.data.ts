@@ -88,6 +88,12 @@ export const searchFormSchema: FormSchema[] = [
     colProps: { span: 6 },
   },
   {
+    label: '点位序号',
+    field: 'positionSeqNo',
+    component: 'Input',
+    colProps: { span: 6 },
+  },
+  {
     label: '点位ID',
     field: 'positionId',
     component: 'Input',
@@ -105,8 +111,8 @@ export const searchFormSchema: FormSchema[] = [
     component: 'Select',
     componentProps: {
       options: [
-        { label: '启用', value: '1' },
-        { label: '停用', value: '0' },
+        { label: '启用', value: 1 },
+        { label: '停用', value: 0 },
       ],
     },
     colProps: { span: 6 },
@@ -203,9 +209,13 @@ export const formSchema: FormSchema[] = [
   {
     label: '点位位置状态',
     field: 'usedStauts',
-    component: 'JDictSelectTag',
+    component: 'Select',
+    defaultValue: 1,
     componentProps: {
-      dictCode: '',
+      options: [
+        { label: '启用', value: 1 },
+        { label: '停用', value: 0 },
+      ],
     },
     dynamicRules: ({ model, schema }) => {
       return [{ required: true, message: '请输入点位位置状态!' }];

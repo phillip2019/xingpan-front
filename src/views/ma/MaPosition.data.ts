@@ -43,23 +43,6 @@ export const columns: BasicColumn[] = [
     dataIndex: 'floor',
   },
   {
-    title: '管理员账号',
-    align: 'center',
-    sorter: true,
-    dataIndex: 'ownerAccount',
-  },
-  {
-    title: '管理员姓名',
-    align: 'center',
-    sorter: true,
-    dataIndex: 'ownerName',
-  },
-  {
-    title: '二维码ticket',
-    align: 'center',
-    dataIndex: 'qrCodeTicket',
-  },
-  {
     title: '二维码',
     align: 'center',
     dataIndex: 'qrCodeUrl',
@@ -71,6 +54,18 @@ export const columns: BasicColumn[] = [
     sorter: true,
     slots: { customRender: 'status' },
     dataIndex: 'status',
+  },
+  {
+    title: '管理员账号',
+    align: 'center',
+    sorter: true,
+    dataIndex: 'ownerAccount',
+  },
+  {
+    title: '管理员姓名',
+    align: 'center',
+    sorter: true,
+    dataIndex: 'ownerName',
   },
   {
     title: '创建时间',

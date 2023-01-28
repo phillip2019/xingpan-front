@@ -35,29 +35,9 @@ export const columns: BasicColumn[] = [
     customRender: render.renderBigImage,
   },
   {
-    title: '店铺主图链接',
-    align: 'center',
-    dataIndex: 'shopCover',
-  },
-  {
-    title: '店铺主营商品数组',
-    align: 'center',
-    dataIndex: 'mainGoodsArr',
-  },
-  {
-    title: '主营内容',
-    align: 'center',
-    dataIndex: 'mainBusinessScope',
-  },
-  {
     title: '店铺位置',
     align: 'center',
     dataIndex: 'shopLocation',
-  },
-  {
-    title: '店铺介绍',
-    align: 'center',
-    dataIndex: 'shopIntroduction',
   },
   {
     title: '创建时间',
@@ -72,6 +52,36 @@ export const columns: BasicColumn[] = [
 ];
 //查询数据
 export const searchFormSchema: FormSchema[] = [
+  {
+    label: '点位ID',
+    field: 'positionId',
+    component: 'Input',
+    colProps: { span: 6 },
+  },
+  {
+    label: '点位编号',
+    field: 'positionNo',
+    component: 'Input',
+    colProps: { span: 6 },
+  },
+  {
+    label: '店铺编号',
+    field: 'shopId',
+    component: 'Input',
+    colProps: { span: 6 },
+  },
+  {
+    label: '店铺名称',
+    field: 'shopName',
+    component: 'Input',
+    colProps: { span: 6 },
+  },
+  {
+    label: '店铺位置',
+    field: 'createBy',
+    component: 'Input',
+    colProps: { span: 6 },
+  },
   {
     label: '创建人',
     field: 'createBy',

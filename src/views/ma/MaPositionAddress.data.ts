@@ -50,6 +50,7 @@ export const columns: BasicColumn[] = [
     align: 'center',
     sorter: true,
     dataIndex: 'usedStatus',
+    slots: { customRender: 'status' },
   },
   {
     title: '创建时间',
@@ -63,7 +64,72 @@ export const columns: BasicColumn[] = [
   },
 ];
 //查询数据
-export const searchFormSchema: FormSchema[] = [];
+export const searchFormSchema: FormSchema[] = [
+  {
+    label: '市场',
+    field: 'marketName',
+    component: 'JDictSelectTag',
+    componentProps: {
+      dictCode: 'market_name',
+      placeholder: '请选择市场',
+      stringToNumber: false,
+    },
+    colProps: { span: 6 },
+  },
+  {
+    label: '楼层',
+    field: 'floor',
+    component: 'JDictSelectTag',
+    componentProps: {
+      dictCode: 'floor',
+      placeholder: '请选择市场类型',
+      stringToNumber: false,
+    },
+    colProps: { span: 6 },
+  },
+  {
+    label: '点位ID',
+    field: 'positionId',
+    component: 'Input',
+    colProps: { span: 6 },
+  },
+  {
+    label: '点位编号',
+    field: 'positionNo',
+    component: 'Input',
+    colProps: { span: 6 },
+  },
+  {
+    label: '点位状态',
+    field: 'status',
+    component: 'Select',
+    componentProps: {
+      options: [
+        { label: '启用', value: '1' },
+        { label: '停用', value: '0' },
+      ],
+    },
+    colProps: { span: 6 },
+  },
+  {
+    label: '市场行业',
+    field: 'industryName',
+    component: 'Input',
+    colProps: { span: 6 },
+  },
+  {
+    label: '创建人',
+    field: 'createBy',
+    component: 'Input',
+    colProps: { span: 6 },
+  },
+  {
+    label: '创建时间',
+    field: 'createTime',
+    component: 'RangePicker',
+    colProps: { span: 6 },
+  },
+];
 //表单数据
 export const formSchema: FormSchema[] = [
   {

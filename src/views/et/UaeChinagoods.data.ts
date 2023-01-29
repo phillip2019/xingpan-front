@@ -8,36 +8,43 @@ export const columns: BasicColumn[] = [
   {
     title: '用户标识',
     align: 'center',
+    sorter: true,
     dataIndex: 'distinctId',
   },
   {
     title: '上报包',
     align: 'center',
+    sorter: true,
     dataIndex: 'lib',
   },
   {
     title: '事件',
     align: 'center',
+    sorter: true,
     dataIndex: 'event',
   },
   {
     title: '采集类别',
     align: 'center',
+    sorter: true,
     dataIndex: 'type',
   },
   {
     title: '属性内容',
     align: 'center',
+    sorter: true,
     dataIndex: 'allJson',
   },
   {
     title: 'IP',
     align: 'center',
+    sorter: true,
     dataIndex: 'ip',
   },
   {
     title: 'IP归属城市',
     align: 'center',
+    sorter: true,
     dataIndex: 'ipCity',
     customRender: ({ value }) => {
       const ipCityJson = JSON.parse(value).city;
@@ -48,16 +55,19 @@ export const columns: BasicColumn[] = [
   {
     title: '上一个页面地址',
     align: 'center',
+    sorter: true,
     dataIndex: 'referrer',
   },
   {
     title: '上报备注',
     align: 'center',
+    sorter: true,
     dataIndex: 'remark',
   },
   {
     title: '时间',
     align: 'center',
+    sorter: true,
     dataIndex: 'createdAt',
     customRender: ({ value }) => {
       return !value ? '' : formatTSToDateTime(Number(value));

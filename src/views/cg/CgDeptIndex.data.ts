@@ -60,7 +60,7 @@ export const columns: BasicColumn[] = [
     dataIndex: 'dayHourOver',
   },
   {
-    title: '活动备注',
+    title: '备注',
     align: 'center',
     dataIndex: 'remark',
   },

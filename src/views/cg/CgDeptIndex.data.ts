@@ -2,12 +2,18 @@ import { BasicColumn } from '/@/components/Table';
 import { FormSchema } from '/@/components/Table';
 import { rules } from '/@/utils/helper/validator';
 import { render } from '/@/utils/common/renderUtils';
+import { getDictItemsByCode } from '/@/utils/dict';
 //列表数据
 export const columns: BasicColumn[] = [
   {
     title: '部门编号',
     align: 'center',
     dataIndex: 'deptId',
+    customRender: ({ text }) => {
+      const array = getDictItemsByCode(text);
+      console.log(array);
+      return render.renderCategoryTree(text, '');
+    },
   },
   {
     title: '一级部门负责人',

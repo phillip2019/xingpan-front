@@ -49,7 +49,7 @@ export const searchFormSchema: FormSchema[] = [
     component: 'JDictSelectTag',
     helpMessage: ['请选择填报指标'],
     componentProps: {
-      dictCode: 'cg_dept_index_value,index_name_zh,id,1=1 order by create_time',
+      dictCode: 'cg_dept_index,index_name_zh,id,1=1 order by create_time',
     },
     colProps: { span: 6 },
   },

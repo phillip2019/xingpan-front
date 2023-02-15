@@ -6,14 +6,9 @@ import { getDictItemsByCode } from '/@/utils/dict';
 //列表数据
 export const columns: BasicColumn[] = [
   {
-    title: '部门编号',
+    title: '部门',
     align: 'center',
-    dataIndex: 'deptId',
-    customRender: ({ text }) => {
-      const array = getDictItemsByCode(text);
-      console.log(array);
-      return render.renderCategoryTree(text, '');
-    },
+    dataIndex: 'deptText',
   },
   {
     title: '一级部门负责人',

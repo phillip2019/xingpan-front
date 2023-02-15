@@ -107,12 +107,41 @@ export const searchFormSchema: FormSchema[] = [
 //表单数据
 export const formSchema: FormSchema[] = [
   {
+    label: '指标部门',
+    field: 'deptId',
+    component: 'JTreeSelect',
+    helpMessage: ['请选择填报部门'],
+    componentProps: {
+      dict: 'sys_category,name,id,1=1 order by create_time',
+      pidField: 'pid',
+      pidValue: '1625117453522718721',
+      placeholder: '请选择部门',
+      converIsLeafVal: 1,
+      multiple: false,
+    },
+    dynamicRules: ({ model, schema }) => {
+      return [{ required: true, message: '请选择部门!' }];
+    },
+  },
+  {
     label: '指标名称',
     field: 'deptIndexId',
     component: 'JDictSelectTag',
     helpMessage: ['请选择填报指标'],
-    componentProps: {
-      dictCode: 'cg_dept_index,index_name_zh,id,1=1 order by create_time',
+    componentProps: ({ schema, tableAction, formActionType, formModel }) => {
+      console.log(formModel.deptId);
+      // console.log(formActionType);
+      let sqlPreTpl = 'cg_dept_index,index_name_zh,id,1=1 ';
+      if (formModel.deptId) {
+        sqlPreTpl = sqlPreTpl + " and dept_id = '" + formModel.deptId + "'";
+        return {
+          dictCode: "cg_dept_index,index_name_zh,id,1=1 and dept_id='" + formModel.deptId + "' order by create_time",
+        };
+      }
+      sqlPreTpl += ' order by create_time';
+      return {
+        dictCode: sqlPreTpl,
+      };
     },
     dynamicRules: ({ model, schema }) => {
       return [{ required: true, message: '请输入部门指标编号!' }];

@@ -112,6 +112,16 @@ export const searchFormSchema: FormSchema[] = [
     },
   },
   {
+    label: 'IP',
+    field: 'ip',
+    component: 'Input',
+    helpMessage: ['请输入客户端IP'],
+    show: true,
+    colProps: {
+      span: 12,
+    },
+  },
+  {
     label: '客户端',
     field: 'platformType',
     component: 'JDictSelectTag',

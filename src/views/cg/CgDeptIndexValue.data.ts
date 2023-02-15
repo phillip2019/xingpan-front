@@ -5,10 +5,16 @@ import { render } from '/@/utils/common/renderUtils';
 //列表数据
 export const columns: BasicColumn[] = [
   {
+    title: '指标所属部门',
+    align: 'center',
+    sorter: true,
+    dataIndex: 'deptText',
+  },
+  {
     title: '指标名称',
     align: 'center',
     sorter: true,
-    dataIndex: 'deptIndexId',
+    dataIndex: 'indexNameZh',
   },
   {
     title: '填报值',
@@ -129,7 +135,6 @@ export const formSchema: FormSchema[] = [
     component: 'JDictSelectTag',
     helpMessage: ['请选择填报指标'],
     componentProps: ({ schema, tableAction, formActionType, formModel }) => {
-      console.log(formModel.deptId);
       // console.log(formActionType);
       let sqlPreTpl = 'cg_dept_index,index_name_zh,id,1=1 ';
       if (formModel.deptId) {

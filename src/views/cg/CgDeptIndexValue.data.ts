@@ -50,12 +50,32 @@ export const columns: BasicColumn[] = [
 //查询数据
 export const searchFormSchema: FormSchema[] = [
   {
+    label: '部门',
+    field: 'deptId',
+    component: 'JTreeDict',
+    helpMessage: ['请选择指标所属部门'],
+    componentProps: {
+      field: 'id',
+      async: true,
+      parentCode: 'B03',
+      placeholder: '请选择部门',
+    },
+    colProps: { span: 6 },
+  },
+  {
     label: '指标名称',
     field: 'deptIndexId',
     component: 'JDictSelectTag',
     helpMessage: ['请选择填报指标'],
-    componentProps: {
-      dictCode: 'cg_dept_index,index_name_zh,id,1=1 order by create_time',
+    componentProps: ({ schema, tableAction, formActionType, formModel }) => {
+      let sqlPreTpl = 'cg_dept_index,index_name_zh,id,1=1 ';
+      if (formModel.deptId) {
+        sqlPreTpl = sqlPreTpl + " and dept_id = '" + formModel.deptId + "'";
+      }
+      sqlPreTpl += ' order by create_time';
+      return {
+        dictCode: sqlPreTpl,
+      };
     },
     colProps: { span: 6 },
   },
@@ -146,9 +166,6 @@ export const formSchema: FormSchema[] = [
       let sqlPreTpl = 'cg_dept_index,index_name_zh,id,1=1 ';
       if (formModel.deptId) {
         sqlPreTpl = sqlPreTpl + " and dept_id = '" + formModel.deptId + "'";
-        return {
-          dictCode: "cg_dept_index,index_name_zh,id,1=1 and dept_id='" + formModel.deptId + "' order by create_time",
-        };
       }
       sqlPreTpl += ' order by create_time';
       return {

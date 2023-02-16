@@ -66,12 +66,14 @@ export const searchFormSchema: FormSchema[] = [
     colProps: { span: 6 },
   },
   {
+    // TODO 添加默认动态值，填写上一周周二时间
     label: '开始日期',
     field: 'beginDate',
     component: 'DatePicker',
     colProps: { span: 6 },
   },
   {
+    // TODO 添加默认动态值，填写本周周一时间
     label: '结束日期',
     field: 'endDate',
     component: 'DatePicker',
@@ -115,15 +117,20 @@ export const formSchema: FormSchema[] = [
   {
     label: '指标部门',
     field: 'deptId',
-    component: 'JTreeSelect',
+    component: 'JTreeDict',
     helpMessage: ['请选择填报部门'],
+    // defaultValue: 'deptText',
     componentProps: {
-      dict: 'sys_category,name,id,1=1 order by create_time',
-      pidField: 'pid',
-      pidValue: '1625117453522718721',
+      field: 'id',
+      async: true,
+      parentCode: 'B03',
       placeholder: '请选择部门',
-      converIsLeafVal: 1,
-      multiple: false,
+      // dict: 'sys_category,name,id,1=1 order by create_time',
+      // pidField: 'pid',
+      // pidValue: '1625117453522718721',
+      // placeholder: '请选择部门',
+      // converIsLeafVal: 1,
+      // multiple: false,
     },
     dynamicRules: ({ model, schema }) => {
       return [{ required: true, message: '请选择部门!' }];
@@ -167,11 +174,23 @@ export const formSchema: FormSchema[] = [
     label: '开始日期',
     field: 'beginDate',
     component: 'DatePicker',
+    helpMessage: ['指标填报周期起始日期'],
+    componentProps: {
+      disabled: true,
+      allowClear: false,
+    },
+    rules: [{ required: true, message: '请选择填报指标开始日期!' }],
   },
   {
     label: '结束日期',
     field: 'endDate',
     component: 'DatePicker',
+    helpMessage: ['指标填报周期结束日期'],
+    componentProps: {
+      disabled: true,
+      allowClear: false,
+    },
+    rules: [{ required: true, message: '请选择填报指标结束日期!' }],
   },
   {
     label: '备注',

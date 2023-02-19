@@ -26,6 +26,11 @@
       <template #action="{ record }">
         <TableAction :actions="getTableAction(record)" :dropDownActions="getDropDownAction(record)" />
       </template>
+      <!--状态显示栏-->
+      <template #status="{ record, text }">
+        <a-tag color="pink" v-if="text == 0">弃用</a-tag>
+        <a-tag color="#87d068" v-if="text == 1">启用</a-tag>
+      </template>
       <!--字段回显插槽-->
       <template #htmlSlot="{ text }">
         <div v-html="text"></div>
@@ -40,18 +45,18 @@
       </template>
     </BasicTable>
     <!-- 表单区域 -->
-    <CgDeptIndexValueModal @register="registerModal" @success="handleSuccess" />
+    <CgDeptIndexTargetModal @register="registerModal" @success="handleSuccess" />
   </div>
 </template>
 
-<script lang="ts" name="cg-cgDeptIndexValue" setup>
+<script lang="ts" name="cg-cgDeptIndexTarget" setup>
   import { ref, computed, unref } from 'vue';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { useModal } from '/@/components/Modal';
   import { useListPage } from '/@/hooks/system/useListPage';
-  import CgDeptIndexValueModal from './components/CgDeptIndexValueModal.vue';
-  import { columns, searchFormSchema } from './CgDeptIndexValue.data';
-  import { list, deleteOne, batchDelete, getImportUrl, getExportUrl } from './CgDeptIndexValue.api';
+  import CgDeptIndexTargetModal from './components/CgDeptIndexTargetModal.vue';
+  import { columns, searchFormSchema } from './CgDeptIndexTarget.data';
+  import { list, deleteOne, batchDelete, getImportUrl, getExportUrl } from './CgDeptIndexTarget.api';
   import { downloadFile } from '/@/utils/common/renderUtils';
   const checkedKeys = ref<Array<string | number>>([]);
   //注册model
@@ -59,18 +64,20 @@
   //注册table数据
   const { prefixCls, tableContext, onExportXls, onImportXls } = useListPage({
     tableProps: {
-      title: '部门指标值',
+      title: 'cg_dept_index_target',
       api: list,
       columns,
       canResize: false,
-      striped: true,
       formConfig: {
         //labelWidth: 120,
         schemas: searchFormSchema,
         autoSubmitOnEnter: true,
         showAdvancedButton: true,
-        fieldMapToNumber: [],
-        fieldMapToTime: [],
+        fieldMapToNumber: [
+          ['quarterCol', ['quarterCol_begin', 'quarterCol_end']],
+          ['monthCol', ['monthCol_begin', 'monthCol_end']],
+        ],
+        fieldMapToTime: [['createTime', ['createTime_begin', 'createTime_end'], 'YYYY-MM-DD']],
       },
       actionColumn: {
         width: 120,
@@ -78,7 +85,7 @@
       },
     },
     exportConfig: {
-      name: '部门指标值',
+      name: 'cg_dept_index_target',
       url: getExportUrl,
     },
     importConfig: {
@@ -122,7 +129,9 @@
    * 删除事件
    */
   async function handleDelete(record) {
-    await deleteOne({ id: record.id }, handleSuccess);
+    // 软删除操作
+    record.isDeleted = 1;
+    await deleteOne(record, handleSuccess);
   }
   /**
    * 批量删除事件

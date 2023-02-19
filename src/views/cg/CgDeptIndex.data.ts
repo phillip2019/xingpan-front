@@ -41,6 +41,11 @@ export const columns: BasicColumn[] = [
     dataIndex: 'indicatorCycle',
   },
   {
+    title: '指标单位',
+    align: 'center',
+    dataIndex: 'indexUnit',
+  },
+  {
     title: '指标对接人',
     align: 'center',
     dataIndex: 'indicatorDockingPerson',
@@ -61,6 +66,24 @@ export const columns: BasicColumn[] = [
     dataIndex: 'dayHourOver',
   },
   {
+    title: '指标状态',
+    align: 'center',
+    dataIndex: 'status',
+    slots: { customRender: 'status' },
+  },
+  {
+    title: '指标填报状态',
+    align: 'center',
+    dataIndex: 'indexFillingMethod',
+    customRender: ({ text }) => {
+      let indexFillingMethodText = '手动填报';
+      if (text === 0) {
+        indexFillingMethodText = '自动填报';
+      }
+      return indexFillingMethodText;
+    },
+  },
+  {
     title: '备注',
     align: 'center',
     dataIndex: 'remark',
@@ -71,14 +94,12 @@ export const searchFormSchema: FormSchema[] = [
   {
     label: '部门',
     field: 'deptId',
-    component: 'JTreeSelect',
+    component: 'JTreeDict',
     componentProps: {
-      dict: 'sys_category,name,id',
-      pidField: 'pid',
-      pidValue: '1625117453522718721',
+      field: 'id',
+      async: true,
+      parentCode: 'B03',
       placeholder: '请选择部门',
-      converIsLeafVal: 0,
-      multiple: false,
     },
     colProps: { span: 6 },
   },
@@ -107,6 +128,12 @@ export const searchFormSchema: FormSchema[] = [
     colProps: { span: 6 },
   },
   {
+    label: '指标单位：',
+    field: 'indexUnit',
+    component: 'Input',
+    colProps: { span: 6 },
+  },
+  {
     label: '指标释义： ',
     field: 'indexInterpretation',
     component: 'Input',
@@ -122,6 +149,31 @@ export const searchFormSchema: FormSchema[] = [
     label: '指标对接人： ',
     field: 'indicatorDockingPerson',
     component: 'Input',
+    colProps: { span: 6 },
+  },
+  {
+    label: '指标状态',
+    field: 'status',
+    component: 'Select',
+    defaultValue: 1,
+    componentProps: {
+      options: [
+        { label: '启用', value: 1 },
+        { label: '停用', value: 0 },
+      ],
+    },
+    colProps: { span: 6 },
+  },
+  {
+    label: '指标填报方式',
+    field: 'indexFillingMethod',
+    component: 'Select',
+    componentProps: {
+      options: [
+        { label: '手动填报', value: 1 },
+        { label: '自动填报', value: 0 },
+      ],
+    },
     colProps: { span: 6 },
   },
 ];
@@ -176,6 +228,14 @@ export const formSchema: FormSchema[] = [
     },
   },
   {
+    label: '指标单位',
+    field: 'indexUnit',
+    component: 'Input',
+    dynamicRules: ({ model, schema }) => {
+      return [{ required: true, message: '请输入指标单位!' }];
+    },
+  },
+  {
     label: '指标释义',
     field: 'indexInterpretation',
     component: 'InputTextArea',
@@ -218,6 +278,28 @@ export const formSchema: FormSchema[] = [
     component: 'TimePicker',
     componentProps: {
       valueFormat: 'HH:mm:ss',
+    },
+  },
+  {
+    label: '指标状态',
+    field: 'status',
+    component: 'Select',
+    componentProps: {
+      options: [
+        { label: '启用', value: 1 },
+        { label: '停用', value: 0 },
+      ],
+    },
+  },
+  {
+    label: '指标填报方式',
+    field: 'indexFillingMethod',
+    component: 'Select',
+    componentProps: {
+      options: [
+        { label: '手动填报', value: 1 },
+        { label: '自动填报', value: 0 },
+      ],
     },
   },
   {

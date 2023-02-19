@@ -72,7 +72,7 @@ export const searchFormSchema: FormSchema[] = [
       if (formModel.deptId) {
         sqlPreTpl = sqlPreTpl + " and dept_id = '" + formModel.deptId + "'";
       }
-      sqlPreTpl += ' order by create_time';
+      sqlPreTpl += ' and status = 1 and index_filling_method = 1 order by create_time';
       return {
         dictCode: sqlPreTpl,
       };
@@ -167,7 +167,7 @@ export const formSchema: FormSchema[] = [
       if (formModel.deptId) {
         sqlPreTpl = sqlPreTpl + " and dept_id = '" + formModel.deptId + "'";
       }
-      sqlPreTpl += ' order by create_time';
+      sqlPreTpl += ' and status = 1 and index_filling_method = 1  order by create_time';
       return {
         dictCode: sqlPreTpl,
       };

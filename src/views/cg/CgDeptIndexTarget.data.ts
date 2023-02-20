@@ -31,11 +31,13 @@ export const columns: BasicColumn[] = [
     title: '指标目标值季度',
     align: 'center',
     dataIndex: 'quarterCol',
+    slots: { customRender: 'dateRow' },
   },
   {
     title: '指标目标值月份',
     align: 'center',
     dataIndex: 'monthCol',
+    slots: { customRender: 'dateRow' },
   },
   {
     title: '指标统计类型',
@@ -303,7 +305,7 @@ export const formSchema: FormSchema[] = [
     },
   },
   {
-    label: '指标统计类型, sum|avg|max|min',
+    label: '指标统计类型',
     field: 'indexStatsType',
     component: 'Select',
     defaultValue: 'sum',
@@ -316,7 +318,7 @@ export const formSchema: FormSchema[] = [
       ],
     },
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入指标统计类型, sum|avg|max|min!' }];
+      return [{ required: true, message: '请输入指标统计类型!' }];
     },
   },
   {

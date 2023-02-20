@@ -31,6 +31,11 @@
         <a-tag color="pink" v-if="text == 0">弃用</a-tag>
         <a-tag color="#87d068" v-if="text == 1">启用</a-tag>
       </template>
+      <!--指标值时间显示栏-->
+      <template #dateRow="{ record, text }">
+        <div v-if="text == 0">-</div>
+        <div v-if="text != 0" v-html="text"></div>
+      </template>
       <!--字段回显插槽-->
       <template #htmlSlot="{ text }">
         <div v-html="text"></div>

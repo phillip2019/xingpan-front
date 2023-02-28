@@ -46,6 +46,18 @@ export const columns: BasicColumn[] = [
     sorter: true,
     dataIndex: 'remark',
   },
+  {
+    title: '创建人',
+    align: 'center',
+    sorter: true,
+    dataIndex: 'create_by',
+  },
+  {
+    title: '创建时间',
+    align: 'center',
+    sorter: true,
+    dataIndex: 'create_time',
+  },
 ];
 //查询数据
 export const searchFormSchema: FormSchema[] = [

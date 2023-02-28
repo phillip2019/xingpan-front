@@ -50,13 +50,13 @@ export const columns: BasicColumn[] = [
     title: '创建人',
     align: 'center',
     sorter: true,
-    dataIndex: 'create_by',
+    dataIndex: 'createBy',
   },
   {
     title: '创建时间',
     align: 'center',
     sorter: true,
-    dataIndex: 'create_time',
+    dataIndex: 'createTime',
   },
 ];
 //查询数据

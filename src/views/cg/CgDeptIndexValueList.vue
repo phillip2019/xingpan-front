@@ -53,6 +53,7 @@
   import { columns, searchFormSchema } from './CgDeptIndexValue.data';
   import { list, deleteOne, batchDelete, getImportUrl, getExportUrl } from './CgDeptIndexValue.api';
   import { downloadFile } from '/@/utils/common/renderUtils';
+  import { getQueryString } from '/@/utils/common/compUtils';
   const checkedKeys = ref<Array<string | number>>([]);
   //注册model
   const [registerModal, { openModal }] = useModal();
@@ -98,6 +99,7 @@
       showFooter: true,
     });
   }
+
   /**
    * 编辑事件
    */
@@ -165,6 +167,8 @@
       },
     ];
   }
+
+  const actionParam = getQueryString('action');
 </script>
 
 <style scoped></style>

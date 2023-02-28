@@ -72,7 +72,7 @@ export const searchFormSchema: FormSchema[] = [
       if (formModel.deptId) {
         sqlPreTpl = sqlPreTpl + " and dept_id = '" + formModel.deptId + "'";
       }
-      sqlPreTpl += ' and status = 1 and index_filling_method = 1 order by create_time';
+      sqlPreTpl += ' and status = 1 order by create_time';
       return {
         dictCode: sqlPreTpl,
       };
@@ -90,6 +90,9 @@ export const searchFormSchema: FormSchema[] = [
     label: '开始日期',
     field: 'beginDate',
     component: 'DatePicker',
+    componentProps: {
+      valueFormat: 'YYYY-MM-DD',
+    },
     colProps: { span: 6 },
   },
   {
@@ -97,6 +100,9 @@ export const searchFormSchema: FormSchema[] = [
     label: '结束日期',
     field: 'endDate',
     component: 'DatePicker',
+    componentProps: {
+      valueFormat: 'YYYY-MM-DD',
+    },
     colProps: { span: 6 },
   },
   {
@@ -195,6 +201,7 @@ export const formSchema: FormSchema[] = [
     componentProps: {
       disabled: true,
       allowClear: false,
+      valueFormat: 'YYYY-MM-DD',
     },
     rules: [{ required: true, message: '请选择填报指标开始日期!' }],
   },
@@ -206,6 +213,7 @@ export const formSchema: FormSchema[] = [
     componentProps: {
       disabled: true,
       allowClear: false,
+      valueFormat: 'YYYY-MM-DD',
     },
     rules: [{ required: true, message: '请选择填报指标结束日期!' }],
   },

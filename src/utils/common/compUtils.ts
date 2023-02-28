@@ -365,3 +365,13 @@ export  function checkChildrenHidden(menuTreeItem){
   }
   return menuTreeItem.children?.find((item) => item.hideMenu == false) != null;
 }
+
+/**
+ * 判断子菜单是否全部隐藏
+ * @param menuTreeItem
+ */
+export function getQueryString(name) { 
+  let reg = `(^|&)${name}=([^&]*)(&|$)`
+  let r = window.location.search.substr(1).match(reg); 
+  if (r != null) return unescape(r[2]); return null; 
+}

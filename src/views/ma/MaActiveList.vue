@@ -73,6 +73,8 @@
   import { list, deleteOne, batchDelete, getImportUrl, getExportUrl, getImportYLBUrl, getExportYLBQrCode } from './MaActive.api';
   import { downloadFile } from '/@/utils/common/renderUtils';
   import { filterObj } from '/@/utils/common/compUtils';
+import { useMessage } from '/@/hooks/web/useMessage';
+
   const checkedKeys = ref<Array<string | number>>([]);
   //注册model
   const [registerModal, { openModal }] = useModal();
@@ -185,11 +187,13 @@
     ];
   }
 
+  const $message = useMessage();
+
   // 导入易拉宝excel
   function onImportYLBXls(file, record) {
+    $message.progress({ title:'请稍后', msg:'数据导入中...',text:'努力中...' });  
     // TODO 上传excel文件
     // TODO 生成微信公众号二维码图片
-
     let url = getImportYLBUrl;
     // 透传活动编号
     url = url + '?id=' + record.id;

@@ -92,6 +92,11 @@ export const searchFormSchema: FormSchema[] = [
     label: '创建时间',
     field: 'createTime',
     component: 'RangePicker',
+    componentProps: {
+      valueType: 'DateTime',
+      showTime: true,
+      valueFormat: 'YYYY-MM-DD HH:mm:ss',
+    },
     colProps: { span: 6 },
   },
 ];

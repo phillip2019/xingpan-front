@@ -81,9 +81,9 @@ export const searchFormSchema: FormSchema[] = [
     field: 'createdAtArr',
     component: 'RangePicker',
     componentProps: {
-      valueType: 'Date',
+      valueType: 'DateTime',
       showTime: true,
-      format: 'YYYY-MM-DD HH:mm:ss',
+      valueFormat: 'YYYY-MM-DD HH:mm:ss',
     },
     helpMessage: ['请选择事件时间'],
     show: true,

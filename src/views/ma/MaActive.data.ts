@@ -78,7 +78,7 @@ export const formSchema: FormSchema[] = [
   {
     label: '活动目标',
     field: 'target',
-    component: 'JEditor',
+    component: 'InputTextArea',
     dynamicRules: ({model,schema}) => {
           return [
                  { required: true, message: '请输入活动目标!'},
@@ -89,6 +89,11 @@ export const formSchema: FormSchema[] = [
     label: '活动开始日期',
     field: 'beginDate',
     component: 'DatePicker',
+    componentProps: {
+      valueType: 'DateTime',
+      showTime: true,
+      valueFormat: 'YYYY-MM-DD HH:mm:ss',
+    },
     dynamicRules: ({model,schema}) => {
           return [
                  { required: true, message: '请输入活动开始日期!'},
@@ -99,6 +104,11 @@ export const formSchema: FormSchema[] = [
     label: '活动截止日期',
     field: 'endDate',
     component: 'DatePicker',
+    componentProps: {
+      valueType: 'DateTime',
+      showTime: true,
+      valueFormat: 'YYYY-MM-DD HH:mm:ss',
+    },
     dynamicRules: ({model,schema}) => {
           return [
                  { required: true, message: '请输入活动截止日期!'},
@@ -108,7 +118,7 @@ export const formSchema: FormSchema[] = [
   {
     label: '活动内容',
     field: 'content',
-    component: 'JEditor',
+    component: 'InputTextArea',
     dynamicRules: ({model,schema}) => {
           return [
                  { required: true, message: '请输入活动内容!'},

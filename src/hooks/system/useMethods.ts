@@ -91,8 +91,9 @@ export function useMethods() {
    * 导出zip文件
    * @param name
    * @param url
+   * @param success 成功后的回调
    */
-  async function exportZip(name, url, params) {
+  async function exportZip(name, url, params, success) {
     params['timeout'] = 30 * 1000;
     const data = await defHttp.get({ url: url, timeout: 300 * 1000, params: params, responseType: 'blob' }, { isTransformResponse: false });
     if (!data) {
@@ -117,12 +118,13 @@ export function useMethods() {
       document.body.removeChild(link); //下载完成移除元素
       window.URL.revokeObjectURL(url); //释放掉blob对象
     }
+    typeof success === 'function' ? success() : '';
   }
 
   return {
     handleExportXls: (name: string, url: string, params?: object) => exportXls(name, url, params),
     handleImportXls: (data, url, success) => importXls(data, url, success),
     handleExportXlsx: (name: string, url: string, params?: object) => exportXls(name, url, params, true),
-    handleExportZip: (name: string, url: string, params?: object) => exportZip(name, url, params),
+    handleExportZip: (name: string, url: string, params?: object, success?) => exportZip(name, url, params, success),
   };
 }

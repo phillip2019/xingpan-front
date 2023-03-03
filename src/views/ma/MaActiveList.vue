@@ -1,7 +1,7 @@
 <template>
   <div>
     <!--引用表格-->
-    <BasicTable @register="registerTable" :rowSelection="rowSelection">
+    <BasicTable @register="registerTable" :rowSelection="rowSelection" :loading="loading">
       <!--插槽:table标题-->
       <template #tableTitle>
         <a-button type="primary" @click="handleAdd" preIcon="ant-design:plus-outlined"> 新增</a-button>
@@ -73,8 +73,9 @@
   import { list, deleteOne, batchDelete, getImportUrl, getExportUrl, getImportYLBUrl, getExportYLBQrCode } from './MaActive.api';
   import { downloadFile } from '/@/utils/common/renderUtils';
   import { filterObj } from '/@/utils/common/compUtils';
-import { useMessage } from '/@/hooks/web/useMessage';
+  import { useMessage } from '/@/hooks/web/useMessage';
 
+  const loading = ref(false);
   const checkedKeys = ref<Array<string | number>>([]);
   //注册model
   const [registerModal, { openModal }] = useModal();
@@ -189,20 +190,32 @@ import { useMessage } from '/@/hooks/web/useMessage';
 
   const $message = useMessage();
 
+  // 成功回调方法
+  function successCal() {
+    reload();
+    loading.value = false;
+  }
+
+  // 导出成功回调方法
+  function exportSuccessCal() {
+    loading.value = false;
+  }
+
   // 导入易拉宝excel
   function onImportYLBXls(file, record) {
-    $message.progress({ title:'请稍后', msg:'数据导入中...',text:'努力中...' });  
     // TODO 上传excel文件
     // TODO 生成微信公众号二维码图片
     let url = getImportYLBUrl;
     // 透传活动编号
     url = url + '?id=' + record.id;
+    loading.value = true;
     //update-begin-author:taoyan date:20220507 for: erp代码生成 子表 导入地址是动态的
     let realUrl = typeof url === 'function' ? url() : url;
     if (realUrl) {
-      return handleImportXls(file, realUrl, true || reload);
+      return handleImportXls(file, realUrl, successCal);
       //update-end-author:taoyan date:20220507 for: erp代码生成 子表 导入地址是动态的
     } else {
+      loading.value = false;
       $message.createMessage.warn('没有传递 importConfig.url 参数');
       return Promise.reject();
     }
@@ -211,6 +224,7 @@ import { useMessage } from '/@/hooks/web/useMessage';
   // 导出易拉宝二维码
   function onExportYLBQrCode(record) {
     let realUrl = getExportYLBQrCode + '?id=' + record.id;
+    loading.value = true;
     let title = '易拉宝二维码';
     let params = {};
     //update-begin-author:taoyan date:20220507 for: erp代码生成 子表 导出报错，原因未知-
@@ -235,7 +249,7 @@ import { useMessage } from '/@/hooks/web/useMessage';
     if (selectedRowKeys.value && selectedRowKeys.value.length > 0) {
       paramsForm['selections'] = selectedRowKeys.value.join(',');
     }
-    return handleExportZip(title as string, realUrl, filterObj(paramsForm));
+    return handleExportZip(title as string, realUrl, filterObj(paramsForm), exportSuccessCal);
   }
 </script>
 

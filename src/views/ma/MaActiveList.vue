@@ -41,6 +41,21 @@
             <a-button type="primary" preIcon="ant-design:export-outlined" @click="onExportYLBQrCode(record)">导出易拉宝二维码</a-button>
           </a-menu-item>
           <a-menu-item key="3">
+            <j-upload-button
+              type="primary"
+              preIcon="ant-design:import-outlined"
+              @click="
+                function importTaiKaXls(file) {
+                  return onImportTaiKaXls(file, record);
+                }
+              "
+              >导入商铺台卡物料
+            </j-upload-button>
+          </a-menu-item>
+          <a-menu-item key="4">
+            <a-button type="primary" preIcon="ant-design:export-outlined" @click="onExportTaiKaQrCode(record)">导出商铺台卡店铺二维码</a-button>
+          </a-menu-item>
+          <a-menu-item key="5">
             <TableAction :actions="getTableAction(record)" :dropDownActions="getDropDownAction(record)" />
           </a-menu-item>
         </a-menu>
@@ -223,6 +238,57 @@
 
   // 导出易拉宝二维码
   function onExportYLBQrCode(record) {
+    let realUrl = getExportYLBQrCode + '?id=' + record.id;
+    loading.value = true;
+    let title = '易拉宝二维码';
+    let params = {};
+    //update-begin-author:taoyan date:20220507 for: erp代码生成 子表 导出报错，原因未知-
+    let paramsForm = {};
+    try {
+      paramsForm = getForm().validate();
+    } catch (e) {
+      console.error(e);
+    }
+    //update-end-author:taoyan date:20220507 for: erp代码生成 子表 导出报错，原因未知-
+    //如果参数不为空，则整合到一起
+    //update-begin-author:taoyan date:20220507 for: erp代码生成 子表 导出动态设置mainId
+    if (params) {
+      Object.keys(params).map((k) => {
+        let temp = (params as object)[k];
+        if (temp) {
+          paramsForm[k] = unref(temp);
+        }
+      });
+    }
+    //update-end-author:taoyan date:20220507 for: erp代码生成 子表 导出动态设置mainId
+    if (selectedRowKeys.value && selectedRowKeys.value.length > 0) {
+      paramsForm['selections'] = selectedRowKeys.value.join(',');
+    }
+    return handleExportZip(title as string, realUrl, filterObj(paramsForm), exportSuccessCal);
+  }
+
+   // 导入商铺台卡excel
+   function onImportTaiKaXls(file, record) {
+    // TODO 上传excel文件
+    // TODO 生成微信公众号二维码图片
+    let url = getImportYLBUrl;
+    // 透传活动编号
+    url = url + '?id=' + record.id;
+    loading.value = true;
+    //update-begin-author:taoyan date:20220507 for: erp代码生成 子表 导入地址是动态的
+    let realUrl = typeof url === 'function' ? url() : url;
+    if (realUrl) {
+      return handleImportXls(file, realUrl, successCal);
+      //update-end-author:taoyan date:20220507 for: erp代码生成 子表 导入地址是动态的
+    } else {
+      loading.value = false;
+      $message.createMessage.warn('没有传递 importConfig.url 参数');
+      return Promise.reject();
+    }
+  }
+
+  // 导出商铺台卡店铺二维码
+  function onExportTaiKaQrCode(record) {
     let realUrl = getExportYLBQrCode + '?id=' + record.id;
     loading.value = true;
     let title = '易拉宝二维码';

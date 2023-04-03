@@ -13,6 +13,8 @@ enum Api {
   exportXls = '/ma/active/exportXls',
   importYLBExcel = '/ma/active/importYLBExcel',
   exportYLBQrCode = '/ma/active/exportYLBQrCode',
+  importTaiKaExcel = '/ma/active/importTaiKaExcel',
+  exportTaiKaQrCode = '/ma/active/exportTaiKaQrCode',
 }
 /**
  * 导出api
@@ -32,6 +34,15 @@ export const getImportYLBUrl = Api.importYLBExcel;
  * 导出易拉宝物料二维码
  */
 export const getExportYLBQrCode = Api.exportYLBQrCode;
+/**
+ * 导入商铺台卡物料api
+ */
+export const getImportTaiKaUrl = Api.importTaiKaExcel;
+
+/**
+ * 导出商铺台卡店铺物料二维码
+ */
+export const getExportTaiKaQrCode = Api.exportTaiKaQrCode;
 /**
  * 列表接口
  * @param params

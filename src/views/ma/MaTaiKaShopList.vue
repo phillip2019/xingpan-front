@@ -4,9 +4,9 @@
    <BasicTable @register="registerTable" :rowSelection="rowSelection">
      <!--插槽:table标题-->
       <template #tableTitle>
-          <a-button type="primary" @click="handleAdd" preIcon="ant-design:plus-outlined"> 新增</a-button>
+          <!--<a-button type="primary" @click="handleAdd" preIcon="ant-design:plus-outlined"> 新增</a-button>
           <a-button  type="primary" preIcon="ant-design:export-outlined" @click="onExportXls"> 导出</a-button>
-          <j-upload-button  type="primary" preIcon="ant-design:import-outlined" @click="onImportXls">导入</j-upload-button>
+          <j-upload-button  type="primary" preIcon="ant-design:import-outlined" @click="onImportXls">导入</j-upload-button>-->
           <a-dropdown v-if="selectedRowKeys.length > 0">
               <template #overlay>
                 <a-menu>
@@ -28,6 +28,11 @@
       <!--字段回显插槽-->
       <template #htmlSlot="{text}">
          <div v-html="text"></div>
+      </template>
+       <!--状态显示栏-->
+       <template #status="{ record, text }">
+        <a-tag color="pink" v-if="text == 0">禁用</a-tag>
+        <a-tag color="#87d068" v-if="text == 1">启用</a-tag>
       </template>
       <!--省市区字段回显插槽-->
       <template #pcaSlot="{text}">

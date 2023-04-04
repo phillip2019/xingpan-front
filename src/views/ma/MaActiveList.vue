@@ -85,7 +85,7 @@
   import { useListPage } from '/@/hooks/system/useListPage';
   import MaActiveModal from './components/MaActiveModal.vue';
   import { columns, searchFormSchema } from './MaActive.data';
-  import { list, deleteOne, batchDelete, getImportUrl, getExportUrl, getImportYLBUrl, getExportYLBQrCode } from './MaActive.api';
+  import { list, deleteOne, batchDelete, getImportUrl, getExportUrl, getImportYLBUrl, getExportYLBQrCode, getImportTaiKaUrl, getExportTaiKaQrCode } from './MaActive.api';
   import { downloadFile } from '/@/utils/common/renderUtils';
   import { filterObj } from '/@/utils/common/compUtils';
   import { useMessage } from '/@/hooks/web/useMessage';
@@ -271,7 +271,7 @@
    function onImportTaiKaXls(file, record) {
     // TODO 上传excel文件
     // TODO 生成微信公众号二维码图片
-    let url = getImportYLBUrl;
+    let url = getImportTaiKaUrl;
     // 透传活动编号
     url = url + '?id=' + record.id;
     loading.value = true;
@@ -289,9 +289,9 @@
 
   // 导出商铺台卡店铺二维码
   function onExportTaiKaQrCode(record) {
-    let realUrl = getExportYLBQrCode + '?id=' + record.id;
+    let realUrl = getExportTaiKaQrCode + '?id=' + record.id;
     loading.value = true;
-    let title = '易拉宝二维码';
+    let title = '台卡店铺二维码';
     let params = {};
     //update-begin-author:taoyan date:20220507 for: erp代码生成 子表 导出报错，原因未知-
     let paramsForm = {};

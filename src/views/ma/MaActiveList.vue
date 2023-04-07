@@ -53,9 +53,14 @@
             </j-upload-button>
           </a-menu-item>
           <a-menu-item key="4">
-            <a-button type="primary" preIcon="ant-design:export-outlined" @click="onExportTaiKaQrCode(record)">导出商铺台卡店铺二维码</a-button>
+            <a-button type="primary" preIcon="ant-design:export-outlined" @click="onPrepareExportTaiKaQrCode(record)"
+              >准备导出商铺台卡店铺二维码</a-button
+            >
           </a-menu-item>
           <a-menu-item key="5">
+            <a-button type="primary" preIcon="ant-design:export-outlined" @click="onExportTaiKaQrCode(record)">导出商铺台卡店铺二维码</a-button>
+          </a-menu-item>
+          <a-menu-item key="6">
             <TableAction :actions="getTableAction(record)" :dropDownActions="getDropDownAction(record)" />
           </a-menu-item>
         </a-menu>
@@ -85,7 +90,19 @@
   import { useListPage } from '/@/hooks/system/useListPage';
   import MaActiveModal from './components/MaActiveModal.vue';
   import { columns, searchFormSchema } from './MaActive.data';
-  import { list, deleteOne, batchDelete, getImportUrl, getExportUrl, getImportYLBUrl, getExportYLBQrCode, getImportTaiKaUrl, getExportTaiKaQrCode } from './MaActive.api';
+  import {
+    list,
+    deleteOne,
+    batchDelete,
+    getImportUrl,
+    getExportUrl,
+    getImportYLBUrl,
+    getExportYLBQrCode,
+    getImportTaiKaUrl,
+    prepareExportTaiKaQrCode,
+    getExportTaiKaQrCode,
+    prepareExportTaiKaQrCodeApi,
+  } from './MaActive.api';
   import { downloadFile } from '/@/utils/common/renderUtils';
   import { filterObj } from '/@/utils/common/compUtils';
   import { useMessage } from '/@/hooks/web/useMessage';
@@ -267,8 +284,8 @@
     return handleExportZip(title as string, realUrl, filterObj(paramsForm), exportSuccessCal);
   }
 
-   // 导入商铺台卡excel
-   function onImportTaiKaXls(file, record) {
+  // 导入商铺台卡excel
+  function onImportTaiKaXls(file, record) {
     // TODO 上传excel文件
     // TODO 生成微信公众号二维码图片
     let url = getImportTaiKaUrl;
@@ -285,6 +302,13 @@
       $message.createMessage.warn('没有传递 importConfig.url 参数');
       return Promise.reject();
     }
+  }
+
+  // 准备导出商铺台卡店铺二维码
+  function onPrepareExportTaiKaQrCode(record) {
+    let params = {id: record.id };
+    //update-begin-author:taoyan date:20220507 for: erp代码生成 子表 导出报错，原因未知-
+    return prepareExportTaiKaQrCodeApi(params);
   }
 
   // 导出商铺台卡店铺二维码

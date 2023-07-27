@@ -163,12 +163,6 @@ export const formSchema: FormSchema[] = [
       async: true,
       parentCode: 'B03',
       placeholder: '请选择部门',
-      // dict: 'sys_category,name,id,1=1 order by create_time',
-      // pidField: 'pid',
-      // pidValue: '1625117453522718721',
-      // placeholder: '请选择部门',
-      // converIsLeafVal: 1,
-      // multiple: false,
     },
     dynamicRules: ({ model, schema }) => {
       return [{ required: true, message: '请选择部门!' }];

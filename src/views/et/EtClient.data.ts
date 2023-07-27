@@ -1,37 +1,62 @@
-import {BasicColumn} from '/@/components/Table';
-import {FormSchema} from '/@/components/Table';
-import { rules} from '/@/utils/helper/validator';
+import { BasicColumn } from '/@/components/Table';
+import { FormSchema } from '/@/components/Table';
+import { rules } from '/@/utils/helper/validator';
 import { render } from '/@/utils/common/renderUtils';
 //列表数据
 export const columns: BasicColumn[] = [
-   {
-    title: '客户端名称',
-    align:"center",
-    dataIndex: 'name'
-   },
-   {
-    title: '客户端网址',
-    align:"center",
-    dataIndex: 'url'
-   },
-   {
-    title: '是否移动端',
-    align:"center",
-    dataIndex: 'isMobile'
-   },
-   {
+  {
     title: '平台站点',
-    align:"center",
-    dataIndex: 'platformSite'
-   },
-   {
+    align: 'center',
+    dataIndex: 'platformSite',
+    sorter: true,
+  },
+  {
     title: '平台站点编码',
-    align:"center",
-    dataIndex: 'platformSiteCodeId'
-   },
+    align: 'center',
+    dataIndex: 'platformSiteCodeId',
+    sorter: true,
+  },
+  {
+    title: '是否移动端',
+    align: 'center',
+    dataIndex: 'isMobile',
+    customRender: ({ text }) => {
+      let customText = '是';
+      if (text === 0) {
+        customText = '否';
+      }
+      return customText;
+    },
+    sorter: true,
+  },
+  {
+    title: '客户端名称',
+    align: 'center',
+    dataIndex: 'name',
+    sorter: true,
+  },
+  {
+    title: '客户端网址',
+    align: 'center',
+    dataIndex: 'url',
+    sorter: true,
+  },
+  {
+    title: '创建人',
+    align: 'center',
+    dataIndex: 'createBy',
+    sorter: true,
+  },
+  {
+    title: '创建时间',
+    align: 'center',
+    dataIndex: 'createTime',
+    sorter: true,
+  },
 ];
 //查询数据
 export const searchFormSchema: FormSchema[] = [
+
 ];
 //表单数据
 export const formSchema: FormSchema[] = [
@@ -39,11 +64,9 @@ export const formSchema: FormSchema[] = [
     label: '客户端名称',
     field: 'name',
     component: 'Input',
-    dynamicRules: ({model,schema}) => {
-          return [
-                 { required: true, message: '请输入客户端名称!'},
-          ];
-     },
+    dynamicRules: ({ model, schema }) => {
+      return [{ required: true, message: '请输入客户端名称!' }];
+    },
   },
   {
     label: '客户端网址',
@@ -53,49 +76,88 @@ export const formSchema: FormSchema[] = [
   {
     label: '是否移动端',
     field: 'isMobile',
-    component: 'InputNumber',
-    dynamicRules: ({model,schema}) => {
-          return [
-                 { required: true, message: '请输入是否移动端!'},
-          ];
-     },
+    component: 'Select',
+    dynamicRules: ({ model, schema }) => {
+      return [{ required: true, message: '请输入是否移动端!' }];
+    },
+    componentProps: {
+      options: [
+        { label: '是', value: 1 },
+        { label: '否', value: 0 },
+      ],
+    },
+  },
+  {
+    label: '平台站点类型',
+    field: 'platformSiteType',
+    component: 'JDictSelectTag',
+    dynamicRules: ({ model, schema }) => {
+      return [{ required: true, message: '请选择平台站点类型!' }];
+    },
+    componentProps: ({ schema, tableAction, formActionType, formModel }) => {
+      // console.log(formActionType);
+      let sqlPreTpl = 'et_platform_site_code,platform_site_type,platform_site_type,1=1 ';
+      sqlPreTpl += ' group by platform_site_type order by create_time';
+      return {
+        dictCode: sqlPreTpl,
+      };
+    },
   },
   {
     label: '平台站点',
     field: 'platformSite',
-    component: 'Input',
-    dynamicRules: ({model,schema}) => {
-          return [
-                 { required: true, message: '请输入平台站点!'},
-          ];
-     },
+    component: 'JDictSelectTag',
+    dynamicRules: ({ model, schema }) => {
+      return [{ required: true, message: '请输入平台站点!' }];
+    },
+    componentProps: ({ schema, tableAction, formActionType, formModel }) => {
+      // console.log(formActionType);
+      let sqlPreTpl = 'et_platform_site_code,platform_site,platform_site,1=1 ';
+      if (formModel.platformSiteType) {
+        sqlPreTpl = sqlPreTpl + " and platform_site_type = '" + formModel.platformSiteType + "'";
+      }
+      sqlPreTpl += ' group by platform_site order by create_time';
+      return {
+        dictCode: sqlPreTpl,
+      };
+    },
   },
   {
-    label: '平台站点编码',
+    label: '平台站点地址',
     field: 'platformSiteCodeId',
-    component: 'InputNumber',
-    dynamicRules: ({model,schema}) => {
-          return [
-                 { required: true, message: '请输入平台站点编码!'},
-          ];
-     },
+    component: 'JDictSelectTag',
+    dynamicRules: ({ model, schema }) => {
+      return [{ required: true, message: '请选择平台站点地址!' }];
+    },
+    componentProps: ({ schema, tableAction, formActionType, formModel }) => {
+      // console.log(formActionType);
+      let sqlPreTpl = 'et_platform_site_code,platform_url,id,1=1 ';
+      if (formModel.platformSiteType) {
+        sqlPreTpl = sqlPreTpl + " and platform_site_type = '" + formModel.platformSiteType + "'";
+      }
+      if (formModel.platformSite) {
+        sqlPreTpl = sqlPreTpl + " and platform_site = '" + formModel.platformSite + "'";
+      }
+      sqlPreTpl += ' order by create_time';
+      return {
+        dictCode: sqlPreTpl,
+      };
+    },
   },
-	// TODO 主键隐藏字段，目前写死为ID
-	{
-	  label: '',
-	  field: 'id',
-	  component: 'Input',
-	  show: false
-	},
+  // TODO 主键隐藏字段，目前写死为ID
+  {
+    label: '',
+    field: 'id',
+    component: 'Input',
+    show: false,
+  },
 ];
 
-
-
 /**
-* 流程表单调用这个方法获取formSchema
-* @param param
-*/
-export function getBpmFormSchema(_formData): FormSchema[]{
+ * 流程表单调用这个方法获取formSchema
+ * @param param
+ */
+export function getBpmFormSchema(_formData): FormSchema[] {
   // 默认和原始表单保持一致 如果流程中配置了权限数据，这里需要单独处理formSchema
   return formSchema;
 }

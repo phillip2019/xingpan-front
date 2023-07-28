@@ -5,15 +5,21 @@ import { render } from '/@/utils/common/renderUtils';
 //列表数据
 export const columns: BasicColumn[] = [
   {
+    title: '平台站点类型',
+    align: 'center',
+    dataIndex: 'platformSiteType',
+    sorter: true,
+  },
+  {
     title: '平台站点',
     align: 'center',
     dataIndex: 'platformSite',
     sorter: true,
   },
   {
-    title: '平台站点编码',
+    title: '平台站点名称',
     align: 'center',
-    dataIndex: 'platformSiteCodeId',
+    dataIndex: 'platformSiteName',
     sorter: true,
   },
   {
@@ -104,41 +110,19 @@ export const formSchema: FormSchema[] = [
     },
   },
   {
-    label: '平台站点',
-    field: 'platformSite',
+    label: '平台站点名称',
+    field: 'platformSiteCodeId',
     component: 'JDictSelectTag',
     dynamicRules: ({ model, schema }) => {
       return [{ required: true, message: '请输入平台站点!' }];
     },
     componentProps: ({ schema, tableAction, formActionType, formModel }) => {
       // console.log(formActionType);
-      let sqlPreTpl = 'et_platform_site_code,platform_site,platform_site,1=1 ';
+      let sqlPreTpl = 'et_platform_site_code,platform_site_name,id,1=1 ';
       if (formModel.platformSiteType) {
         sqlPreTpl = sqlPreTpl + " and platform_site_type = '" + formModel.platformSiteType + "'";
       }
-      sqlPreTpl += ' group by platform_site order by create_time';
-      return {
-        dictCode: sqlPreTpl,
-      };
-    },
-  },
-  {
-    label: '平台站点地址',
-    field: 'platformSiteCodeId',
-    component: 'JDictSelectTag',
-    dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请选择平台站点地址!' }];
-    },
-    componentProps: ({ schema, tableAction, formActionType, formModel }) => {
-      // console.log(formActionType);
-      let sqlPreTpl = 'et_platform_site_code,platform_url,id,1=1 ';
-      if (formModel.platformSiteType) {
-        sqlPreTpl = sqlPreTpl + " and platform_site_type = '" + formModel.platformSiteType + "'";
-      }
-      if (formModel.platformSite) {
-        sqlPreTpl = sqlPreTpl + " and platform_site = '" + formModel.platformSite + "'";
-      }
-      sqlPreTpl += ' order by create_time';
+      sqlPreTpl += ' group by platform_site_name order by create_time';
       return {
         dictCode: sqlPreTpl,
       };

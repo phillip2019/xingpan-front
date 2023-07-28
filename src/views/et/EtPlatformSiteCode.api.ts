@@ -4,13 +4,13 @@ import { useMessage } from "/@/hooks/web/useMessage";
 const { createConfirm } = useMessage();
 
 enum Api {
-  list = '/org.jeecg.et/etPlatformSiteCode/list',
-  save='/org.jeecg.et/etPlatformSiteCode/add',
-  edit='/org.jeecg.et/etPlatformSiteCode/edit',
-  deleteOne = '/org.jeecg.et/etPlatformSiteCode/delete',
-  deleteBatch = '/org.jeecg.et/etPlatformSiteCode/deleteBatch',
-  importExcel = '/org.jeecg.et/etPlatformSiteCode/importExcel',
-  exportXls = '/org.jeecg.et/etPlatformSiteCode/exportXls',
+  list = '/et/etPlatformSiteCode/list',
+  save='/et/etPlatformSiteCode/add',
+  edit='/et/etPlatformSiteCode/edit',
+  deleteOne = '/et/etPlatformSiteCode/delete',
+  deleteBatch = '/et/etPlatformSiteCode/deleteBatch',
+  importExcel = '/et/etPlatformSiteCode/importExcel',
+  exportXls = '/et/etPlatformSiteCode/exportXls',
 }
 /**
  * 导出api

@@ -1,16 +1,16 @@
-import {defHttp} from '/@/utils/http/axios';
-import { useMessage } from "/@/hooks/web/useMessage";
+import { defHttp } from '/@/utils/http/axios';
+import { useMessage } from '/@/hooks/web/useMessage';
 
 const { createConfirm } = useMessage();
 
 enum Api {
-  list = '/org.jeecg.et/etClient/list',
-  save='/org.jeecg.et/etClient/add',
-  edit='/org.jeecg.et/etClient/edit',
-  deleteOne = '/org.jeecg.et/etClient/delete',
-  deleteBatch = '/org.jeecg.et/etClient/deleteBatch',
-  importExcel = '/org.jeecg.et/etClient/importExcel',
-  exportXls = '/org.jeecg.et/etClient/exportXls',
+  list = '/et/etClient/list',
+  save = '/et/etClient/add',
+  edit = '/et/etClient/edit',
+  deleteOne = '/et/etClient/delete',
+  deleteBatch = '/et/etClient/deleteBatch',
+  importExcel = '/et/etClient/importExcel',
+  exportXls = '/et/etClient/exportXls',
 }
 /**
  * 导出api
@@ -25,17 +25,16 @@ export const getImportUrl = Api.importExcel;
  * 列表接口
  * @param params
  */
-export const list = (params) =>
-  defHttp.get({url: Api.list, params});
+export const list = (params) => defHttp.get({ url: Api.list, params });
 
 /**
  * 删除单个
  */
-export const deleteOne = (params,handleSuccess) => {
-  return defHttp.delete({url: Api.deleteOne, params}, {joinParamsToUrl: true}).then(() => {
+export const deleteOne = (params, handleSuccess) => {
+  return defHttp.delete({ url: Api.deleteOne, params }, { joinParamsToUrl: true }).then(() => {
     handleSuccess();
   });
-}
+};
 /**
  * 批量删除
  * @param params
@@ -48,17 +47,17 @@ export const batchDelete = (params, handleSuccess) => {
     okText: '确认',
     cancelText: '取消',
     onOk: () => {
-      return defHttp.delete({url: Api.deleteBatch, data: params}, {joinParamsToUrl: true}).then(() => {
+      return defHttp.delete({ url: Api.deleteBatch, data: params }, { joinParamsToUrl: true }).then(() => {
         handleSuccess();
       });
-    }
+    },
   });
-}
+};
 /**
  * 保存或者更新
  * @param params
  */
 export const saveOrUpdate = (params, isUpdate) => {
-  let url = isUpdate ? Api.edit : Api.save;
-  return defHttp.post({url: url, params});
-}
+  const url = isUpdate ? Api.edit : Api.save;
+  return defHttp.post({ url: url, params });
+};

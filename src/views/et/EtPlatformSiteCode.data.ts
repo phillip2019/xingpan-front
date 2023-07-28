@@ -11,21 +11,21 @@ export const columns: BasicColumn[] = [
     sorter: true,
   },
   {
-    title: '站点中文名',
+    title: '平台站点',
     align: 'center',
-    dataIndex: 'platformSiteZhName',
+    dataIndex: 'platformSite',
+    sorter: true,
+  },
+  {
+    title: '站点名称',
+    align: 'center',
+    dataIndex: 'platformSiteName',
     sorter: true,
   },
   {
     title: 'Project',
     align: 'center',
     dataIndex: 'project',
-    sorter: true,
-  },
-  {
-    title: '平台站点',
-    align: 'center',
-    dataIndex: 'platformSite',
     sorter: true,
   },
   {
@@ -99,8 +99,8 @@ export const searchFormSchema: FormSchema[] = [
     field: 'platformSiteZhName',
     component: 'JDictSelectTag',
     componentProps: ({ schema, tableAction, formActionType, formModel }) => {
-      let sqlPreTpl = 'et_platform_site_code,platform_site_zh_name,platform_site_zh_name,1=1 ';
-      sqlPreTpl += 'group by platform_site_zh_name order by create_time';
+      let sqlPreTpl = 'et_platform_site_code,platform_site_name,platform_site_name,1=1 ';
+      sqlPreTpl += 'group by platform_site_name order by create_time';
       return {
         dictCode: sqlPreTpl,
       };
@@ -126,25 +126,16 @@ export const formSchema: FormSchema[] = [
   {
     label: '站点类型',
     field: 'platformSiteType',
-    component: 'Input',
+    component: 'Select',
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入站点类型!' }];
+      return [{ required: true, message: '请选择站点类型!' }];
     },
-  },
-  {
-    label: '站点中文名',
-    field: 'platformSiteZhName',
-    component: 'Input',
-    dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入站点中文名!' }];
-    },
-  },
-  {
-    label: '埋点project名称',
-    field: 'project',
-    component: 'Input',
-    dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入埋点project名称!' }];
+    componentProps: {
+      options: [
+        { label: '中文站', value: '中文站' },
+        { label: '国际站', value: '国际站' },
+        { label: '国家站', value: '国家站' },
+      ],
     },
   },
   {
@@ -153,6 +144,22 @@ export const formSchema: FormSchema[] = [
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
       return [{ required: true, message: '请输入平台站点!' }];
+    },
+  },
+  {
+    label: '站点名称',
+    field: 'platformSiteName',
+    component: 'Input',
+    dynamicRules: ({ model, schema }) => {
+      return [{ required: true, message: '请输入站点名称!' }];
+    },
+  },
+  {
+    label: '埋点project名称',
+    field: 'project',
+    component: 'Input',
+    dynamicRules: ({ model, schema }) => {
+      return [{ required: true, message: '请输入埋点project名称!' }];
     },
   },
   {

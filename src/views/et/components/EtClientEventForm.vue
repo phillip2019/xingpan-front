@@ -40,7 +40,7 @@
             });
 
             let formData = {};
-            const queryByIdUrl = '/org.jeecg.et/etClientEvent/queryById';
+            const queryByIdUrl = '/et/etClientEvent/queryById';
             async function initFormData(){
                 let params = {id: props.formData.dataId};
                 const data = await defHttp.get({url: queryByIdUrl, params});

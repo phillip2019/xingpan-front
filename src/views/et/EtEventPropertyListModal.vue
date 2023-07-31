@@ -1,5 +1,5 @@
 <template>
-  <BasicDrawer v-bind="$attrs" @register="eventPropertyListModal" destroyOnClose :width="896">
+  <BasicDrawer v-bind="$attrs" @register="eventPropertyListModal" :width="896" :helpMessage="['添加、修改、查看事件属性']" destroyOnClose title="事件属性">
     <div>
       <!--引用表格-->
       <BasicTable @register="registerTable" :rowSelection="rowSelection">
@@ -53,6 +53,7 @@
   import { columns, searchFormSchema } from './EtEventProperty.data';
   import { list, deleteOne, batchDelete, getImportUrl, getExportUrl } from './EtEventProperty.api';
   import { downloadFile } from '/@/utils/common/renderUtils';
+  const emit = defineEmits(['success', 'register']);
   const checkedKeys = ref<Array<string | number>>([]);
   //注册model
   const [registerModal, { openModal }] = useModal();

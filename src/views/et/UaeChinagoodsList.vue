@@ -26,9 +26,8 @@
 </template>
 
 <script lang="ts" name="et-uaeChinagoods" setup>
-  import { ref, computed, unref } from 'vue';
-  import { BasicTable, useTable, TableAction } from '/@/components/Table';
-  import { useModal } from '/@/components/Modal';
+  import { ref } from 'vue';
+  import { BasicTable, TableAction } from '/@/components/Table';
   import { useListPage } from '/@/hooks/system/useListPage';
   import { useDrawer } from '/@/components/Drawer';
   import UaeChinagoodsModal from './components/UaeChinagoodsModal.vue';

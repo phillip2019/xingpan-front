@@ -59,7 +59,7 @@
   import { downloadFile } from '/@/utils/common/renderUtils';
   const checkedKeys = ref<Array<string | number>>([]);
   //注册model
-  const [registerModal, { openModal }] = useModal();
+  const [registerModal, { openModal: openEventModal }] = useModal();
   //注册model
   const [eventPropertyListModal, { openDrawer: openEventPropertyListModal }] = useDrawer();
   //注册table数据
@@ -104,7 +104,7 @@
    * 新增事件
    */
   function handleAdd() {
-    openModal(true, {
+    openEventModal(true, {
       isUpdate: false,
       showFooter: true,
     });
@@ -113,7 +113,7 @@
    * 编辑事件
    */
   function handleEdit(record: Recordable) {
-    openModal(true, {
+    openEventModal(true, {
       record,
       isUpdate: true,
       showFooter: true,
@@ -123,7 +123,7 @@
    * 详情
    */
   function handleDetail(record: Recordable) {
-    openModal(true, {
+    openEventModal(true, {
       record,
       isUpdate: true,
       showFooter: false,

@@ -29,15 +29,8 @@ export const columns: BasicColumn[] = [
     sorter: true,
     customRender: ({ value }) => {
       const statusArr = ['未知', '上线', '下线', '异常'];
-      console.log(value);
       return statusArr[value];
     },
-  },
-  {
-    title: '事件位置',
-    align: 'center',
-    dataIndex: 'position',
-    sorter: true,
   },
   {
     title: '用户表操作说明',
@@ -59,7 +52,7 @@ export const columns: BasicColumn[] = [
   {
     title: '触发时机',
     align: 'center',
-    dataIndex: 'trigger',
+    dataIndex: 'triggerTiming',
     sorter: true,
   },
   {
@@ -98,14 +91,6 @@ export const formSchema: FormSchema[] = [
     },
   },
   {
-    label: '埋点位置',
-    field: 'position',
-    component: 'Input',
-    dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入埋点位置!' }];
-    },
-  },
-  {
     label: '操作说明',
     field: 'operDesc',
     component: 'Input',
@@ -114,6 +99,7 @@ export const formSchema: FormSchema[] = [
     label: '埋点形式',
     field: 'type',
     component: 'Select',
+    defaultValue: 1,
     dynamicRules: ({ model, schema }) => {
       return [{ required: true, message: '请选择埋点形式!' }];
     },
@@ -126,7 +112,7 @@ export const formSchema: FormSchema[] = [
   },
   {
     label: '触发时机',
-    field: 'trigger',
+    field: 'triggerTiming',
     component: 'Input',
   },
   {
@@ -153,6 +139,7 @@ export const formSchema: FormSchema[] = [
     label: '状态',
     field: 'status',
     component: 'Select',
+    defaultValue: 1,
     dynamicRules: ({ model, schema }) => {
       return [{ required: true, message: '请选择状态 1-初始化 2-上线 3-下线 4-异常!' }];
     },

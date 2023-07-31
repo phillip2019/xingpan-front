@@ -1,7 +1,7 @@
 <template>
   <div>
     <!--引用表格-->
-    <BasicTable @register="registerTable" :rowSelection="rowSelection">
+    <BasicTable @register="registerTable" :rowSelection="rowSelection" @row-dbClick="doubleClick">
       <!--插槽:table标题-->
       <template #tableTitle>
         <a-button type="primary" @click="handleAdd" preIcon="ant-design:plus-outlined"> 新增</a-button>
@@ -41,6 +41,8 @@
     </BasicTable>
     <!-- 表单区域 -->
     <EtEventModal @register="registerModal" @success="handleSuccess" />
+    <!-- 表单区域 -->
+    <EtEventPropertyListModal @register="eventPropertyListModal" @success="handleSuccess" />
   </div>
 </template>
 
@@ -50,19 +52,23 @@
   import { useModal } from '/@/components/Modal';
   import { useListPage } from '/@/hooks/system/useListPage';
   import EtEventModal from './components/EtEventModal.vue';
+  import { useDrawer } from '/@/components/Drawer';
+  import EtEventPropertyListModal from './EtEventPropertyListModal.vue';
   import { columns, searchFormSchema } from './EtEvent.data';
   import { list, deleteOne, batchDelete, getImportUrl, getExportUrl } from './EtEvent.api';
   import { downloadFile } from '/@/utils/common/renderUtils';
   const checkedKeys = ref<Array<string | number>>([]);
   //注册model
   const [registerModal, { openModal }] = useModal();
+  //注册model
+  const [eventPropertyListModal, { openDrawer: openEventPropertyListModal }] = useDrawer();
   //注册table数据
   const { prefixCls, tableContext, onExportXls, onImportXls } = useListPage({
     tableProps: {
-      title: 'et_event',
+      title: '埋点事件表',
       api: list,
       columns,
-      canResize: false,
+      canResize: true,
       formConfig: {
         //labelWidth: 120,
         schemas: searchFormSchema,
@@ -77,7 +83,7 @@
       },
     },
     exportConfig: {
-      name: 'et_event',
+      name: '埋点事件',
       url: getExportUrl,
     },
     importConfig: {
@@ -87,6 +93,12 @@
   });
 
   const [registerTable, { reload }, { rowSelection, selectedRowKeys }] = tableContext;
+
+  // function onSelectionChange(selectedRowKeys) {
+  //   console.log('选择的列键值为: ', selectedRowKeys);
+  //   // 过滤掉不可选择的行
+  //   selectedRowKeys = selectedRowKeys.filter((r) => r.isPresetEvent !== 0);
+  // }
 
   /**
    * 新增事件
@@ -117,6 +129,18 @@
       showFooter: false,
     });
   }
+
+  /**
+   * 查看事件属性侧边栏
+   */
+  function handleEventPropertyModal(record: Recordable) {
+    console.log('双击查看事件点击>>>>');
+    openEventPropertyListModal(true, {
+      record,
+      isUpdate: true,
+      showFooter: true,
+    });
+  }
   /**
    * 删除事件
    */
@@ -139,6 +163,10 @@
    * 操作栏
    */
   function getTableAction(record) {
+    // 若为预置属性，则不允许更新
+    if (record.isPresetEvent === 1) {
+      return [];
+    }
     return [
       {
         label: '编辑',
@@ -150,7 +178,7 @@
    * 下拉操作栏
    */
   function getDropDownAction(record) {
-    return [
+    const retArr = [
       {
         label: '详情',
         onClick: handleDetail.bind(null, record),
@@ -163,6 +191,18 @@
         },
       },
     ];
+    if (record.isPresetEvent === 1) {
+      retArr.pop();
+    }
+    return retArr;
+  }
+
+  /**
+   * 双击查看事件属性
+   */
+  function doubleClick(record, index) {
+    console.log('双击查看事件点击...');
+    handleEventPropertyModal(record);
   }
 </script>
 

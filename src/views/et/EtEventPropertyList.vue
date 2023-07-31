@@ -43,7 +43,7 @@
   </div>
 </template>
 
-<script lang="ts" name="org.jeecg.et-etEventProperty" setup>
+<script lang="ts" name="et-etEventProperty" setup>
   import {ref, computed, unref} from 'vue';
   import {BasicTable, useTable, TableAction} from '/@/components/Table';
   import {useModal} from '/@/components/Modal';

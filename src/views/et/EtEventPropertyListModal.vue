@@ -1,5 +1,12 @@
 <template>
-  <BasicDrawer v-bind="$attrs" @register="eventPropertyListModal" :width="896" :helpMessage="['添加、修改、查看事件属性']" destroyOnClose title="事件属性">
+  <BasicDrawer
+    v-bind="$attrs"
+    @register="eventPropertyListModal"
+    :width="1280"
+    :helpMessage="['添加、修改、查看事件属性']"
+    destroyOnClose
+    title="事件属性"
+  >
     <div>
       <!--引用表格-->
       <BasicTable @register="registerTable" :rowSelection="rowSelection">
@@ -46,6 +53,7 @@
 
 <script lang="ts" name="et-etEventProperty" setup>
   import { ref, computed, unref } from 'vue';
+  import { BasicDrawer, useDrawerInner } from '/@/components/Drawer';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { useModal } from '/@/components/Modal';
   import { useListPage } from '/@/hooks/system/useListPage';
@@ -53,7 +61,15 @@
   import { columns, searchFormSchema } from './EtEventProperty.data';
   import { list, deleteOne, batchDelete, getImportUrl, getExportUrl } from './EtEventProperty.api';
   import { downloadFile } from '/@/utils/common/renderUtils';
+  // Emits声明
   const emit = defineEmits(['success', 'register']);
+  const eventId = ref('');
+
+  //父组件向子组件传递参数，初始化子组件
+  const [eventPropertyListModal, {setModalProps, closeModal}] = useDrawerInner(async (data) => {
+    eventId.value = data.record['id'];
+  });
+
   const checkedKeys = ref<Array<string | number>>([]);
   //注册model
   const [registerModal, { openModal }] = useModal();
@@ -78,7 +94,7 @@
       },
     },
     exportConfig: {
-      name: 'et_event_property',
+      name: '事件属性',
       url: getExportUrl,
     },
     importConfig: {
@@ -164,10 +180,6 @@
         },
       },
     ];
-  }
-
-  function eventPropertyListModal(data) {
-    console.log('初始化eventPropertyModal', data);
   }
 </script>
 

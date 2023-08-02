@@ -42,11 +42,11 @@
     <!-- 表单区域 -->
     <EtEventModal @register="registerModal" @success="handleSuccess" />
     <!-- 表单区域 -->
-    <EtEventPropertyListModal @register="eventPropertyListModal" @success="handleSuccess" />
+    <EtEventPropertyListModal @register="eventPropertyListModal" @success="handleSuccess" ref="refEventPropertyListModal" />
   </div>
 </template>
 
-<script lang="ts" name="org.jeecg.et-etEvent" setup>
+<script lang="ts" name="et-etEvent" setup>
   import { ref, computed, unref } from 'vue';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { useModal } from '/@/components/Modal';
@@ -134,7 +134,6 @@
    * 查看事件属性侧边栏
    */
   function handleEventPropertyModal(record: Recordable) {
-    console.log('双击查看事件点击>>>>');
     openEventPropertyListModal(true, {
       record,
       isUpdate: true,

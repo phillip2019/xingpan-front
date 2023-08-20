@@ -26,6 +26,14 @@
       <template #action="{ record }">
         <TableAction :actions="getTableAction(record)" :dropDownActions="getDropDownAction(record)" />
       </template>
+      <!--状态显示栏-->
+      <template #status="{ record, text }">
+        <a-tag color="gray" v-if="text == 0">未知</a-tag>
+        <a-tag color="white" v-if="text == 1">初始化</a-tag>
+        <a-tag color="#87d068" v-if="text == 2">上线</a-tag>
+        <a-tag color="pink" v-if="text == 3">下线</a-tag>
+        <a-tag color="red" v-if="text == 1">异常</a-tag>
+      </template>
       <!--字段回显插槽-->
       <template #htmlSlot="{ text }">
         <div v-html="text"></div>
@@ -41,8 +49,8 @@
     </BasicTable>
     <!-- 表单区域 -->
     <EtEventModal @register="registerModal" @success="handleSuccess" />
-    <!-- 表单区域 -->
-    <EtEventPropertyListModal @register="eventPropertyListModal" @success="handleSuccess" ref="refEventPropertyListModal" />
+    <!-- 表单属性区域 -->
+    <EtEventPropertyListModal @register="eventPropertyListModal" @success="handleEventPropertyListSuccess" ref="refEventPropertyListModal" />
   </div>
 </template>
 
@@ -158,6 +166,13 @@
   function handleSuccess() {
     (selectedRowKeys.value = []) && reload();
   }
+
+  /**
+   * 属性成功回调
+   */
+  function handleEventPropertyListSuccess() {
+    (selectedRowKeys.value = []) && reload();
+  }
   /**
    * 操作栏
    */
@@ -200,7 +215,6 @@
    * 双击查看事件属性
    */
   function doubleClick(record, index) {
-    console.log('双击查看事件点击...');
     handleEventPropertyModal(record);
   }
 </script>

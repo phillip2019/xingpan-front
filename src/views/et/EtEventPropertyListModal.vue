@@ -13,8 +13,6 @@
         <!--插槽:table标题-->
         <template #tableTitle>
           <a-button type="primary" @click="handleAdd" preIcon="ant-design:plus-outlined"> 新增</a-button>
-          <a-button type="primary" preIcon="ant-design:export-outlined" @click="onExportXls"> 导出</a-button>
-          <j-upload-button type="primary" preIcon="ant-design:import-outlined" @click="onImportXls">导入</j-upload-button>
           <a-dropdown v-if="selectedRowKeys.length > 0">
             <template #overlay>
               <a-menu>
@@ -58,15 +56,14 @@
   import { useModal } from '/@/components/Modal';
   import { useListPage } from '/@/hooks/system/useListPage';
   import EtEventPropertyModal from './components/EtEventPropertyModal.vue';
-  import { columns, searchFormSchema } from './EtEventProperty.data';
+  import { columns, searchFormSchema, formSchema, getBpmFormSchema } from './EtEventProperty.data';
   import { list, deleteOne, batchDelete, getImportUrl, getExportUrl } from './EtEventProperty.api';
   import { downloadFile } from '/@/utils/common/renderUtils';
   // Emits声明
   const emit = defineEmits(['success', 'register']);
   const eventId = ref('');
-
   //父组件向子组件传递参数，初始化子组件
-  const [eventPropertyListModal, {setModalProps, closeModal}] = useDrawerInner(async (data) => {
+  const [eventPropertyListModal, { setModalProps, closeModal }] = useDrawerInner(async (data) => {
     eventId.value = data.record['id'];
   });
 
@@ -77,7 +74,10 @@
   const { prefixCls, tableContext, onExportXls, onImportXls } = useListPage({
     tableProps: {
       title: '事件属性编辑',
-      api: list,
+      api: (params) => {
+        const finalParams = Object.assign({ eventId: eventId.value }, params);
+        return list(finalParams);
+      },
       columns,
       canResize: false,
       formConfig: {
@@ -109,7 +109,9 @@
    * 新增事件
    */
   function handleAdd() {
+    const eventIdStr = eventId.value;
     openModal(true, {
+      eventId: eventIdStr,
       isUpdate: false,
       showFooter: true,
     });

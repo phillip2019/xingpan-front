@@ -27,13 +27,14 @@ export const columns: BasicColumn[] = [
     align: 'center',
     dataIndex: 'status',
     sorter: true,
-    customRender: ({ value }) => {
-      const statusArr = ['未知', '上线', '下线', '异常'];
-      return statusArr[value];
-    },
+    slots: { customRender: 'status' },
+    // customRender: ({ value }) => {
+    //   const statusArr = ['未知', '初始化', '上线', '下线', '异常'];
+    //   return statusArr[value];
+    // },
   },
   {
-    title: '用户表操作说明',
+    title: '操作说明',
     align: 'center',
     dataIndex: 'operDesc',
     sorter: true,
@@ -45,7 +46,6 @@ export const columns: BasicColumn[] = [
     sorter: true,
     customRender: ({ value }) => {
       const eventTypeArr = ['未知', '前端', '后端'];
-      console.log(value);
       return eventTypeArr[value];
     },
   },
@@ -63,7 +63,83 @@ export const columns: BasicColumn[] = [
   },
 ];
 //查询数据
-export const searchFormSchema: FormSchema[] = [];
+export const searchFormSchema: FormSchema[] = [
+  {
+    label: '场景',
+    field: 'scene',
+    component: 'JInput',
+    colProps: { span: 4 },
+    helpMessage: ['请输入scene过滤'],
+  },
+  {
+    label: '事件名',
+    field: 'name',
+    component: 'JInput',
+    colProps: { span: 4 },
+    helpMessage: ['请输入事件名过滤'],
+  },
+  {
+    label: '事件中文名',
+    field: 'zhName',
+    component: 'JInput',
+    colProps: { span: 4 },
+    helpMessage: ['请输入事件中文名过滤'],
+  },
+  {
+    label: '事件状态',
+    field: 'status',
+    component: 'Select',
+    defaultValue: 2,
+    componentProps: {
+      options: [
+        { label: '初始化', value: 1 },
+        { label: '上线', value: 2 },
+        { label: '下线', value: 3 },
+        { label: '异常', value: 4 },
+      ],
+    },
+    colProps: { span: 6 },
+    helpMessage: ['请选择事件状态过滤'],
+  },
+  {
+    label: '埋点形式',
+    field: 'type',
+    component: 'Select',
+    componentProps: {
+      options: [
+        { label: '前端', value: 1 },
+        { label: '后端', value: 2 },
+      ],
+    },
+    colProps: { span: 6 },
+    helpMessage: ['请选择埋点形式过滤'],
+  },
+  {
+    label: '触发时机',
+    field: 'triggerTiming',
+    component: 'JInput',
+    colProps: { span: 4 },
+    helpMessage: ['请输入触发时机过滤'],
+  },
+  {
+    label: '文档说明',
+    field: 'eventDesc',
+    component: 'JInput',
+    colProps: { span: 4 },
+    helpMessage: ['请输入文档说明过滤'],
+  },
+  {
+    label: '预置属性',
+    field: 'isPresetEvent',
+    component: 'Select',
+    componentProps: {
+      options: [
+        { label: '是', value: 1 },
+        { label: '否', value: 0 },
+      ],
+    },
+  },
+];
 //表单数据
 export const formSchema: FormSchema[] = [
   {

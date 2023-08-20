@@ -8,47 +8,89 @@ export const columns: BasicColumn[] = [
     title: '所属事件的Id',
     align: 'center',
     dataIndex: 'eventId',
+    sorter: true,
+    ifShow: false,
   },
   {
-    title: '属性的英文名称',
+    title: '属性名',
     align: 'center',
     dataIndex: 'name',
+    sorter: true,
   },
   {
-    title: '属性的中文名称',
+    title: '属性中文名',
     align: 'center',
     dataIndex: 'zhName',
+    sorter: true,
   },
   {
-    title: '属性值类型,1-字符串,2-数值,3-BOOL,4-列表',
+    title: '属性值类型',
     align: 'center',
     dataIndex: 'type',
+    customRender: ({ value }) => {
+      const typeArr = ['未知', '字符串', '数值', 'BOOL', '列表'];
+      return typeArr[value];
+    },
+    sorter: true,
   },
   {
     title: '属性值示例',
     align: 'center',
     dataIndex: 'example',
+    sorter: true,
   },
   {
     title: '对属性的说明描述',
     align: 'center',
     dataIndex: 'propertyDesc',
+    sorter: true,
   },
 ];
 //查询数据
-export const searchFormSchema: FormSchema[] = [];
+export const searchFormSchema: FormSchema[] = [
+  {
+    label: '属性名',
+    field: 'name',
+    component: 'JInput',
+    colProps: { span: 4 },
+    helpMessage: ['请输入英文属性名称过滤'],
+  },
+  {
+    label: '属性中文名',
+    field: 'zhName',
+    component: 'JInput',
+    colProps: { span: 4 },
+    helpMessage: ['请输入中文属性名称过滤'],
+  },
+  {
+    label: '属性值类型',
+    field: 'type',
+    component: 'Select',
+    componentProps: {
+      options: [
+        { label: '字符串', value: 1 },
+        { label: '数值', value: 2 },
+        { label: 'BOOL', value: 3 },
+        { label: '列表', value: 4 },
+      ],
+    },
+    colProps: { span: 6 },
+    helpMessage: ['请选择属性值类型过滤'],
+  },
+];
 //表单数据
 export const formSchema: FormSchema[] = [
   {
-    label: '所属事件的Id',
+    label: '所属事件',
     field: 'eventId',
-    component: 'InputNumber',
+    component: 'Input',
+    show: false,
     dynamicRules: ({ model, schema }) => {
       return [{ required: true, message: '请输入所属事件的Id!' }];
     },
   },
   {
-    label: '属性的英文名称',
+    label: '属性名',
     field: 'name',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
@@ -56,7 +98,7 @@ export const formSchema: FormSchema[] = [
     },
   },
   {
-    label: '属性的中文名称',
+    label: '属性中文名',
     field: 'zhName',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
@@ -64,9 +106,18 @@ export const formSchema: FormSchema[] = [
     },
   },
   {
-    label: '属性值类型,1-字符串,2-数值,3-BOOL,4-列表',
+    label: '属性值类型',
     field: 'type',
-    component: 'InputNumber',
+    component: 'Select',
+    defaultValue: 1,
+    componentProps: {
+      options: [
+        { label: '字符串', value: 1 },
+        { label: '数值', value: 2 },
+        { label: 'BOOL', value: 3 },
+        { label: '列表', value: 4 },
+      ],
+    },
     dynamicRules: ({ model, schema }) => {
       return [{ required: true, message: '请输入属性值类型,1-字符串,2-数值,3-BOOL,4-列表!' }];
     },
@@ -74,10 +125,10 @@ export const formSchema: FormSchema[] = [
   {
     label: '属性值示例',
     field: 'example',
-    component: 'Input',
+    component: 'InputTextArea',
   },
   {
-    label: '对属性的说明描述',
+    label: '备注',
     field: 'propertyDesc',
     component: 'Input',
   },

@@ -31,6 +31,12 @@
       await setFieldsValue({
         ...data.record,
       });
+    } else {
+      // eventId赋值
+      console.log(data.eventId);
+      await setFieldsValue({
+        eventId: data?.eventId,
+      });
     }
     // 隐藏底部时禁用整个表单
     setProps({ disabled: !data?.showFooter });

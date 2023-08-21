@@ -70,10 +70,13 @@ export const searchFormSchema: FormSchema[] = [
   },
   {
     label: '平台站点',
-    field: 'platform_site',
+    field: 'platformSite',
     component: 'JDictSelectTag',
     componentProps: ({ schema, tableAction, formActionType, formModel }) => {
       let sqlPreTpl = 'et_platform_site_code,platform_site,platform_site,1=1 ';
+      if (formModel.platformSiteType) {
+        sqlPreTpl = sqlPreTpl + " and platform_site_type = '" + formModel.platformSiteType + "'";
+      }
       sqlPreTpl += 'group by platform_site order by create_time';
       return {
         dictCode: sqlPreTpl,
@@ -83,10 +86,16 @@ export const searchFormSchema: FormSchema[] = [
   },
   {
     label: '语言',
-    field: 'platform_lang',
+    field: 'platformLang',
     component: 'JDictSelectTag',
     componentProps: ({ schema, tableAction, formActionType, formModel }) => {
       let sqlPreTpl = 'et_platform_site_code,platform_lang,platform_lang,1=1 ';
+      if (formModel.platformSiteType) {
+        sqlPreTpl = sqlPreTpl + " and platform_site_type = '" + formModel.platformSiteType + "'";
+      }
+      if (formModel.platformSite) {
+        sqlPreTpl = sqlPreTpl + " and platform_site = '" + formModel.platformSite + "'";
+      }
       sqlPreTpl += 'group by platform_lang order by create_time';
       return {
         dictCode: sqlPreTpl,
@@ -96,10 +105,16 @@ export const searchFormSchema: FormSchema[] = [
   },
   {
     label: '站点中文名',
-    field: 'platformSiteZhName',
+    field: 'platformSiteName',
     component: 'JDictSelectTag',
     componentProps: ({ schema, tableAction, formActionType, formModel }) => {
       let sqlPreTpl = 'et_platform_site_code,platform_site_name,platform_site_name,1=1 ';
+      if (formModel.platformSiteType) {
+        sqlPreTpl = sqlPreTpl + " and platform_site_type = '" + formModel.platformSiteType + "'";
+      }
+      if (formModel.platformSite) {
+        sqlPreTpl = sqlPreTpl + " and platform_site = '" + formModel.platformSite + "'";
+      }
       sqlPreTpl += 'group by platform_site_name order by create_time';
       return {
         dictCode: sqlPreTpl,
@@ -113,6 +128,15 @@ export const searchFormSchema: FormSchema[] = [
     component: 'JDictSelectTag',
     componentProps: ({ schema, tableAction, formActionType, formModel }) => {
       let sqlPreTpl = 'et_platform_site_code,`project`,`project`,1=1 ';
+      if (formModel.platformSiteType) {
+        sqlPreTpl = sqlPreTpl + " and platform_site_type = '" + formModel.platformSiteType + "'";
+      }
+      if (formModel.platformSite) {
+        sqlPreTpl = sqlPreTpl + " and platform_site = '" + formModel.platformSite + "'";
+      }
+      if (formModel.platformSiteName) {
+        sqlPreTpl = sqlPreTpl + " and platform_site_name = '" + formModel.platformSiteName + "'";
+      }
       sqlPreTpl += 'group by `project` order by create_time';
       return {
         dictCode: sqlPreTpl,

@@ -62,7 +62,76 @@ export const columns: BasicColumn[] = [
 ];
 //查询数据
 export const searchFormSchema: FormSchema[] = [
-
+  {
+    label: '站点类型',
+    field: 'platformSiteType',
+    component: 'Select',
+    componentProps: {
+      options: [
+        { label: '中文站', value: '中文站' },
+        { label: '国际站', value: '国际站' },
+        { label: '国家站', value: '国家站' },
+      ],
+    },
+    colProps: { span: 6 },
+  },
+  {
+    label: '平台站点',
+    field: 'platformSite',
+    component: 'JDictSelectTag',
+    componentProps: ({ schema, tableAction, formActionType, formModel }) => {
+      let sqlPreTpl = 'et_platform_site_code,platform_site,platform_site,1=1 ';
+      if (formModel.platformSiteType) {
+        sqlPreTpl = sqlPreTpl + " and platform_site_type = '" + formModel.platformSiteType + "'";
+      }
+      sqlPreTpl += 'group by platform_site order by create_time';
+      return {
+        dictCode: sqlPreTpl,
+      };
+    },
+    colProps: { span: 6 },
+  },
+  {
+    label: '站点中文名',
+    field: 'platformSiteName',
+    component: 'JDictSelectTag',
+    componentProps: ({ schema, tableAction, formActionType, formModel }) => {
+      let sqlPreTpl = 'et_platform_site_code,platform_site_name,platform_site_name,1=1 ';
+      if (formModel.platformSiteType) {
+        sqlPreTpl = sqlPreTpl + " and platform_site_type = '" + formModel.platformSiteType + "'";
+      }
+      if (formModel.platformSite) {
+        sqlPreTpl = sqlPreTpl + " and platform_site = '" + formModel.platformSite + "'";
+      }
+      sqlPreTpl += 'group by platform_site_name order by create_time';
+      return {
+        dictCode: sqlPreTpl,
+      };
+    },
+    colProps: { span: 6 },
+  },
+  {
+    label: 'Project',
+    field: 'project',
+    component: 'JDictSelectTag',
+    componentProps: ({ schema, tableAction, formActionType, formModel }) => {
+      let sqlPreTpl = 'et_platform_site_code,`project`,`project`,1=1 ';
+      if (formModel.platformSiteType) {
+        sqlPreTpl = sqlPreTpl + " and platform_site_type = '" + formModel.platformSiteType + "'";
+      }
+      if (formModel.platformSite) {
+        sqlPreTpl = sqlPreTpl + " and platform_site = '" + formModel.platformSite + "'";
+      }
+      if (formModel.platformSiteName) {
+        sqlPreTpl = sqlPreTpl + " and platform_site_name = '" + formModel.platformSiteName + "'";
+      }
+      sqlPreTpl += 'group by `project` order by create_time';
+      return {
+        dictCode: sqlPreTpl,
+      };
+    },
+    colProps: { span: 6 },
+  },
 ];
 //表单数据
 export const formSchema: FormSchema[] = [
@@ -80,7 +149,7 @@ export const formSchema: FormSchema[] = [
     component: 'Input',
   },
   {
-    label: '是否移动端',
+    label: '移动端',
     field: 'isMobile',
     component: 'Select',
     dynamicRules: ({ model, schema }) => {

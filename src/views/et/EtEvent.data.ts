@@ -67,16 +67,35 @@ export const searchFormSchema: FormSchema[] = [
   {
     label: '场景',
     field: 'scene',
-    component: 'JInput',
-    colProps: { span: 4 },
-    helpMessage: ['请输入scene过滤'],
+    component: 'JDictSelectTag',
+    helpMessage: ['请选择事件场景'],
+    componentProps: ({ schema, tableAction, formActionType, formModel }) => {
+      let sqlPreTpl = 'et_event,scene,scene,1=1 ';
+      sqlPreTpl += ' group by scene order by create_time';
+      return {
+        dictCode: sqlPreTpl,
+      };
+    },
+    colProps: { span: 6 },
   },
   {
     label: '事件名',
     field: 'name',
-    component: 'JInput',
-    colProps: { span: 4 },
-    helpMessage: ['请输入事件名过滤'],
+    // component: 'JSearchSelect',
+    component: 'JDictSelectTag',
+    helpMessage: ['请选择事件名称场景'],
+    componentProps: ({ schema, tableAction, formActionType, formModel }) => {
+      let sqlPreTpl = 'et_event,name,name,1=1 ';
+      if (formModel.scene) {
+        sqlPreTpl = sqlPreTpl + " and scene = '" + formModel.scene + "'";
+      }
+      sqlPreTpl += ' group by name order by create_time';
+      return {
+        dictCode: sqlPreTpl,
+        // dict: 'et_event,name,name',
+      };
+    },
+    colProps: { span: 6 },
   },
   {
     label: '事件中文名',

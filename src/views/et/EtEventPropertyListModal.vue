@@ -59,6 +59,7 @@
   import { columns, searchFormSchema, formSchema, getBpmFormSchema } from './EtEventProperty.data';
   import { list, deleteOne, batchDelete, getImportUrl, getExportUrl } from './EtEventProperty.api';
   import { downloadFile } from '/@/utils/common/renderUtils';
+import { merge } from 'lodash-es';
   // Emits声明
   const emit = defineEmits(['success', 'register']);
   const eventId = ref('');
@@ -79,7 +80,9 @@
         return list(finalParams);
       },
       columns,
-      canResize: false,
+      canResize: true,
+      // 是否显示边框
+      bordered: true,
       formConfig: {
         //labelWidth: 120,
         schemas: searchFormSchema,
@@ -91,6 +94,10 @@
       actionColumn: {
         width: 120,
         fixed: 'right',
+      },
+      beforeFetch: (params) => {
+        // 默认以 createTime 降序排序
+        merge(params, { column: 'sorted', order: 'asc' });
       },
     },
     exportConfig: {

@@ -65,6 +65,7 @@
   import { columns, searchFormSchema } from './EtEvent.data';
   import { list, deleteOne, batchDelete, getImportUrl, getExportUrl } from './EtEvent.api';
   import { downloadFile } from '/@/utils/common/renderUtils';
+import { merge } from 'lodash-es';
   const checkedKeys = ref<Array<string | number>>([]);
   //注册model
   const [registerModal, { openModal: openEventModal }] = useModal();

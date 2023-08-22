@@ -6,26 +6,33 @@ import { render } from '/@/utils/common/renderUtils';
 export const columns: BasicColumn[] = [
   {
     title: '所属事件的Id',
-    align: 'center',
+    align: 'left',
     dataIndex: 'eventId',
     sorter: true,
     ifShow: false,
   },
   {
+    title: '序号',
+    align: 'right',
+    dataIndex: 'sorted',
+    sorter: true,
+    width: 80,
+  },
+  {
     title: '属性名',
-    align: 'center',
+    align: 'left',
     dataIndex: 'name',
     sorter: true,
   },
   {
     title: '属性中文名',
-    align: 'center',
+    align: 'left',
     dataIndex: 'zhName',
     sorter: true,
   },
   {
     title: '属性值类型',
-    align: 'center',
+    align: 'left',
     dataIndex: 'type',
     customRender: ({ value }) => {
       const typeArr = ['未知', '字符串', '数值', 'BOOL', '列表'];
@@ -35,13 +42,13 @@ export const columns: BasicColumn[] = [
   },
   {
     title: '属性值示例',
-    align: 'center',
+    align: 'left',
     dataIndex: 'example',
     sorter: true,
   },
   {
     title: '对属性的说明描述',
-    align: 'center',
+    align: 'left',
     dataIndex: 'propertyDesc',
     sorter: true,
   },
@@ -87,6 +94,17 @@ export const formSchema: FormSchema[] = [
     show: false,
     dynamicRules: ({ model, schema }) => {
       return [{ required: true, message: '请输入所属事件的Id!' }];
+    },
+  },
+  {
+    label: '序号',
+    field: 'sorted',
+    component: 'InputNumber',
+    dynamicRules: ({ model, schema }) => {
+      return [{ required: true, message: '请输入事件序号，序号越小排序越前!' }];
+    },
+    componentProps: {
+      step: 10,
     },
   },
   {

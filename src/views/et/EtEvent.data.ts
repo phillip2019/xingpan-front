@@ -11,14 +11,21 @@ export const columns: BasicColumn[] = [
     sorter: true,
   },
   {
+    title: '序号',
+    align: 'right',
+    dataIndex: 'sorted',
+    sorter: true,
+    width: 80,
+  },
+  {
     title: '事件名',
-    align: 'center',
+    align: 'left',
     dataIndex: 'name',
     sorter: true,
   },
   {
     title: '中文名',
-    align: 'center',
+    align: 'left',
     dataIndex: 'zhName',
     sorter: true,
   },
@@ -35,7 +42,7 @@ export const columns: BasicColumn[] = [
   },
   {
     title: '操作说明',
-    align: 'center',
+    align: 'left',
     dataIndex: 'operDesc',
     sorter: true,
   },
@@ -51,15 +58,10 @@ export const columns: BasicColumn[] = [
   },
   {
     title: '触发时机',
-    align: 'center',
+    align: 'left',
     dataIndex: 'triggerTiming',
     sorter: true,
-  },
-  {
-    title: '文档说明',
-    align: 'center',
-    dataIndex: 'eventDesc',
-    sorter: true,
+    width: 300,
   },
 ];
 //查询数据
@@ -167,6 +169,17 @@ export const formSchema: FormSchema[] = [
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
       return [{ required: true, message: '请输入场景，事件场景!' }];
+    },
+  },
+  {
+    label: '序号',
+    field: 'sorted',
+    component: 'InputNumber',
+    dynamicRules: ({ model, schema }) => {
+      return [{ required: true, message: '请输入事件序号，序号越小排序越前!' }];
+    },
+    componentProps: {
+      step: 10,
     },
   },
   {

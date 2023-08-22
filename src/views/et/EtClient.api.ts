@@ -11,6 +11,9 @@ enum Api {
   deleteBatch = '/et/etClient/deleteBatch',
   importExcel = '/et/etClient/importExcel',
   exportXls = '/et/etClient/exportXls',
+  queryTreeListForClient = '/et/etClient/queryTreeList',
+  queryClientEvent = '/et/etEvent/queryClientEvent',
+  saveClientEvent = '/et/etEvent/saveClientEvent',
 }
 /**
  * 导出api
@@ -61,3 +64,16 @@ export const saveOrUpdate = (params, isUpdate) => {
   const url = isUpdate ? Api.edit : Api.save;
   return defHttp.post({ url: url, params });
 };
+
+/**
+ * 根据角色查询树信息
+ */
+export const queryTreeListForClient = () => defHttp.get({ url: Api.queryTreeListForClient });
+/**
+ * 查询角色权限
+ */
+export const queryClientEvent = (params) => defHttp.get({ url: Api.queryClientEvent, params });
+/**
+ * 保存角色权限
+ */
+export const saveClientEvent = (params) => defHttp.post({ url: Api.saveClientEvent, params });

@@ -4,7 +4,14 @@
     <BasicTable @register="registerTable" :rowSelection="rowSelection" :loading="loading">
       <!--插槽:table标题-->
       <template #tableTitle>
-        <a-button type="primary" @click="handleAdd" preIcon="ant-design:plus-outlined"> 新增</a-button>
+        <a-button
+          type="primary"
+          @click="handleAdd"
+          preIcon="ant-design:plus-outlined"
+          v-if="hasPermission('org.jeecg.modules.demo:et_bu_project:add')"
+        >
+          新增</a-button
+        >
         <!--
         <a-button type="primary" preIcon="ant-design:export-outlined" @click="onExportXls"> 导出</a-button>
         <j-upload-button type="primary" preIcon="ant-design:import-outlined" @click="onImportXls">导入</j-upload-button>
@@ -12,7 +19,7 @@
         <a-dropdown v-if="selectedRowKeys.length > 0">
           <template #overlay>
             <a-menu>
-              <a-menu-item key="1" @click="batchHandleDelete">
+              <a-menu-item key="1" @click="batchHandleDelete" v-if="hasPermission('org.jeecg.modules.demo:et_bu_project:deleteBatch')">
                 <Icon icon="ant-design:delete-outlined" />
                 删除
               </a-menu-item>
@@ -61,11 +68,13 @@
   import EtBuProjectEventRelDrawer from './components/EtBuProjectEventRelDrawer.vue';
   import { filterObj } from '/@/utils/common/compUtils';
   import { useMethods } from '/@/hooks/system/useMethods';
+  import { usePermission } from '/@/hooks/web/usePermission';
 
   const loading = ref(false);
   const checkedKeys = ref<Array<string | number>>([]);
   const [buProjectEventRelDrawer, { openDrawer: openBuProjectEventRelDrawer }] = useDrawer();
   const { handleExportXls, handleCallbackExportXls, handleImportXls, handleExportZip } = useMethods();
+  const { hasPermission } = usePermission();
 
   //注册model
   const [registerModal, { openModal }] = useModal();
@@ -156,6 +165,7 @@
       {
         label: '导出',
         onClick: onExportEvent.bind(null, record),
+        auth: 'org.jeecg.modules.demo:et_event:exportXls',
       },
       {
         label: '事件',
@@ -164,6 +174,7 @@
       {
         label: '编辑',
         onClick: handleEdit.bind(null, record),
+        auth: 'org.jeecg.modules.demo:et_event:edit',
       },
     ];
   }
@@ -189,6 +200,7 @@
           title: '是否确认删除',
           confirm: handleDelete.bind(null, record),
         },
+        auth: 'org.jeecg.modules.demo:et_event:delete',
       },
     ];
   }

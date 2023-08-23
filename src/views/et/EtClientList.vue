@@ -4,13 +4,28 @@
     <BasicTable @register="registerTable" :rowSelection="rowSelection">
       <!--插槽:table标题-->
       <template #tableTitle>
-        <a-button type="primary" @click="handleAdd" preIcon="ant-design:plus-outlined"> 新增</a-button>
-        <a-button type="primary" preIcon="ant-design:export-outlined" @click="onExportXls"> 导出</a-button>
-        <j-upload-button type="primary" preIcon="ant-design:import-outlined" @click="onImportXls">导入</j-upload-button>
+        <a-button type="primary" @click="handleAdd" preIcon="ant-design:plus-outlined" v-if="hasPermission('org.jeecg.modules.demo:et_client:add')">
+          新增</a-button
+        >
+        <a-button
+          type="primary"
+          preIcon="ant-design:export-outlined"
+          @click="onExportXls"
+          v-if="hasPermission('org.jeecg.modules.demo:et_client:exportExcel')"
+        >
+          导出</a-button
+        >
+        <j-upload-button
+          type="primary"
+          preIcon="ant-design:import-outlined"
+          @click="onImportXls"
+          v-if="hasPermission('org.jeecg.modules.demo:et_client:importExcel')"
+          >导入</j-upload-button
+        >
         <a-dropdown v-if="selectedRowKeys.length > 0">
           <template #overlay>
             <a-menu>
-              <a-menu-item key="1" @click="batchHandleDelete">
+              <a-menu-item key="1" @click="batchHandleDelete" v-if="hasPermission('org.jeecg.modules.demo:et_client:deleteBatch')">
                 <Icon icon="ant-design:delete-outlined" />
                 删除
               </a-menu-item>
@@ -57,9 +72,10 @@
   import { list, deleteOne, batchDelete, getImportUrl, getExportUrl } from './EtClient.api';
   import { downloadFile } from '/@/utils/common/renderUtils';
   import EtClientEventRelDrawer from './components/EtClientEventRelDrawer.vue';
+  import { usePermission } from '/@/hooks/web/usePermission';
 
+  const { hasPermission } = usePermission();
   const [clientEventRelDrawer, { openDrawer: openClientEventRelDrawer }] = useDrawer();
-
   const checkedKeys = ref<Array<string | number>>([]);
   //注册model
   const [registerModal, { openModal }] = useModal();
@@ -173,6 +189,7 @@
       {
         label: '编辑',
         onClick: handleEdit.bind(null, record),
+        auth: 'org.jeecg.modules.demo:et_client:edit',
       },
       {
         label: '删除',
@@ -180,6 +197,7 @@
           title: '是否确认删除',
           confirm: handleDelete.bind(null, record),
         },
+        auth: 'org.jeecg.modules.demo:et_client:delete',
       },
     ];
   }

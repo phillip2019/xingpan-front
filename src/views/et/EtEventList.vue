@@ -4,13 +4,21 @@
     <BasicTable @register="registerTable" :rowSelection="rowSelection" @row-dbClick="doubleClick">
       <!--插槽:table标题-->
       <template #tableTitle>
-        <a-button type="primary" @click="handleAdd" preIcon="ant-design:plus-outlined"> 新增</a-button>
+        <a-button type="primary" @click="handleAdd" preIcon="ant-design:plus-outlined" v-if="hasPermission('org.jeecg.modules.demo:et_event:add')">
+          新增</a-button
+        >
         <a-button type="primary" preIcon="ant-design:export-outlined" @click="onExportXls"> 导出</a-button>
-        <j-upload-button type="primary" preIcon="ant-design:import-outlined" @click="onImportXls">导入</j-upload-button>
+        <j-upload-button
+          type="primary"
+          preIcon="ant-design:import-outlined"
+          v-if="hasPermission('org.jeecg.modules.demo:et_event:importExcel')"
+          @click="onImportXls"
+          >导入</j-upload-button
+        >
         <a-dropdown v-if="selectedRowKeys.length > 0">
           <template #overlay>
             <a-menu>
-              <a-menu-item key="1" @click="batchHandleDelete">
+              <a-menu-item key="1" @click="batchHandleDelete" v-if="hasPermission('org.jeecg.modules.demo:et_event:deleteBatch')">
                 <Icon icon="ant-design:delete-outlined" />
                 删除
               </a-menu-item>
@@ -33,6 +41,15 @@
         <a-tag color="#87d068" v-if="text == 2">上线</a-tag>
         <a-tag color="pink" v-if="text == 3">下线</a-tag>
         <a-tag color="red" v-if="text == 1">异常</a-tag>
+      </template>
+      <!--客户端显示栏-->
+      <template #clientNameTag="{ record, text }">
+        <a-tag color="green" v-if="text.includes('pc')">pc</a-tag>
+        <a-tag color="blue" v-if="text.includes('wap')">wap</a-tag>
+        <a-tag color="grey" v-if="text.includes('Android')">Android</a-tag>
+        <a-tag color="red" v-if="text.includes('ios')">ios</a-tag>
+        <a-tag color="pink" v-if="text.includes('h5')">h5</a-tag>
+        <a-tag color="yellow" v-if="text.includes('mini_programs')">mini_programs</a-tag>
       </template>
       <!--字段回显插槽-->
       <template #htmlSlot="{ text }">
@@ -65,12 +82,14 @@
   import { columns, searchFormSchema } from './EtEvent.data';
   import { list, deleteOne, batchDelete, getImportUrl, getExportUrl } from './EtEvent.api';
   import { downloadFile } from '/@/utils/common/renderUtils';
-import { merge } from 'lodash-es';
+  import { usePermission } from '/@/hooks/web/usePermission';
+  import { merge } from 'lodash-es';
   const checkedKeys = ref<Array<string | number>>([]);
   //注册model
   const [registerModal, { openModal: openEventModal }] = useModal();
   //注册model
   const [eventPropertyListModal, { openDrawer: openEventPropertyListModal }] = useDrawer();
+  const { hasPermission } = usePermission();
   //注册table数据
   const { prefixCls, tableContext, onExportXls, onImportXls } = useListPage({
     tableProps: {
@@ -186,6 +205,7 @@ import { merge } from 'lodash-es';
       {
         label: '编辑',
         onClick: handleEdit.bind(null, record),
+        auth: 'org.jeecg.modules.demo:et_event:edit',
       },
     ];
   }
@@ -204,6 +224,7 @@ import { merge } from 'lodash-es';
           title: '是否确认删除',
           confirm: handleDelete.bind(null, record),
         },
+        auth: 'org.jeecg.modules.demo:et_event:delete',
       },
     ];
     if (record.isPresetEvent === 1) {

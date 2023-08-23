@@ -16,14 +16,31 @@
     >
       <template #title="{ slotTitle, ruleFlag }">
         {{ slotTitle }}
-        <Icon v-if="ruleFlag" icon="ant-design:align-left-outlined" style="margin-left: 5px; color: red"></Icon>
+        <Icon v-if="ruleFlag" icon="ant-design:align-left-outlined" style="margin-left: 5px; color: red" />
       </template>
     </BasicTree>
     <!--右下角按钮-->
     <template #footer>
-      <PopConfirmButton title="确定放弃编辑？" @confirm="closeDrawer" okText="确定" cancelText="取消">取消</PopConfirmButton>
-      <a-button @click="handleSubmit(false)" type="primary" :loading="loading" ghost style="margin-right: 0.8rem">仅保存</a-button>
-      <a-button @click="handleSubmit(true)" type="primary" :loading="loading">保存并关闭</a-button>
+      <PopConfirmButton
+        title="确定放弃编辑？"
+        @confirm="closeDrawer"
+        okText="确定"
+        cancelText="取消"
+        v-if="hasPermission('org.jeecg.modules.demo:et_event:saveClientEvent')"
+        >取消</PopConfirmButton
+      >
+      <a-button
+        @click="handleSubmit(false)"
+        type="primary"
+        :loading="loading"
+        ghost
+        style="margin-right: 0.8rem"
+        v-if="hasPermission('org.jeecg.modules.demo:et_event:saveClientEvent')"
+        >仅保存</a-button
+      >
+      <a-button @click="handleSubmit(true)" type="primary" :loading="loading" v-if="hasPermission('org.jeecg.modules.demo:et_event:saveClientEvent')"
+        >保存并关闭</a-button
+      >
     </template>
 
     <!-- 选择相应节点，展示节点相应抽屉-->
@@ -38,6 +55,9 @@
   // import RoleDataRuleDrawer from './RoleDataRuleDrawer.vue';
   // import { queryTreeListForRole, queryRolePermission, saveRolePermission } from '../role.api';
   import { queryTreeListForClient, queryClientEvent, saveClientEvent } from '../EtClient.api';
+  import { usePermission } from '/@/hooks/web/usePermission';
+
+  const { hasPermission } = usePermission();
   const emit = defineEmits(['register']);
   //树的信息
   const treeData = ref<TreeItem[]>([]);

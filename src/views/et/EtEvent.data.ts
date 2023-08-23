@@ -30,24 +30,20 @@ export const columns: BasicColumn[] = [
     sorter: true,
   },
   {
-    title: '状态',
-    align: 'center',
-    dataIndex: 'status',
+    title: '触发时机',
+    align: 'left',
+    dataIndex: 'triggerTiming',
     sorter: true,
-    slots: { customRender: 'status' },
-    // customRender: ({ value }) => {
-    //   const statusArr = ['未知', '初始化', '上线', '下线', '异常'];
-    //   return statusArr[value];
-    // },
+    width: 300,
   },
   {
     title: '客户端',
     align: 'center',
     dataIndex: 'clientNames',
     sorter: true,
-    customRender: ({ value }) => {
-      return value;
-    },
+    helpMessage: '该事件在哪些客户端需要埋点',
+    slots: { customRender: 'clientNameTag' },
+    width: 200,
   },
   {
     title: '操作说明',
@@ -66,11 +62,15 @@ export const columns: BasicColumn[] = [
     },
   },
   {
-    title: '触发时机',
-    align: 'left',
-    dataIndex: 'triggerTiming',
+    title: '状态',
+    align: 'center',
+    dataIndex: 'status',
     sorter: true,
-    width: 300,
+    slots: { customRender: 'status' },
+    // customRender: ({ value }) => {
+    //   const statusArr = ['未知', '初始化', '上线', '下线', '异常'];
+    //   return statusArr[value];
+    // },
   },
 ];
 //查询数据

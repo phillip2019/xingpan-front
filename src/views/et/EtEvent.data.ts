@@ -41,6 +41,15 @@ export const columns: BasicColumn[] = [
     // },
   },
   {
+    title: '客户端',
+    align: 'center',
+    dataIndex: 'clientNames',
+    sorter: true,
+    customRender: ({ value }) => {
+      return value;
+    },
+  },
+  {
     title: '操作说明',
     align: 'left',
     dataIndex: 'operDesc',

@@ -51,6 +51,16 @@ export function useMethods() {
   }
 
   /**
+   * 自定义回调导出xls
+   * @param name
+   * @param url
+   */
+  async function exportCallbackXls(name, url, params, isXlsx = false, success) {
+    await exportXls(name, url, params, isXlsx);
+    typeof success === 'function' ? success('导出成功') : '';
+  }
+
+  /**
    * 导入xls
    * @param data 导入的数据
    * @param url
@@ -123,6 +133,7 @@ export function useMethods() {
 
   return {
     handleExportXls: (name: string, url: string, params?: object) => exportXls(name, url, params),
+    handleCallbackExportXls: (name: string, url: string, params?: object, success?) => exportCallbackXls(name, url, params, false, success),
     handleImportXls: (data, url, success) => importXls(data, url, success),
     handleExportXlsx: (name: string, url: string, params?: object) => exportXls(name, url, params, true),
     handleExportZip: (name: string, url: string, params?: object, success?) => exportZip(name, url, params, success),

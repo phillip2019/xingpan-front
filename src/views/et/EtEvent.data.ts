@@ -67,6 +67,21 @@ export const columns: BasicColumn[] = [
 //查询数据
 export const searchFormSchema: FormSchema[] = [
   {
+    label: '项目名',
+    field: 'buProjectNameId',
+    // component: 'JSearchSelect',
+    component: 'JDictSelectTag',
+    helpMessage: ['请选择项目'],
+    componentProps: ({ schema, tableAction, formActionType, formModel }) => {
+      let sqlPreTpl = 'et_bu_project,name,id,1=1 ';
+      sqlPreTpl += ' group by name order by create_time desc';
+      return {
+        dictCode: sqlPreTpl,
+      };
+    },
+    colProps: { span: 6 },
+  },
+  {
     label: '场景',
     field: 'scene',
     component: 'JDictSelectTag',

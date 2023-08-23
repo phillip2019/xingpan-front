@@ -66,14 +66,14 @@ export const saveOrUpdate = (params, isUpdate) => {
 };
 
 /**
- * 根据角色查询树信息
+ * 根据客户端查询树信息
  */
 export const queryTreeListForClient = () => defHttp.get({ url: Api.queryTreeListForClient });
 /**
- * 查询角色权限
+ * 查询客户端事件
  */
 export const queryClientEvent = (params) => defHttp.get({ url: Api.queryClientEvent, params });
 /**
- * 保存角色权限
+ * 保存客户端事件
  */
 export const saveClientEvent = (params) => defHttp.post({ url: Api.saveClientEvent, params });

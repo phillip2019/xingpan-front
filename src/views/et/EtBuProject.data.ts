@@ -52,8 +52,8 @@ export const searchFormSchema: FormSchema[] = [
     field: 'id',
     component: 'JDictSelectTag',
     componentProps: ({ schema, tableAction, formActionType, formModel }) => {
-      let sqlPreTpl = 'et_bu_project,name,id,1=1 ';
-      sqlPreTpl += 'group by name order by create_time';
+      let sqlPreTpl = 'et_bu_project,name,max(id),1=1 ';
+      sqlPreTpl += 'group by name';
       return {
         dictCode: sqlPreTpl,
       };
@@ -78,7 +78,7 @@ export const searchFormSchema: FormSchema[] = [
     component: 'JDictSelectTag',
     componentProps: ({ schema, tableAction, formActionType, formModel }) => {
       let sqlPreTpl = 'et_bu_project,product_manager,product_manager,1=1 ';
-      sqlPreTpl += 'group by product_manager order by create_time';
+      sqlPreTpl += 'group by product_manager';
       return {
         dictCode: sqlPreTpl,
       };

@@ -77,7 +77,7 @@ export const searchFormSchema: FormSchema[] = [
       if (formModel.platformSiteType) {
         sqlPreTpl = sqlPreTpl + " and platform_site_type = '" + formModel.platformSiteType + "'";
       }
-      sqlPreTpl += 'group by platform_site order by create_time';
+      sqlPreTpl += 'group by platform_site';
       return {
         dictCode: sqlPreTpl,
       };
@@ -96,7 +96,7 @@ export const searchFormSchema: FormSchema[] = [
       if (formModel.platformSite) {
         sqlPreTpl = sqlPreTpl + " and platform_site = '" + formModel.platformSite + "'";
       }
-      sqlPreTpl += 'group by platform_lang order by create_time';
+      sqlPreTpl += 'group by platform_lang';
       return {
         dictCode: sqlPreTpl,
       };
@@ -115,7 +115,7 @@ export const searchFormSchema: FormSchema[] = [
       if (formModel.platformSite) {
         sqlPreTpl = sqlPreTpl + " and platform_site = '" + formModel.platformSite + "'";
       }
-      sqlPreTpl += 'group by platform_site_name order by create_time';
+      sqlPreTpl += 'group by platform_site_name';
       return {
         dictCode: sqlPreTpl,
       };
@@ -137,7 +137,7 @@ export const searchFormSchema: FormSchema[] = [
       if (formModel.platformSiteName) {
         sqlPreTpl = sqlPreTpl + " and platform_site_name = '" + formModel.platformSiteName + "'";
       }
-      sqlPreTpl += 'group by `project` order by create_time';
+      sqlPreTpl += 'group by `project`';
       return {
         dictCode: sqlPreTpl,
       };

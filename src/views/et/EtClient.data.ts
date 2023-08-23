@@ -84,7 +84,7 @@ export const searchFormSchema: FormSchema[] = [
       if (formModel.platformSiteType) {
         sqlPreTpl = sqlPreTpl + " and platform_site_type = '" + formModel.platformSiteType + "'";
       }
-      sqlPreTpl += 'group by platform_site order by create_time';
+      sqlPreTpl += 'group by platform_site';
       return {
         dictCode: sqlPreTpl,
       };
@@ -103,7 +103,7 @@ export const searchFormSchema: FormSchema[] = [
       if (formModel.platformSite) {
         sqlPreTpl = sqlPreTpl + " and platform_site = '" + formModel.platformSite + "'";
       }
-      sqlPreTpl += 'group by platform_site_name order by create_time';
+      sqlPreTpl += 'group by platform_site_name';
       return {
         dictCode: sqlPreTpl,
       };
@@ -125,7 +125,7 @@ export const searchFormSchema: FormSchema[] = [
       if (formModel.platformSiteName) {
         sqlPreTpl = sqlPreTpl + " and platform_site_name = '" + formModel.platformSiteName + "'";
       }
-      sqlPreTpl += 'group by `project` order by create_time';
+      sqlPreTpl += 'group by `project`';
       return {
         dictCode: sqlPreTpl,
       };
@@ -172,7 +172,7 @@ export const formSchema: FormSchema[] = [
     componentProps: ({ schema, tableAction, formActionType, formModel }) => {
       // console.log(formActionType);
       let sqlPreTpl = 'et_platform_site_code,platform_site_type,platform_site_type,1=1 ';
-      sqlPreTpl += ' group by platform_site_type order by create_time';
+      sqlPreTpl += ' group by platform_site_type';
       return {
         dictCode: sqlPreTpl,
       };
@@ -187,11 +187,11 @@ export const formSchema: FormSchema[] = [
     },
     componentProps: ({ schema, tableAction, formActionType, formModel }) => {
       // console.log(formActionType);
-      let sqlPreTpl = 'et_platform_site_code,platform_site_name,id,1=1 ';
+      let sqlPreTpl = 'et_platform_site_code,platform_site_name,max(id),1=1 ';
       if (formModel.platformSiteType) {
         sqlPreTpl = sqlPreTpl + " and platform_site_type = '" + formModel.platformSiteType + "'";
       }
-      sqlPreTpl += ' group by platform_site_name order by create_time';
+      sqlPreTpl += ' group by platform_site_name';
       return {
         dictCode: sqlPreTpl,
       };

@@ -73,8 +73,8 @@ export const searchFormSchema: FormSchema[] = [
     component: 'JDictSelectTag',
     helpMessage: ['请选择项目'],
     componentProps: ({ schema, tableAction, formActionType, formModel }) => {
-      let sqlPreTpl = 'et_bu_project,name,id,1=1 ';
-      sqlPreTpl += ' group by name order by create_time desc';
+      let sqlPreTpl = 'et_bu_project,name,max(id),1=1 ';
+      sqlPreTpl += ' group by `name`';
       return {
         dictCode: sqlPreTpl,
       };
@@ -88,7 +88,7 @@ export const searchFormSchema: FormSchema[] = [
     helpMessage: ['请选择事件场景'],
     componentProps: ({ schema, tableAction, formActionType, formModel }) => {
       let sqlPreTpl = 'et_event,scene,scene,1=1 ';
-      sqlPreTpl += ' group by scene order by create_time';
+      sqlPreTpl += ' group by scene';
       return {
         dictCode: sqlPreTpl,
       };
@@ -106,7 +106,7 @@ export const searchFormSchema: FormSchema[] = [
       if (formModel.scene) {
         sqlPreTpl = sqlPreTpl + " and scene = '" + formModel.scene + "'";
       }
-      sqlPreTpl += ' group by name order by create_time';
+      sqlPreTpl += ' group by name';
       return {
         dictCode: sqlPreTpl,
         // dict: 'et_event,name,name',

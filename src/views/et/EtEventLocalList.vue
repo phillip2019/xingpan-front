@@ -1,7 +1,7 @@
 <template>
   <div>
     <!--引用表格-->
-    <BasicTable @register="registerTable" :rowSelection="rowSelection">
+    <BasicTable @register="registerTable" :rowSelection="rowSelection" @row-dbClick="doubleClick">
       <!--插槽:table标题-->
       <template #tableTitle>
         <a-button type="primary" @click="handleAdd" preIcon="ant-design:plus-outlined"> 新增</a-button>
@@ -53,14 +53,16 @@
   import { ref, computed, unref } from 'vue';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { useModal } from '/@/components/Modal';
+  import { useDrawer } from '/@/components/Drawer';
   import { useListPage } from '/@/hooks/system/useListPage';
   import EtEventLocalModal from './components/EtEventLocalModal.vue';
   import { columns, searchFormSchema } from './EtEventLocal.data';
   import { list, deleteOne, batchDelete, getImportUrl, getExportUrl } from './EtEventLocal.api';
   import { downloadFile } from '/@/utils/common/renderUtils';
   const checkedKeys = ref<Array<string | number>>([]);
-  //注册model
-  const [registerModal, { openModal }] = useModal();
+
+  const [registerModal, { openDrawer: openModal }] = useDrawer();
+
   //注册table数据
   const { prefixCls, tableContext, onExportXls, onImportXls } = useListPage({
     tableProps: {
@@ -168,6 +170,20 @@
         },
       },
     ];
+  }
+
+  /**
+   * 属性成功回调
+   */
+  function handleEventPropertyListSuccess() {
+    (selectedRowKeys.value = []) && reload();
+  }
+
+  /**
+   * 双击查看事件属性
+   */
+  function doubleClick(record, index) {
+    handleDetail(record);
   }
 </script>
 

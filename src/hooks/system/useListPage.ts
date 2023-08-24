@@ -281,15 +281,12 @@ export function useListTable(tableProps: TableProps): [
   // 合并方法
   Object.assign(defaultTableProps, { beforeFetch });
   if (typeof tableProps.beforeFetch === 'function') {
-    console.log('tableProps.beforeFetch is function');
     defaultTableProps.beforeFetch = function (params) {
       params = beforeFetch(params);
       // @ts-ignore
       tableProps.beforeFetch(params);
       return params;
     };
-  } else {
-    console.log('tableProps.beforeFetch is not function', tableProps.beforeFetch);
   }
 
   // 当前选择的行

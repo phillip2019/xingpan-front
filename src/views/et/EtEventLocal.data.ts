@@ -3,6 +3,7 @@ import { FormSchema } from '/@/components/Table';
 import { rules } from '/@/utils/helper/validator';
 import { render } from '/@/utils/common/renderUtils';
 import { formatTSToDateTime } from '/@/utils/dateUtil';
+import dayjs from 'dayjs';
 
 //列表数据
 export const columns: BasicColumn[] = [
@@ -409,11 +410,12 @@ export const searchFormSchema: FormSchema[] = [
       valueType: 'DateTime',
       showTime: true,
       valueFormat: 'YYYY-MM-DD HH:mm:ss',
+      defaultValue: [dayjs().startOf('day').format('YYYY-MM-DD 00:00:00'), dayjs().format('YYYY-MM-DD 23:59:59')],
     },
     helpMessage: ['请选择事件时间'],
     show: true,
     colProps: {
-      span: 30,
+      span: 12,
     },
   },
   {
@@ -421,14 +423,14 @@ export const searchFormSchema: FormSchema[] = [
     field: 'platformType',
     component: 'JDictSelectTag',
     helpMessage: ['请选择埋点客户端'],
-    defaultValue: 'pc',
-    componentProps: {
-      dictCode: 'et_platform_type',
+    componentProps: ({ schema, tableAction, formActionType, formModel }) => {
+      let sqlPreTpl = 'et_client,name,name,1=1 ';
+      sqlPreTpl += ' group by name';
+      return {
+        dictCode: sqlPreTpl,
+      };
     },
-    show: true,
-    colProps: {
-      span: 12,
-    },
+    colProps: { span: 6 },
   },
   {
     label: '用户唯一编号',
@@ -462,7 +464,7 @@ export const searchFormSchema: FormSchema[] = [
   },
   {
     label: '事件名',
-    field: 'name',
+    field: 'event',
     // component: 'JSearchSelect',
     component: 'JDictSelectTag',
     helpMessage: ['请选择事件名称场景'],
@@ -490,10 +492,20 @@ export const searchFormSchema: FormSchema[] = [
     },
   },
   {
-    label: 'IP',
-    field: 'ip',
+    label: 'IP所属国家',
+    field: 'ipCountryName',
     component: 'Input',
-    helpMessage: ['请输入客户端IP'],
+    helpMessage: ['请输入IP所属国家'],
+    show: true,
+    colProps: {
+      span: 12,
+    },
+  },
+  {
+    label: 'IP所属城市',
+    field: 'ipCityName',
+    component: 'Input',
+    helpMessage: ['请输入IP所属城市'],
     show: true,
     colProps: {
       span: 12,
@@ -583,30 +595,7 @@ export const formSchema: FormSchema[] = [
     dynamicRules: ({ model, schema }) => {
       return [{ required: true, message: '请输入唯一键!' }];
     },
-  },
-  {
-    label: '服务器记录埋点日志时间',
-    field: 'timestamp',
-    component: 'Input',
-    dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入服务器记录埋点日志时间!' }];
-    },
-  },
-  {
-    label: '时区',
-    field: 'timeZone',
-    component: 'Input',
-    dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入时区!' }];
-    },
-  },
-  {
-    label: '时区偏移量',
-    field: 'scTimezoneOffset',
-    component: 'Input',
-    dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入时区偏移量!' }];
-    },
+    ifShow: false,
   },
   {
     label: '埋点项目名称',
@@ -633,47 +622,143 @@ export const formSchema: FormSchema[] = [
     },
   },
   {
-    label: '用户编号',
+    label: '用户唯一编号',
     field: 'distinctId',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入用户编号!' }];
+      return [{ required: true, message: '请输入用户唯一编号!' }];
+    },
+  },
+  {
+    label: '时间',
+    field: 'createTime',
+    component: 'Input',
+    dynamicRules: ({ model, schema }) => {
+      return [{ required: true, message: '请输入事件发生的实际时间戳!' }];
+    },
+  },
+  {
+    label: '事件名',
+    field: 'event',
+    component: 'Input',
+    dynamicRules: ({ model, schema }) => {
+      return [{ required: true, message: '请输入事件名!' }];
+    },
+  },
+  {
+    label: '事件中文名',
+    field: 'eventZhName',
+    component: 'Input',
+    dynamicRules: ({ model, schema }) => {
+      return [{ required: false, message: '请输入事件中文名!' }];
+    },
+  },
+  {
+    label: '访问地址',
+    field: 'scUrl',
+    component: 'Input',
+    dynamicRules: ({ model, schema }) => {
+      return [{ required: false, message: '请输入实际访问链接!' }];
     },
   },
   {
     label: '属性',
     field: 'properties',
-    component: 'Input',
+    component: 'JCodeEditor',
     dynamicRules: ({ model, schema }) => {
       return [{ required: true, message: '请输入属性!' }];
     },
   },
   {
-    label: '用户id',
+    label: 'USER_ID',
     field: 'loginId',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入用户id!' }];
+      return [{ required: false, message: '请输入用户id!' }];
     },
   },
-  {
-    label: '是否登录id',
-    field: 'scIsLoginId',
+    {
+    label: '是否机刷',
+    field: 'isMachineBrushTraffic',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入是否登录id!' }];
+      return [{ required: false, message: '请输入是否机刷!' }];
     },
   },
   {
-    label: '关联原始id',
-    field: 'scTrackSignupOriginalId',
+    label: 'IP',
+    field: 'ip',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入关联原始id!' }];
+      return [{ required: false, message: '请输入ip地址!' }];
     },
   },
   {
-    label: '是否首日访问',
+    label: 'IP归属州',
+    field: 'ipContinentNames',
+    component: 'Input',
+    dynamicRules: ({ model, schema }) => {
+      return [{ required: false, message: '请输入ip对应的洲!' }];
+    },
+  },
+  {
+    label: 'IP归属国家',
+    field: 'ipCountryName',
+    component: 'Input',
+    dynamicRules: ({ model, schema }) => {
+      return [{ required: false, message: '请输入ip对应的国家!' }];
+    },
+  },
+  {
+    label: 'IP归属城市',
+    field: 'ipCityName',
+    component: 'Input',
+    dynamicRules: ({ model, schema }) => {
+      return [{ required: false, message: '请输入ip对应的城市!' }];
+    },
+  },
+  {
+    label: '广告渠道',
+    field: 'scLatestUtmSource',
+    component: 'Input',
+    dynamicRules: ({ model, schema }) => {
+      return [{ required: false, message: '请输入最近一次广告流量来源渠道!' }];
+    },
+  },
+  {
+    label: '广告名称',
+    field: 'scLatestUtmCampaign',
+    component: 'Input',
+    dynamicRules: ({ model, schema }) => {
+      return [{ required: false, message: '请输入最近一次广告系列名称!' }];
+    },
+  },
+  {
+    label: '广告媒介',
+    field: 'scLatestUtmMedium',
+    component: 'Input',
+    dynamicRules: ({ model, schema }) => {
+      return [{ required: false, message: '请输入最近一次广告系列媒介!' }];
+    },
+  },
+  {
+    label: '广告系列内容',
+    field: 'scLatestUtmContent',
+    component: 'Input',
+    dynamicRules: ({ model, schema }) => {
+      return [{ required: false, message: '请输入最近一次广告系列内容!' }];
+    },
+  },
+  {
+    label: '广告系列关键词',
+    field: 'scLatestUtmTerm',
+    component: 'Input',
+    dynamicRules: ({ model, schema }) => {
+      return [{ required: false, message: '请输入最近一次广告系列关键词!' }];
+    },
+  },
+  {
+    label: '首日访问',
     field: 'scIsFirstDay',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
@@ -681,11 +766,11 @@ export const formSchema: FormSchema[] = [
     },
   },
   {
-    label: '是否首次触发事件',
+    label: '首次触发事件',
     field: 'scIsFirstTime',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入是否首次触发事件!' }];
+      return [{ required: false, message: '请输入是否首次触发事件!' }];
     },
   },
   {
@@ -705,59 +790,11 @@ export const formSchema: FormSchema[] = [
     },
   },
   {
-    label: '事件名',
-    field: 'event',
-    component: 'Input',
-    dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入事件名!' }];
-    },
-  },
-  {
-    label: '事件中文名',
-    field: 'eventZhName',
-    component: 'Input',
-    dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入事件中文名!' }];
-    },
-  },
-  {
     label: '事件时长',
     field: 'scEventDuration',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入事件时长!' }];
-    },
-  },
-  {
-    label: '事件发生的实际时间戳',
-    field: 'time',
-    component: 'Input',
-    dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入事件发生的实际时间戳!' }];
-    },
-  },
-  {
-    label: '事件唯一标识',
-    field: 'scTrackId',
-    component: 'Input',
-    dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入事件唯一标识!' }];
-    },
-  },
-  {
-    label: 'sdk发送数据时的时间',
-    field: 'scFlushTime',
-    component: 'Input',
-    dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入sdk发送数据时的时间!' }];
-    },
-  },
-  {
-    label: '服务端接收到该条事件的时间',
-    field: 'scReceiveTime',
-    component: 'Input',
-    dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入服务端接收到该条事件的时间!' }];
+      return [{ required: false, message: '请输入事件时长!' }];
     },
   },
   {
@@ -765,7 +802,7 @@ export const formSchema: FormSchema[] = [
     field: 'scScreenName',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入页面名称!' }];
+      return [{ required: false, message: '请输入页面名称!' }];
     },
   },
   {
@@ -773,7 +810,7 @@ export const formSchema: FormSchema[] = [
     field: 'scTitle',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入内容标题!' }];
+      return [{ required: false, message: '请输入内容标题!' }];
     },
   },
   {
@@ -781,7 +818,7 @@ export const formSchema: FormSchema[] = [
     field: 'scViewportHeight',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入视区高度!' }];
+      return [{ required: false, message: '请输入视区高度!' }];
     },
   },
   {
@@ -789,7 +826,7 @@ export const formSchema: FormSchema[] = [
     field: 'scViewportPosition',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入视区距顶部的位置!' }];
+      return [{ required: false, message: '请输入视区距顶部的位置!' }];
     },
   },
   {
@@ -797,7 +834,7 @@ export const formSchema: FormSchema[] = [
     field: 'scViewportWidth',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入视区宽度!' }];
+      return [{ required: false, message: '请输入视区宽度!' }];
     },
   },
   {
@@ -805,7 +842,7 @@ export const formSchema: FormSchema[] = [
     field: 'scScreenHeight',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入屏幕高度!' }];
+      return [{ required: false, message: '请输入屏幕高度!' }];
     },
   },
   {
@@ -813,7 +850,7 @@ export const formSchema: FormSchema[] = [
     field: 'scScreenWidth',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入屏幕宽度!' }];
+      return [{ required: false, message: '请输入屏幕宽度!' }];
     },
   },
   {
@@ -821,7 +858,7 @@ export const formSchema: FormSchema[] = [
     field: 'scScreenOrientation',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入屏幕方向!' }];
+      return [{ required: false, message: '请输入屏幕方向!' }];
     },
   },
   {
@@ -829,7 +866,7 @@ export const formSchema: FormSchema[] = [
     field: 'scScene',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入启动场景!' }];
+      return [{ required: false, message: '请输入启动场景!' }];
     },
   },
   {
@@ -837,7 +874,7 @@ export const formSchema: FormSchema[] = [
     field: 'scShareDepth',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入分享次数!' }];
+      return [{ required: false, message: '请输入分享次数!' }];
     },
   },
   {
@@ -845,7 +882,7 @@ export const formSchema: FormSchema[] = [
     field: 'scShareDistinctId',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入用户编号!' }];
+      return [{ required: false, message: '请输入用户编号!' }];
     },
   },
   {
@@ -853,7 +890,7 @@ export const formSchema: FormSchema[] = [
     field: 'scShareUrlPath',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入分享路径!' }];
+      return [{ required: false, message: '请输入分享路径!' }];
     },
   },
   {
@@ -861,7 +898,7 @@ export const formSchema: FormSchema[] = [
     field: 'scShareMethod',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入分享时途径!' }];
+      return [{ required: false, message: '请输入分享时途径!' }];
     },
   },
   {
@@ -869,15 +906,7 @@ export const formSchema: FormSchema[] = [
     field: 'scSourcePackageName',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入来源应用包名!' }];
-    },
-  },
-  {
-    label: '实际访问链接',
-    field: 'scUrl',
-    component: 'Input',
-    dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入实际访问链接!' }];
+      return [{ required: false, message: '请输入来源应用包名!' }];
     },
   },
   {
@@ -885,7 +914,7 @@ export const formSchema: FormSchema[] = [
     field: 'scUrlQuery',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入页面参数!' }];
+      return [{ required: false, message: '请输入页面参数!' }];
     },
   },
   {
@@ -893,7 +922,7 @@ export const formSchema: FormSchema[] = [
     field: 'scUrlPath',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入页面路径!' }];
+      return [{ required: false, message: '请输入页面路径!' }];
     },
   },
   {
@@ -901,7 +930,7 @@ export const formSchema: FormSchema[] = [
     field: 'referrer',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入埋点上报的上一个地址链接!' }];
+      return [{ required: false, message: '请输入埋点上报的上一个地址链接!' }];
     },
   },
   {
@@ -909,7 +938,7 @@ export const formSchema: FormSchema[] = [
     field: 'scReferrer',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入埋点上报的上一个地址链接!' }];
+      return [{ required: false, message: '请输入埋点上报的上一个地址链接!' }];
     },
   },
   {
@@ -917,7 +946,7 @@ export const formSchema: FormSchema[] = [
     field: 'scReferrerHost',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入埋点上报的上一个地址域名!' }];
+      return [{ required: false, message: '请输入埋点上报的上一个地址域名!' }];
     },
   },
   {
@@ -925,7 +954,7 @@ export const formSchema: FormSchema[] = [
     field: 'scReferrerTitle',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入埋点上报的上一个页面标题!' }];
+      return [{ required: false, message: '请输入埋点上报的上一个页面标题!' }];
     },
   },
   {
@@ -933,7 +962,7 @@ export const formSchema: FormSchema[] = [
     field: 'remark',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入埋点上报环境!' }];
+      return [{ required: false, message: '请输入埋点上报环境!' }];
     },
   },
   {
@@ -941,7 +970,7 @@ export const formSchema: FormSchema[] = [
     field: 'scCarrier',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入运营商!' }];
+      return [{ required: false, message: '请输入运营商!' }];
     },
   },
   {
@@ -949,7 +978,7 @@ export const formSchema: FormSchema[] = [
     field: 'scNetworkType',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入网络类型!' }];
+      return [{ required: false, message: '请输入网络类型!' }];
     },
   },
   {
@@ -957,7 +986,7 @@ export const formSchema: FormSchema[] = [
     field: 'scWifi',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入是否wifi!' }];
+      return [{ required: false, message: '请输入是否wifi!' }];
     },
   },
   {
@@ -965,7 +994,7 @@ export const formSchema: FormSchema[] = [
     field: 'scBrand',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入设备品牌!' }];
+      return [{ required: false, message: '请输入设备品牌!' }];
     },
   },
   {
@@ -973,7 +1002,7 @@ export const formSchema: FormSchema[] = [
     field: 'scManufacturer',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入设备制造商!' }];
+      return [{ required: false, message: '请输入设备制造商!' }];
     },
   },
   {
@@ -981,7 +1010,7 @@ export const formSchema: FormSchema[] = [
     field: 'scModel',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入机型!' }];
+      return [{ required: false, message: '请输入机型!' }];
     },
   },
   {
@@ -989,7 +1018,7 @@ export const formSchema: FormSchema[] = [
     field: 'scOs',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入机型操作系统!' }];
+      return [{ required: false, message: '请输入机型操作系统!' }];
     },
   },
   {
@@ -997,7 +1026,7 @@ export const formSchema: FormSchema[] = [
     field: 'scOsVersion',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入操作系统版本!' }];
+      return [{ required: false, message: '请输入操作系统版本!' }];
     },
   },
   {
@@ -1005,7 +1034,7 @@ export const formSchema: FormSchema[] = [
     field: 'scAppId',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入app编号!' }];
+      return [{ required: false, message: '请输入app编号!' }];
     },
   },
   {
@@ -1013,7 +1042,7 @@ export const formSchema: FormSchema[] = [
     field: 'scAppName',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入app名称!' }];
+      return [{ required: false, message: '请输入app名称!' }];
     },
   },
   {
@@ -1021,7 +1050,7 @@ export const formSchema: FormSchema[] = [
     field: 'scAppVersion',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入app版本!' }];
+      return [{ required: false, message: '请输入app版本!' }];
     },
   },
   {
@@ -1029,7 +1058,7 @@ export const formSchema: FormSchema[] = [
     field: 'scUserAgent',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入浏览器用户代理ua!' }];
+      return [{ required: false, message: '请输入浏览器用户代理ua!' }];
     },
   },
   {
@@ -1037,7 +1066,7 @@ export const formSchema: FormSchema[] = [
     field: 'scBrowser',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入浏览器!' }];
+      return [{ required: false, message: '请输入浏览器!' }];
     },
   },
   {
@@ -1045,7 +1074,7 @@ export const formSchema: FormSchema[] = [
     field: 'scBrowserVersion',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入浏览器版本!' }];
+      return [{ required: false, message: '请输入浏览器版本!' }];
     },
   },
   {
@@ -1053,7 +1082,7 @@ export const formSchema: FormSchema[] = [
     field: 'userAgent',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入ua!' }];
+      return [{ required: false, message: '请输入ua!' }];
     },
   },
   {
@@ -1061,7 +1090,7 @@ export const formSchema: FormSchema[] = [
     field: 'uaPlatform',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入浏览器解析平台类型!' }];
+      return [{ required: false, message: '请输入浏览器解析平台类型!' }];
     },
   },
   {
@@ -1069,7 +1098,7 @@ export const formSchema: FormSchema[] = [
     field: 'uaBrowser',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入浏览器解析浏览器!' }];
+      return [{ required: false, message: '请输入浏览器解析浏览器!' }];
     },
   },
   {
@@ -1077,7 +1106,7 @@ export const formSchema: FormSchema[] = [
     field: 'uaVersion',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入浏览器版本!' }];
+      return [{ required: false, message: '请输入浏览器版本!' }];
     },
   },
   {
@@ -1085,47 +1114,7 @@ export const formSchema: FormSchema[] = [
     field: 'uaLanguage',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入浏览器语言!' }];
-    },
-  },
-  {
-    label: 'ip地址',
-    field: 'ip',
-    component: 'Input',
-    dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入ip地址!' }];
-    },
-  },
-  {
-    label: 'ip对应的洲',
-    field: 'ipContinentNames',
-    component: 'Input',
-    dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入ip对应的洲!' }];
-    },
-  },
-  {
-    label: 'ip对应的国家',
-    field: 'ipCountryName',
-    component: 'Input',
-    dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入ip对应的国家!' }];
-    },
-  },
-  {
-    label: 'ip对应的城市',
-    field: 'ipCityName',
-    component: 'Input',
-    dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入ip对应的城市!' }];
-    },
-  },
-  {
-    label: 'IP',
-    field: 'ipAsn',
-    component: 'Input',
-    dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入IP!' }];
+      return [{ required: false, message: '请输入浏览器语言!' }];
     },
   },
   {
@@ -1133,15 +1122,7 @@ export const formSchema: FormSchema[] = [
     field: 'registeredCountry',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入注册国家!' }];
-    },
-  },
-  {
-    label: '自治系统号',
-    field: 'autonomousSystemNumber',
-    component: 'Input',
-    dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入自治系统号!' }];
+      return [{ required: false, message: '请输入注册国家!' }];
     },
   },
   {
@@ -1149,7 +1130,7 @@ export const formSchema: FormSchema[] = [
     field: 'autonomousSystemOrganization',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入自治系统组织名!' }];
+      return [{ required: false, message: '请输入自治系统组织名!' }];
     },
   },
   {
@@ -1157,7 +1138,7 @@ export const formSchema: FormSchema[] = [
     field: 'latitude',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入经度!' }];
+      return [{ required: false, message: '请输入经度!' }];
     },
   },
   {
@@ -1165,7 +1146,7 @@ export const formSchema: FormSchema[] = [
     field: 'longitude',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入纬度!' }];
+      return [{ required: false, message: '请输入纬度!' }];
     },
   },
   {
@@ -1173,7 +1154,7 @@ export const formSchema: FormSchema[] = [
     field: 'scIpIsp',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入ip运营商!' }];
+      return [{ required: false, message: '请输入ip运营商!' }];
     },
   },
   {
@@ -1181,7 +1162,7 @@ export const formSchema: FormSchema[] = [
     field: 'scLibPluginVersion',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入sdk插件版本号!' }];
+      return [{ required: false, message: '请输入sdk插件版本号!' }];
     },
   },
   {
@@ -1189,7 +1170,7 @@ export const formSchema: FormSchema[] = [
     field: 'scUtmSource',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入广告系列来源!' }];
+      return [{ required: false, message: '请输入广告系列来源!' }];
     },
   },
   {
@@ -1197,7 +1178,7 @@ export const formSchema: FormSchema[] = [
     field: 'scUtmMedium',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入广告系列媒介!' }];
+      return [{ required: false, message: '请输入广告系列媒介!' }];
     },
   },
   {
@@ -1205,55 +1186,7 @@ export const formSchema: FormSchema[] = [
     field: 'scUtmCampaign',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入广告系列名称!' }];
-    },
-  },
-  {
-    label: '最近一次广告系列来源',
-    field: 'scLatestUtmSource',
-    component: 'Input',
-    dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入最近一次广告系列来源!' }];
-    },
-  },
-  {
-    label: '最近一次广告系列媒介',
-    field: 'scLatestUtmMedium',
-    component: 'Input',
-    dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入最近一次广告系列媒介!' }];
-    },
-  },
-  {
-    label: '最近一次广告系列名称',
-    field: 'scLatestUtmCampaign',
-    component: 'Input',
-    dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入最近一次广告系列名称!' }];
-    },
-  },
-  {
-    label: '最近一次广告系列内容',
-    field: 'scLatestUtmContent',
-    component: 'Input',
-    dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入最近一次广告系列内容!' }];
-    },
-  },
-  {
-    label: '广告系列内容',
-    field: 'scUtmContent',
-    component: 'Input',
-    dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入广告系列内容!' }];
-    },
-  },
-  {
-    label: '最近一次广告系列关键词',
-    field: 'scLatestUtmTerm',
-    component: 'Input',
-    dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入最近一次广告系列关键词!' }];
+      return [{ required: false, message: '请输入广告系列名称!' }];
     },
   },
   {
@@ -1261,7 +1194,15 @@ export const formSchema: FormSchema[] = [
     field: 'scUtmMatchingType',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入渠道追踪匹配模式!' }];
+      return [{ required: false, message: '请输入渠道追踪匹配模式!' }];
+    },
+  },
+  {
+    label: '广告系列内容',
+    field: 'scUtmContent',
+    component: 'Input',
+    dynamicRules: ({ model, schema }) => {
+      return [{ required: false, message: '请输入广告系列内容!' }];
     },
   },
   {
@@ -1269,7 +1210,7 @@ export const formSchema: FormSchema[] = [
     field: 'scUtmTerm',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入广告系列关键词!' }];
+      return [{ required: false, message: '请输入广告系列关键词!' }];
     },
   },
   {
@@ -1277,7 +1218,7 @@ export const formSchema: FormSchema[] = [
     field: 'scMatchingKeyList',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入渠道匹配关键字列表!' }];
+      return [{ required: false, message: '请输入渠道匹配关键字列表!' }];
     },
   },
   {
@@ -1285,7 +1226,7 @@ export const formSchema: FormSchema[] = [
     field: 'scShortUrlTarget',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入短链目标地址!' }];
+      return [{ required: false, message: '请输入短链目标地址!' }];
     },
   },
   {
@@ -1293,7 +1234,7 @@ export const formSchema: FormSchema[] = [
     field: 'scLatestTrafficSourceType',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入最近一次流量来源站外类型!' }];
+      return [{ required: false, message: '请输入最近一次流量来源站外类型!' }];
     },
   },
   {
@@ -1301,7 +1242,7 @@ export const formSchema: FormSchema[] = [
     field: 'scLatestSearchKeyword',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入最近一次站外搜索引擎关键词!' }];
+      return [{ required: false, message: '请输入最近一次站外搜索引擎关键词!' }];
     },
   },
   {
@@ -1309,7 +1250,7 @@ export const formSchema: FormSchema[] = [
     field: 'scLatestReferrer',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入最近一次站外地址!' }];
+      return [{ required: false, message: '请输入最近一次站外地址!' }];
     },
   },
   {
@@ -1317,7 +1258,7 @@ export const formSchema: FormSchema[] = [
     field: 'scLatestReferrerHost',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入最近一次站外域名!' }];
+      return [{ required: false, message: '请输入最近一次站外域名!' }];
     },
   },
   {
@@ -1325,7 +1266,7 @@ export const formSchema: FormSchema[] = [
     field: 'scLatestLandingPage',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入最近一次落地页!' }];
+      return [{ required: false, message: '请输入最近一次落地页!' }];
     },
   },
   {
@@ -1333,7 +1274,7 @@ export const formSchema: FormSchema[] = [
     field: 'scLatestScene',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入最近一次启动场景!' }];
+      return [{ required: false, message: '请输入最近一次启动场景!' }];
     },
   },
   {
@@ -1341,7 +1282,7 @@ export const formSchema: FormSchema[] = [
     field: 'scLatestShareMethod',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入最近一次分享时途径!' }];
+      return [{ required: false, message: '请输入最近一次分享时途径!' }];
     },
   },
   {
@@ -1349,37 +1290,14 @@ export const formSchema: FormSchema[] = [
     field: 'scBotName',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入爬虫名称!' }];
+      return [{ required: false, message: '请输入爬虫名称!' }];
     },
   },
-  {
-    label: '是否机刷',
-    field: 'isMachineBrushTraffic',
-    component: 'Input',
-    dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入是否机刷!' }];
-    },
-  },
-  {
-    label: '时间',
-    field: 'dateCol',
-    component: 'DatePicker',
-    dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入时间!' }];
-    },
-  },
-  {
-    label: '日期分区',
-    field: 'ds',
-    component: 'Input',
-    dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入日期分区!' }];
-    },
-  },
+
   // TODO 主键隐藏字段，目前写死为ID
   {
     label: '',
-    field: 'id',
+    field: 'uk',
     component: 'Input',
     show: false,
   },

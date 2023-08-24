@@ -11,6 +11,7 @@ export const columns: BasicColumn[] = [
     align: 'center',
     dataIndex: 'uk',
     ifShow: false,
+    sorter: true,
   },
   {
     title: '时间',
@@ -19,30 +20,35 @@ export const columns: BasicColumn[] = [
     customRender: ({ value }) => {
       return !value ? '' : formatTSToDateTime(Number(value));
     },
+    sorter: true,
   },
   {
-    title: '用户编号',
+    title: '用户唯一编号',
     align: 'center',
     dataIndex: 'distinctId',
-    helpMessage: '用户标识编号，若用户登录，则此编号为用户号，反之则为设备号',
+    helpMessage: '用户唯一编号，若用户登录，则此编号为用户号，反之则为设备号',
+    sorter: true,
   },
   {
     title: 'USER_ID',
     align: 'center',
     dataIndex: 'loginId',
     helpMessage: '用户编号，若登录，则为用户编号，否则为空',
+    sorter: true,
   },
   {
     title: '事件名',
     align: 'center',
     dataIndex: 'event',
     helpMessage: '埋点事件名称',
+    sorter: true,
   },
   {
     title: '事件中文名',
     align: 'center',
     dataIndex: 'eventZhName',
     helpMessage: '埋点事件中文名',
+    sorter: true,
   },
   {
     title: '访问链接',
@@ -50,6 +56,7 @@ export const columns: BasicColumn[] = [
     dataIndex: 'scUrl',
     customRender: render.renderHref,
     helpMessage: '当前访问链接地址',
+    sorter: true,
   },
   {
     title: '上一个链接',
@@ -57,6 +64,7 @@ export const columns: BasicColumn[] = [
     dataIndex: 'scReferrer',
     customRender: render.renderHref,
     helpMessage: '当前访问链接上一个地址',
+    sorter: true,
   },
   {
     title: '首日访问',
@@ -65,6 +73,7 @@ export const columns: BasicColumn[] = [
     slots: { customRender: 'status' },
     width: 100,
     helpMessage: '是否第一天访问，若用户是第一天访问，则是首日访问，反之不是',
+    sorter: true,
   },
   {
     title: '首次触发',
@@ -73,12 +82,14 @@ export const columns: BasicColumn[] = [
     slots: { customRender: 'status' },
     width: 100,
     helpMessage: '是否首次触发，若用户首次触发此事件，则为是，反之不是',
+    sorter: true,
   },
   {
     title: '行为类型',
     align: 'center',
     dataIndex: 'type',
     width: 100,
+    sorter: true,
   },
   {
     title: '事件时长',
@@ -86,6 +97,7 @@ export const columns: BasicColumn[] = [
     dataIndex: 'scEventDuration',
     width: 100,
     helpMessage: '事件访问时长，单位为s',
+    sorter: true,
   },
   {
     title: '页面名称或标题',
@@ -98,48 +110,56 @@ export const columns: BasicColumn[] = [
       return record.scScreenName;
     },
     helpMessage: '页面名称或标题',
+    sorter: true,
   },
   {
     title: 'IP',
     align: 'center',
     dataIndex: 'ip',
     helpMessage: '访问用户IP地址',
+    sorter: true,
   },
   {
     title: 'IP归属洲',
     align: 'center',
     dataIndex: 'ipContinentNames',
     helpMessage: 'IP归属洲',
+    sorter: true,
   },
   {
     title: 'IP归属国家',
     align: 'center',
     dataIndex: 'ipCountryName',
     helpMessage: 'IP归属国家',
+    sorter: true,
   },
   {
     title: 'IP归属城市',
     align: 'center',
     dataIndex: 'ipCityName',
     helpMessage: 'IP归属城市',
+    sorter: true,
   },
   {
     title: '广告渠道',
     align: 'center',
     dataIndex: 'scLatestUtmSource',
     helpMessage: '广告流量来源渠道',
+    sorter: true,
   },
   {
     title: '广告名称',
     align: 'center',
     dataIndex: 'scLatestUtmCampaign',
     helpMessage: '投流excel中配置广告系列名称',
+    sorter: true,
   },
   {
     title: '广告媒介',
     align: 'center',
     dataIndex: 'scLatestUtmMedium',
     helpMessage: '投流excel中配置广告媒介',
+    sorter: true,
   },
 
   {
@@ -147,24 +167,28 @@ export const columns: BasicColumn[] = [
     align: 'center',
     dataIndex: 'scLatestUtmTerm',
     helpMessage: '投流excel中配置广告关键词',
+    sorter: true,
   },
   {
     title: '广告系列内容',
     align: 'center',
     dataIndex: 'scLatestUtmContent',
     helpMessage: '投流excel中配置广告内容',
+    sorter: true,
   },
   {
     title: '最近一次流量来源站外类型',
     align: 'center',
     dataIndex: 'scLatestTrafficSourceType',
     helpMessage: '流量来源站外类型',
+    sorter: true,
   },
   {
     title: '最近一次站外搜索引擎关键词',
     align: 'center',
     dataIndex: 'scLatestSearchKeyword',
     helpMessage: '若流量是搜索引擎来的，用户搜索关键词',
+    sorter: true,
   },
   {
     title: '最近一次站外地址',
@@ -172,12 +196,14 @@ export const columns: BasicColumn[] = [
     dataIndex: 'scLatestReferrer',
     customRender: render.renderHref,
     helpMessage: '最近一次站外地址',
+    sorter: true,
   },
   {
     title: '最近一次站外域名',
     align: 'center',
     dataIndex: 'scLatestReferrerHost',
     helpMessage: '最近一次站外域名',
+    sorter: true,
   },
   {
     title: '最近一次落地页',
@@ -185,114 +211,133 @@ export const columns: BasicColumn[] = [
     dataIndex: 'scLatestLandingPage',
     customRender: render.renderHref,
     helpMessage: '最近一次落地页',
+    sorter: true,
   },
   {
     title: '最近一次启动场景',
     align: 'center',
     dataIndex: 'scLatestScene',
     helpMessage: '最近一次启动场景，此为在APP或小程序中存在',
+    sorter: true,
   },
   {
     title: '页面路径',
     align: 'center',
     dataIndex: 'scUrlPath',
     helpMessage: '页面路径',
+    sorter: true,
   },
   {
     title: '运营商',
     align: 'center',
     dataIndex: 'scCarrier',
     helpMessage: 'IP解析运营商',
+    sorter: true,
   },
   {
     title: '网络类型',
     align: 'center',
     dataIndex: 'scNetworkType',
     helpMessage: '客户端网络类型',
+    sorter: true,
   },
   {
     title: '设备品牌',
     align: 'center',
     dataIndex: 'scBrand',
     helpMessage: '客户端设备品牌',
+    sorter: true,
   },
   {
     title: '设备制造商',
     align: 'center',
     dataIndex: 'scManufacturer',
     helpMessage: '客户端设备制造商',
+    sorter: true,
   },
   {
     title: '机型',
     align: 'center',
     dataIndex: 'scModel',
     helpMessage: '客户端机型',
+    sorter: true,
   },
   {
     title: '操作系统',
     align: 'center',
     dataIndex: 'scOs',
     helpMessage: '客户端操作系统',
+    sorter: true,
   },
   {
     title: '操作系统版本',
     align: 'center',
     dataIndex: 'scOsVersion',
     helpMessage: '客户端操作系统版本',
+    sorter: true,
   },
   {
     title: 'APP名称',
     align: 'center',
     dataIndex: 'scAppName',
     helpMessage: '客户端APP名称',
+    sorter: true,
   },
   {
     title: 'APP版本',
     align: 'center',
     dataIndex: 'scAppVersion',
     helpMessage: '客户端APP版本',
+    sorter: true,
   },
   {
     title: 'UA',
     align: 'center',
     dataIndex: 'userAgent',
     helpMessage: '客户端浏览器UA地址',
+    sorter: true,
   },
   {
     title: '浏览器解析平台类型',
     align: 'center',
     dataIndex: 'uaPlatform',
     helpMessage: '浏览器解析平台类型',
+    sorter: true,
   },
   {
     title: '浏览器解析浏览器',
     align: 'center',
     dataIndex: 'uaBrowser',
     helpMessage: '浏览器解析浏览器',
+    sorter: true,
   },
   {
     title: '浏览器版本',
     align: 'center',
     dataIndex: 'uaVersion',
     helpMessage: '浏览器版本',
+    sorter: true,
   },
   {
     title: '浏览器语言',
     align: 'center',
     dataIndex: 'uaLanguage',
     helpMessage: 'UA解析浏览器语言',
+    sorter: true,
   },
   {
     title: '自治系统组织名',
     align: 'center',
     dataIndex: 'autonomousSystemOrganization',
     helpMessage: 'IP地址自治系统组织名',
+    sorter: true,
   },
   {
     title: 'IP运营商',
     align: 'center',
     dataIndex: 'scIpIsp',
     helpMessage: 'IP运营商',
+    sorter: true,
   },
   {
     title: '经度',
@@ -300,6 +345,7 @@ export const columns: BasicColumn[] = [
     dataIndex: 'latitude',
     width: 80,
     helpMessage: 'IP地址经度',
+    sorter: true,
   },
   {
     title: '纬度',
@@ -307,18 +353,21 @@ export const columns: BasicColumn[] = [
     dataIndex: 'longitude',
     width: 80,
     helpMessage: 'IP地址纬度',
+    sorter: true,
   },
   {
     title: 'SDK插件版本号',
     align: 'center',
     dataIndex: 'scLibPluginVersion',
     helpMessage: 'SDK插件版本号，SDK插件上报版本号',
+    sorter: true,
   },
   {
     title: '最近一次分享时途径',
     align: 'center',
     dataIndex: 'scLatestShareMethod',
     helpMessage: '最近一次分享时途径',
+    sorter: true,
   },
   {
     title: '机刷',
@@ -326,24 +375,28 @@ export const columns: BasicColumn[] = [
     dataIndex: 'isMachineBrushTraffic',
     slots: { customRender: 'machineBrushStatus' },
     helpMessage: '是否机刷流量',
+    sorter: true,
   },
   {
     title: '埋点项目',
     align: 'center',
     dataIndex: 'project',
     helpMessage: '埋点上报项目地址',
+    sorter: true,
   },
   {
     title: '语言',
     align: 'center',
     dataIndex: 'platformLang',
     helpMessage: '访问语言',
+    sorter: true,
   },
   {
     title: '客户端',
     align: 'center',
     dataIndex: 'platformType',
     helpMessage: '访问客户端',
+    sorter: true,
   },
 ];
 //查询数据
@@ -378,10 +431,10 @@ export const searchFormSchema: FormSchema[] = [
     },
   },
   {
-    label: '用户编号',
+    label: '用户唯一编号',
     field: 'distinctId',
     component: 'Input',
-    helpMessage: ['请输入用户编号'],
+    helpMessage: ['请输入用户唯一编号'],
     show: true,
     colProps: {
       span: 12,
@@ -408,14 +461,23 @@ export const searchFormSchema: FormSchema[] = [
     },
   },
   {
-    label: '事件',
-    field: 'event',
-    component: 'Input',
-    helpMessage: ['请输入埋点事件名称'],
-    show: true,
-    colProps: {
-      span: 12,
+    label: '事件名',
+    field: 'name',
+    // component: 'JSearchSelect',
+    component: 'JDictSelectTag',
+    helpMessage: ['请选择事件名称场景'],
+    componentProps: ({ schema, tableAction, formActionType, formModel }) => {
+      let sqlPreTpl = 'et_event,name,name,1=1 ';
+      if (formModel.scene) {
+        sqlPreTpl = sqlPreTpl + " and scene = '" + formModel.scene + "'";
+      }
+      sqlPreTpl += ' group by name';
+      return {
+        dictCode: sqlPreTpl,
+        // dict: 'et_event,name,name',
+      };
     },
+    colProps: { span: 6 },
   },
   {
     label: 'IP',

@@ -26,16 +26,6 @@
       <template #action="{ record }">
         <TableAction :actions="getTableAction(record)" :dropDownActions="getDropDownAction(record)" />
       </template>
-      <!--状态显示栏-->
-      <template #status="{ record, text }">
-        <a-tag color="pink" v-if="text == 0">禁用</a-tag>
-        <a-tag color="#87d068" v-if="text == 1">启用</a-tag>
-      </template>
-      <!--machineBrush-->
-      <template #machineBrushStatus="{ record, text }">
-        <a-tag color="pink" v-if="text == 'Y'">是</a-tag>
-        <a-tag color="#87d068" v-if="text == 'N'">否</a-tag>
-      </template>
       <!--字段回显插槽-->
       <template #htmlSlot="{ text }">
         <div v-html="text"></div>
@@ -44,24 +34,29 @@
       <template #pcaSlot="{ text }">
         {{ getAreaTextByCode(text) }}
       </template>
+      <!--状态显示栏-->
+      <template #status="{ record, text }">
+        <a-tag color="#87d068" v-if="text === 'true'">是</a-tag>
+        <a-tag color="pink" v-if="text === 'false' || text === ''">否</a-tag>
+      </template>
       <template #fileSlot="{ text }">
         <span v-if="!text" style="font-size: 12px; font-style: italic">无文件</span>
         <a-button v-else :ghost="true" type="primary" preIcon="ant-design:download-outlined" size="small" @click="downloadFile(text)">下载</a-button>
       </template>
     </BasicTable>
     <!-- 表单区域 -->
-    <MaPositionModal @register="registerModal" @success="handleSuccess" />
+    <EtEventLocalModal @register="registerModal" @success="handleSuccess" />
   </div>
 </template>
 
-<script lang="ts" name="ma-maPosition" setup>
+<script lang="ts" name="et-etEventLocal" setup>
   import { ref, computed, unref } from 'vue';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { useModal } from '/@/components/Modal';
   import { useListPage } from '/@/hooks/system/useListPage';
-  import MaPositionModal from './components/MaPositionModal.vue';
-  import { columns, searchFormSchema } from './MaPosition.data';
-  import { list, deleteOne, batchDelete, getImportUrl, getExportUrl } from './MaPosition.api';
+  import EtEventLocalModal from './components/EtEventLocalModal.vue';
+  import { columns, searchFormSchema } from './EtEventLocal.data';
+  import { list, deleteOne, batchDelete, getImportUrl, getExportUrl } from './EtEventLocal.api';
   import { downloadFile } from '/@/utils/common/renderUtils';
   const checkedKeys = ref<Array<string | number>>([]);
   //注册model
@@ -69,7 +64,7 @@
   //注册table数据
   const { prefixCls, tableContext, onExportXls, onImportXls } = useListPage({
     tableProps: {
-      title: '活动点位',
+      title: 'CK中实时埋点事件',
       api: list,
       columns,
       canResize: false,
@@ -87,7 +82,7 @@
       },
     },
     exportConfig: {
-      name: '活动点位',
+      name: 'CK中实时埋点事件',
       url: getExportUrl,
     },
     importConfig: {

@@ -132,10 +132,10 @@ const render = {
    * @param text
    */
   renderHref: ({ text }) => {
-    if (!text) {
+    if (!text || text === '直接打开') {
       return '';
     }
-    const len = 20;
+    const len = 100;
     if (text.length > len) {
       text = text.substr(0, len);
     }

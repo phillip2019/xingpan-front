@@ -405,7 +405,7 @@ export const columns: BasicColumn[] = [
 //查询数据
 export const searchFormSchema: FormSchema[] = [
   {
-    label: '创建时间',
+    label: '时间',
     field: 'createdAtArr',
     component: 'RangePicker',
     componentProps: {
@@ -414,7 +414,7 @@ export const searchFormSchema: FormSchema[] = [
       valueFormat: 'YYYY-MM-DD HH:mm:ss',
       defaultValue: [dayjs().startOf('day').format('YYYY-MM-DD 00:00:00'), dayjs().format('YYYY-MM-DD 23:59:59')],
     },
-    helpMessage: ['请选择事件时间'],
+    helpMessage: ['请选择事件查询时间'],
     show: true,
     colProps: {
       span: 12,

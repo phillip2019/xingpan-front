@@ -684,6 +684,9 @@ export const formSchema: FormSchema[] = [
     dynamicRules: ({ model, schema }) => {
       return [{ required: true, message: '请输入属性!' }];
     },
+    colProps: {
+      span: 24,
+    },
   },
   {
     label: 'USER_ID',
@@ -693,7 +696,7 @@ export const formSchema: FormSchema[] = [
       return [{ required: false, message: '请输入用户id!' }];
     },
   },
-    {
+  {
     label: '是否机刷',
     field: 'isMachineBrushTraffic',
     component: 'Input',

@@ -141,7 +141,7 @@ export const formSchema: FormSchema[] = [
   {
     label: '项目描述',
     field: 'projectDesc',
-    component: 'InputTextArea',
+    component: 'JMarkdownEditor',
     dynamicRules: ({ model, schema }) => {
       return [{ required: true, message: '请输入项目描述!' }];
     },

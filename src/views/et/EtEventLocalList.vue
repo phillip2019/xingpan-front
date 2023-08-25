@@ -1,7 +1,7 @@
 <template>
   <div>
     <!--引用表格-->
-    <BasicTable @register="registerTable" @row-dbClick="doubleClick">
+    <BasicTable @register="registerTable" @row-dbClick="doubleClick" :scroll="{y: 740 }">
       <!--插槽:table标题-->
       <template #tableTitle>
         <!--<a-button type="primary" preIcon="ant-design:export-outlined" @click="onExportXls"> 导出</a-button>-->

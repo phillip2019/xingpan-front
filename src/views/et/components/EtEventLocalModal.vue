@@ -27,7 +27,6 @@ import { formatTSToDateTime } from '/@/utils/dateUtil';
     await resetFields();
     isUpdate.value = !!data?.isUpdate;
     const createTime = data.record['createTime'];
-    console.log(unref(isUpdate));
     if (unref(isUpdate)) {
       //表单赋值
       await setFieldsValue({
@@ -39,7 +38,7 @@ import { formatTSToDateTime } from '/@/utils/dateUtil';
     setProps({ disabled: !data?.showFooter });
   });
   //设置标题
-  const title = computed(() => (!unref(isUpdate) ? '新增' : '编辑'));
+  const title = '查看';
   //表单提交事件
   async function handleSubmit(v) {
     try {

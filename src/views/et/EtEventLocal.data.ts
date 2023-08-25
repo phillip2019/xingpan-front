@@ -28,6 +28,7 @@ export const columns: BasicColumn[] = [
     align: 'center',
     dataIndex: 'distinctId',
     helpMessage: '用户唯一编号，若用户登录，则此编号为用户号，反之则为设备号',
+    slots: { customRender: 'copySlot' },
     sorter: true,
   },
   {
@@ -36,6 +37,7 @@ export const columns: BasicColumn[] = [
     dataIndex: 'loginId',
     helpMessage: '用户编号，若登录，则为用户编号，否则为空',
     sorter: true,
+    slots: { customRender: 'copySlot' },
   },
   {
     title: '事件名',

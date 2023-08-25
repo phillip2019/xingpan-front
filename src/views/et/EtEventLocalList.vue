@@ -30,6 +30,10 @@
       <template #htmlSlot="{ text }">
         <div v-html="text"></div>
       </template>
+      <!--可复制插槽: copySlot-->
+      <template #copySlot="{ text }">
+        <span @click="handleClipboardCopy(text)">{{ text }}</span>
+      </template>
       <!--省市区字段回显插槽-->
       <template #pcaSlot="{ text }">
         {{ getAreaTextByCode(text) }}
@@ -59,6 +63,9 @@
   import { columns, searchFormSchema } from './EtEventLocal.data';
   import { list, deleteOne, batchDelete, getImportUrl, getExportUrl } from './EtEventLocal.api';
   import { downloadFile } from '/@/utils/common/renderUtils';
+  import clipboard from 'clipboard';
+  import { message } from 'ant-design-vue';
+
   const checkedKeys = ref<Array<string | number>>([]);
 
   const [registerModal, { openDrawer: openModal }] = useDrawer();
@@ -170,6 +177,15 @@
         },
       },
     ];
+  }
+
+  /**
+   * 属性成功回调
+   */
+  function handleClipboardCopy(value) {
+    // 使用 clipboard 插件复制值
+    clipboard.copy(value);
+    message.success('复制成功');
   }
 
   /**

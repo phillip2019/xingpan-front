@@ -116,9 +116,9 @@
    * 详情
    */
   function handleDetail(record: Recordable) {
-    openModal(true, {
+    openModal(false, {
       record,
-      isUpdate: false,
+      isUpdate: true,
       showFooter: false,
     });
   }

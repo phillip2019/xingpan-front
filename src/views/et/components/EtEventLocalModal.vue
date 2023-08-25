@@ -27,6 +27,7 @@ import { formatTSToDateTime } from '/@/utils/dateUtil';
     await resetFields();
     isUpdate.value = !!data?.isUpdate;
     const createTime = data.record['createTime'];
+    console.log(unref(isUpdate));
     if (unref(isUpdate)) {
       //表单赋值
       await setFieldsValue({

@@ -107,10 +107,14 @@ export const columns: BasicColumn[] = [
     align: 'center',
     dataIndex: 'scTitle',
     customRender: ({ text, record }) => {
+      let title = record.scScreenName;
       if (record.scTitle) {
-        return record.scTitle;
+        title = record.scTitle;
       }
-      return record.scScreenName;
+      if (title.length > 20) {
+        title = title.substring(0, 20) + '...'; // 截取字符串
+      }
+      return title;
     },
     helpMessage: '页面名称或标题',
     sorter: true,

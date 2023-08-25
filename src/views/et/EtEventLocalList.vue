@@ -1,7 +1,7 @@
 <template>
   <div>
     <!--引用表格-->
-    <BasicTable @register="registerTable" @row-dbClick="doubleClick" :scroll="{y: 740 }">
+    <BasicTable @register="registerTable" @row-dbClick="doubleClick" :scroll="{ y: 740 }">
       <!--插槽:table标题-->
       <template #tableTitle>
         <!--<a-button type="primary" preIcon="ant-design:export-outlined" @click="onExportXls"> 导出</a-button>-->
@@ -23,7 +23,7 @@
       </template>
       <!--可复制插槽: copySlot-->
       <template #copySlot="{ text }">
-        <span @click="handleClipboardCopy(text)">{{ text }}</span>
+        <JEllipsis :value="text" :length="20" @click="handleClipboardCopy(text)" />
       </template>
       <!--省市区字段回显插槽-->
       <template #pcaSlot="{ text }">
@@ -56,6 +56,7 @@
   import { downloadFile } from '/@/utils/common/renderUtils';
   import clipboard from 'clipboard';
   import { message } from 'ant-design-vue';
+  import { JEllipsis } from '/@/components/Form';
 
   const checkedKeys = ref<Array<string | number>>([]);
 

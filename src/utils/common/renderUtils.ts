@@ -135,11 +135,13 @@ const render = {
     if (!text || text === '直接打开') {
       return '';
     }
-    const len = 100;
+    let showText = '';
+    const len = 50;
     if (text.length > len) {
-      text = text.substr(0, len);
+      showText = text.substr(0, len);
+      showText = showText.replace('https://', '').replace('http://', '');
     }
-    return h('a', { href: text, target: '_blank' }, text);
+    return h('a', { href: text, target: '_blank' }, showText);
   },
   /**
    * 渲染a标签

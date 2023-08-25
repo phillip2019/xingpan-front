@@ -435,6 +435,20 @@ export const searchFormSchema: FormSchema[] = [
     colProps: { span: 6 },
   },
   {
+    label: '语言',
+    field: 'platformLang',
+    component: 'JDictSelectTag',
+    helpMessage: ['请选择平台语言'],
+    componentProps: ({ schema, tableAction, formActionType, formModel }) => {
+      let sqlPreTpl = 'et_platform_site_code,platform_lang,platform_lang,1=1 ';
+      sqlPreTpl += ' group by platform_lang';
+      return {
+        dictCode: sqlPreTpl,
+      };
+    },
+    colProps: { span: 6 },
+  },
+  {
     label: '用户唯一编号',
     field: 'distinctId',
     component: 'Input',
@@ -471,7 +485,7 @@ export const searchFormSchema: FormSchema[] = [
     component: 'JDictSelectTag',
     helpMessage: ['请选择事件名称场景'],
     componentProps: ({ schema, tableAction, formActionType, formModel }) => {
-      let sqlPreTpl = 'et_event,name,name,1=1 ';
+      let sqlPreTpl = 'et_event,max(zh_name),name,1=1 ';
       if (formModel.scene) {
         sqlPreTpl = sqlPreTpl + " and scene = '" + formModel.scene + "'";
       }
@@ -577,15 +591,15 @@ export const searchFormSchema: FormSchema[] = [
     label: '项目',
     field: 'project',
     component: 'JDictSelectTag',
-    helpMessage: ['请选择项目'],
-    defaultValue: 'chinagoods',
-    componentProps: {
-      dictCode: 'et_project',
+    helpMessage: ['请选择事件名称场景'],
+    componentProps: ({ schema, tableAction, formActionType, formModel }) => {
+      let sqlPreTpl = 'et_platform_site_code,project,project,1=1 ';
+      sqlPreTpl += ' group by project';
+      return {
+        dictCode: sqlPreTpl,
+      };
     },
-    show: true,
-    colProps: {
-      span: 12,
-    },
+    colProps: { span: 6 },
   },
 ];
 //表单数据

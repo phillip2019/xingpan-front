@@ -1,4 +1,6 @@
 import type { FunctionArgs } from '@vueuse/core';
+import { message } from 'ant-design-vue';
+import clipboard from 'clipboard';
 import { upperFirst } from 'lodash-es';
 
 export interface ViewportOffsetResult {

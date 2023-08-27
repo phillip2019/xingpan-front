@@ -1,5 +1,5 @@
 import { h } from 'vue';
-import { Avatar, Tag, Tooltip } from 'ant-design-vue';
+import { Avatar, Tag, Tooltip, message } from 'ant-design-vue';
 import { getFileAccessHttpUrl } from '/@/utils/common/compUtils';
 import { Tinymce } from '/@/components/Tinymce';
 import Icon from '/@/components/Icon';
@@ -7,6 +7,8 @@ import { getDictItemsByCode } from '/@/utils/dict/index';
 import { filterMultiDictText } from '/@/utils/dict/JDictSelectUtil.js';
 import { isEmpty } from '/@/utils/is';
 import { useMessage } from '/@/hooks/web/useMessage';
+import clipboard from 'clipboard';
+import { copyValue } from '../domUtils';
 const { createMessage } = useMessage();
 
 const render = {
@@ -132,6 +134,21 @@ const render = {
    * @param text
    */
   renderHref: ({ text }) => {
+    if (!text || text === '直接打开') {
+      return '';
+    }
+    const showText = text;
+    const len = 20;
+    if (text.length > len) {
+      text = text.substr(0, len);
+    }
+    return h('a', { href: text, target: '_blank' }, showText);
+  },
+  /**
+   * 事件渲染a标签
+   * @param text
+   */
+  renderEventHref: ({ text }) => {
     if (!text || text === '直接打开') {
       return '';
     }

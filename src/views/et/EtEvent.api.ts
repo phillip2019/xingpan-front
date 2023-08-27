@@ -9,6 +9,7 @@ enum Api {
   edit = '/et/etEvent/edit',
   deleteOne = '/et/etEvent/delete',
   deleteBatch = '/et/etEvent/deleteBatch',
+  updateBatch = '/et/etEvent/updateBatch',
   importExcel = '/et/etEvent/importExcel',
   exportXls = '/et/etEvent/exportXls',
 }
@@ -60,4 +61,31 @@ export const batchDelete = (params, handleSuccess) => {
 export const saveOrUpdate = (params, isUpdate) => {
   const url = isUpdate ? Api.edit : Api.save;
   return defHttp.post({ url: url, params });
+};
+
+/**
+ * 批量更新
+ * @param params
+ */
+export const batchUpdate = (params, handleSuccess) => {
+  createConfirm({
+    iconType: 'warning',
+    title: '确认更新',
+    content: '是否更新选中数据',
+    okText: '确认',
+    cancelText: '取消',
+    onOk: () => {
+      return defHttp.put({ url: Api.updateBatch, data: params }, { joinParamsToUrl: true }).then(() => {
+        handleSuccess();
+      });
+    },
+  });
+};
+
+/**
+ * 同步批量更新
+ * @param params
+ */
+export const syncBatchUpdate = (params) => {
+  return defHttp.put({ url: Api.updateBatch, data: params }, { joinParamsToUrl: true });
 };

@@ -18,6 +18,18 @@
         <a-dropdown v-if="selectedRowKeys.length > 0">
           <template #overlay>
             <a-menu>
+              <a-menu-item key="1" @click="batchHandleUpdateOnline" v-if="hasPermission('org.jeecg.modules.demo:et_event:updateBatch')">
+                <Icon icon="ant-design:delete-outlined" />
+                上线
+              </a-menu-item>
+              <a-menu-item key="1" @click="batchHandleUpdateOffline" v-if="hasPermission('org.jeecg.modules.demo:et_event:updateBatch')">
+                <Icon icon="ant-design:delete-outlined" />
+                下线
+              </a-menu-item>
+              <a-menu-item key="1" @click="batchHandleUpdateScene" v-if="hasPermission('org.jeecg.modules.demo:et_event:updateBatch')">
+                <Icon icon="ant-design:delete-outlined" />
+                更改场景名称
+              </a-menu-item>
               <a-menu-item key="1" @click="batchHandleDelete" v-if="hasPermission('org.jeecg.modules.demo:et_event:deleteBatch')">
                 <Icon icon="ant-design:delete-outlined" />
                 删除
@@ -44,12 +56,16 @@
       </template>
       <!--客户端显示栏-->
       <template #clientNameTag="{ record, text }">
-        <a-tag color="green" v-if="text.includes('pc')">pc</a-tag>
-        <a-tag color="blue" v-if="text.includes('wap')">wap</a-tag>
-        <a-tag color="grey" v-if="text.includes('Android')">Android</a-tag>
-        <a-tag color="red" v-if="text.includes('ios')">ios</a-tag>
-        <a-tag color="pink" v-if="text.includes('h5')">h5</a-tag>
-        <a-tag color="yellow" v-if="text.includes('mini_programs')">mini_programs</a-tag>
+        <a-tag color="green" v-if="text?.includes('pc')">pc</a-tag>
+        <a-tag color="blue" v-if="text?.includes('wap')">wap</a-tag>
+        <a-tag color="grey" v-if="text?.includes('Android')">Android</a-tag>
+        <a-tag color="red" v-if="text?.includes('ios')">ios</a-tag>
+        <a-tag color="pink" v-if="text?.includes('h5')">h5</a-tag>
+        <a-tag color="yellow" v-if="text?.includes('mini_programs')">mini_programs</a-tag>
+      </template>
+      <!--可复制插槽: copySlot-->
+      <template #copySlot="{ text }">
+        <JEllipsis :value="text" :length="20" @click="handleClipboardCopy(text)" />
       </template>
       <!--字段回显插槽-->
       <template #htmlSlot="{ text }">
@@ -68,6 +84,8 @@
     <EtEventModal @register="registerModal" @success="handleSuccess" />
     <!-- 表单属性区域 -->
     <EtEventPropertyListModal @register="eventPropertyListModal" @success="handleEventPropertyListSuccess" ref="refEventPropertyListModal" />
+    <!--修改场景弹窗-->
+    <ChangeSceneModal @register="changeEventSceneModal" @success="reload" />
   </div>
 </template>
 
@@ -79,14 +97,21 @@
   import EtEventModal from './components/EtEventModal.vue';
   import { useDrawer } from '/@/components/Drawer';
   import EtEventPropertyListModal from './EtEventPropertyListModal.vue';
+  import ChangeSceneModal from './ChangeSceneModal.vue';
   import { columns, searchFormSchema } from './EtEvent.data';
-  import { list, deleteOne, batchDelete, getImportUrl, getExportUrl } from './EtEvent.api';
+  import { list, deleteOne, batchDelete, getImportUrl, getExportUrl, batchUpdate } from './EtEvent.api';
   import { downloadFile } from '/@/utils/common/renderUtils';
   import { usePermission } from '/@/hooks/web/usePermission';
   import { merge } from 'lodash-es';
+  import { JEllipsis } from '/@/components/Form';
+  import { message } from 'ant-design-vue';
+  import clipboard from 'clipboard';
+
   const checkedKeys = ref<Array<string | number>>([]);
   //注册model
   const [registerModal, { openModal: openEventModal }] = useModal();
+  //修改场景名model
+  const [changeEventSceneModal, { openModal: openChangeSceneModal }] = useModal();
   //注册model
   const [eventPropertyListModal, { openDrawer: openEventPropertyListModal }] = useDrawer();
   const { hasPermission } = usePermission();
@@ -181,6 +206,34 @@
     await batchDelete({ ids: selectedRowKeys.value }, handleSuccess);
   }
   /**
+   * 批量上线
+   */
+  async function batchHandleUpdateOnline() {
+    await batchUpdate({ ids: selectedRowKeys.value, status: 2 }, handleSuccess);
+  }
+  /**
+   * 批量下线
+   */
+  async function batchHandleUpdateOffline() {
+    await batchUpdate({ ids: selectedRowKeys.value, status: 3 }, handleSuccess);
+  }
+  /**
+   * 批量更改场景名称
+   */
+  async function batchHandleUpdateScene() {
+    const sceneSet = new Set();
+    for (let rowItem of rowSelection.selectedRows) {
+      sceneSet.add(rowItem.scene);
+    }
+    const sceneStr = [...sceneSet].join(',');
+    if (sceneSet.size > 1) {
+      message.error('批量场景名称不相同，批量修改场景名称必须相同! 当前场景名称为： ' + sceneStr);
+      return;
+    }
+    const ids = [...selectedRowKeys.value].join(',');
+    openChangeSceneModal(true, { ids: ids, oldScene: sceneStr });
+  }
+  /**
    * 成功回调
    */
   function handleSuccess() {
@@ -209,6 +262,15 @@
       },
     ];
   }
+  /**
+   * 属性成功回调
+   */
+  function handleClipboardCopy(value) {
+    // 使用 clipboard 插件复制值
+    clipboard.copy(value);
+    message.success('复制成功');
+  }
+
   /**
    * 下拉操作栏
    */

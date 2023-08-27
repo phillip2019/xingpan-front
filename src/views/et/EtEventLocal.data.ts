@@ -425,34 +425,6 @@ export const searchFormSchema: FormSchema[] = [
     },
   },
   {
-    label: '客户端',
-    field: 'platformType',
-    component: 'JDictSelectTag',
-    helpMessage: ['请选择埋点客户端'],
-    componentProps: ({ schema, tableAction, formActionType, formModel }) => {
-      let sqlPreTpl = 'et_client,name,name,1=1 ';
-      sqlPreTpl += ' group by name';
-      return {
-        dictCode: sqlPreTpl,
-      };
-    },
-    colProps: { span: 6 },
-  },
-  {
-    label: '语言',
-    field: 'platformLang',
-    component: 'JDictSelectTag',
-    helpMessage: ['请选择平台语言'],
-    componentProps: ({ schema, tableAction, formActionType, formModel }) => {
-      let sqlPreTpl = 'et_platform_site_code,platform_lang,platform_lang,1=1 ';
-      sqlPreTpl += ' group by platform_lang';
-      return {
-        dictCode: sqlPreTpl,
-      };
-    },
-    colProps: { span: 6 },
-  },
-  {
     label: '用户唯一编号',
     field: 'distinctId',
     component: 'Input',
@@ -483,6 +455,22 @@ export const searchFormSchema: FormSchema[] = [
     },
   },
   {
+    label: '事件场景',
+    field: 'scene',
+    // component: 'JSearchSelect',
+    component: 'JDictSelectTag',
+    helpMessage: ['请选择事件场景'],
+    componentProps: ({ schema, tableAction, formActionType, formModel }) => {
+      let sqlPreTpl = 'et_event,scene,scene,1=1 ';
+      sqlPreTpl += ' group by scene';
+      return {
+        dictCode: sqlPreTpl,
+        // dict: 'et_event,name,name',
+      };
+    },
+    colProps: { span: 6 },
+  },
+  {
     label: '事件名',
     field: 'event',
     // component: 'JSearchSelect',
@@ -510,6 +498,34 @@ export const searchFormSchema: FormSchema[] = [
     colProps: {
       span: 12,
     },
+  },
+  {
+    label: '客户端',
+    field: 'platformType',
+    component: 'JDictSelectTag',
+    helpMessage: ['请选择埋点客户端'],
+    componentProps: ({ schema, tableAction, formActionType, formModel }) => {
+      let sqlPreTpl = 'et_client,name,name,1=1 ';
+      sqlPreTpl += ' group by name';
+      return {
+        dictCode: sqlPreTpl,
+      };
+    },
+    colProps: { span: 6 },
+  },
+  {
+    label: '语言',
+    field: 'platformLang',
+    component: 'JDictSelectTag',
+    helpMessage: ['请选择平台语言'],
+    componentProps: ({ schema, tableAction, formActionType, formModel }) => {
+      let sqlPreTpl = 'et_platform_site_code,platform_lang,platform_lang,1=1 ';
+      sqlPreTpl += ' group by platform_lang';
+      return {
+        dictCode: sqlPreTpl,
+      };
+    },
+    colProps: { span: 6 },
   },
   {
     label: 'IP所属国家',

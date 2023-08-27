@@ -22,6 +22,8 @@ export const columns: BasicColumn[] = [
     align: 'left',
     dataIndex: 'name',
     sorter: true,
+    width: 200,
+    slots: { customRender: 'copySlot' },
   },
   {
     title: '中文名',
@@ -301,3 +303,45 @@ export function getBpmFormSchema(_formData): FormSchema[] {
   // 默认和原始表单保持一致 如果流程中配置了权限数据，这里需要单独处理formSchema
   return formSchema;
 }
+
+export const changeSceneSchema: FormSchema[] = [
+  {
+    label: '编号',
+    field: 'ids',
+    component: 'Input',
+    required: true,
+    helpMessage: ['编号列表'],
+    componentProps: { readOnly: true },
+    show: false,
+  },
+  {
+    label: '原始场景',
+    field: 'oldScene',
+    component: 'Input',
+    required: true,
+    helpMessage: ['原始事件场景'],
+    componentProps: { readOnly: true },
+  },
+  {
+    label: '新场景',
+    field: 'scene',
+    component: 'Input',
+    helpMessage: ['请输入新场景名称'],
+    dynamicRules: ({ model, schema }) => {
+      return [
+        {
+          required: true,
+          validator: (_, value) => {
+            if (!value) {
+              return Promise.reject('新场景名称不可能为空');
+            }
+            if (value === model.oldScene) {
+              return Promise.reject('新场景名称和老场景名称不能一致!');
+            }
+            return Promise.resolve();
+          },
+        },
+      ];
+    },
+  },
+];

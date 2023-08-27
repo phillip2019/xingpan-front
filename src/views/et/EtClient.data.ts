@@ -152,6 +152,7 @@ export const formSchema: FormSchema[] = [
     label: '移动端',
     field: 'isMobile',
     component: 'Select',
+    defaultValue: 1,
     dynamicRules: ({ model, schema }) => {
       return [{ required: true, message: '请输入是否移动端!' }];
     },

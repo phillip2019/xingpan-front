@@ -273,7 +273,7 @@ export const formSchema: FormSchema[] = [
     label: '状态',
     field: 'status',
     component: 'Select',
-    defaultValue: 1,
+    defaultValue: 2,
     dynamicRules: ({ model, schema }) => {
       return [{ required: true, message: '请选择状态 1-初始化 2-上线 3-下线 4-异常!' }];
     },

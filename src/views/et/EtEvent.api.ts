@@ -7,6 +7,7 @@ enum Api {
   list = '/et/etEvent/list',
   save = '/et/etEvent/add',
   edit = '/et/etEvent/edit',
+  copy = '/et/etEvent/copy',
   deleteOne = '/et/etEvent/delete',
   deleteBatch = '/et/etEvent/deleteBatch',
   updateBatch = '/et/etEvent/updateBatch',
@@ -60,6 +61,15 @@ export const batchDelete = (params, handleSuccess) => {
  */
 export const saveOrUpdate = (params, isUpdate) => {
   const url = isUpdate ? Api.edit : Api.save;
+  return defHttp.post({ url: url, params });
+};
+
+/**
+ * 复制新增
+ * @param params
+ */
+export const copy = (params) => {
+  const url = Api.copy;
   return defHttp.post({ url: url, params });
 };
 

@@ -9,10 +9,11 @@
   import { BasicModal, useModalInner } from '/@/components/Modal';
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { formSchema } from '../EtEvent.data';
-  import { saveOrUpdate } from '../EtEvent.api';
+  import { copy, saveOrUpdate } from '../EtEvent.api';
   // Emits声明
   const emit = defineEmits(['register', 'success']);
   const isUpdate = ref(true);
+  const isCopy = ref(false);
   //表单配置
   const [registerForm, { setProps, resetFields, setFieldsValue, validate }] = useForm({
     //labelWidth: 150,
@@ -26,6 +27,7 @@
     await resetFields();
     setModalProps({ confirmLoading: false, showCancelBtn: !!data?.showFooter, showOkBtn: !!data?.showFooter });
     isUpdate.value = !!data?.isUpdate;
+    isCopy.value = !!data?.isCopy;
     if (unref(isUpdate)) {
       //表单赋值
       await setFieldsValue({
@@ -36,14 +38,24 @@
     setProps({ disabled: !data?.showFooter });
   });
   //设置标题
-  const title = computed(() => (!unref(isUpdate) ? '新增' : '编辑'));
+  const title = computed(() => {
+    if (unref(isCopy)) {
+      return '复制';
+    }
+    return !unref(isUpdate) ? '新增' : '编辑';
+  });
   //表单提交事件
   async function handleSubmit(v) {
     try {
       let values = await validate();
       setModalProps({ confirmLoading: true });
-      //提交表单
-      await saveOrUpdate(values, isUpdate.value);
+      // 复制事件
+      if (unref(isCopy)) {
+        await copy(values);
+      } else {
+        //提交表单
+        await saveOrUpdate(values, isUpdate.value);
+      }
       //关闭弹窗
       closeModal();
       //刷新列表

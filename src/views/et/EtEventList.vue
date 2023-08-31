@@ -131,7 +131,7 @@
         fieldMapToTime: [],
       },
       actionColumn: {
-        width: 120,
+        width: 180,
         fixed: 'right',
       },
     },
@@ -169,6 +169,7 @@
     openEventModal(true, {
       record,
       isUpdate: true,
+      isCopy: false,
       showFooter: true,
     });
   }
@@ -179,7 +180,20 @@
     openEventModal(true, {
       record,
       isUpdate: true,
+      isCopy: false,
       showFooter: false,
+    });
+  }
+
+  /**
+   * 复制
+   */
+  function handleCopy(record: Recordable) {
+    openEventModal(true, {
+      record,
+      isUpdate: true,
+      isCopy: true,
+      showFooter: true,
     });
   }
 
@@ -255,6 +269,11 @@
       return [];
     }
     return [
+      {
+        label: '复制',
+        onClick: handleCopy.bind(null, record),
+        auth: 'org.jeecg.modules.demo:et_event:edit',
+      },
       {
         label: '编辑',
         onClick: handleEdit.bind(null, record),

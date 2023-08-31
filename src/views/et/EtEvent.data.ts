@@ -30,6 +30,7 @@ export const columns: BasicColumn[] = [
     align: 'left',
     dataIndex: 'zhName',
     sorter: true,
+    slots: { customRender: 'copySlot' },
   },
   {
     title: '触发时机',

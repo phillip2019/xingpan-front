@@ -425,6 +425,16 @@ export const searchFormSchema: FormSchema[] = [
     },
   },
   {
+    label: '访问地址',
+    field: 'scUrl',
+    component: 'JInput',
+    helpMessage: ['请输入访问地址，注意，此为模糊搜索'],
+    show: true,
+    colProps: {
+      span: 12,
+    },
+  },
+  {
     label: '用户唯一编号',
     field: 'distinctId',
     component: 'Input',

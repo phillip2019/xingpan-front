@@ -22,7 +22,7 @@ export const columns: BasicColumn[] = [
     align: 'left',
     dataIndex: 'name',
     sorter: true,
-    width: 200,
+    width: 240,
     slots: { customRender: 'copySlot' },
   },
   {
@@ -59,6 +59,7 @@ export const columns: BasicColumn[] = [
     align: 'center',
     dataIndex: 'type',
     sorter: true,
+    width: 80,
     customRender: ({ value }) => {
       const eventTypeArr = ['未知', '前端', '后端'];
       return eventTypeArr[value];
@@ -70,6 +71,7 @@ export const columns: BasicColumn[] = [
     dataIndex: 'status',
     sorter: true,
     slots: { customRender: 'status' },
+    width: 80,
     // customRender: ({ value }) => {
     //   const statusArr = ['未知', '初始化', '上线', '下线', '异常'];
     //   return statusArr[value];

@@ -95,6 +95,11 @@ import { merge } from 'lodash-es';
         width: 120,
         fixed: 'right',
       },
+      pagination: {
+        current: 1,
+        pageSize: 30,
+        pageSizeOptions: ['30', '60', '90'],
+      },
       beforeFetch: (params) => {
         // 默认以 createTime 降序排序
         merge(params, { column: 'sorted', order: 'asc' });

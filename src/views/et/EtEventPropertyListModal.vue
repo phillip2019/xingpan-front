@@ -64,6 +64,7 @@
   import { list, deleteOne, batchDelete, getImportUrl, getExportUrl } from './EtEventProperty.api';
   import { downloadFile } from '/@/utils/common/renderUtils';
   import { merge } from 'lodash-es';
+  import { JEllipsis } from '/@/components/Form';
   import clipboard from 'clipboard';
   import { message } from 'ant-design-vue';
   // Emits声明

@@ -16,7 +16,7 @@ export const columns: BasicColumn[] = [
     align: 'right',
     dataIndex: 'sorted',
     sorter: true,
-    width: 80,
+    width: 60,
   },
   {
     title: '属性名',

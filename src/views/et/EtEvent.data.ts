@@ -22,7 +22,7 @@ export const columns: BasicColumn[] = [
     align: 'left',
     dataIndex: 'name',
     sorter: true,
-    width: 200,
+    width: 240,
     slots: { customRender: 'copySlot' },
   },
   {
@@ -59,6 +59,7 @@ export const columns: BasicColumn[] = [
     align: 'center',
     dataIndex: 'type',
     sorter: true,
+    width: 80,
     customRender: ({ value }) => {
       const eventTypeArr = ['未知', '前端', '后端'];
       return eventTypeArr[value];
@@ -70,6 +71,7 @@ export const columns: BasicColumn[] = [
     dataIndex: 'status',
     sorter: true,
     slots: { customRender: 'status' },
+    width: 80,
     // customRender: ({ value }) => {
     //   const statusArr = ['未知', '初始化', '上线', '下线', '异常'];
     //   return statusArr[value];
@@ -110,6 +112,13 @@ export const searchFormSchema: FormSchema[] = [
   {
     label: '事件名',
     field: 'name',
+    component: 'JInput',
+    colProps: { span: 4 },
+    helpMessage: ['请输入事件名过滤，支持模糊搜索'],
+  },
+  {
+    label: '事件名',
+    field: 'name2',
     // component: 'JSearchSelect',
     component: 'JDictSelectTag',
     helpMessage: ['请选择事件名称场景'],
@@ -144,6 +153,23 @@ export const searchFormSchema: FormSchema[] = [
         { label: '上线', value: 2 },
         { label: '下线', value: 3 },
         { label: '异常', value: 4 },
+      ],
+    },
+    colProps: { span: 6 },
+    helpMessage: ['请选择事件状态过滤'],
+  },
+  {
+    label: '客户端',
+    field: 'clientName',
+    component: 'Select',
+    componentProps: {
+      options: [
+        { label: 'pc', value: 'pc' },
+        { label: 'Android', value: 'Android' },
+        { label: 'ios', value: 'ios' },
+        { label: 'wap', value: 'wap' },
+        { label: 'web', value: 'web' },
+        { label: 'mini_programs', value: 'mini_programs' },
       ],
     },
     colProps: { span: 6 },

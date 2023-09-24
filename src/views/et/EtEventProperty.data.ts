@@ -23,6 +23,8 @@ export const columns: BasicColumn[] = [
     align: 'left',
     dataIndex: 'name',
     sorter: true,
+    width: 200,
+    slots: { customRender: 'copySlot' },
   },
   {
     title: '属性中文名',

@@ -32,6 +32,10 @@
         <template #action="{ record }">
           <TableAction :actions="getTableAction(record)" :dropDownActions="getDropDownAction(record)" />
         </template>
+        <!--可复制插槽: copySlot-->
+        <template #copySlot="{ text }">
+          <JEllipsis :value="text" :length="20" @click="handleClipboardCopy(text)" />
+        </template>
         <!--字段回显插槽-->
         <template #htmlSlot="{ text }">
           <div v-html="text"></div>
@@ -59,7 +63,9 @@
   import { columns, searchFormSchema, formSchema, getBpmFormSchema } from './EtEventProperty.data';
   import { list, deleteOne, batchDelete, getImportUrl, getExportUrl } from './EtEventProperty.api';
   import { downloadFile } from '/@/utils/common/renderUtils';
-import { merge } from 'lodash-es';
+  import { merge } from 'lodash-es';
+  import clipboard from 'clipboard';
+  import { message } from 'ant-design-vue';
   // Emits声明
   const emit = defineEmits(['success', 'register']);
   const eventId = ref('');
@@ -176,6 +182,14 @@ import { merge } from 'lodash-es';
         onClick: handleEdit.bind(null, record),
       },
     ];
+  }
+  /**
+   * 属性成功回调
+   */
+  function handleClipboardCopy(value) {
+    // 使用 clipboard 插件复制值
+    clipboard.copy(value);
+    message.success('复制成功');
   }
   /**
    * 下拉操作栏

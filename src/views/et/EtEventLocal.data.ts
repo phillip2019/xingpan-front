@@ -435,6 +435,16 @@ export const searchFormSchema: FormSchema[] = [
     },
   },
   {
+    label: '属性',
+    field: 'properties',
+    component: 'JInput',
+    helpMessage: ['请输入属性，此为模糊搜索'],
+    show: true,
+    colProps: {
+      span: 12,
+    },
+  },
+  {
     label: '用户唯一编号',
     field: 'distinctId',
     component: 'Input',

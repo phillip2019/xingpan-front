@@ -35,10 +35,10 @@ import { dateUtil } from '/@/utils/dateUtil';
     } else {
       const nowTime = dateUtil().format();
       await setFieldsValue({
-        // 上周二
-        beginDate: dateUtil(nowTime).subtract(1, 'week').startOf('week').add(1, 'day').format('YYYY-MM-DD'),
-        // 本周一
-        endDate: dateUtil(nowTime).startOf('week').add(0, 'day').format('YYYY-MM-DD'),
+        // 上周一
+        beginDate: dateUtil(nowTime).subtract(1, 'week').startOf('week').add(0, 'day').format('YYYY-MM-DD'),
+        // 上周末
+        endDate: dateUtil(nowTime).subtract(1, 'week').startOf('week').add(6, 'day').format('YYYY-MM-DD'),
       });
     }
     // 隐藏底部时禁用整个表单

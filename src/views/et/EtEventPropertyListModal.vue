@@ -27,6 +27,12 @@
               <Icon icon="mdi:chevron-down" />
             </a-button>
           </a-dropdown>
+          <a-tooltip placement="topLeft" :title="eventTriggerTiming">
+            <a-button @click="handleClipboardCopy(eventName)">{{ eventName }}</a-button>
+          </a-tooltip>
+          <a-tooltip placement="topLeft" :title="eventTriggerTiming">
+            <a-button @click="handleClipboardCopy(eventZhName)">{{ eventZhName }}</a-button>
+          </a-tooltip>
         </template>
         <!--操作栏-->
         <template #action="{ record }">
@@ -38,7 +44,7 @@
         </template>
         <!--字段回显插槽-->
         <template #htmlSlot="{ text }">
-          <div v-html="text"></div>
+          <div>{{ text }}</div>
         </template>
         <template #fileSlot="{ text }">
           <span v-if="!text" style="font-size: 12px; font-style: italic">无文件</span>
@@ -69,10 +75,18 @@
   import { message } from 'ant-design-vue';
   // Emits声明
   const emit = defineEmits(['success', 'register']);
+  const eventObj = ref();
   const eventId = ref('');
+  const eventName = ref('');
+  const eventZhName = ref('');
+  const eventTriggerTiming = ref('');
   //父组件向子组件传递参数，初始化子组件
   const [eventPropertyListModal, { setModalProps, closeModal }] = useDrawerInner(async (data) => {
     eventId.value = data.record['id'];
+    eventName.value = data.record['name'];
+    eventZhName.value = data.record['zhName'];
+    eventTriggerTiming.value = data.record['triggerTiming'];
+    eventObj.value = data.record;
   });
 
   const checkedKeys = ref<Array<string | number>>([]);

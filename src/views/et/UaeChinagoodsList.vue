@@ -12,7 +12,7 @@
       </template>
       <!--字段回显插槽-->
       <template #htmlSlot="{ text }">
-        <div v-html="text"></div>
+        <div>{{ text }}</div>
       </template>
 
       <template #fileSlot="{ text }">

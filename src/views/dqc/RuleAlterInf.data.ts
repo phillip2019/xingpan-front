@@ -251,11 +251,11 @@ export const searchFormSchema: FormSchema[] = [
     label: '结果状态',
     field: 'isAbnormal',
     component: 'Select',
-    defaultValue: 1,
+    defaultValue: '1',
     componentProps: {
       options: [
-        { label: '正常', value: 0 },
-        { label: '异常', value: 1 },
+        { label: '正常', value: '0' },
+        { label: '异常', value: '1' },
       ],
     },
     colProps: { span: 6 },
@@ -267,7 +267,7 @@ export const searchFormSchema: FormSchema[] = [
     component: 'Select',
     componentProps: {
       options: [
-        { label: 'hive', value: 'hive' },
+        { label: 'hive', value: 'HIVE' },
         { label: 'jdbc', value: 'JDBC' },
         { label: 'es', value: 'ELASTICSEARCH' },
         { label: 'file', value: 'FILE' },
@@ -294,11 +294,11 @@ export const searchFormSchema: FormSchema[] = [
     label: '规则状态',
     field: 'status',
     component: 'Select',
-    defaultValue: 0,
+    defaultValue: '0',
     componentProps: {
       options: [
-        { label: '生效', value: 0 },
-        { label: '失效', value: 1 },
+        { label: '生效', value: '0' },
+        { label: '失效', value: '1' },
       ],
     },
     colProps: { span: 6 },
@@ -476,8 +476,8 @@ export const formSchema: FormSchema[] = [
     },
     componentProps: {
       options: [
-        { label: '生效', value: 0 },
-        { label: '失效', value: 1 },
+        { label: '生效', value: '0' },
+        { label: '失效', value: '1' },
       ],
     },
     helpMessage: 'DQC规则状态,0生效 1失效',
@@ -507,8 +507,8 @@ export const formSchema: FormSchema[] = [
     dynamicDisabled: true,
     componentProps: {
       options: [
-        { label: '正常', value: 0 },
-        { label: '异常', value: 1 },
+        { label: '正常', value: '0' },
+        { label: '异常', value: '1' },
       ],
     },
   },

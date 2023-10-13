@@ -6,6 +6,14 @@ import dayjs from 'dayjs';
 //列表数据
 export const columns: BasicColumn[] = [
   {
+    title: '编号',
+    align: 'center',
+    dataIndex: 'id',
+    helpMessage: '执行日期',
+    sorter: true,
+    width: 50,
+  },
+  {
     title: '日期',
     align: 'center',
     dataIndex: 'executeDate',

@@ -251,7 +251,7 @@ export const searchFormSchema: FormSchema[] = [
     label: '结果状态',
     field: 'isAbnormal',
     component: 'Select',
-    defaultValue: 0,
+    defaultValue: 1,
     componentProps: {
       options: [
         { label: '正常', value: 0 },
@@ -321,86 +321,73 @@ export const searchFormSchema: FormSchema[] = [
 ];
 //表单数据
 export const formSchema: FormSchema[] = [
+  // 工作空间-项目-任务名称 griffin没工作空间和项目什么的  只能从job名称定义上区分
   {
-    label: 'JOB名称',
+    label: '负责人',
+    field: 'ownerName',
+    component: 'Input',
+    dynamicRules: ({ model, schema }) => {
+      return [{ required: true, message: '请输入负责人!' }];
+    },
+    helpMessage: '负责人',
+  },
+  {
+    label: '任务',
     field: 'jobName',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入JOB名称!' }];
+      return [
+        { required: true, message: '请输入JOB任务名称!' },
+        { pattern: /^(\w*)-(\w*)-(\w*)$/, message: 'JOB任务名称格式有误，正常格式为[工作空间-项目-任务名称]' },
+      ];
     },
+    helpMessage: '任务名称',
   },
   {
-    label: '度量名称',
+    label: '度量',
     field: 'measureName',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
       return [{ required: true, message: '请输入度量名称!' }];
     },
+    helpMessage: '度量名称',
   },
   {
     label: '度量描述',
     field: 'measureDesc',
     component: 'Input',
+    dynamicDisabled: true,
+    helpMessage: '度量描述',
   },
   {
-    label: '定时表达式',
+    label: '执行CRON',
     field: 'cronExpression',
     component: 'Input',
+    dynamicDisabled: true,
+    helpMessage: '执行CRON表达式，定义执行时间',
   },
   {
-    label: 'SPARK任务ID',
+    label: '运行任务ID',
     field: 'applicationId',
     component: 'Input',
+    helpMessage: '运行任务ID, SPARK运行任务ID',
+    dynamicDisabled: true,
   },
   {
-    label: '执行日期',
-    field: 'executeDate',
-    component: 'Input',
-  },
-  {
-    label: 'JOB创建者',
-    field: 'jobOwer',
-    component: 'Input',
-  },
-  {
-    label: 'DQ类型',
+    label: 'DQC类型',
     field: 'dqType',
-    component: 'Input',
-  },
-  {
-    label: '指标描述',
-    field: 'fieldDesc',
-    component: 'Input',
-  },
-  {
-    label: '最小值',
-    field: 'startValue',
-    component: 'Input',
-  },
-  {
-    label: '表达式1',
-    field: 'compareExpression1',
-    component: 'Input',
-  },
-  {
-    label: '表达式2',
-    field: 'compareExpression2',
-    component: 'Input',
-  },
-  {
-    label: '最大值',
-    field: 'endValue',
-    component: 'Input',
-  },
-  {
-    label: '规则',
-    field: 'rule',
-    component: 'Input',
-  },
-  {
-    label: '连接类型',
-    field: 'connType',
-    component: 'Input',
+    component: 'Select',
+    dynamicDisabled: true,
+    componentProps: {
+      options: [
+        { label: '准确性', value: 'ACCURACY' },
+        { label: '分析', value: 'PROFILING' },
+        { label: '及时性', value: 'TIMELINESS' },
+        { label: '唯一性', value: 'UNIQUENESS' },
+        { label: '完整性', value: 'COMPLETENESS' },
+      ],
+    },
+    helpMessage: 'DQC数据指标校验数据指标类型',
   },
   {
     label: '指标名称',
@@ -409,47 +396,136 @@ export const formSchema: FormSchema[] = [
     dynamicRules: ({ model, schema }) => {
       return [{ required: true, message: '请输入指标名称!' }];
     },
+    helpMessage: '指标名称',
   },
   {
-    label: '源表名称',
-    field: 'tableNames',
+    label: '指标描述',
+    field: 'fieldDesc',
     component: 'Input',
+    dynamicRules: ({ model, schema }) => {
+      return [{ required: true, message: '请输入指标名称!' }];
+    },
+    helpMessage: '指标描述',
+  },
+  {
+    label: '约定值1',
+    field: 'startValue',
+    component: 'Input',
+    helpMessage: '约定值1，一般作为最小值',
+  },
+  {
+    label: '表达式1',
+    field: 'compareExpression1',
+    component: 'Input',
+    helpMessage: '表达式1,支持大于、小于、等于、大于等于、小于等于、不等于',
   },
   {
     label: '指标值',
     field: 'value',
     component: 'Input',
+    dynamicDisabled: true,
+    helpMessage: 'DQC执行任务值',
+  },
+  {
+    label: '表达式2',
+    field: 'compareExpression2',
+    component: 'Input',
+    helpMessage: '表达式2,支持大于、小于、等于、大于等于、小于等于、不等于',
+  },
+  {
+    label: '约定值2',
+    field: 'endValue',
+    component: 'Input',
+    helpMessage: '约定值2，一般作为最大值',
+  },
+  {
+    label: '规则',
+    field: 'rule',
+    component: 'InputTextArea',
+    dynamicDisabled: true,
+    helpMessage: '指标计算规则,支持公式计算',
+  },
+  {
+    label: '连接类型',
+    field: 'connType',
+    component: 'Select',
+    dynamicDisabled: true,
+    componentProps: {
+      options: [
+        { label: 'hive', value: 'HIVE' },
+        { label: 'jdbc', value: 'JDBC' },
+        { label: 'es', value: 'ELASTICSEARCH' },
+        { label: 'file', value: 'FILE' },
+      ],
+    },
+    helpMessage: 'DQC指标链接类型',
+  },
+  {
+    label: '源表名称',
+    field: 'tableNames',
+    component: 'Input',
+    dynamicDisabled: true,
+    helpMessage: 'DQC原表名称和库名称',
   },
   {
     label: '状态',
     field: 'status',
-    component: 'Input',
+    component: 'Select',
     dynamicRules: ({ model, schema }) => {
       return [{ required: true, message: '请输入状态, 0生效 1失效!' }];
     },
+    componentProps: {
+      options: [
+        { label: '生效', value: 0 },
+        { label: '失效', value: 1 },
+      ],
+    },
+    helpMessage: 'DQC规则状态,0生效 1失效',
+  },
+  {
+    label: '执行日期',
+    field: 'executeDate',
+    component: 'Input',
+    dynamicDisabled: true,
+    helpMessage: 'DQC执行日期',
+  },
+  {
+    label: '任务负责人',
+    field: 'jobOwer',
+    component: 'Input',
+    dynamicDisabled: true,
+    helpMessage: '任务负责人',
   },
   {
     label: '是否异常',
     field: 'isAbnormal',
-    component: 'Input',
+    component: 'Select',
     dynamicRules: ({ model, schema }) => {
       return [{ required: true, message: '请输入是否异常, 0正常 1异常!' }];
+    },
+    helpMessage: '是否异常,0正常 1异常',
+    dynamicDisabled: true,
+    componentProps: {
+      options: [
+        { label: '正常', value: 0 },
+        { label: '异常', value: 1 },
+      ],
     },
   },
   {
     label: '校验强度',
     field: 'ruleType',
-    component: 'Input',
+    component: 'Select',
     dynamicRules: ({ model, schema }) => {
       return [{ required: true, message: '请输入校验强度 A强/B中/C弱!' }];
     },
-  },
-  {
-    label: '负责人',
-    field: 'ownerName',
-    component: 'Input',
-    dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入负责人!' }];
+    helpMessage: '校验强度, A强/B中/C弱',
+    componentProps: {
+      options: [
+        { label: '强', value: 'A' },
+        { label: '中', value: 'B' },
+        { label: '弱', value: 'C' },
+      ],
     },
   },
   // TODO 主键隐藏字段，目前写死为ID

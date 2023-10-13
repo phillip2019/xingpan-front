@@ -161,6 +161,18 @@ const render = {
     return h('a', { href: text, target: '_blank' }, showText);
   },
   /**
+   * yarn任务渲染a标签
+   * @param applicationId 任务编号
+   */
+  renderYarnApplicationHref: ({ text: applicationId }) => {
+    if (!applicationId || applicationId === '直接打开') {
+      return '';
+    }
+    const text = `http://bigdata-util-gateway-01.chinagoods.te:18088/history/${applicationId}/1/jobs/`;
+    const showText = applicationId;
+    return h('a', { href: text, target: '_blank' }, showText);
+  },
+  /**
    * 渲染a标签
    * @param text
    */

@@ -77,6 +77,18 @@ export const columns: BasicColumn[] = [
     //   return statusArr[value];
     // },
   },
+  {
+    title: '创建时间',
+    align: 'center',
+    dataIndex: 'createTime',
+    sorter: true,
+  },
+  {
+    title: '更新时间',
+    align: 'center',
+    dataIndex: 'updateTime',
+    sorter: true,
+  },
 ];
 //查询数据
 export const searchFormSchema: FormSchema[] = [

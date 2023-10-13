@@ -338,7 +338,7 @@ export const formSchema: FormSchema[] = [
     dynamicRules: ({ model, schema }) => {
       return [
         { required: true, message: '请输入JOB任务名称!' },
-        { pattern: /^(\w*)-(\w*)-(\w*)$/, message: 'JOB任务名称格式有误，正常格式为[工作空间-项目-任务名称]' },
+        { pattern: /^(\w+)-(\w+)-(\w+)$/, message: 'JOB任务名称格式有误，正常格式为[工作空间-项目-任务名称]' },
       ];
     },
     helpMessage: '任务名称',

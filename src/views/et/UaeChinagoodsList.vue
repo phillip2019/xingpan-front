@@ -5,6 +5,7 @@
       <!--插槽:table标题-->
       <template #tableTitle>
         <a-button type="primary" preIcon="ant-design:export-outlined" @click="onExportXls"> 导出</a-button>
+        <a-button type="primary" preIcon="ant-design:export-outlined" href="/et/teUaeChinagoodsList">埋点验证</a-button>
       </template>
       <!--操作栏-->
       <template #action="{ record }">

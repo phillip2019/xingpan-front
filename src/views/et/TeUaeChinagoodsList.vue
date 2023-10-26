@@ -1,28 +1,34 @@
 <template>
-  <div>
+  <div class="p-4">
     <BasicTable
       :canResize="true"
-      title="生产环境埋点验证"
-      titleHelpMessage="生产环境埋点验证"
+      title="生产埋点验证"
+      titleHelpMessage="生产环境埋点验证，无需手动刷新，后台自动将埋点数据推送到前端"
       ref="tableRef"
       :columns="columns"
       :dataSource="data"
       rowKey="id"
+      :striped="striped"
+      :bordered="border"
+      showTableSetting
       :rowSelection="{ type: 'checkbox' }"
     />
   </div>
 </template>
-<script lang="ts">
+<script lang="ts" name="et-teUaeChinagoods">
   import { defineComponent, ref, unref } from 'vue';
   import { BasicTable, TableActionType } from '/@/components/Table';
-  import { columns, searchFormSchema } from './UaeChinagoods.data';
+  import { columns, searchFormSchema, getBasicData } from './UaeChinagoods.data';
   import { store } from '/@/store';
+
   export default defineComponent({
     components: { BasicTable },
     setup() {
       const tableRef = ref<Nullable<TableActionType>>(null);
-      const data = ref<any[]>([]);
+      const dataList = ref<any[]>([]);
       const websock = ref<any>();
+      const striped = ref(true);
+      const border = ref(true);
 
       function getTableAction() {
         const tableAction = unref(tableRef);
@@ -47,7 +53,7 @@
         websock.value.onerror = websocketonerror;
         websock.value.onmessage = websocketonmessage;
         websock.value.onclose = websocketclose;
-      };
+      }
 
       function websocketonopen() {
         console.log('WebSocket连接成功');
@@ -75,8 +81,10 @@
       return {
         tableRef,
         websock: websock,
-        data: data,
+        data: getBasicData(),
         columns: columns,
+        striped,
+        border,
         formConfig: {
           labelWidth: 80,
           schemas: searchFormSchema,

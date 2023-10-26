@@ -47,6 +47,9 @@ export const columns: BasicColumn[] = [
     sorter: true,
     dataIndex: 'ipCity',
     customRender: ({ value }) => {
+      if (!value) {
+        return '';
+      }
       const ipCityJson = JSON.parse(value).city;
       const ipCityName = !ipCityJson ? '' : ipCityJson.names['zh-CN'];
       return !ipCityName ? '' : ipCityName;
@@ -70,6 +73,10 @@ export const columns: BasicColumn[] = [
     sorter: true,
     dataIndex: 'createdAt',
     customRender: ({ value }) => {
+      if (!value) {
+        return '';
+      }
+
       return !value ? '' : formatTSToDateTime(Number(value));
     },
   },
@@ -248,4 +255,17 @@ export const formSchema: FormSchema[] = [
 export function getBpmFormSchema(_formData): FormSchema[] {
   // 默认和原始表单保持一致 如果流程中配置了权限数据，这里需要单独处理formSchema
   return formSchema;
+}
+
+export function getBasicData() {
+  const data: any = (() => {
+    const arr: any = [];
+    for (let index = 0; index < 40; index++) {
+      arr.push({
+        id: `${index}`,
+      });
+    }
+    return arr;
+  })();
+  return data;
 }

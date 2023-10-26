@@ -152,12 +152,12 @@ const render = {
     if (!text || text === '直接打开') {
       return '';
     }
-    let showText = '';
-    const len = 50;
-    if (text.length > len) {
-      showText = text.substr(0, len);
-      showText = showText.replace('https://', '').replace('http://', '');
+    const show_len = 50;
+    let showText = text;
+    if (showText.length > show_len) {
+      showText = showText.substr(0, show_len);
     }
+    showText = showText.replace('https://', '').replace('http://', '');
     return h('a', { href: text, target: '_blank' }, showText);
   },
   /**

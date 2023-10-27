@@ -4,10 +4,12 @@
     <CollapseContainer title="查询区" :canExpan="true">
       <BasicForm
         autoFocusFirstItem
+        @register="registerForm"
         :labelWidth="200"
         :schemas="teSearchSchemas"
         :actionColOptions="{ span: 24 }"
         :labelCol="{ span: 8 }"
+        :showResetButton="false"
         @submit="handleSubmit"
       />
     </CollapseContainer>
@@ -34,17 +36,37 @@
   import { store } from '/@/store';
   import { useMessage } from '/@/hooks/web/useMessage';
   import { CollapseContainer } from '/@/components/Container';
-  import { BasicForm } from '/@/components/Form';
+  import { BasicForm, useForm } from '/@/components/Form';
+  import { getToken } from '/@/utils/auth';
+  import md5 from 'crypto-js/md5';
+  import { useUserStore } from '/@/store/modules/user';
+  import { useGlobSetting } from '/@/hooks/setting';
 
   export default defineComponent({
     components: { BasicTable, CollapseContainer, BasicForm },
-    setup() {
+    emits: ['next', 'prev'],
+    setup(_, { emit }) {
       const tableRef = ref<Nullable<TableActionType>>(null);
       const dataList = ref<any[]>([]);
       const websock = ref<any>();
       const striped = ref(true);
       const border = ref(true);
+      const isLoadingFlag = ref(false);
       const { createMessage } = useMessage();
+      const userStore = useUserStore();
+      const glob = useGlobSetting();
+      const submitButtonOptions = ref({
+        text: '验证',
+        loading: false,
+      });
+      const [registerForm, { validateForm, setFormProps }] = useForm({
+        labelWidth: 120,
+        schemas: teSearchSchemas,
+        actionColOptions: {
+          span: 14,
+        },
+        submitButtonOptions: submitButtonOptions,
+      });
 
       function getTableAction() {
         const tableAction = unref(tableRef);
@@ -62,13 +84,19 @@
 
       function initWebSocket() {
         // WebSocket与普通的请求所用协议有所不同，ws等同于http，wss等同于https
-        var userId = store.getters.userInfo.id;
-        var url = window._CONFIG['domianURL'].replace('https://', 'ws://').replace('http://', 'ws://') + '/websocket/' + userId;
+        // var userId = store.getters.userInfo.id;
+        let token = getToken();
+        let wsClientId = md5(token);
+        let userId = unref(userStore.getUserInfo).id + '_' + wsClientId;
+        // WebSocket与普通的请求所用协议有所不同，ws等同于http，wss等同于https
+        let url = glob.domainUrl?.replace('https://', 'wss://').replace('http://', 'ws://') + '/et/websocket/' + userId;
         websock.value = new WebSocket(url);
         websock.value.onopen = websocketonopen;
         websock.value.onerror = websocketonerror;
-        websock.value.onmessage = websocketonmessage;
-        websock.value.onclose = websocketclose;
+        if (websock.value?.ws) {
+          websock.value.onmessage = websocketonmessage;
+          websock.value.onclose = websocketclose;
+        }
       }
 
       function websocketonopen() {
@@ -91,17 +119,18 @@
         }
       }
       function websocketclose(e) {
-        console.log('connection closed (' + e.code + ')');
+        console.log('connection closed (' + e + ')');
       }
 
       return {
+        registerForm,
         tableRef,
         websock: websock,
         data: getBasicData(),
         columns: columns,
         striped,
         border,
-        teSearchSchemas,
+        teSearchSchemas: teSearchSchemas,
         formConfig: {
           labelWidth: 80,
           schemas: searchFormSchema,
@@ -112,7 +141,23 @@
         },
         changeLoading,
         handleSubmit: (values: any) => {
-          createMessage.success('click search,values:' + JSON.stringify(values));
+          if (!isLoadingFlag.value) {
+            submitButtonOptions.value.loading = false;
+            submitButtonOptions.value.text = '停止';
+            isLoadingFlag.value = true;
+            createMessage.success('click search,values:' + JSON.stringify(values));
+
+            // 初始化websocket
+            initWebSocket();
+            // 打开websocket连接
+            websock.value.onopen();
+            return;
+          }
+
+          submitButtonOptions.value.loading = false;
+          submitButtonOptions.value.text = '验证';
+          isLoadingFlag.value = false;
+          websock.value && websock.value.onclose();
         },
       };
     },

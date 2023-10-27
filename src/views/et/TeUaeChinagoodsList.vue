@@ -1,9 +1,21 @@
 <template>
   <div class="p-4">
+    <!--用户编号、设备编号、ip地址查询框，点击开始验证按钮开始验证-->
+    <CollapseContainer title="查询区" :canExpan="true">
+      <BasicForm
+        autoFocusFirstItem
+        :labelWidth="200"
+        :schemas="teSearchSchemas"
+        :actionColOptions="{ span: 24 }"
+        :labelCol="{ span: 8 }"
+        @submit="handleSubmit"
+      />
+    </CollapseContainer>
     <BasicTable
       :canResize="true"
       title="生产埋点验证"
       titleHelpMessage="生产环境埋点验证，无需手动刷新，后台自动将埋点数据推送到前端"
+      :useSearchForm="false"
       ref="tableRef"
       :columns="columns"
       :dataSource="data"
@@ -18,17 +30,21 @@
 <script lang="ts" name="et-teUaeChinagoods">
   import { defineComponent, ref, unref } from 'vue';
   import { BasicTable, TableActionType } from '/@/components/Table';
-  import { columns, searchFormSchema, getBasicData } from './UaeChinagoods.data';
+  import { columns, searchFormSchema, getBasicData, teSearchSchemas } from './UaeChinagoods.data';
   import { store } from '/@/store';
+  import { useMessage } from '/@/hooks/web/useMessage';
+  import { CollapseContainer } from '/@/components/Container';
+  import { BasicForm } from '/@/components/Form';
 
   export default defineComponent({
-    components: { BasicTable },
+    components: { BasicTable, CollapseContainer, BasicForm },
     setup() {
       const tableRef = ref<Nullable<TableActionType>>(null);
       const dataList = ref<any[]>([]);
       const websock = ref<any>();
       const striped = ref(true);
       const border = ref(true);
+      const { createMessage } = useMessage();
 
       function getTableAction() {
         const tableAction = unref(tableRef);
@@ -85,6 +101,7 @@
         columns: columns,
         striped,
         border,
+        teSearchSchemas,
         formConfig: {
           labelWidth: 80,
           schemas: searchFormSchema,
@@ -94,6 +111,9 @@
           fieldMapToTime: [],
         },
         changeLoading,
+        handleSubmit: (values: any) => {
+          createMessage.success('click search,values:' + JSON.stringify(values));
+        },
       };
     },
     onMounted() {},

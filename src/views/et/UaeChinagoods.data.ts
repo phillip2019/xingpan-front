@@ -248,6 +248,27 @@ export const formSchema: FormSchema[] = [
   },
 ];
 
+export const teSearchSchemas: FormSchema[] = [
+  {
+    field: 'distinctId',
+    component: 'Input',
+    label: '用户编号',
+    helpMessage: '请输入用户编号',
+  },
+  {
+    field: 'anonymousId',
+    component: 'Input',
+    label: '设备编号',
+    helpMessage: '请输入设备编号',
+  },
+  {
+    field: 'ip',
+    component: 'Input',
+    label: 'IP',
+    helpMessage: '请输入IP地址进行查询，若想查询本机ip地址，请打开浏览器，输入https://ip138.com/',
+  },
+];
+
 /**
  * 流程表单调用这个方法获取formSchema
  * @param param

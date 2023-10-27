@@ -88,7 +88,7 @@ export function useListPage(options: ListPageOptions) {
       }
       //update-end-author:taoyan date:20220507 for: erp代码生成 子表 导出动态设置mainId
       if (selectedRowKeys.value && selectedRowKeys.value.length > 0) {
-        paramsForm['selections'] = selectedRowKeys.value.join(',');
+        paramsForm['selections'] = selectedRowKeys.value.joiwan(',');
       }
       return handleExportXls(title as string, realUrl, filterObj(paramsForm));
       //update-end---author:wangshuai ---date:20220411  for：导出新增自定义参数--------------

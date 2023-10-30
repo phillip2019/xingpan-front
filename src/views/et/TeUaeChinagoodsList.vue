@@ -89,11 +89,11 @@
         let wsClientId = md5(token);
         let userId = unref(userStore.getUserInfo).id + '_' + wsClientId;
         // WebSocket与普通的请求所用协议有所不同，ws等同于http，wss等同于https
-        let url = glob.domainUrl?.replace('https://', 'wss://').replace('http://', 'ws://') + '/et/websocket/' + userId;
+        let url = glob.domainUrl?.replace('https://', 'wss://').replace('http://', 'ws://') + '/et/ws/' + userId + '?ip=' + '39.187.239.26';
         websock.value = new WebSocket(url);
         websock.value.onopen = websocketonopen;
         websock.value.onerror = websocketonerror;
-        if (websock.value?.ws) {
+        if (websock.value) {
           websock.value.onmessage = websocketonmessage;
           websock.value.onclose = websocketclose;
         }
@@ -104,21 +104,24 @@
       }
 
       function websocketonerror(e) {
-        console.log('WebSocket连接发生错误');
+        console.log('WebSocket连接发生错误', e);
       }
       function websocketonmessage(e) {
-        var data = eval('(' + e.data + ')');
-        console.log(`websocket data: ${data}`);
+        console.log(`websocket data: ${e}`);
+        JSON.parse(e.data).forEach((data: any) => {
+          dataList.value.push(data);
+        });
         //处理订阅信息
-        if (data.cmd == 'topic') {
-          //TODO 系统通知
-          console.log(data);
-        } else if (data.cmd == 'user') {
-          //TODO 用户消息
-          console.log(data);
-        }
+        // if (data.cmd == 'topic') {
+        //   //TODO 系统通知
+        //   console.log(data);
+        // } else if (data.cmd == 'user') {
+        //   //TODO 用户消息
+        //   console.log(data);
+        // }
       }
       function websocketclose(e) {
+        websock.value && websock.value.close();
         console.log('connection closed (' + e + ')');
       }
 
@@ -126,7 +129,7 @@
         registerForm,
         tableRef,
         websock: websock,
-        data: getBasicData(),
+        data: dataList,
         columns: columns,
         striped,
         border,
@@ -150,7 +153,7 @@
             // 初始化websocket
             initWebSocket();
             // 打开websocket连接
-            websock.value.onopen();
+            // websock.value.onopen();
             return;
           }
 

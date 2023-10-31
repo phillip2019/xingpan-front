@@ -42,11 +42,12 @@
   import md5 from 'crypto-js/md5';
   import { useUserStore } from '/@/store/modules/user';
   import { useGlobSetting } from '/@/hooks/setting';
+  import { getAppEnvConfig } from '/@/utils/env';
 
   export default defineComponent({
     components: { BasicTable, CollapseContainer, BasicForm },
     emits: ['next', 'prev'],
-    setup(_, { emit }) {
+    setup(_) {
       const tableRef = ref<Nullable<TableActionType>>(null);
       const dataList = ref<any[]>([]);
       const websock = ref<any>();
@@ -60,7 +61,10 @@
         text: '验证',
         loading: false,
       });
-      const [registerForm, { validateForm, setFormProps }] = useForm({
+
+      const { VITE_GLOB_API_URL } = getAppEnvConfig();
+
+      const [registerForm] = useForm({
         labelWidth: 120,
         schemas: teSearchSchemas,
         actionColOptions: {
@@ -105,8 +109,7 @@
         let userId = unref(userStore.getUserInfo).id + '_' + wsClientId;
         // console.log('请求搜索参数为: ')
         // WebSocket与普通的请求所用协议有所不同，ws等同于http，wss等同于https
-        // let url = glob.domainUrl?.replace('https://', 'wss://').replace('http://', 'ws://') + '/et/ws/' + userId;
-        let url = glob.domainUrl?.replace('https://', 'ws://').replace('http://', 'ws://') + '/et/ws/' + userId;
+        let url = glob.domainUrl?.replace('https://', 'wss://').replace('http://', 'ws://') + VITE_GLOB_API_URL + '/et/ws/' + userId;
         url = urlBuilder(url, formValues);
 
         websock.value = new WebSocket(url);

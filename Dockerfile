@@ -2,6 +2,12 @@ FROM nginx
 MAINTAINER jeecgos@163.com
 VOLUME /tmp
 ENV LANG en_US.UTF-8
+
+RUN echo "map $http_upgrade $connection_upgrade { \
+                default upgrade; \
+                ''      close; \
+          } " > /etc/nginx/conf.d/default.conf
+
 RUN echo "server {  \
                       listen       80; \
                       location   /jeecgboot/ { \
@@ -10,6 +16,8 @@ RUN echo "server {  \
                       proxy_set_header        Host jeecg-boot-system; \
                       proxy_set_header        X-Real-IP \$remote_addr; \
                       proxy_set_header        X-Forwarded-For \$proxy_add_x_forwarded_for; \
+                      proxy_set_header        Upgrade $http_upgrade; \
+                      proxy_set_header        Connection $connection_upgrade; \
                   } \
                   #解决Router(mode: 'history')模式下，刷新路由地址不能找到页面的问题 \
                   location / { \

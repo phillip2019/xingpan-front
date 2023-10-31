@@ -3,7 +3,7 @@ MAINTAINER jeecgos@163.com
 VOLUME /tmp
 ENV LANG en_US.UTF-8
 
-RUN echo "map $http_upgrade $connection_upgrade { \
+RUN echo "map \$http_upgrade \$connection_upgrade { \
                 default upgrade; \
                 ''      close; \
           } " > /etc/nginx/conf.d/default.conf

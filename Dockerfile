@@ -17,10 +17,10 @@ RUN echo "server {  \
                       proxy_set_header        Host jeecg-boot-system; \
                       proxy_set_header        X-Real-IP \$remote_addr; \
                       proxy_set_header        X-Forwarded-For \$proxy_add_x_forwarded_for; \
-                      client_body_timeout     300; \
-                      proxy_connect_timeout   600; \
-                      proxy_read_timeout      600; \
-                      proxy_send_timeout      600; \
+                      client_body_timeout     300s; \
+                      proxy_connect_timeout   600s; \
+                      proxy_read_timeout      600s; \
+                      proxy_send_timeout      600s; \
                       proxy_set_header        Upgrade \$http_upgrade; \
                       proxy_set_header        Connection \$connection_upgrade; \
                   } \
@@ -30,10 +30,10 @@ RUN echo "server {  \
                       proxy_set_header        Host jeecg-boot-system; \
                       proxy_set_header        X-Real-IP \$remote_addr; \
                       proxy_set_header        X-Forwarded-For \$proxy_add_x_forwarded_for; \
-                      client_body_timeout     300; \
-                      proxy_connect_timeout   600; \
-                      proxy_read_timeout      600; \
-                      proxy_send_timeout      600; \
+                      client_body_timeout     300s; \
+                      proxy_connect_timeout   600s; \
+                      proxy_read_timeout      600s; \
+                      proxy_send_timeout      600s; \
                       proxy_set_header        Upgrade \$http_upgrade; \
                       proxy_set_header        Connection \$connection_upgrade; \
                   } \

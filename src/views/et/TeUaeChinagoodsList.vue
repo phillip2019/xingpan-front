@@ -29,6 +29,9 @@
       :pagination="{ pageSize: 100 }"
     />
   </div>
+
+  <!-- 表单区域 -->
+  <UaeChinagoodsModal @register="registerModal" />
 </template>
 <script lang="ts" name="et-teUaeChinagoods">
   import { defineComponent, ref, unref } from 'vue';
@@ -43,6 +46,10 @@
   import { useUserStore } from '/@/store/modules/user';
   import { useGlobSetting } from '/@/hooks/setting';
   import { getAppEnvConfig } from '/@/utils/env';
+  import { useDrawer } from '/@/components/Drawer';
+
+  //注册model
+  const [registerModal, { openDrawer: openModal }] = useDrawer();
 
   export default defineComponent({
     components: { BasicTable, CollapseContainer, BasicForm },
@@ -209,4 +216,11 @@
     onMounted() {},
     onUnmounted() {},
   });
+
+  /**
+   * 成功回调
+   */
+  function handleSuccess() {
+    (selectedRowKeys.value = []) && reload();
+  }
 </script>

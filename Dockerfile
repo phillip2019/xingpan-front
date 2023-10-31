@@ -21,8 +21,8 @@ RUN echo "server {  \
                       proxy_connect_timeout   600; \
                       proxy_read_timeout      600; \
                       proxy_send_timeout      600; \
-                      proxy_set_header        Upgrade $http_upgrade; \
-                      proxy_set_header        Connection $connection_upgrade; \
+                      proxy_set_header        Upgrade \$http_upgrade; \
+                      proxy_set_header        Connection \$connection_upgrade; \
                   } \
                   #解决Router(mode: 'history')模式下，刷新路由地址不能找到页面的问题 \
                   location / { \

@@ -9,13 +9,18 @@ RUN echo "map $http_upgrade $connection_upgrade { \
           } " > /etc/nginx/conf.d/default.conf
 
 RUN echo "server {  \
-                      listen       80; \
-                      location   /jeecgboot/ { \
-                      proxy_pass              http://jeecg-boot-system:8080/jeecg-boot/; \
+                  listen       80; \
+                  server_name  xingpan.chinagoods.com; \
+                  location   /jeecgboot/ { \
+                      proxy_pass              http://172.18.5.25:28080/jeecg-boot/; \
                       proxy_redirect          off; \
                       proxy_set_header        Host jeecg-boot-system; \
                       proxy_set_header        X-Real-IP \$remote_addr; \
                       proxy_set_header        X-Forwarded-For \$proxy_add_x_forwarded_for; \
+                      client_body_timeout     300; \
+                      proxy_connect_timeout   600; \
+                      proxy_read_timeout      600; \
+                      proxy_send_timeout      600; \
                       proxy_set_header        Upgrade $http_upgrade; \
                       proxy_set_header        Connection $connection_upgrade; \
                   } \
@@ -27,6 +32,11 @@ RUN echo "server {  \
                           rewrite ^(.*)\$ /index.html?s=\$1 last; \
                           break; \
                       } \
+                  } \
+                  location ^~ /h5/ { \
+                      root   /var/www/html/h5/; \
+                      index  index.html index.htm; \
+                      autoindex on; \
                   } \
                   access_log  /var/log/nginx/access.log ; \
               } " > /etc/nginx/conf.d/default.conf \

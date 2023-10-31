@@ -6,7 +6,7 @@ ENV LANG en_US.UTF-8
 RUN echo "map \$http_upgrade \$connection_upgrade { \
                 default upgrade; \
                 ''      close; \
-          } " >> /etc/nginx/conf.d/default.conf
+          } " > /etc/nginx/conf.d/default.conf
 
 RUN echo "server {  \
                   listen       80; \
@@ -26,7 +26,7 @@ RUN echo "server {  \
                   } \
                   #解决Router(mode: 'history')模式下，刷新路由地址不能找到页面的问题 \
                   location / { \
-                     root   /var/www/html/; \
+                      root   /var/www/html/; \
                       index  index.html index.htm; \
                       if (!-e \$request_filename) { \
                           rewrite ^(.*)\$ /index.html?s=\$1 last; \

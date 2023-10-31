@@ -120,7 +120,7 @@
         let userId = unref(userStore.getUserInfo).id + '_' + wsClientId;
         // console.log('请求搜索参数为: ')
         // WebSocket与普通的请求所用协议有所不同，ws等同于http，wss等同于https
-        let url = glob.domainUrl?.replace('https://', 'wss://').replace('http://', 'ws://') + VITE_GLOB_API_URL + '/et/ws/' + userId;
+        let url = glob.domainUrl?.replace('https://', 'wss://').replace('http://', 'ws://') + '/et/ws/' + userId;
         url = urlBuilder(url, formValues);
 
         websock.value = new WebSocket(url);

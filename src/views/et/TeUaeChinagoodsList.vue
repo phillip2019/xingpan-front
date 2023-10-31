@@ -51,11 +51,9 @@
   import { getAppEnvConfig } from '/@/utils/env';
   import { useDrawer } from '/@/components/Drawer';
 
-  //注册model
-  const [registerModal, { openDrawer: openModal }] = useDrawer();
-
   export default defineComponent({
-    components: { BasicTable, CollapseContainer, BasicForm },
+    name: 'TeUaeChinagoodsList',
+    components: { BasicTable, CollapseContainer, BasicForm, UaeChinagoodsModal },
     emits: ['next', 'prev'],
     setup(_) {
       const tableRef = ref<Nullable<TableActionType>>(null);
@@ -73,6 +71,9 @@
       });
 
       const { VITE_GLOB_API_URL } = getAppEnvConfig();
+
+      //注册model
+      const [registerModal, { openDrawer: openModal }] = useDrawer();
 
       const [registerForm] = useForm({
         labelWidth: 120,
@@ -168,6 +169,17 @@
         console.log('connection closed (' + e + ')');
       }
 
+      /**
+       * 详情
+       */
+      function handleDetail(record: Recordable) {
+        openModal(true, {
+          record,
+          isUpdate: true,
+          showFooter: true,
+        });
+      }
+
       return {
         registerForm,
         tableRef,
@@ -185,6 +197,7 @@
           fieldMapToNumber: [],
           fieldMapToTime: [],
         },
+        registerModal,
         changeLoading,
         handleSubmit: (values: any) => {
           if (!isLoadingFlag.value) {
@@ -214,27 +227,12 @@
           isLoadingFlag.value = false;
           websock.value && websock.value.onclose();
         },
+        doubleClick: (record, index) => {
+          handleDetail(record);
+        },
       };
     },
     onMounted() {},
     onUnmounted() {},
   });
-
-  /**
-   * 详情
-   */
-  function handleDetail(record: Recordable) {
-    openModal(true, {
-      record,
-      isUpdate: true,
-      showFooter: true,
-    });
-  }
-
-  /**
-   * 双击查看详情
-   */
-  function doubleClick(record, index) {
-    handleDetail(record);
-  }
 </script>

@@ -13,6 +13,7 @@
         @submit="handleSubmit"
       />
     </CollapseContainer>
+
     <BasicTable
       :canResize="true"
       title="生产埋点验证"
@@ -27,11 +28,12 @@
       showTableSetting
       :rowSelection="{ type: 'checkbox' }"
       :pagination="{ pageSize: 100 }"
+      @row-dbClick="doubleClick"
     />
-  </div>
 
-  <!-- 表单区域 -->
-  <UaeChinagoodsModal @register="registerModal" />
+    <!-- 表单区域 -->
+    <UaeChinagoodsModal @register="registerModal" />
+  </div>
 </template>
 <script lang="ts" name="et-teUaeChinagoods">
   import { defineComponent, ref, unref } from 'vue';
@@ -41,6 +43,7 @@
   import { useMessage } from '/@/hooks/web/useMessage';
   import { CollapseContainer } from '/@/components/Container';
   import { BasicForm, useForm } from '/@/components/Form';
+  import UaeChinagoodsModal from './components/UaeChinagoodsModal.vue';
   import { getToken } from '/@/utils/auth';
   import md5 from 'crypto-js/md5';
   import { useUserStore } from '/@/store/modules/user';
@@ -218,9 +221,20 @@
   });
 
   /**
-   * 成功回调
+   * 详情
    */
-  function handleSuccess() {
-    (selectedRowKeys.value = []) && reload();
+  function handleDetail(record: Recordable) {
+    openModal(true, {
+      record,
+      isUpdate: true,
+      showFooter: true,
+    });
+  }
+
+  /**
+   * 双击查看详情
+   */
+  function doubleClick(record, index) {
+    handleDetail(record);
   }
 </script>

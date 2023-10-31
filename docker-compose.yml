@@ -1,0 +1,14 @@
+version: '2'
+services:
+  xingpan-front:
+    build:
+      context: ./
+    restart: on-failure
+    container_name: xingpan-front
+    image: xingpan-front
+    hostname: xingpan-front
+    ports:
+      - 23100:80
+
+    environment:
+      TZ: 'Asia/Shanghai'

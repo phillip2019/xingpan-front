@@ -6,7 +6,7 @@ ENV LANG en_US.UTF-8
 RUN echo "map \$http_upgrade \$connection_upgrade { \
                 default upgrade; \
                 ''      close; \
-          } " > /etc/nginx/conf.d/default.conf
+          } " >> /etc/nginx/conf.d/default.conf
 
 RUN echo "server {  \
                   listen       80; \
@@ -39,7 +39,7 @@ RUN echo "server {  \
                       autoindex on; \
                   } \
                   access_log  /var/log/nginx/access.log ; \
-              } " > /etc/nginx/conf.d/default.conf \
+              } " >> /etc/nginx/conf.d/default.conf \
     &&  mkdir  -p  /var/www \
     &&  mkdir -p /var/www/html
 

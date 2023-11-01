@@ -25,7 +25,7 @@ RUN echo "server {  \
                       proxy_set_header        Connection \$connection_upgrade; \
                   } \
                   location   /jeecg-boot/ { \
-                      proxy_pass              http://172.18.5.25:28080/jeecg-boot/; \
+                      proxy_pass              http://172.18.5.25:28080/; \
                       proxy_redirect          off; \
                       proxy_set_header        Host jeecg-boot-system; \
                       proxy_set_header        X-Real-IP \$remote_addr; \

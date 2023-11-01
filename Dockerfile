@@ -14,6 +14,7 @@ RUN echo "server {  \
                   location   /jeecgboot/ { \
                       proxy_pass              http://172.18.5.25:28080/jeecg-boot/; \
                       proxy_redirect          off; \
+                      proxy_http_version      1.1; \
                       proxy_set_header        Host jeecg-boot-system; \
                       proxy_set_header        X-Real-IP \$remote_addr; \
                       proxy_set_header        X-Forwarded-For \$proxy_add_x_forwarded_for; \
@@ -27,6 +28,7 @@ RUN echo "server {  \
                   location   /jeecg-boot/ { \
                       proxy_pass              http://172.18.5.25:28080/; \
                       proxy_redirect          off; \
+                      proxy_http_version      1.1; \
                       proxy_set_header        Host jeecg-boot-system; \
                       proxy_set_header        X-Real-IP \$remote_addr; \
                       proxy_set_header        X-Forwarded-For \$proxy_add_x_forwarded_for; \

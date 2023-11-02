@@ -216,6 +216,6 @@
           handleDetail(record);
         },
       }
-    },
+    }
   });
 </script>

@@ -164,7 +164,10 @@
             reason: 'User requested disconnect',
           };
           websock.value.send(JSON.stringify(closeMessage));
-          websock.value.close(1000, '用户主动断开连接');
+
+          if(e && (e.code === 1006 || e.code === 1000) && e.readyState !== 1) { if(e && (e.code === 1006 || e.code === 1000) && e.readyState !== 1) {
+            websock.value.close(1000, '用户主动断开连接');
+          }
         }
         console.log('connection closed (' + e + ')');
       }

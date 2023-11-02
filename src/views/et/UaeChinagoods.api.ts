@@ -25,7 +25,13 @@ export const getImportUrl = Api.importExcel;
  * 列表接口
  * @param params
  */
-export const list = (params) => defHttp.get({ url: Api.list, params });
+export const list = (params) => {
+  // FixedBug 针对客户端类型为空情况，置值为undefined，避免向后端传递
+  if (params['platformType'] === '') {
+    params['platformType'] = undefined;
+  }
+  return defHttp.get({ url: Api.list, params });
+};
 
 /**
  * 删除单个

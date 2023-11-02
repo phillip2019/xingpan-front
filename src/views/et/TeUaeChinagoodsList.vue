@@ -40,21 +40,20 @@
   import { columns, teSearchSchemas } from './UaeChinagoods.data';
   import { CollapseContainer } from '/@/components/Container';
   import { BasicForm, useForm } from '/@/components/Form';
-  import { UaeChinagoodsModal } from './components/UaeChinagoodsModal.vue';
+  import UaeChinagoodsModal from './components/UaeChinagoodsModal.vue';
   import { defineComponent, ref, unref } from 'vue';
   import { useMessage } from '/@/hooks/web/useMessage';
   import { useGlobSetting } from '/@/hooks/setting';
   import { useUserStore } from '/@/store/modules/user';
-  import { getAppEnvConfig } from '/@/utils/env';
   import { useDrawer } from '/@/components/Drawer';
   import { getToken } from '/@/utils/auth';
   import md5 from 'crypto-js/md5';
-  
+
   export default defineComponent({
     name: 'TeUaeChinagoodsList',
     components: { BasicTable, CollapseContainer, BasicForm, UaeChinagoodsModal },
     emits: ['next', 'prev'],
-    setup(_) {
+    setup(_, {}) {
       const tableRef = ref<Nullable<TableActionType>>(null);
       const dataList = ref<any[]>([]);
       const websock = ref<any>();
@@ -68,8 +67,6 @@
         text: '验证',
         loading: false,
       });
-
-      const { VITE_GLOB_API_URL } = getAppEnvConfig();
 
       //注册model
       const [registerModal, { openDrawer: openModal }] = useDrawer();
@@ -154,7 +151,7 @@
           };
           websock.value.send(JSON.stringify(closeMessage));
 
-          if(e && (e.code === 1006 || e.code === 1000) && e.readyState !== 1) { if(e && (e.code === 1006 || e.code === 1000) && e.readyState !== 1) {
+          if (e && (e.code === 1006 || e.code === 1000) && e.readyState !== 1) {
             websock.value.close(1000, '用户主动断开连接');
           }
         }
@@ -222,6 +219,6 @@
           handleDetail(record);
         },
       };
-    }
+    },
   });
 </script>

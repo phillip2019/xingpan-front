@@ -222,6 +222,6 @@
           handleDetail(record);
         },
       };
-    },
+    }
   });
 </script>

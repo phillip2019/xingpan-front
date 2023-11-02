@@ -146,7 +146,7 @@ export const searchFormSchema: FormSchema[] = [
     label: '环境',
     field: 'env',
     component: 'JDictSelectTag',
-    helpMessage: ['请选择埋点环境'],
+    helpMessage: ['请选择埋点环境，必选字段'],
     defaultValue: 'test',
     componentProps: {
       dictCode: 'et_env',
@@ -155,12 +155,13 @@ export const searchFormSchema: FormSchema[] = [
     colProps: {
       span: 12,
     },
+    required: true,
   },
   {
     label: '项目',
     field: 'project',
     component: 'JDictSelectTag',
-    helpMessage: ['请选择项目'],
+    helpMessage: ['请选择项目，必选字段'],
     defaultValue: 'chinagoods',
     componentProps: {
       dictCode: 'et_project',
@@ -169,6 +170,7 @@ export const searchFormSchema: FormSchema[] = [
     colProps: {
       span: 12,
     },
+    required: true,
   },
   {
     label: '消息批量大小',

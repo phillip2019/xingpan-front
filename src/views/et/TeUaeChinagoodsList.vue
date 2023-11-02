@@ -35,14 +35,21 @@
     <UaeChinagoodsModal @register="registerModal" />
   </div>
 </template>
-<script lang="ts" name="et-teUaeChinagoods">
-    import { BasicTable } from '/@/components/Table';
-  import { columns, getBasicData, teSearchSchemas } from './UaeChinagoods.data';
-  import { store } from '/@/store';
+<script lang="ts">
+  import { BasicTable, TableActionType } from '/@/components/Table';
+  import { columns, teSearchSchemas } from './UaeChinagoods.data';
   import { CollapseContainer } from '/@/components/Container';
-  import { BasicForm } from '/@/components/Form';
-  import UaeChinagoodsModal from './components/UaeChinagoodsModal.vue';
-
+  import { BasicForm, useForm } from '/@/components/Form';
+  import { UaeChinagoodsModal } from './components/UaeChinagoodsModal.vue';
+  import { defineComponent, ref, unref } from 'vue';
+  import { useMessage } from '/@/hooks/web/useMessage';
+  import { useGlobSetting } from '/@/hooks/setting';
+  import { useUserStore } from '/@/store/modules/user';
+  import { getAppEnvConfig } from '/@/utils/env';
+  import { useDrawer } from '/@/components/Drawer';
+  import { getToken } from '/@/utils/auth';
+  import md5 from 'crypto-js/md5';
+  
   export default defineComponent({
     name: 'TeUaeChinagoodsList',
     components: { BasicTable, CollapseContainer, BasicForm, UaeChinagoodsModal },
@@ -176,7 +183,7 @@
         teSearchSchemas: teSearchSchemas,
         formConfig: {
           labelWidth: 80,
-          schemas: searchFormSchema,
+          schemas: teSearchSchemas,
           autoSubmitOnEnter: true,
           showAdvancedButton: true,
           fieldMapToNumber: [],
@@ -206,7 +213,6 @@
             // websock.value.onopen();
             return;
           }
-
           submitButtonOptions.value.loading = false;
           submitButtonOptions.value.text = '验证';
           isLoadingFlag.value = false;
@@ -215,7 +221,7 @@
         doubleClick: (record, index) => {
           handleDetail(record);
         },
-      }
-    }
+      };
+    },
   });
 </script>

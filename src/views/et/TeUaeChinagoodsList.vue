@@ -36,20 +36,12 @@
   </div>
 </template>
 <script lang="ts" name="et-teUaeChinagoods">
-  import { defineComponent, ref, unref } from 'vue';
-  import { BasicTable, TableActionType } from '/@/components/Table';
-  import { columns, searchFormSchema, getBasicData, teSearchSchemas } from './UaeChinagoods.data';
+    import { BasicTable } from '/@/components/Table';
+  import { columns, getBasicData, teSearchSchemas } from './UaeChinagoods.data';
   import { store } from '/@/store';
-  import { useMessage } from '/@/hooks/web/useMessage';
   import { CollapseContainer } from '/@/components/Container';
-  import { BasicForm, useForm } from '/@/components/Form';
+  import { BasicForm } from '/@/components/Form';
   import UaeChinagoodsModal from './components/UaeChinagoodsModal.vue';
-  import { getToken } from '/@/utils/auth';
-  import md5 from 'crypto-js/md5';
-  import { useUserStore } from '/@/store/modules/user';
-  import { useGlobSetting } from '/@/hooks/setting';
-  import { getAppEnvConfig } from '/@/utils/env';
-  import { useDrawer } from '/@/components/Drawer';
 
   export default defineComponent({
     name: 'TeUaeChinagoodsList',
@@ -140,21 +132,11 @@
         console.log('WebSocket连接发生错误', e);
       }
       function websocketonmessage(e) {
-        console.log(`websocket data: ${e}`);
         JSON.parse(e.data).forEach((data: any) => {
           dataList.value.unshift(data);
         });
-        //处理订阅信息
-        // if (data.cmd == 'topic') {
-        //   //TODO 系统通知
-        //   console.log(data);
-        // } else if (data.cmd == 'user') {
-        //   //TODO 用户消息
-        //   console.log(data);
-        // }
       }
       function websocketclose(e) {
-        console.log('已定义: ', unref(websock));
         if (unref(websock)) {
           // 关闭WebSocket连接并提供关闭代码和关闭原因
           console.log('触发websocket连接关闭，用户自动断开连接!!!');
@@ -233,9 +215,7 @@
         doubleClick: (record, index) => {
           handleDetail(record);
         },
-      };
+      }
     },
-    onMounted() {},
-    onUnmounted() {},
   });
 </script>

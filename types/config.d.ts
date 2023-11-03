@@ -142,6 +142,7 @@ export interface GlobConfig {
   // Service interface url
   apiUrl: string;
   domainUrl: string;
+  domainWsUrl: string;
   // Upload url (作废)
   uploadUrl?: string;
   openSso?: string;
@@ -154,6 +155,7 @@ export interface GlobConfig {
   // Project abbreviation
   shortName: string;
 }
+
 export interface GlobEnvConfig {
   // Site title
   VITE_GLOB_APP_TITLE: string;
@@ -171,6 +173,7 @@ export interface GlobEnvConfig {
   //单点服务端地址
   VITE_GLOB_APP_CAS_BASE_URL: string;
   VITE_GLOB_DOMAIN_URL: string;
+  VITE_GLOB_WS_DOMAIN_URL: string;
   // Upload url
   VITE_GLOB_UPLOAD_URL?: string;
   // view url

@@ -12,6 +12,7 @@ export const useGlobSetting = (): Readonly<GlobConfig> => {
     VITE_GLOB_APP_OPEN_SSO,
     VITE_GLOB_APP_OPEN_QIANKUN,
     VITE_GLOB_DOMAIN_URL,
+    VITE_GLOB_WS_DOMAIN_URL,
     VITE_GLOB_ONLINE_VIEW_URL,
   } = getAppEnvConfig();
 
@@ -25,6 +26,7 @@ export const useGlobSetting = (): Readonly<GlobConfig> => {
   const glob: Readonly<GlobConfig> = {
     title: VITE_GLOB_APP_TITLE,
     domainUrl: VITE_GLOB_DOMAIN_URL,
+    domainWsUrl: VITE_GLOB_WS_DOMAIN_URL,
     apiUrl: VITE_GLOB_API_URL,
     shortName: VITE_GLOB_APP_SHORT_NAME,
     openSso: VITE_GLOB_APP_OPEN_SSO,

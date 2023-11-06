@@ -269,6 +269,12 @@ export const teSearchSchemas: FormSchema[] = [
     label: 'IP',
     helpMessage: '请输入IP地址进行查询，若想查询本机ip地址，请打开浏览器，输入https://ip138.com/',
   },
+  {
+    field: 'event',
+    component: 'Input',
+    label: '事件',
+    helpMessage: '请输入要监测事件',
+  },
 ];
 
 /**

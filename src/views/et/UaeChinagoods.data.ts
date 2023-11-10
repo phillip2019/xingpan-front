@@ -252,22 +252,28 @@ export const formSchema: FormSchema[] = [
 
 export const teSearchSchemas: FormSchema[] = [
   {
+    label: '用户编号',
     field: 'distinctId',
     component: 'Input',
-    label: '用户编号',
     helpMessage: '请输入用户编号',
   },
   {
+    label: '设备编号',
     field: 'anonymousId',
     component: 'Input',
-    label: '设备编号',
     helpMessage: '请输入设备编号',
   },
   {
+    label: 'IP',
     field: 'ip',
     component: 'Input',
-    label: 'IP',
     helpMessage: '请输入IP地址进行查询，若想查询本机ip地址，请打开浏览器，输入https://ip138.com/',
+  },
+  {
+    label: '事件英文名',
+    field: 'event',
+    component: 'Input',
+    helpMessage: '请输入事件名称进行查询，若想查询本机ip地址，请打开浏览器，输入https://ip138.com/',
   },
 ];
 

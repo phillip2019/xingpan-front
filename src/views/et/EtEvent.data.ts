@@ -132,7 +132,7 @@ export const searchFormSchema: FormSchema[] = [
     label: '事件名',
     field: 'name2',
     // component: 'JSearchSelect',
-    component: 'JDictSelectTag',
+    component: 'JSelectMultiple',
     helpMessage: ['请选择事件名称场景'],
     componentProps: ({ schema, tableAction, formActionType, formModel }) => {
       let sqlPreTpl = 'et_event,name,name,1=1 ';

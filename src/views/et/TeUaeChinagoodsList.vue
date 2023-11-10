@@ -5,9 +5,9 @@
       <BasicForm
         autoFocusFirstItem
         @register="registerForm"
-        :labelWidth="200"
+        :labelWidth="250"
         :schemas="teSearchSchemas"
-        :actionColOptions="{ span: 24 }"
+        :actionColOptions="{ span: 8 }"
         :labelCol="{ span: 8 }"
         :showResetButton="false"
         @submit="handleSubmit"
@@ -66,16 +66,23 @@
       const submitButtonOptions = ref({
         text: '验证',
         loading: false,
+        style: {
+          float: 'left', // 设置按钮靠左对齐
+          marginLeft: 0, // 如果需要进一步调整左边距，可以在这里设置
+        },
       });
 
       //注册model
       const [registerModal, { openDrawer: openModal }] = useDrawer();
 
       const [registerForm] = useForm({
-        labelWidth: 120,
+        labelWidth: 100,
         schemas: teSearchSchemas,
+        baseColProps: {
+          span: 6,
+        },
         actionColOptions: {
-          span: 14,
+          span: 8,
         },
         submitButtonOptions: submitButtonOptions,
       });

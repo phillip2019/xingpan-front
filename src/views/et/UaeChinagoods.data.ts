@@ -252,6 +252,54 @@ export const formSchema: FormSchema[] = [
 
 export const teSearchSchemas: FormSchema[] = [
   {
+    label: '项目名',
+    field: 'buProjectNameId',
+    // component: 'JSearchSelect',
+    component: 'JDictSelectTag',
+    helpMessage: ['请选择项目'],
+    componentProps: ({ schema, tableAction, formActionType, formModel }) => {
+      let sqlPreTpl = 'et_bu_project,name,max(id),1=1 ';
+      sqlPreTpl += ' group by `name`';
+      return {
+        dictCode: sqlPreTpl,
+      };
+    },
+    colProps: { span: 6 },
+  },
+  {
+    label: '场景',
+    field: 'scene',
+    component: 'JDictSelectTag',
+    helpMessage: ['请选择事件场景'],
+    componentProps: ({ schema, tableAction, formActionType, formModel }) => {
+      let sqlPreTpl = 'et_event,scene,scene,1=1 ';
+      sqlPreTpl += ' group by scene';
+      return {
+        dictCode: sqlPreTpl,
+      };
+    },
+    colProps: { span: 6 },
+  },
+  {
+    label: '事件名',
+    field: 'name',
+    // component: 'JSearchSelect',
+    component: 'JSelectMultiple',
+    helpMessage: ['请选择事件名称场景'],
+    componentProps: ({ schema, tableAction, formActionType, formModel }) => {
+      let sqlPreTpl = 'et_event,name,name,1=1 ';
+      if (formModel.scene) {
+        sqlPreTpl = sqlPreTpl + " and scene = '" + formModel.scene + "'";
+      }
+      sqlPreTpl += ' group by name';
+      return {
+        dictCode: sqlPreTpl,
+        // dict: 'et_event,name,name',
+      };
+    },
+    colProps: { span: 6 },
+  },
+  {
     label: '用户编号',
     field: 'distinctId',
     component: 'Input',
@@ -268,12 +316,6 @@ export const teSearchSchemas: FormSchema[] = [
     field: 'ip',
     component: 'Input',
     helpMessage: '请输入IP地址进行查询，若想查询本机ip地址，请打开浏览器，输入https://ip138.com/',
-  },
-  {
-    label: '事件英文名',
-    field: 'event',
-    component: 'Input',
-    helpMessage: '请输入事件名称进行查询，若想查询本机ip地址，请打开浏览器，输入https://ip138.com/',
   },
 ];
 

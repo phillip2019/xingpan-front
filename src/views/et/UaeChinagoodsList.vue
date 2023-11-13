@@ -5,7 +5,10 @@
       <!--插槽:table标题-->
       <template #tableTitle>
         <a-button type="primary" preIcon="ant-design:export-outlined" @click="onExportXls"> 导出</a-button>
-        <a-button type="primary" preIcon="ant-design:export-outlined" href="/et/teUaeChinagoodsList">埋点验证</a-button>
+        <a-button type="primary" preIcon="ant-design:search-outlined" href="/et/teUaeChinagoodsList">埋点验证</a-button>
+        <a-button type="primary" preIcon="ant-design:copy-outlined" @click="copyDistinct">复制用户编号</a-button>
+        <a-button type="primary" preIcon="ant-design:copy-outlined" @click="copyAnonymousId">复制设备编号</a-button>
+        <!-- <a-button type="primary" preIcon="ant-design:export-outlined" v-if="anonymousId !== ''">设备编号</a-button> -->
       </template>
       <!--操作栏-->
       <template #action="{ record }">
@@ -35,11 +38,14 @@
   import { columns, searchFormSchema } from './UaeChinagoods.data';
   import { list, deleteOne, batchDelete, getImportUrl, getExportUrl } from './UaeChinagoods.api';
   import { downloadFile } from '/@/utils/common/renderUtils';
-  const checkedKeys = ref<Array<string | number>>([]);
+  import { message } from 'ant-design-vue';
+  import Cookies from 'js-cookie';
+  import clipboard from 'clipboard';
+
   //注册model
   const [registerModal, { openDrawer: openModal }] = useDrawer();
   //注册table数据
-  const { prefixCls, tableContext, onExportXls, onImportXls } = useListPage({
+  const { tableContext, onExportXls } = useListPage({
     tableProps: {
       title: '埋点',
       api: list,
@@ -77,27 +83,7 @@
     },
   });
 
-  const [registerTable, { reload }, { selectedRows, selectedRowKeys, rowSelection }] = tableContext;
-
-  /**
-   * 新增事件
-   */
-  function handleAdd() {
-    openModal(true, {
-      isUpdate: false,
-      showFooter: true,
-    });
-  }
-  /**
-   * 编辑事件
-   */
-  function handleEdit(record: Recordable) {
-    openModal(true, {
-      record,
-      isUpdate: true,
-      showFooter: true,
-    });
-  }
+  const [registerTable, { reload }, { selectedRowKeys, rowSelection }] = tableContext;
   /**
    * 详情
    */
@@ -112,31 +98,19 @@
   /**
    * 双击查看详情
    */
-  function doubleClick(record, index) {
+  function doubleClick(record: Recordable<any>, index: any) {
     handleDetail(record);
-  }
-  /**
-   * 删除事件
-   */
-  async function handleDelete(record) {
-    await deleteOne({ id: record.id }, handleSuccess);
-  }
-  /**
-   * 批量删除事件
-   */
-  async function batchHandleDelete() {
-    await batchDelete({ ids: selectedRowKeys.value }, handleSuccess);
   }
   /**
    * 成功回调
    */
-  function handleSuccess() {
+  function handleSuccess(): void {
     (selectedRowKeys.value = []) && reload();
   }
   /**
    * 操作栏
    */
-  function getTableAction(record) {
+  function getTableAction(record: any) {
     return [
       {
         label: '查看',
@@ -144,23 +118,35 @@
       },
     ];
   }
+
   /**
-   * 下拉操作栏
+   * 点击查询用户编号
    */
-  function getDropDownAction(record) {
-    return [
-      {
-        label: '详情',
-        onClick: handleDetail.bind(null, record),
-      },
-      {
-        label: '删除',
-        popConfirm: {
-          title: '是否确认删除',
-          confirm: handleDelete.bind(null, record),
-        },
-      },
-    ];
+  function copyDistinct() {
+    let saCookieObjStr = Cookies.get('sensorsdata2015jssdkcross');
+    if (saCookieObjStr) {
+      let saCookieObj = JSON.parse(saCookieObjStr);
+      let distinctId = saCookieObj.distinct_id;
+      clipboard.copy(distinctId);
+      message.success('复制成功');
+    } else {
+      message.error('复制失败，本浏览器不存在埋点用户编号');
+    }
+  }
+
+  /**
+   * 点击查询设备号
+   */
+  function copyAnonymousId() {
+    let saCookieObjStr = Cookies.get('sensorsdata2015jssdkcross');
+    if (saCookieObjStr) {
+      let saCookieObj = JSON.parse(saCookieObjStr);
+      let anonymousId = saCookieObj['$device_id'];
+      clipboard.copy(anonymousId);
+      message.success('复制成功');
+    } else {
+      message.error('复制失败，本浏览器不存在埋点缓存设备号');
+    }
   }
 </script>
 

@@ -1,11 +1,12 @@
 <template>
   <BasicDrawer
     v-bind="$attrs"
-    @register="eventPropertyListModal"
+    @register="clientEventScreenshotListModal"
     :width="adaptiveWidth"
-    :helpMessage="['添加、修改、查看事件属性']"
+    :helpMessage="['添加、修改、查看埋点点位']"
+    :placeholder="left"
     destroyOnClose
-    title="事件属性"
+    title="埋点点位"
   >
     <div>
       <!--引用表格-->
@@ -54,20 +55,20 @@
         </template>
       </BasicTable>
       <!-- 表单区域 -->
-      <EtEventPropertyModal @register="registerModal" @success="handleSuccess" />
+      <EtClientEventScreenshotModal @register="registerModal" @success="handleSuccess" />
     </div>
   </BasicDrawer>
 </template>
 
-<script lang="ts" name="et-etEventProperty" setup>
+<script lang="ts" name="et-etClientEventScreenshot" setup>
   import { ref, computed, unref } from 'vue';
-  import { BasicDrawer, useDrawerInner } from '/@/components/Drawer';
+  import { BasicDrawer, DrawerProps, useDrawerInner } from '/@/components/Drawer';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { useModal } from '/@/components/Modal';
   import { useListPage } from '/@/hooks/system/useListPage';
-  import EtEventPropertyModal from './components/EtEventPropertyModal.vue';
-  import { columns, searchFormSchema, formSchema, getBpmFormSchema } from './EtEventProperty.data';
-  import { list, deleteOne, batchDelete, getImportUrl, getExportUrl } from './EtEventProperty.api';
+  import EtClientEventScreenshotModal from './components/EtClientEventScreenshotModal.vue';
+  import { columns, searchFormSchema, formSchema, getBpmFormSchema } from './EtClientEventScreenshot.data';
+  import { list, deleteOne, batchDelete, getImportUrl, getExportUrl } from './EtClientEventScreenshot.api';
   import { downloadFile } from '/@/utils/common/renderUtils';
   import { merge } from 'lodash-es';
   import { JEllipsis } from '/@/components/Form';
@@ -77,6 +78,9 @@
   import { useDrawerAdaptiveWidth } from '/@/hooks/jeecg/useAdaptiveWidth';
   // step2 获取到adaptiveWidth
   const { adaptiveWidth } = useDrawerAdaptiveWidth();
+  const placement = ref<DrawerProps['placement']>('left');
+  placement.value = 'left';
+
   // Emits声明
   const emit = defineEmits(['success', 'register']);
   const eventObj = ref();
@@ -85,12 +89,14 @@
   const eventZhName = ref('');
   const eventTriggerTiming = ref('');
   //父组件向子组件传递参数，初始化子组件
-  const [eventPropertyListModal, { setModalProps, closeModal }] = useDrawerInner(async (data) => {
+  const [clientEventScreenshotListModal, { setModalProps, closeModal }] = useDrawerInner(async (data) => {
     eventId.value = data.record['id'];
     eventName.value = data.record['name'];
     eventZhName.value = data.record['zhName'];
     eventTriggerTiming.value = data.record['triggerTiming'];
     eventObj.value = data.record;
+
+    placement.value = 'left';
   });
 
   const checkedKeys = ref<Array<string | number>>([]);
@@ -99,7 +105,7 @@
   //注册table数据
   const { prefixCls, tableContext, onExportXls, onImportXls } = useListPage({
     tableProps: {
-      title: '事件属性编辑',
+      title: '埋点点位编辑',
       api: (params) => {
         const finalParams = Object.assign({ eventId: eventId.value }, params);
         return list(finalParams);
@@ -131,7 +137,7 @@
       },
     },
     exportConfig: {
-      name: '事件属性',
+      name: '埋点点位',
       url: getExportUrl,
     },
     importConfig: {

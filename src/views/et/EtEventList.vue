@@ -43,7 +43,6 @@
         </a-dropdown>
         <a-button type="primary" preIcon="ant-design:copy-outlined" @click="copyDistinctFunc">复制用户编号</a-button>
         <a-button type="primary" preIcon="ant-design:copy-outlined" @click="copyAnonymousIdFunc">复制设备编号</a-button>
-
       </template>
       <!--操作栏-->
       <template #action="{ record }">
@@ -87,6 +86,12 @@
     <EtEventModal @register="registerModal" @success="handleSuccess" />
     <!-- 表单属性区域 -->
     <EtEventPropertyListModal @register="eventPropertyListModal" @success="handleEventPropertyListSuccess" ref="refEventPropertyListModal" />
+    <!--事件图片区域-->
+    <EtClientEventScreenshotListModal
+      @register="clientEventScreenshotListModal"
+      @success="handleClientEventScreenshotListSuccess"
+      ref="refClientEventScreenshotListModal"
+    />
     <!--修改场景弹窗-->
     <ChangeSceneModal @register="changeEventSceneModal" @success="reload" />
   </div>
@@ -100,12 +105,12 @@
   import EtEventModal from './components/EtEventModal.vue';
   import { useDrawer } from '/@/components/Drawer';
   import EtEventPropertyListModal from './EtEventPropertyListModal.vue';
+  import EtClientEventScreenshotListModal from './EtClientEventScreenshotListModal.vue';
   import ChangeSceneModal from './ChangeSceneModal.vue';
   import { columns, searchFormSchema } from './EtEvent.data';
   import { list, deleteOne, batchDelete, getImportUrl, getExportUrl, batchUpdate } from './EtEvent.api';
   import { downloadFile } from '/@/utils/common/renderUtils';
   import { usePermission } from '/@/hooks/web/usePermission';
-  import { merge } from 'lodash-es';
   import { JEllipsis } from '/@/components/Form';
   import { message } from 'ant-design-vue';
   import clipboard from 'clipboard';
@@ -121,6 +126,8 @@
   const [changeEventSceneModal, { openModal: openChangeSceneModal }] = useModal();
   //注册model
   const [eventPropertyListModal, { openDrawer: openEventPropertyListModal }] = useDrawer();
+
+  const [clientEventScreenshotListModal, { openDrawer: openClientEventScreenshotListModal }] = useDrawer();
   const { hasPermission } = usePermission();
   //注册table数据
   const { prefixCls, tableContext, onExportXls, onImportXls } = useListPage({
@@ -214,6 +221,18 @@
       showFooter: true,
     });
   }
+
+  /**
+   * 查看埋点点位侧边栏
+   */
+  function handleClientEventScreenshotModal(record: Recordable) {
+    openClientEventScreenshotListModal(true, {
+      record,
+      isUpdate: true,
+      showFooter: true,
+    });
+  }
+
   /**
    * 删除事件
    */
@@ -267,6 +286,14 @@
   function handleEventPropertyListSuccess() {
     (selectedRowKeys.value = []) && reload();
   }
+
+  /**
+   * 埋点点位成功回调
+   */
+  function handleClientEventScreenshotListSuccess() {
+    (selectedRowKeys.value = []) && reload();
+  }
+
   /**
    * 操作栏
    */
@@ -326,6 +353,8 @@
    */
   function doubleClick(record, index) {
     handleEventPropertyModal(record);
+    // 打开查看埋点点位侧边栏
+    handleClientEventScreenshotModal(record);
   }
 </script>
 

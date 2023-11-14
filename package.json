@@ -40,7 +40,6 @@
     "@jeecg/online": "3.4.3-GA",
     "@logicflow/core": "^1.1.13",
     "@logicflow/extension": "^1.1.13",
-    "@types/js-cookie": "^3.0.6",
     "@vue/runtime-core": "^3.2.33",
     "@vue/shared": "^3.2.33",
     "@vueuse/core": "^8.3.0",

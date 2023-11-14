@@ -6,8 +6,8 @@
       <template #tableTitle>
         <a-button type="primary" preIcon="ant-design:export-outlined" @click="onExportXls"> 导出</a-button>
         <a-button type="primary" preIcon="ant-design:search-outlined" href="/et/teUaeChinagoodsList">埋点验证</a-button>
-        <a-button type="primary" preIcon="ant-design:copy-outlined" @click="copyDistinct">复制用户编号</a-button>
-        <a-button type="primary" preIcon="ant-design:copy-outlined" @click="copyAnonymousId">复制设备编号</a-button>
+        <a-button type="primary" preIcon="ant-design:copy-outlined" @click="copyDistinctFunc">复制用户编号</a-button>
+        <a-button type="primary" preIcon="ant-design:copy-outlined" @click="copyAnonymousIdFunc">复制设备编号</a-button>
         <!-- <a-button type="primary" preIcon="ant-design:export-outlined" v-if="anonymousId !== ''">设备编号</a-button> -->
       </template>
       <!--操作栏-->
@@ -38,9 +38,10 @@
   import { columns, searchFormSchema } from './UaeChinagoods.data';
   import { list, deleteOne, batchDelete, getImportUrl, getExportUrl } from './UaeChinagoods.api';
   import { downloadFile } from '/@/utils/common/renderUtils';
-  import { message } from 'ant-design-vue';
-  import Cookies from 'js-cookie';
-  import clipboard from 'clipboard';
+  import { copyDistinct, copyAnonymousId } from '/@/utils/sa/tools';
+
+  const copyDistinctFunc = copyDistinct;
+  const copyAnonymousIdFunc = copyAnonymousId;
 
   //注册model
   const [registerModal, { openDrawer: openModal }] = useDrawer();
@@ -117,36 +118,6 @@
         onClick: handleDetail.bind(null, record),
       },
     ];
-  }
-
-  /**
-   * 点击查询用户编号
-   */
-  function copyDistinct() {
-    let saCookieObjStr = Cookies.get('sensorsdata2015jssdkcross');
-    if (saCookieObjStr) {
-      let saCookieObj = JSON.parse(saCookieObjStr);
-      let distinctId = saCookieObj.distinct_id;
-      clipboard.copy(distinctId);
-      message.success('复制成功');
-    } else {
-      message.error('复制失败，本浏览器不存在埋点用户编号');
-    }
-  }
-
-  /**
-   * 点击查询设备号
-   */
-  function copyAnonymousId() {
-    let saCookieObjStr = Cookies.get('sensorsdata2015jssdkcross');
-    if (saCookieObjStr) {
-      let saCookieObj = JSON.parse(saCookieObjStr);
-      let anonymousId = saCookieObj['$device_id'];
-      clipboard.copy(anonymousId);
-      message.success('复制成功');
-    } else {
-      message.error('复制失败，本浏览器不存在埋点缓存设备号');
-    }
   }
 </script>
 

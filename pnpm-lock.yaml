@@ -76,6 +76,7 @@ specifiers:
   intro.js: ^5.1.0
   is-ci: ^3.0.0
   jest: ^27.3.1
+  js-cookie: ^3.0.5
   less: ^4.1.2
   lint-staged: 12.3.7
   lodash-es: ^4.17.21
@@ -170,6 +171,7 @@ dependencies:
   emoji-mart-vue-fast: registry.npmmirror.com/emoji-mart-vue-fast/11.2.0_vue@3.2.45
   enquire.js: registry.npmmirror.com/enquire.js/2.1.6
   intro.js: registry.npmmirror.com/intro.js/5.1.0
+  js-cookie: registry.npmmirror.com/js-cookie/3.0.5
   lodash-es: registry.npmmirror.com/lodash-es/4.17.21
   lodash.get: registry.npmmirror.com/lodash.get/4.4.2
   md5: registry.npmmirror.com/md5/2.3.0
@@ -10424,6 +10426,13 @@ packages:
     name: js-base64
     version: 2.6.4
     dev: true
+
+  registry.npmmirror.com/js-cookie/3.0.5:
+    resolution: {integrity: sha512-cEiJEAEoIbWfCZYKWhVwFuvPX1gETRYPw6LlaTKoxD3s2AkXzkCjnp6h0V77ozyqj0jakteJ4YqDJT830+lVGw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/js-cookie/-/js-cookie-3.0.5.tgz}
+    name: js-cookie
+    version: 3.0.5
+    engines: {node: '>=14'}
+    dev: false
 
   registry.npmmirror.com/js-sdsl/4.1.5:
     resolution: {integrity: sha512-08bOAKweV2NUC1wqTtf3qZlnpOX/R2DU9ikpjOHs0H+ibQv3zpncVQg6um4uYtRtrwIX8M4Nh3ytK4HGlYAq7Q==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/js-sdsl/-/js-sdsl-4.1.5.tgz}

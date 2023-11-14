@@ -13,8 +13,8 @@
           preIcon="ant-design:import-outlined"
           v-if="hasPermission('org.jeecg.modules.demo:et_event:importExcel')"
           @click="onImportXls"
-          >导入</j-upload-button
-        >
+          >导入
+        </j-upload-button>
         <a-dropdown v-if="selectedRowKeys.length > 0">
           <template #overlay>
             <a-menu>
@@ -41,6 +41,9 @@
             <Icon icon="mdi:chevron-down" />
           </a-button>
         </a-dropdown>
+        <a-button type="primary" preIcon="ant-design:copy-outlined" @click="copyDistinctFunc">复制用户编号</a-button>
+        <a-button type="primary" preIcon="ant-design:copy-outlined" @click="copyAnonymousIdFunc">复制设备编号</a-button>
+
       </template>
       <!--操作栏-->
       <template #action="{ record }">
@@ -106,6 +109,10 @@
   import { JEllipsis } from '/@/components/Form';
   import { message } from 'ant-design-vue';
   import clipboard from 'clipboard';
+  import { copyDistinct, copyAnonymousId } from '/@/utils/sa/tools';
+
+  const copyDistinctFunc = copyDistinct;
+  const copyAnonymousIdFunc = copyAnonymousId;
 
   const checkedKeys = ref<Array<string | number>>([]);
   //注册model

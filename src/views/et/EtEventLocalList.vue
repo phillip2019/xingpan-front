@@ -12,6 +12,8 @@
           </a-button>
         </a-dropdown>
       -->
+        <a-button type="primary" preIcon="ant-design:copy-outlined" @click="copyDistinctFunc">复制用户编号</a-button>
+        <a-button type="primary" preIcon="ant-design:copy-outlined" @click="copyAnonymousIdFunc">复制设备编号</a-button>
       </template>
       <!--操作栏-->
       <template #action="{ record }">
@@ -57,10 +59,14 @@
   import clipboard from 'clipboard';
   import { message } from 'ant-design-vue';
   import { JEllipsis } from '/@/components/Form';
+  import { copyDistinct, copyAnonymousId } from '/@/utils/sa/tools';
+
 
   const checkedKeys = ref<Array<string | number>>([]);
 
   const [registerModal, { openDrawer: openModal }] = useDrawer();
+  const copyDistinctFunc = copyDistinct;
+  const copyAnonymousIdFunc = copyAnonymousId;
 
   //注册table数据
   const { prefixCls, tableContext, onExportXls, onImportXls } = useListPage({

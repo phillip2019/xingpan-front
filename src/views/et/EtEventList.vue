@@ -87,11 +87,11 @@
     <!-- 表单属性区域 -->
     <EtEventPropertyListModal @register="eventPropertyListModal" @success="handleEventPropertyListSuccess" ref="refEventPropertyListModal" />
     <!--事件图片区域-->
-    <EtClientEventScreenshotListModal
+    <!-- <EtClientEventScreenshotListModal
       @register="clientEventScreenshotListModal"
       @success="handleClientEventScreenshotListSuccess"
       ref="refClientEventScreenshotListModal"
-    />
+    /> -->
     <!--修改场景弹窗-->
     <ChangeSceneModal @register="changeEventSceneModal" @success="reload" />
   </div>
@@ -105,7 +105,6 @@
   import EtEventModal from './components/EtEventModal.vue';
   import { useDrawer } from '/@/components/Drawer';
   import EtEventPropertyListModal from './EtEventPropertyListModal.vue';
-  import EtClientEventScreenshotListModal from './EtClientEventScreenshotListModal.vue';
   import ChangeSceneModal from './ChangeSceneModal.vue';
   import { columns, searchFormSchema } from './EtEvent.data';
   import { list, deleteOne, batchDelete, getImportUrl, getExportUrl, batchUpdate } from './EtEvent.api';
@@ -354,7 +353,7 @@
   function doubleClick(record, index) {
     handleEventPropertyModal(record);
     // 打开查看埋点点位侧边栏
-    handleClientEventScreenshotModal(record);
+    // handleClientEventScreenshotModal(record);
   }
 </script>
 

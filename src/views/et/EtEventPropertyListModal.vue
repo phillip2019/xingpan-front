@@ -2,65 +2,117 @@
   <BasicDrawer
     v-bind="$attrs"
     @register="eventPropertyListModal"
-    :width="adaptiveWidth"
+    :width="2 * adaptiveWidth"
     :helpMessage="['添加、修改、查看事件属性']"
     destroyOnClose
-    title="事件属性"
+    title="事件属性和点位"
   >
-    <div>
-      <!--引用表格-->
-      <BasicTable @register="registerTable" :rowSelection="rowSelection">
-        <!--插槽:table标题-->
-        <template #tableTitle>
-          <a-button type="primary" @click="handleAdd" preIcon="ant-design:plus-outlined"> 新增</a-button>
-          <a-dropdown v-if="selectedRowKeys.length > 0">
-            <template #overlay>
-              <a-menu>
-                <a-menu-item key="1" @click="batchHandleDelete">
-                  <Icon icon="ant-design:delete-outlined" />
-                  删除
-                </a-menu-item>
-              </a-menu>
-            </template>
-            <a-button
-              >批量操作
-              <Icon icon="mdi:chevron-down" />
-            </a-button>
-          </a-dropdown>
-          <a-tooltip placement="topLeft" :title="eventTriggerTiming">
-            <a-button @click="handleClipboardCopy(eventName)">{{ eventName }}</a-button>
-          </a-tooltip>
-          <a-tooltip placement="topLeft" :title="eventTriggerTiming">
-            <a-button @click="handleClipboardCopy(eventZhName)">{{ eventZhName }}</a-button>
-          </a-tooltip>
-        </template>
-        <!--操作栏-->
-        <template #action="{ record }">
-          <TableAction :actions="getTableAction(record)" :dropDownActions="getDropDownAction(record)" />
-        </template>
-        <!--可复制插槽: copySlot-->
-        <template #copySlot="{ text }">
-          <JEllipsis :value="text" :length="20" @click="handleClipboardCopy(text)" />
-        </template>
-        <!--字段回显插槽-->
-        <template #htmlSlot="{ text }">
-          <div>{{ text }}</div>
-        </template>
-        <template #fileSlot="{ text }">
-          <span v-if="!text" style="font-size: 12px; font-style: italic">无文件</span>
-          <a-button v-else :ghost="true" type="primary" preIcon="ant-design:download-outlined" size="small" @click="downloadFile(text)"
-            >下载</a-button
-          >
-        </template>
-      </BasicTable>
-      <!-- 表单区域 -->
-      <EtEventPropertyModal @register="registerModal" @success="handleSuccess" />
-    </div>
+    <a-row>
+      <a-col :span="12">
+        <!--引用表格-->
+        <BasicTable @register="registerTable" :rowSelection="rowSelection">
+          <!--插槽:table标题-->
+          <template #tableTitle>
+            <a-button type="primary" @click="handleAdd" preIcon="ant-design:plus-outlined"> 新增</a-button>
+            <a-dropdown v-if="selectedRowKeys.length > 0">
+              <template #overlay>
+                <a-menu>
+                  <a-menu-item key="1" @click="batchHandleDelete">
+                    <Icon icon="ant-design:delete-outlined" />
+                    删除
+                  </a-menu-item>
+                </a-menu>
+              </template>
+              <a-button
+                >批量操作
+                <Icon icon="mdi:chevron-down" />
+              </a-button>
+            </a-dropdown>
+            <a-tooltip placement="topLeft" :title="eventTriggerTiming">
+              <a-button @click="handleClipboardCopy(eventName)">{{ eventName }}</a-button>
+            </a-tooltip>
+            <a-tooltip placement="topLeft" :title="eventTriggerTiming">
+              <a-button @click="handleClipboardCopy(eventZhName)">{{ eventZhName }}</a-button>
+            </a-tooltip>
+          </template>
+          <!--操作栏-->
+          <template #action="{ record }">
+            <TableAction :actions="getTableAction(record)" :dropDownActions="getDropDownAction(record)" />
+          </template>
+          <!--可复制插槽: copySlot-->
+          <template #copySlot="{ text }">
+            <JEllipsis :value="text" :length="20" @click="handleClipboardCopy(text)" />
+          </template>
+          <!--字段回显插槽-->
+          <template #htmlSlot="{ text }">
+            <div>{{ text }}</div>
+          </template>
+          <template #fileSlot="{ text }">
+            <span v-if="!text" style="font-size: 12px; font-style: italic">无文件</span>
+            <a-button v-else :ghost="true" type="primary" preIcon="ant-design:download-outlined" size="small" @click="downloadFile(text)"
+              >下载</a-button
+            >
+          </template>
+        </BasicTable>
+        <!-- 表单区域 -->
+        <EtEventPropertyModal @register="registerModal" @success="handleSuccess" />
+      </a-col>
+      <a-col :span="12">
+        <!--引用表格-->
+        <BasicTable @register="registerScreenshotTable" :rowSelection="rowSelectionScreenshot">
+          <!--插槽:table标题-->
+          <template #tableTitle>
+            <a-button type="primary" @click="handleAddScreenshot" preIcon="ant-design:plus-outlined"> 新增</a-button>
+            <a-dropdown v-if="selectedRowKeysScreenshot.length > 0">
+              <template #overlay>
+                <a-menu>
+                  <a-menu-item key="1" @click="batchHandleDeleteScreenshot">
+                    <Icon icon="ant-design:delete-outlined" />
+                    删除
+                  </a-menu-item>
+                </a-menu>
+              </template>
+              <a-button
+                >批量操作
+                <Icon icon="mdi:chevron-down" />
+              </a-button>
+            </a-dropdown>
+            <a-tooltip placement="topLeft" :title="eventTriggerTiming">
+              <a-button @click="handleClipboardCopy(eventName)">{{ eventName }}</a-button>
+            </a-tooltip>
+            <a-tooltip placement="topLeft" :title="eventTriggerTiming">
+              <a-button @click="handleClipboardCopy(eventZhName)">{{ eventZhName }}</a-button>
+            </a-tooltip>
+          </template>
+          <!--操作栏-->
+          <template #action="{ record }">
+            <TableAction :actions="getTableActionScreenshot(record)" :dropDownActions="getDropDownActionScreenshot(record)" />
+          </template>
+          <!--可复制插槽: copySlot-->
+          <template #copySlot="{ text }">
+            <JEllipsis :value="text" :length="20" @click="handleClipboardCopy(text)" />
+          </template>
+          <!--字段回显插槽-->
+          <template #htmlSlot="{ text }">
+            <div>{{ text }}</div>
+          </template>
+          <template #fileSlot="{ text }">
+            <span v-if="!text" style="font-size: 12px; font-style: italic">无文件</span>
+            <a-button v-else :ghost="true" type="primary" preIcon="ant-design:download-outlined" size="small" @click="downloadFileScreenshot(text)"
+              >下载</a-button
+            >
+          </template>
+        </BasicTable>
+        <!-- 表单区域 -->
+        <EtClientEventScreenshotModal @register="registerModalScreenshot" @success="handleSuccessScreenshot" />
+      </a-col>
+    </a-row>
   </BasicDrawer>
 </template>
 
 <script lang="ts" name="et-etEventProperty" setup>
   import { ref, computed, unref } from 'vue';
+  import { PageWrapper } from '/@/components/Page';
   import { BasicDrawer, useDrawerInner } from '/@/components/Drawer';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { useModal } from '/@/components/Modal';
@@ -73,6 +125,22 @@
   import { JEllipsis } from '/@/components/Form';
   import clipboard from 'clipboard';
   import { message } from 'ant-design-vue';
+
+  import EtClientEventScreenshotModal from './components/EtClientEventScreenshotModal.vue';
+  import {
+    columns as columnsScreenshot,
+    searchFormSchema as searchFormSchemaScreenshot,
+    formSchema as formSchemaScreenshot,
+    getBpmFormSchema as getBpmFormSchemaScreenshot,
+  } from './EtClientEventScreenshot.data';
+  import {
+    list as listScreenshot,
+    deleteOne as deleteOneScreenshot,
+    batchDelete as batchDeleteScreenshot,
+    getImportUrl as getImportUrlScreenshot,
+    getExportUrl as getExportUrlScreenshot,
+  } from './EtClientEventScreenshot.api';
+
   // step1 引入useDrawerAdaptiveWidth方法
   import { useDrawerAdaptiveWidth } from '/@/hooks/jeecg/useAdaptiveWidth';
   // step2 获取到adaptiveWidth
@@ -94,6 +162,7 @@
   });
 
   const checkedKeys = ref<Array<string | number>>([]);
+  const checkedKeysScreenshot = ref<Array<string | number>>([]);
   //注册model
   const [registerModal, { openModal }] = useModal();
   //注册table数据
@@ -141,6 +210,62 @@
   });
 
   const [registerTable, { reload }, { rowSelection, selectedRowKeys }] = tableContext;
+
+  const [registerModalScreenshot, { openModal: openModalScreenshot }] = useModal();
+  //注册table数据
+  const {
+    prefixCls: prefixClsScreenshot,
+    tableContext: tableContextScreenshot,
+    onExportXls: onExportXlsScreenshot,
+    onImportXls: onImportXlsScreenshot,
+  } = useListPage({
+    tableProps: {
+      title: '埋点点位编辑',
+      api: (params) => {
+        const finalParams = Object.assign({ eventId: eventId.value }, params);
+        return listScreenshot(finalParams);
+      },
+      columns: columnsScreenshot,
+      canResize: true,
+      // 是否显示边框
+      bordered: true,
+      formConfig: {
+        //labelWidth: 120,
+        schemas: searchFormSchemaScreenshot,
+        autoSubmitOnEnter: true,
+        showAdvancedButton: true,
+        fieldMapToNumber: [],
+        fieldMapToTime: [],
+      },
+      actionColumn: {
+        width: 120,
+        fixed: 'right',
+      },
+      pagination: {
+        current: 1,
+        pageSize: 30,
+        pageSizeOptions: ['30', '60', '90'],
+      },
+      beforeFetch: (params) => {
+        // 默认以 createTime 降序排序
+        merge(params, { column: 'sorted', order: 'asc' });
+      },
+    },
+    exportConfig: {
+      name: '埋点点位',
+      url: getExportUrlScreenshot,
+    },
+    importConfig: {
+      url: getImportUrlScreenshot,
+      success: handleSuccess,
+    },
+  });
+
+  const [
+    registerScreenshotTable,
+    { reload: reloadScreenshot },
+    { rowSelection: rowSelectionScreenshot, selectedRowKeys: selectedRowKeysScreenshot },
+  ] = tableContextScreenshot;
 
   /**
    * 新增事件
@@ -224,6 +349,85 @@
         popConfirm: {
           title: '是否确认删除',
           confirm: handleDelete.bind(null, record),
+        },
+      },
+    ];
+  }
+
+  /**
+   * 新增事件
+   */
+  function handleAddScreenshot() {
+    const eventIdStr = eventId.value;
+    openModalScreenshot(true, {
+      eventId: eventIdStr,
+      isUpdate: false,
+      showFooter: true,
+    });
+  }
+  /**
+   * 编辑事件
+   */
+  function handleEditScreenshot(record: Recordable) {
+    openModalScreenshot(true, {
+      record,
+      isUpdate: true,
+      showFooter: true,
+    });
+  }
+  /**
+   * 详情
+   */
+  function handleDetailScreenshot(record: Recordable) {
+    openModalScreenshot(true, {
+      record,
+      isUpdate: true,
+      showFooter: false,
+    });
+  }
+  /**
+   * 删除事件
+   */
+  async function handleDeleteScreenshot(record) {
+    await deleteOneScreenshot({ id: record.id }, handleSuccessScreenshot);
+  }
+  /**
+   * 批量删除事件
+   */
+  async function batchHandleDeleteScreenshot() {
+    await batchDeleteScreenshot({ ids: selectedRowKeysScreenshot.value }, handleSuccessScreenshot);
+  }
+  /**
+   * 成功回调
+   */
+  function handleSuccessScreenshot() {
+    (selectedRowKeysScreenshot.value = []) && reloadScreenshot();
+  }
+  /**
+   * 操作栏
+   */
+  function getTableActionScreenshot(record) {
+    return [
+      {
+        label: '编辑',
+        onClick: handleEditScreenshot.bind(null, record),
+      },
+    ];
+  }
+  /**
+   * 下拉操作栏
+   */
+  function getDropDownActionScreenshot(record) {
+    return [
+      {
+        label: '详情',
+        onClick: handleDetailScreenshot.bind(null, record),
+      },
+      {
+        label: '删除',
+        popConfirm: {
+          title: '是否确认删除',
+          confirm: handleDeleteScreenshot.bind(null, record),
         },
       },
     ];

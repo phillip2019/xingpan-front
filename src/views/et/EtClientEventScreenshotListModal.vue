@@ -4,7 +4,7 @@
     @register="clientEventScreenshotListModal"
     :width="adaptiveWidth"
     :helpMessage="['添加、修改、查看埋点点位']"
-    :placeholder="left"
+    :placeholder="placement"
     destroyOnClose
     title="埋点点位"
   >

@@ -53,6 +53,12 @@
             >下载</a-button
           >
         </template>
+        <!--状态显示栏-->
+        <template #status="{ record, text }">
+          <a-tag color="gray" v-if="text == 0">初始化</a-tag>
+          <a-tag color="#87d068" v-if="text == 1">正常</a-tag>
+          <a-tag color="red" v-if="text == 2">改版</a-tag>
+        </template>
       </BasicTable>
       <!-- 表单区域 -->
       <EtClientEventScreenshotModal @register="registerModal" @success="handleSuccess" />
@@ -128,7 +134,7 @@
       },
       pagination: {
         current: 1,
-        pageSize: 30,
+        pageSize: 50,
         pageSizeOptions: ['30', '60', '90'],
       },
       beforeFetch: (params) => {

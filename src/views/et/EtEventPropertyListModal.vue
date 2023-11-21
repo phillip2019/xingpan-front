@@ -191,7 +191,7 @@
       },
       pagination: {
         current: 1,
-        pageSize: 30,
+        pageSize: 50,
         pageSizeOptions: ['30', '60', '90'],
       },
       beforeFetch: (params) => {

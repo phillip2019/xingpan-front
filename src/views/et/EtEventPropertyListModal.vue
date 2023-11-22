@@ -111,7 +111,7 @@
 </template>
 
 <script lang="ts" name="et-etEventProperty" setup>
-  import { ref, computed, unref } from 'vue';
+  import { ref, computed, unref, Ref } from 'vue';
   import { PageWrapper } from '/@/components/Page';
   import { BasicDrawer, useDrawerInner } from '/@/components/Drawer';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
@@ -152,6 +152,15 @@
   const eventName = ref('');
   const eventZhName = ref('');
   const eventTriggerTiming = ref('');
+  const clientIdClientNameMapArr = ref([]) as Ref<Object[]>;
+
+  //表单配置
+  const [registerForm, { setProps, setFieldsValue, resetFields, getFieldsValue, validate }] = useForm({
+    labelWidth: 150,
+    schemas: formSchema,
+    showActionButtonGroup: false,
+    baseColProps: { span: 24 },
+
   //父组件向子组件传递参数，初始化子组件
   const [eventPropertyListModal, { setModalProps, closeModal }] = useDrawerInner(async (data) => {
     eventId.value = data.record['id'];
@@ -159,6 +168,9 @@
     eventZhName.value = data.record['zhName'];
     eventTriggerTiming.value = data.record['triggerTiming'];
     eventObj.value = data.record;
+
+    // TODO 完成后续上传埋点点位功能
+    clientIdClientNameMapArr = await getBpmFormSchemaScreenshot();
   });
 
   const checkedKeys = ref<Array<string | number>>([]);

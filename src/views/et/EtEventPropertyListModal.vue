@@ -120,6 +120,7 @@
   import EtEventPropertyModal from './components/EtEventPropertyModal.vue';
   import { columns, searchFormSchema, formSchema, getBpmFormSchema } from './EtEventProperty.data';
   import { list, deleteOne, batchDelete, getImportUrl, getExportUrl } from './EtEventProperty.api';
+  import { list as listClient } from './EtClient.api';
   import { downloadFile } from '/@/utils/common/renderUtils';
   import { merge } from 'lodash-es';
   import { JEllipsis } from '/@/components/Form';
@@ -154,13 +155,6 @@
   const eventTriggerTiming = ref('');
   const clientIdClientNameMapArr = ref([]) as Ref<Object[]>;
 
-  //表单配置
-  const [registerForm, { setProps, setFieldsValue, resetFields, getFieldsValue, validate }] = useForm({
-    labelWidth: 150,
-    schemas: formSchema,
-    showActionButtonGroup: false,
-    baseColProps: { span: 24 },
-
   //父组件向子组件传递参数，初始化子组件
   const [eventPropertyListModal, { setModalProps, closeModal }] = useDrawerInner(async (data) => {
     eventId.value = data.record['id'];
@@ -170,7 +164,9 @@
     eventObj.value = data.record;
 
     // TODO 完成后续上传埋点点位功能
-    clientIdClientNameMapArr = await getBpmFormSchemaScreenshot();
+    // 传入event_id，获取客户端对应事件的client列表
+    clientIdClientNameMapArr.value = await listClient({ eventId: eventId.value });
+    console.log('客户端列表为： ', clientIdClientNameMapArr.value);
   });
 
   const checkedKeys = ref<Array<string | number>>([]);
@@ -258,10 +254,10 @@
         pageSize: 30,
         pageSizeOptions: ['30', '60', '90'],
       },
-      beforeFetch: (params) => {
-        // 默认以 createTime 降序排序
-        merge(params, { column: 'sorted', order: 'asc' });
-      },
+      // beforeFetch: (params) => {
+      //   // 默认以 createTime 降序排序
+      //   merge(params, { column: 'sorted', order: 'asc' });
+      // },
     },
     exportConfig: {
       name: '埋点点位',

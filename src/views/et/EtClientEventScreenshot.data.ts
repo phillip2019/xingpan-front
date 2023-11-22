@@ -57,34 +57,34 @@ export const columns: BasicColumn[] = [
 ];
 //查询数据
 export const searchFormSchema: FormSchema[] = [
-  {
-    label: '客户端',
-    field: 'clientId',
-    component: 'JDictSelectTag',
-    colProps: { span: 24 },
-    helpMessage: ['请客户端名称'],
-    componentProps: ({ schema, tableAction, formActionType, formModel }) => {
-      let sqlPreTpl = 'et_client,unit_name,unit_name,1=1 ';
-      sqlPreTpl += ' group by unit_name';
-      return {
-        dictCode: sqlPreTpl,
-      };
-    },
-  },
-  {
-    label: '模块',
-    field: 'unitName',
-    component: 'JDictSelectTag',
-    colProps: { span: 24 },
-    helpMessage: ['请输入模块名称'],
-    componentProps: ({ schema, tableAction, formActionType, formModel }) => {
-      let sqlPreTpl = 'et_client_event_screenshot,unit_name,unit_name,1=1 ';
-      sqlPreTpl += ' group by unit_name';
-      return {
-        dictCode: sqlPreTpl,
-      };
-    },
-  },
+  // {
+  //   label: '客户端',
+  //   field: 'clientId',
+  //   component: 'JDictSelectTag',
+  //   colProps: { span: 24 },
+  //   helpMessage: ['请客户端名称'],
+  //   componentProps: ({ schema, tableAction, formActionType, formModel }) => {
+  //     let sqlPreTpl = 'et_client,unit_name,unit_name,1=1 ';
+  //     sqlPreTpl += ' group by unit_name';
+  //     return {
+  //       dictCode: sqlPreTpl,
+  //     };
+  //   },
+  // },
+  // {
+  //   label: '模块',
+  //   field: 'unitName',
+  //   component: 'JDictSelectTag',
+  //   colProps: { span: 24 },
+  //   helpMessage: ['请输入模块名称'],
+  //   componentProps: ({ schema, tableAction, formActionType, formModel }) => {
+  //     let sqlPreTpl = 'et_client_event_screenshot,unit_name,unit_name,1=1 ';
+  //     sqlPreTpl += ' group by unit_name';
+  //     return {
+  //       dictCode: sqlPreTpl,
+  //     };
+  //   },
+  // },
   {
     label: '页面',
     field: 'pageName',

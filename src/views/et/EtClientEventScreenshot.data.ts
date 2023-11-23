@@ -56,68 +56,69 @@ export const columns: BasicColumn[] = [
   },
 ];
 //查询数据
-export const searchFormSchema: FormSchema[] = [
-  // {
-  //   label: '客户端',
-  //   field: 'clientId',
-  //   component: 'JDictSelectTag',
-  //   colProps: { span: 24 },
-  //   helpMessage: ['请客户端名称'],
-  //   componentProps: ({ schema, tableAction, formActionType, formModel }) => {
-  //     let sqlPreTpl = 'et_client,unit_name,unit_name,1=1 ';
-  //     sqlPreTpl += ' group by unit_name';
-  //     return {
-  //       dictCode: sqlPreTpl,
-  //     };
-  //   },
-  // },
-  // {
-  //   label: '模块',
-  //   field: 'unitName',
-  //   component: 'JDictSelectTag',
-  //   colProps: { span: 24 },
-  //   helpMessage: ['请输入模块名称'],
-  //   componentProps: ({ schema, tableAction, formActionType, formModel }) => {
-  //     let sqlPreTpl = 'et_client_event_screenshot,unit_name,unit_name,1=1 ';
-  //     sqlPreTpl += ' group by unit_name';
-  //     return {
-  //       dictCode: sqlPreTpl,
-  //     };
-  //   },
-  // },
-  {
-    label: '页面',
-    field: 'pageName',
-    component: 'JDictSelectTag',
-    colProps: { span: 24 },
-    componentProps: ({ schema, tableAction, formActionType, formModel }) => {
-      let sqlPreTpl = 'et_client_event_screenshot,pageName,pageName,1=1 ';
-      sqlPreTpl += ' group by pageName';
-      return {
-        dictCode: sqlPreTpl,
-      };
+export const searchFormSchema = (clientIdOptions) => {
+  console.log('客户端参数列表: .....', clientIdOptions);
+
+  return [
+    {
+      label: '客户端',
+      field: 'clientId',
+      component: 'JDictSelectTag',
+      colProps: { span: 24 },
+      helpMessage: ['请选择客户端'],
+      componentProps: {
+        options: clientIdOptions,
+      },
     },
-  },
-  {
-    label: '埋点位置',
-    field: 'pagePosition',
-    component: 'JInput',
-    colProps: { span: 12 },
-  },
-  {
-    label: '状态',
-    field: 'status',
-    component: 'JDictSelectTag',
-    componentProps: {
-      options: [
-        { label: '初始化', value: 0 },
-        { label: '正常', value: 1 },
-        { label: '改版', value: 2 },
-      ],
+    // {
+    //   label: '模块',
+    //   field: 'unitName',
+    //   component: 'JDictSelectTag',
+    //   colProps: { span: 24 },
+    //   helpMessage: ['请输入模块名称'],
+    //   componentProps: ({ schema, tableAction, formActionType, formModel }) => {
+    //     let sqlPreTpl = 'et_client_event_screenshot,unit_name,unit_name,1=1 ';
+    //     sqlPreTpl += ' group by unit_name';
+    //     return {
+    //       dictCode: sqlPreTpl,
+    //     };
+    //   },
+    // },
+    {
+      label: '页面',
+      field: 'pageName',
+      component: 'JDictSelectTag',
+      colProps: { span: 24 },
+      componentProps: ({ schema, tableAction, formActionType, formModel }) => {
+        let sqlPreTpl = 'et_client_event_screenshot,pageName,pageName,1=1 ';
+        sqlPreTpl += ' group by pageName';
+        return {
+          dictCode: sqlPreTpl,
+        };
+      },
     },
-    colProps: { span: 12 },
-  },
-];
+    {
+      label: '埋点位置',
+      field: 'pagePosition',
+      component: 'JInput',
+      colProps: { span: 12 },
+    },
+    {
+      label: '状态',
+      field: 'status',
+      component: 'JDictSelectTag',
+      componentProps: {
+        options: [
+          { label: '初始化', value: 0 },
+          { label: '正常', value: 1 },
+          { label: '改版', value: 2 },
+        ],
+      },
+      colProps: { span: 12 },
+    },
+  ];
+};
+
 //表单数据
 export const formSchema: FormSchema[] = [
   {

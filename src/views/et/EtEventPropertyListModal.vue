@@ -123,7 +123,7 @@
   import { list as listClient } from './EtClient.api';
   import { downloadFile } from '/@/utils/common/renderUtils';
   import { merge } from 'lodash-es';
-  import { JEllipsis } from '/@/components/Form';
+  import { FormSchema, JEllipsis } from '/@/components/Form';
   import clipboard from 'clipboard';
   import { message } from 'ant-design-vue';
 
@@ -153,7 +153,9 @@
   const eventName = ref('');
   const eventZhName = ref('');
   const eventTriggerTiming = ref('');
-  const clientIdClientNameMapArr = ref([]) as Ref<Object[]>;
+  const clientList = ref([]) as Ref<Object[]>;
+  const clientIdOptionsRef = ref([]);
+  const formSchemaScreenshotRef: FormSchema[] = searchFormSchemaScreenshot(clientIdOptionsRef);
 
   //父组件向子组件传递参数，初始化子组件
   const [eventPropertyListModal, { setModalProps, closeModal }] = useDrawerInner(async (data) => {
@@ -165,8 +167,18 @@
 
     // TODO 完成后续上传埋点点位功能
     // 传入event_id，获取客户端对应事件的client列表
-    clientIdClientNameMapArr.value = await listClient({ eventId: eventId.value });
-    console.log('客户端列表为： ', clientIdClientNameMapArr.value);
+    let eventListRsp = await listClient({ eventId: eventId.value });
+    clientList.value = eventListRsp.records;
+    const clientNameAndClientIdList: any = [];
+    for (const clientObj of eventListRsp.records) {
+      let url = clientObj.url ? clientObj.url : '';
+      clientNameAndClientIdList.push({
+        label: clientObj.name + `[${url}]`,
+        value: clientObj.id,
+      });
+    }
+    console.log('客户端列表为： ', clientNameAndClientIdList);
+    clientIdOptionsRef.value = clientNameAndClientIdList;
   });
 
   const checkedKeys = ref<Array<string | number>>([]);
@@ -239,7 +251,7 @@
       bordered: true,
       formConfig: {
         //labelWidth: 120,
-        schemas: searchFormSchemaScreenshot,
+        schemas: formSchemaScreenshotRef,
         autoSubmitOnEnter: true,
         showAdvancedButton: true,
         fieldMapToNumber: [],

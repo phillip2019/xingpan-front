@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts" setup>
-  import { ref, computed, unref } from 'vue';
+  import { ref, computed, unref, toRaw } from 'vue';
   import { BasicModal, useModalInner } from '/@/components/Modal';
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { formSchema } from '../EtClientEventScreenshot.data';
@@ -13,15 +13,20 @@
   // Emits声明
   const emit = defineEmits(['register', 'success']);
   const isUpdate = ref(true);
+  const clientIdOptionsRef = ref([]);
   //表单配置
   const [registerForm, { setProps, resetFields, setFieldsValue, validate }] = useForm({
     //labelWidth: 150,
-    schemas: formSchema,
+    schemas: formSchema(clientIdOptionsRef),
     showActionButtonGroup: false,
     baseColProps: { span: 24 },
   });
   //表单赋值
   const [registerModal, { setModalProps, closeModal }] = useModalInner(async (data) => {
+    const clientIdOptionsData = toRaw(data.clientIdOptions);
+
+    console.log('客户端id选项: ', clientIdOptionsData);
+    clientIdOptionsRef.value = clientIdOptionsData;
     //重置表单
     await resetFields();
     setModalProps({ confirmLoading: false, showCancelBtn: !!data?.showFooter, showOkBtn: !!data?.showFooter });

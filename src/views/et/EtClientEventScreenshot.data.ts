@@ -2,13 +2,26 @@ import { BasicColumn } from '/@/components/Table';
 import { FormSchema } from '/@/components/Table';
 import { rules } from '/@/utils/helper/validator';
 import { render } from '/@/utils/common/renderUtils';
+import { Ref } from 'vue';
 //列表数据
 export const columns: BasicColumn[] = [
   {
-    title: '事件客户端ID',
+    title: '客户端',
     align: 'center',
     sorter: true,
     dataIndex: 'clientEventId',
+    customRender: ({ value, record }) => {
+      return `${record.client.name}`;
+    },
+  },
+  {
+    title: '客户端地址',
+    align: 'center',
+    sorter: true,
+    dataIndex: '',
+    customRender: ({ value, record }) => {
+      return `${record.client.url}`;
+    },
   },
   {
     title: '模块',
@@ -33,7 +46,7 @@ export const columns: BasicColumn[] = [
     align: 'center',
     sorter: true,
     dataIndex: 'screenshot',
-    customRender: render.renderImage,
+    customRender: render.renderBigImage,
   },
   {
     title: '状态',
@@ -56,7 +69,7 @@ export const columns: BasicColumn[] = [
   },
 ];
 //查询数据
-export const searchFormSchema = (clientIdOptions) => {
+export const searchFormSchema = (clientIdOptions: Ref<[]>) => {
   console.log('客户端参数列表: .....', clientIdOptions);
 
   return [
@@ -84,19 +97,19 @@ export const searchFormSchema = (clientIdOptions) => {
     //     };
     //   },
     // },
-    {
-      label: '页面',
-      field: 'pageName',
-      component: 'JDictSelectTag',
-      colProps: { span: 24 },
-      componentProps: ({ schema, tableAction, formActionType, formModel }) => {
-        let sqlPreTpl = 'et_client_event_screenshot,pageName,pageName,1=1 ';
-        sqlPreTpl += ' group by pageName';
-        return {
-          dictCode: sqlPreTpl,
-        };
-      },
-    },
+    // {
+    //   label: '页面',
+    //   field: 'pageName',
+    //   component: 'JDictSelectTag',
+    //   colProps: { span: 24 },
+    //   componentProps: ({ schema, tableAction, formActionType, formModel }) => {
+    //     let sqlPreTpl = 'et_client_event_screenshot,pageName,pageName,1=1 ';
+    //     sqlPreTpl += ' group by pageName';
+    //     return {
+    //       dictCode: sqlPreTpl,
+    //     };
+    //   },
+    // },
     {
       label: '埋点位置',
       field: 'pagePosition',
@@ -120,78 +133,84 @@ export const searchFormSchema = (clientIdOptions) => {
 };
 
 //表单数据
-export const formSchema: FormSchema[] = [
-  {
-    label: '事件客户端编号',
-    field: 'clientEventId',
-    component: 'Input',
-    dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入事件客户端编号' }];
+export const formSchema = (clientIdOptions: Ref<[]>) => {
+  console.log('客户端参数列表: .....', clientIdOptions);
+  return [
+    {
+      label: '客户端',
+      field: 'clientEventId',
+      component: 'JDictSelectTag',
+      componentProps: {
+        options: clientIdOptions,
+      },
+      dynamicRules: ({ model, schema }) => {
+        return [{ required: true, message: '请输入事件客户端编号' }];
+      },
     },
-  },
-  {
-    label: '模块',
-    field: 'unitName',
-    component: 'Input',
-    dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入模块名称' }];
+    {
+      label: '模块',
+      field: 'unitName',
+      component: 'Input',
+      dynamicRules: ({ model, schema }) => {
+        return [{ required: true, message: '请输入模块名称' }];
+      },
     },
-  },
-  {
-    label: '页面',
-    field: 'pageName',
-    component: 'Input',
-    dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入页面名称' }];
+    {
+      label: '页面',
+      field: 'pageName',
+      component: 'Input',
+      dynamicRules: ({ model, schema }) => {
+        return [{ required: true, message: '请输入页面名称' }];
+      },
     },
-  },
-  {
-    label: '位置',
-    field: 'pagePosition',
-    component: 'Input',
-    dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入埋点点位位置' }];
+    {
+      label: '位置',
+      field: 'pagePosition',
+      component: 'Input',
+      dynamicRules: ({ model, schema }) => {
+        return [{ required: true, message: '请输入埋点点位位置' }];
+      },
     },
-  },
-  {
-    label: '点位图片',
-    field: 'screenshot',
-    component: 'JImageUpload',
-    componentProps: {},
-    dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入点位图片' }];
+    {
+      label: '点位图片',
+      field: 'screenshot',
+      component: 'JImageUpload',
+      componentProps: {},
+      dynamicRules: ({ model, schema }) => {
+        return [{ required: true, message: '请输入点位图片' }];
+      },
     },
-  },
-  {
-    label: '状态',
-    field: 'status',
-    component: 'JDictSelectTag',
-    defaultValue: 1,
-    componentProps: {
-      options: [
-        { label: '初始化', value: 0 },
-        { label: '正常', value: 1 },
-        { label: '改版', value: 2 },
-      ],
+    {
+      label: '状态',
+      field: 'status',
+      component: 'JDictSelectTag',
+      defaultValue: 1,
+      componentProps: {
+        options: [
+          { label: '初始化', value: 0 },
+          { label: '正常', value: 1 },
+          { label: '改版', value: 2 },
+        ],
+      },
+      dynamicRules: ({ model, schema }) => {
+        return [{ required: true, message: '请选择状态!' }];
+      },
     },
-    dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请选择状态!' }];
+    // TODO 主键隐藏字段，目前写死为ID
+    {
+      label: '',
+      field: 'id',
+      component: 'Input',
+      show: false,
     },
-  },
-  // TODO 主键隐藏字段，目前写死为ID
-  {
-    label: '',
-    field: 'id',
-    component: 'Input',
-    show: false,
-  },
-];
+  ];
+};
 
 /**
  * 流程表单调用这个方法获取formSchema
  * @param param
  */
-export function getBpmFormSchema(_formData): FormSchema[] {
+export function getBpmFormSchema(_formData: { [key: string]: any }, clientIdOptions: any): FormSchema[] {
   // 默认和原始表单保持一致 如果流程中配置了权限数据，这里需要单独处理formSchema
-  return formSchema;
+  return formSchema([]);
 }

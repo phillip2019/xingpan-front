@@ -9,11 +9,13 @@
 
 <script lang="ts">
   import { BasicForm, useForm } from '/@/components/Form/index';
-  import { computed, defineComponent } from 'vue';
+  import { computed, defineComponent, ref } from 'vue';
   import { defHttp } from '/@/utils/http/axios';
   import { propTypes } from '/@/utils/propTypes';
   import { getBpmFormSchema } from '../EtEventProperty.data';
   import { saveOrUpdate } from '../EtEventProperty.api';
+
+  const isUpdate = ref(true);
 
   export default defineComponent({
     name: 'EtEventPropertyForm',

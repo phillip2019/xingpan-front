@@ -126,7 +126,7 @@ export const searchFormSchema: FormSchema[] = [
     field: 'name',
     component: 'JInput',
     colProps: { span: 4 },
-    helpMessage: ['请输入事件名过滤，支持模糊搜索'],
+    helpMessage: ['请输入事件英文名过滤，支持模糊搜索'],
   },
   {
     label: '事件名',
@@ -152,7 +152,7 @@ export const searchFormSchema: FormSchema[] = [
     field: 'zhName',
     component: 'JInput',
     colProps: { span: 4 },
-    helpMessage: ['请输入事件中文名过滤'],
+    helpMessage: ['请输入事件中文名过滤，支持模糊搜索'],
   },
   {
     label: '事件状态',

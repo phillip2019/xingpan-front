@@ -33,7 +33,6 @@
       });
     } else {
       // eventId赋值
-      console.log(data.eventId);
       await setFieldsValue({
         eventId: data?.eventId,
       });

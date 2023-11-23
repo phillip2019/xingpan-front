@@ -155,7 +155,8 @@
   const eventTriggerTiming = ref('');
   const clientList = ref([]) as Ref<Object[]>;
   const clientIdOptionsRef = ref([]);
-  const formSchemaScreenshotRef: FormSchema[] = searchFormSchemaScreenshot(clientIdOptionsRef);
+  const searchFormSchemaScreenshotRef: FormSchema[] = searchFormSchemaScreenshot(clientIdOptionsRef);
+  let clientIdOptionsDataSource = [];
 
   //父组件向子组件传递参数，初始化子组件
   const [eventPropertyListModal, { setModalProps, closeModal }] = useDrawerInner(async (data) => {
@@ -174,11 +175,11 @@
       let url = clientObj.url ? clientObj.url : '';
       clientNameAndClientIdList.push({
         label: clientObj.name + `[${url}]`,
-        value: clientObj.id,
+        value: clientObj.clientEventId,
       });
     }
-    console.log('客户端列表为： ', clientNameAndClientIdList);
     clientIdOptionsRef.value = clientNameAndClientIdList;
+    clientIdOptionsDataSource = clientNameAndClientIdList;
   });
 
   const checkedKeys = ref<Array<string | number>>([]);
@@ -251,7 +252,7 @@
       bordered: true,
       formConfig: {
         //labelWidth: 120,
-        schemas: formSchemaScreenshotRef,
+        schemas: searchFormSchemaScreenshotRef,
         autoSubmitOnEnter: true,
         showAdvancedButton: true,
         fieldMapToNumber: [],
@@ -383,6 +384,7 @@
       eventId: eventIdStr,
       isUpdate: false,
       showFooter: true,
+      clientIdOptions: clientIdOptionsRef.value,
     });
   }
   /**
@@ -393,6 +395,7 @@
       record,
       isUpdate: true,
       showFooter: true,
+      clientIdOptions: clientIdOptionsRef.value,
     });
   }
   /**
@@ -403,6 +406,7 @@
       record,
       isUpdate: true,
       showFooter: false,
+      clientIdOptions: clientIdOptionsRef.value,
     });
   }
   /**

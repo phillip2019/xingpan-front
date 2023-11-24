@@ -19,7 +19,7 @@ export const columns: BasicColumn[] = [
     align: 'center',
     sorter: true,
     dataIndex: 'screenshot',
-    customRender: render.renderBigImage,
+    slots: { customRender: 'screenshot' },
   },
   {
     title: '客户端地址',
@@ -52,6 +52,7 @@ export const columns: BasicColumn[] = [
     title: '状态',
     align: 'center',
     sorter: true,
+    dataIndex: 'status',
     slots: { customRender: 'status' },
     width: 80,
   },

@@ -88,9 +88,20 @@
           <template #action="{ record }">
             <TableAction :actions="getTableActionScreenshot(record)" :dropDownActions="getDropDownActionScreenshot(record)" />
           </template>
+          <!--状态显示栏-->
+          <template #status="{ record, text }">
+            <a-tag color="green" v-if="text === 1">初始化</a-tag>
+            <a-tag color="#87d068" v-if="text == 2">上线</a-tag>
+            <a-tag color="pink" v-if="text == 3">下线</a-tag>
+            <a-tag color="red" v-if="text == 4">异常</a-tag>
+          </template>
           <!--可复制插槽: copySlot-->
           <template #copySlot="{ text }">
             <JEllipsis :value="text" :length="20" @click="handleClipboardCopy(text)" />
+          </template>
+          <!--截图插槽: screenshot-->
+          <template #screenshot="{ text }">
+            <Image :src="getFileAccessHttpUrl(text)" shape="square" :width="40" style="marginright: '1px'"/>
           </template>
           <!--字段回显插槽-->
           <template #htmlSlot="{ text }">
@@ -112,6 +123,7 @@
 
 <script lang="ts" name="et-etEventProperty" setup>
   import { ref, computed, unref, Ref } from 'vue';
+  import { Image, Tag, Tooltip, message } from 'ant-design-vue';
   import { PageWrapper } from '/@/components/Page';
   import { BasicDrawer, useDrawerInner } from '/@/components/Drawer';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
@@ -122,10 +134,10 @@
   import { list, deleteOne, batchDelete, getImportUrl, getExportUrl } from './EtEventProperty.api';
   import { list as listClient } from './EtClient.api';
   import { downloadFile } from '/@/utils/common/renderUtils';
+  import { getFileAccessHttpUrl } from '/@/utils/common/compUtils';
   import { merge } from 'lodash-es';
   import { FormSchema, JEllipsis } from '/@/components/Form';
   import clipboard from 'clipboard';
-  import { message } from 'ant-design-vue';
 
   import EtClientEventScreenshotModal from './components/EtClientEventScreenshotModal.vue';
   import {
@@ -144,10 +156,13 @@
 
   // step1 引入useDrawerAdaptiveWidth方法
   import { useDrawerAdaptiveWidth } from '/@/hooks/jeecg/useAdaptiveWidth';
+  import { bool } from 'vue-types';
   // step2 获取到adaptiveWidth
   const { adaptiveWidth } = useDrawerAdaptiveWidth();
   // Emits声明
   const emit = defineEmits(['success', 'register']);
+  const previewVisible = ref(false);
+  const previewImage = ref('');
   const eventObj = ref();
   const eventId = ref('');
   const eventName = ref('');

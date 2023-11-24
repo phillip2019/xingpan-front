@@ -15,6 +15,13 @@ export const columns: BasicColumn[] = [
     },
   },
   {
+    title: '点位',
+    align: 'center',
+    sorter: true,
+    dataIndex: 'screenshot',
+    customRender: render.renderBigImage,
+  },
+  {
     title: '客户端地址',
     align: 'center',
     sorter: true,
@@ -40,13 +47,6 @@ export const columns: BasicColumn[] = [
     align: 'center',
     sorter: true,
     dataIndex: 'pagePosition',
-  },
-  {
-    title: '点位',
-    align: 'center',
-    sorter: true,
-    dataIndex: 'screenshot',
-    customRender: render.renderBigImage,
   },
   {
     title: '状态',
@@ -83,33 +83,33 @@ export const searchFormSchema = (clientIdOptions: Ref<[]>) => {
         options: clientIdOptions,
       },
     },
-    // {
-    //   label: '模块',
-    //   field: 'unitName',
-    //   component: 'JDictSelectTag',
-    //   colProps: { span: 24 },
-    //   helpMessage: ['请输入模块名称'],
-    //   componentProps: ({ schema, tableAction, formActionType, formModel }) => {
-    //     let sqlPreTpl = 'et_client_event_screenshot,unit_name,unit_name,1=1 ';
-    //     sqlPreTpl += ' group by unit_name';
-    //     return {
-    //       dictCode: sqlPreTpl,
-    //     };
-    //   },
-    // },
-    // {
-    //   label: '页面',
-    //   field: 'pageName',
-    //   component: 'JDictSelectTag',
-    //   colProps: { span: 24 },
-    //   componentProps: ({ schema, tableAction, formActionType, formModel }) => {
-    //     let sqlPreTpl = 'et_client_event_screenshot,pageName,pageName,1=1 ';
-    //     sqlPreTpl += ' group by pageName';
-    //     return {
-    //       dictCode: sqlPreTpl,
-    //     };
-    //   },
-    // },
+    {
+      label: '模块',
+      field: 'unitName',
+      component: 'JDictSelectTag',
+      colProps: { span: 24 },
+      helpMessage: ['请输入模块名称'],
+      componentProps: ({ schema, tableAction, formActionType, formModel }) => {
+        let sqlPreTpl = 'et_client_event_screenshot,unit_name,unit_name,1=1 ';
+        sqlPreTpl += ' group by unit_name';
+        return {
+          dictCode: sqlPreTpl,
+        };
+      },
+    },
+    {
+      label: '页面',
+      field: 'pageName',
+      component: 'JDictSelectTag',
+      colProps: { span: 24 },
+      componentProps: ({ schema, tableAction, formActionType, formModel }) => {
+        let sqlPreTpl = 'et_client_event_screenshot,page_name,page_name,1=1 ';
+        sqlPreTpl += ' group by page_name';
+        return {
+          dictCode: sqlPreTpl,
+        };
+      },
+    },
     {
       label: '埋点位置',
       field: 'pagePosition',
@@ -152,7 +152,7 @@ export const formSchema = (clientIdOptions: Ref<[]>) => {
       field: 'unitName',
       component: 'Input',
       dynamicRules: ({ model, schema }) => {
-        return [{ required: true, message: '请输入模块名称' }];
+        return [{ required: false, message: '请输入模块名称' }];
       },
     },
     {
@@ -160,7 +160,7 @@ export const formSchema = (clientIdOptions: Ref<[]>) => {
       field: 'pageName',
       component: 'Input',
       dynamicRules: ({ model, schema }) => {
-        return [{ required: true, message: '请输入页面名称' }];
+        return [{ required: false, message: '请输入页面名称' }];
       },
     },
     {
@@ -168,7 +168,7 @@ export const formSchema = (clientIdOptions: Ref<[]>) => {
       field: 'pagePosition',
       component: 'Input',
       dynamicRules: ({ model, schema }) => {
-        return [{ required: true, message: '请输入埋点点位位置' }];
+        return [{ required: false, message: '请输入埋点点位位置' }];
       },
     },
     {

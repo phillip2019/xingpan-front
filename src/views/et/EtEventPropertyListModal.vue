@@ -77,12 +77,6 @@
                 <Icon icon="mdi:chevron-down" />
               </a-button>
             </a-dropdown>
-            <a-tooltip placement="topLeft" :title="eventTriggerTiming">
-              <a-button @click="handleClipboardCopy(eventName)">{{ eventName }}</a-button>
-            </a-tooltip>
-            <a-tooltip placement="topLeft" :title="eventTriggerTiming">
-              <a-button @click="handleClipboardCopy(eventZhName)">{{ eventZhName }}</a-button>
-            </a-tooltip>
           </template>
           <!--操作栏-->
           <template #action="{ record }">

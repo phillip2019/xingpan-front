@@ -19,25 +19,28 @@ export const columns: BasicColumn[] = [
     width: 60,
   },
   {
-    title: '属性名',
+    title: '字段名',
     align: 'left',
     dataIndex: 'name',
     sorter: true,
     width: 200,
     slots: { customRender: 'copySlot' },
+    helpMessage: '属性字段英文名',
   },
   {
-    title: '属性中文名',
+    title: '中文名',
     align: 'left',
     dataIndex: 'zhName',
     width: 200,
     sorter: true,
+    helpMessage: '属性字段中文名称',
   },
   {
-    title: '属性值类型',
+    title: '类型',
     align: 'left',
     dataIndex: 'type',
     width: 80,
+    helpMessage: '属性字段值数据类型',
     customRender: ({ value }) => {
       const typeArr = ['未知', '字符串', '数值', 'BOOL', '列表'];
       return typeArr[value];
@@ -45,14 +48,15 @@ export const columns: BasicColumn[] = [
     sorter: true,
   },
   {
-    title: '属性值示例',
+    title: '示例',
     align: 'left',
     dataIndex: 'example',
     width: 80,
     sorter: true,
+    helpMessage: '属性字段值数据示例',
   },
   {
-    title: '对属性的说明描述',
+    title: '描述',
     align: 'left',
     dataIndex: 'propertyDesc',
     sorter: true,

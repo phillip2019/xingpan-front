@@ -16,28 +16,28 @@ export const columns: BasicColumn[] = [
     align: 'right',
     dataIndex: 'sorted',
     sorter: true,
-    width: 40,
+    width: 60,
   },
   {
     title: '属性名',
     align: 'left',
     dataIndex: 'name',
     sorter: true,
-    width: 80,
+    width: 200,
     slots: { customRender: 'copySlot' },
   },
   {
     title: '属性中文名',
     align: 'left',
     dataIndex: 'zhName',
-    width: 80,
+    width: 200,
     sorter: true,
   },
   {
     title: '属性值类型',
     align: 'left',
     dataIndex: 'type',
-    width: 40,
+    width: 80,
     customRender: ({ value }) => {
       const typeArr = ['未知', '字符串', '数值', 'BOOL', '列表'];
       return typeArr[value];
@@ -61,14 +61,14 @@ export const columns: BasicColumn[] = [
     title: '创建时间',
     align: 'center',
     dataIndex: 'createTime',
-    width: 80,
+    width: 120,
     sorter: true,
   },
   {
     title: '更新时间',
     align: 'center',
     dataIndex: 'updateTime',
-    width: 80,
+    width: 120,
     sorter: true,
   },
 ];

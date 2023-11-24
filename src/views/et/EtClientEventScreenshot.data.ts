@@ -48,7 +48,7 @@ export const columns: BasicColumn[] = [
     title: '客户端地址',
     align: 'center',
     sorter: true,
-    width: 80,
+    width: 120,
     dataIndex: '',
     customRender: ({ value, record }) => {
       return `${record.client.url}`;

@@ -260,7 +260,7 @@
       // 是否显示边框
       bordered: true,
       formConfig: {
-        //labelWidth: 120,
+        labelWidth: 80,
         schemas: searchFormSchemaScreenshotRef,
         autoSubmitOnEnter: true,
         showAdvancedButton: true,

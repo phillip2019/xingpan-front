@@ -9,6 +9,7 @@ export const columns: BasicColumn[] = [
     title: '客户端',
     align: 'center',
     sorter: true,
+    width: 80,
     dataIndex: 'clientEventId',
     customRender: ({ value, record }) => {
       return `${record.client.name}`;
@@ -18,48 +19,54 @@ export const columns: BasicColumn[] = [
     title: '点位',
     align: 'center',
     sorter: true,
+    width: 80,
     dataIndex: 'screenshot',
     slots: { customRender: 'screenshot' },
-  },
-  {
-    title: '客户端地址',
-    align: 'center',
-    sorter: true,
-    dataIndex: '',
-    customRender: ({ value, record }) => {
-      return `${record.client.url}`;
-    },
   },
   {
     title: '模块',
     align: 'center',
     sorter: true,
+    width: 80,
     dataIndex: 'unitName',
   },
   {
     title: '页面',
     align: 'center',
     sorter: true,
+    width: 80,
     dataIndex: 'pageName',
   },
   {
     title: '位置',
     align: 'center',
     sorter: true,
+    width: 80,
     dataIndex: 'pagePosition',
+  },
+  {
+    title: '客户端地址',
+    align: 'center',
+    sorter: true,
+    width: 80,
+    dataIndex: '',
+    customRender: ({ value, record }) => {
+      return `${record.client.url}`;
+    },
   },
   {
     title: '状态',
     align: 'center',
     sorter: true,
+    width: 80,
     dataIndex: 'status',
     slots: { customRender: 'status' },
-    width: 80,
   },
   {
     title: '创建人',
     align: 'center',
     sorter: true,
+    width: 80,
     dataIndex: 'createBy',
   },
   {

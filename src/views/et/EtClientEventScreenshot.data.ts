@@ -128,6 +128,7 @@ export const searchFormSchema = (clientIdOptions: Ref<[]>) => {
       label: '状态',
       field: 'status',
       component: 'JDictSelectTag',
+      defaultValue: 1,
       componentProps: {
         options: [
           { label: '初始化', value: 0 },

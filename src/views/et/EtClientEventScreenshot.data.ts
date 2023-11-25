@@ -161,7 +161,7 @@ export const formSchema = (clientIdOptions: Ref<[]>) => {
       field: 'unitName',
       component: 'Input',
       dynamicRules: ({ model, schema }) => {
-        return [{ required: false, message: '请输入模块名称' }];
+        return [{ required: true, message: '请输入模块名称' }];
       },
     },
     {
@@ -169,7 +169,7 @@ export const formSchema = (clientIdOptions: Ref<[]>) => {
       field: 'pageName',
       component: 'Input',
       dynamicRules: ({ model, schema }) => {
-        return [{ required: false, message: '请输入页面名称' }];
+        return [{ required: true, message: '请输入页面名称' }];
       },
     },
     {
@@ -177,11 +177,11 @@ export const formSchema = (clientIdOptions: Ref<[]>) => {
       field: 'pagePosition',
       component: 'Input',
       dynamicRules: ({ model, schema }) => {
-        return [{ required: false, message: '请输入埋点点位位置' }];
+        return [{ required: true, message: '请输入埋点点位位置' }];
       },
     },
     {
-      label: '点位图片',
+      label: '点位',
       field: 'screenshot',
       component: 'JImageUpload',
       componentProps: {},

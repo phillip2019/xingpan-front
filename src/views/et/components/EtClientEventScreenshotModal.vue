@@ -9,10 +9,9 @@
   import { BasicModal, useModalInner } from '/@/components/Modal';
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { formSchema } from '../EtClientEventScreenshot.data';
-  import { saveOrUpdate } from '../EtClientEventScreenshot.api';
+  import { saveOrUpdate, checkClientEventScreenshotUnique } from '../EtClientEventScreenshot.api';
   import { message } from 'ant-design-vue';
   import { uploadFile, uploadUrl } from '/@/api/common/api';
-import { getFileAccessHttpUrl } from '/@/utils/common/compUtils';
   // Emits声明
   const emit = defineEmits(['register', 'success']);
   const isUpdate = ref(true);
@@ -50,6 +49,13 @@ import { getFileAccessHttpUrl } from '/@/utils/common/compUtils';
     try {
       let values = await validate();
       setModalProps({ confirmLoading: true });
+      // 检验模块、页面、位置为唯一
+      // let dataRsp = await checkClientEventScreenshotUnique(values);
+      // console.log('dataRsp:..... ', dataRsp);
+      // if (!dataRsp) {
+      //   setModalProps({ confirmLoading: false });
+      //   return;
+      // }
       //提交表单
       await saveOrUpdate(values, isUpdate.value);
       //关闭弹窗
@@ -101,6 +107,7 @@ import { getFileAccessHttpUrl } from '/@/utils/common/compUtils';
           const img = 'data:image/jpeg;base64,' + file?.base64();
         } else {
           let imgPath = res.message;
+          // 更新截图地址
           setFieldsValue({
             screenshot: imgPath,
           });
@@ -152,11 +159,3 @@ import { getFileAccessHttpUrl } from '/@/utils/common/compUtils';
     width: 100%;
   }
 </style>
-
-function success(img: string) {
-  throw new Error('Function not implemented.');
-}
-
-function success(img: any) {
-  throw new Error('Function not implemented.');
-}

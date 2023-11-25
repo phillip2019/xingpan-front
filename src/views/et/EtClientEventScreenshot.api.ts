@@ -11,6 +11,7 @@ enum Api {
   deleteBatch = '/et/etClientEventScreenshot/deleteBatch',
   importExcel = '/et/etClientEventScreenshot/importExcel',
   exportXls = '/et/etClientEventScreenshot/exportXls',
+  screenshotUnique = '/et/etClientEventScreenshot/screenshotUnique',
 }
 /**
  * 导出api
@@ -60,4 +61,12 @@ export const batchDelete = (params, handleSuccess) => {
 export const saveOrUpdate = (params, isUpdate) => {
   const url = isUpdate ? Api.edit : Api.save;
   return defHttp.post({ url: url, params });
+};
+
+/**
+ * 检查客户端事件截图唯一性
+ * @param params
+ */
+export const checkClientEventScreenshotUnique = (params) => {
+  return defHttp.post({ url: Api.screenshotUnique, params });
 };

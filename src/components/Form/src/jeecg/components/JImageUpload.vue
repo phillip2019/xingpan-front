@@ -19,7 +19,7 @@
           <div class="ant-upload-text">{{ text }}</div>
         </div>
         <a-button v-if="listType == 'picture'" :disabled="disabled">
-          <UploadOutlined></UploadOutlined>
+          <UploadOutlined />
           {{ text }}
         </a-button>
       </div>
@@ -40,7 +40,7 @@
   import { uploadUrl } from '/@/api/common/api';
   import { getToken } from '/@/utils/auth';
 
-  const { createMessage, createErrorModal } = useMessage();
+  const { createMessage } = useMessage();
   export default defineComponent({
     name: 'JImageUpload',
     components: { LoadingOutlined, UploadOutlined },
@@ -80,7 +80,7 @@
       },
     },
     emits: ['options-change', 'change', 'update:value'],
-    setup(props, { emit, refs }) {
+    setup(props, { emit }) {
       const emitData = ref<any[]>([]);
       const attrs = useAttrs();
       const [state] = useRuleFormItem(props, 'value', 'change', emitData);
@@ -122,7 +122,7 @@
        */
       watch(
         () => props.value,
-        (val, prevCount) => {
+        (val) => {
           if (val instanceof Array) {
             val = val.join(',');
           }
@@ -171,7 +171,7 @@
       /**
        * 文件上传结果回调
        */
-      function handleChange({ file, fileList, event }) {
+      function handleChange({ file, fileList }) {
         initTag.value = false;
         uploadFileList.value = fileList;
         if (file.status === 'error') {
@@ -208,13 +208,6 @@
       function handlePreview(file) {
         previewImage.value = file.url || file.thumbUrl;
         previewVisible.value = true;
-      }
-
-      function getAvatarView() {
-        if (uploadFileList.length > 0) {
-          let url = uploadFileList[0].url;
-          return getFileAccessHttpUrl(url, null);
-        }
       }
 
       function handleCancel() {

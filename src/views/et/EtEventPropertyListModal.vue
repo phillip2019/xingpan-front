@@ -13,7 +13,14 @@
         <BasicTable @register="registerTable" :rowSelection="rowSelection">
           <!--插槽:table标题-->
           <template #tableTitle>
-            <a-button type="primary" @click="handleAdd" preIcon="ant-design:plus-outlined"> 新增</a-button>
+            <a-button
+              type="primary"
+              @click="handleAdd"
+              preIcon="ant-design:plus-outlined"
+              v-if="hasPermission('org.jeecg.modules.demo:et_event_property:add')"
+            >
+              新增</a-button
+            >
             <a-dropdown v-if="selectedRowKeys.length > 0">
               <template #overlay>
                 <a-menu>
@@ -62,7 +69,14 @@
         <BasicTable @register="registerScreenshotTable" :rowSelection="rowSelectionScreenshot">
           <!--插槽:table标题-->
           <template #tableTitle>
-            <a-button type="primary" @click="handleAddScreenshot" preIcon="ant-design:plus-outlined"> 新增</a-button>
+            <a-button
+              type="primary"
+              @click="handleAddScreenshot"
+              preIcon="ant-design:plus-outlined"
+              v-if="hasPermission('org.jeecg.modules.demo:et_client_event_screenshot:add')"
+            >
+              新增</a-button
+            >
             <a-dropdown v-if="selectedRowKeysScreenshot.length > 0">
               <template #overlay>
                 <a-menu>
@@ -84,10 +98,9 @@
           </template>
           <!--状态显示栏-->
           <template #status="{ record, text }">
-            <a-tag color="green" v-if="text === 1">初始化</a-tag>
-            <a-tag color="#87d068" v-if="text == 2">上线</a-tag>
-            <a-tag color="pink" v-if="text == 3">下线</a-tag>
-            <a-tag color="red" v-if="text == 4">异常</a-tag>
+            <a-tag color="green" v-if="text === 0">初始化</a-tag>
+            <a-tag color="#87d068" v-if="text == 1">正常</a-tag>
+            <a-tag color="pink" v-if="text == 2">改版</a-tag>
           </template>
           <!--可复制插槽: copySlot-->
           <template #copySlot="{ text }">
@@ -95,7 +108,7 @@
           </template>
           <!--截图插槽: screenshot-->
           <template #screenshot="{ text }">
-            <Image :src="getFileAccessHttpUrl(text)" shape="square" :width="40" style="marginright: '1px'"/>
+            <Image :src="getFileAccessHttpUrl(text)" shape="square" :width="40" style="marginright: '1px'" />
           </template>
           <!--字段回显插槽-->
           <template #htmlSlot="{ text }">
@@ -150,7 +163,11 @@
 
   // step1 引入useDrawerAdaptiveWidth方法
   import { useDrawerAdaptiveWidth } from '/@/hooks/jeecg/useAdaptiveWidth';
+  import { usePermission } from '/@/hooks/web/usePermission';
+
   import { bool } from 'vue-types';
+
+  const { hasPermission } = usePermission();
   // step2 获取到adaptiveWidth
   const { adaptiveWidth } = useDrawerAdaptiveWidth();
   // Emits声明
@@ -354,6 +371,8 @@
       {
         label: '编辑',
         onClick: handleEdit.bind(null, record),
+        // org.jeecg.modules.demo:et_event_property:add
+        auth: 'org.jeecg.modules.demo:et_event_property:edit',
       },
     ];
   }
@@ -380,6 +399,7 @@
           title: '是否确认删除',
           confirm: handleDelete.bind(null, record),
         },
+        auth: 'org.jeecg.modules.demo:et_event_property:delete',
       },
     ];
   }
@@ -444,6 +464,7 @@
       {
         label: '编辑',
         onClick: handleEditScreenshot.bind(null, record),
+        auth: 'org.jeecg.modules.demo:et_client_event_screenshot:edit',
       },
     ];
   }
@@ -462,6 +483,7 @@
           title: '是否确认删除',
           confirm: handleDeleteScreenshot.bind(null, record),
         },
+        auth: 'org.jeecg.modules.demo:et_client_event_screenshot:delete',
       },
     ];
   }

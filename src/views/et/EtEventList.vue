@@ -81,6 +81,18 @@
         <span v-if="!text" style="font-size: 12px; font-style: italic">无文件</span>
         <a-button v-else :ghost="true" type="primary" preIcon="ant-design:download-outlined" size="small" @click="downloadFile(text)">下载</a-button>
       </template>
+      <!--截图插槽: screenshot-->
+      <template #screenshot="{ text }">
+        <Image :preview="{ visible: false }" shape="square" :src="getFileAccessHttpUrl(text[0]?.screenshot)" @click="visible = true" />
+        <div style="display: none">
+          <ImagePreviewGroup :preview="{ visible, onVisibleChange: (vis) => (visible = vis) }">
+            <!--迭代text对象数组，以便循环展示图片-->
+            <Image v-for="(item, index) in text" :key="index" :src="getFileAccessHttpUrl(item?.screenshot)" />
+            <Image v-for="(item, index) in text" :key="index" :src="getFileAccessHttpUrl(item?.screenshot)" />
+          </ImagePreviewGroup>
+        </div>
+        <!-- <Image :src="getFileAccessHttpUrl(text)" shape="square" :width="40" style="marginright: '1px'" /> -->
+      </template>
     </BasicTable>
     <!-- 表单区域 -->
     <EtEventModal @register="registerModal" @success="handleSuccess" />
@@ -100,6 +112,7 @@
 <script lang="ts" name="et-etEvent" setup>
   import { ref, computed, unref } from 'vue';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
+  import { Image, ImagePreviewGroup, Tag, Tooltip, message } from 'ant-design-vue';
   import { useModal } from '/@/components/Modal';
   import { useListPage } from '/@/hooks/system/useListPage';
   import EtEventModal from './components/EtEventModal.vue';
@@ -111,13 +124,14 @@
   import { downloadFile } from '/@/utils/common/renderUtils';
   import { usePermission } from '/@/hooks/web/usePermission';
   import { JEllipsis } from '/@/components/Form';
-  import { message } from 'ant-design-vue';
   import clipboard from 'clipboard';
   import { copyDistinct, copyAnonymousId } from '/@/utils/sa/tools';
+  import { getFileAccessHttpUrl } from '/@/utils/common/compUtils';
 
   const copyDistinctFunc = copyDistinct;
   const copyAnonymousIdFunc = copyAnonymousId;
 
+  const visible = ref(false);
   const checkedKeys = ref<Array<string | number>>([]);
   //注册model
   const [registerModal, { openModal: openEventModal }] = useModal();

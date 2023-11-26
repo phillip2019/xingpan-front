@@ -49,6 +49,14 @@ export const columns: BasicColumn[] = [
     width: 200,
   },
   {
+    title: '点位',
+    align: 'center',
+    sorter: true,
+    width: 80,
+    dataIndex: 'screenshots',
+    slots: { customRender: 'screenshot' },
+  },
+  {
     title: '操作说明',
     align: 'left',
     dataIndex: 'operDesc',

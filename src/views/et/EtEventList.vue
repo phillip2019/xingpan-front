@@ -82,17 +82,9 @@
         <a-button v-else :ghost="true" type="primary" preIcon="ant-design:download-outlined" size="small" @click="downloadFile(text)">下载</a-button>
       </template>
       <!--截图插槽: screenshot-->
-      <template #screenshot="{ text }">
-        <Image :preview="{ visible: false }" shape="square" :src="getFileAccessHttpUrl(text[0]?.screenshot)" @click="visible = true" />
-        <div style="display: none">
-          <ImagePreviewGroup :preview="{ visible, onVisibleChange: (vis) => (visible = vis) }">
-            <!--迭代text对象数组，以便循环展示图片-->
-            <Image v-for="(item, index) in text" :key="index" :src="getFileAccessHttpUrl(item.screenshot)" />
-            <!-- <Image src="https://gw.alipayobjects.com/zos/antfincdn/LlvErxo8H9/photo-1503185912284-5271ff81b9a8.webp" />
-            <Image src="https://gw.alipayobjects.com/zos/antfincdn/cV16ZqzMjW/photo-1473091540282-9b846e7965e3.webp" />
-            <Image src="https://gw.alipayobjects.com/zos/antfincdn/x43I27A55%26/photo-1438109491414-7198515b166b.webp" /> -->
-          </ImagePreviewGroup>
-        </div>
+      <template #screenshot="{ text, record }">
+        <EtEventImgModal :value="text" />
+        <!--<Image :preview="{ visible: false }" shape="square" :width="40" :src="getFileAccessHttpUrl(text[0]?.screenshot)" @click="visible = true" />-->
       </template>
     </BasicTable>
     <!-- 表单区域 -->
@@ -119,6 +111,7 @@
   import EtEventModal from './components/EtEventModal.vue';
   import { useDrawer } from '/@/components/Drawer';
   import EtEventPropertyListModal from './EtEventPropertyListModal.vue';
+  import EtEventImgModal from './components/EtEventImgModal.vue';
   import ChangeSceneModal from './ChangeSceneModal.vue';
   import { columns, searchFormSchema } from './EtEvent.data';
   import { list, deleteOne, batchDelete, getImportUrl, getExportUrl, batchUpdate } from './EtEvent.api';
@@ -133,6 +126,7 @@
   const copyAnonymousIdFunc = copyAnonymousId;
 
   const visible = ref(false);
+  const currentImgIndex = ref(0);
   const checkedKeys = ref<Array<string | number>>([]);
   //注册model
   const [registerModal, { openModal: openEventModal }] = useModal();
@@ -369,6 +363,10 @@
     handleEventPropertyModal(record);
     // 打开查看埋点点位侧边栏
     // handleClientEventScreenshotModal(record);
+  }
+
+  function showImgPreview(index) {
+    currentImgIndex.value = index;
   }
 </script>
 

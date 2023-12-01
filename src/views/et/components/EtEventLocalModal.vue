@@ -10,7 +10,7 @@
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { formSchema } from '../EtEventLocal.data';
   import { saveOrUpdate } from '../EtEventLocal.api';
-import { formatTSToDateTime } from '/@/utils/dateUtil';
+  import { formatTSToDateTime } from '/@/utils/dateUtil';
   // Emits声明
   const emit = defineEmits(['register', 'success']);
   const isUpdate = ref(true);

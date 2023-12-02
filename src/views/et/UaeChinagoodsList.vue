@@ -5,7 +5,7 @@
       <!--插槽:table标题-->
       <template #tableTitle>
         <a-button type="primary" preIcon="ant-design:export-outlined" @click="onExportXls"> 导出</a-button>
-        <a-button type="primary" preIcon="ant-design:search-outlined" href="/et/teUaeChinagoodsList">埋点验证</a-button>
+        <a-button type="primary" preIcon="ant-design:search-outlined" href="/et/teUaeChinagoodsList" target="_blank">埋点验证</a-button>
         <a-button type="primary" preIcon="ant-design:copy-outlined" @click="copyDistinctFunc">复制用户编号</a-button>
         <a-button type="primary" preIcon="ant-design:copy-outlined" @click="copyAnonymousIdFunc">复制设备编号</a-button>
         <!-- <a-button type="primary" preIcon="ant-design:export-outlined" v-if="anonymousId !== ''">设备编号</a-button> -->

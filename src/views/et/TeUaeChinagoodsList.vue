@@ -13,7 +13,6 @@
         @submit="handleSubmit"
       />
     </CollapseContainer>
-
     <BasicTable
       :canResize="true"
       title="生产埋点验证"
@@ -29,7 +28,13 @@
       :rowSelection="{ type: 'checkbox' }"
       :pagination="{ pageSize: 100 }"
       @row-dbClick="doubleClick"
-    />
+    >
+      <!--插槽:table标题-->
+      <template #tableTitle>
+        <a-button type="primary" preIcon="ant-design:copy-outlined" @click="copyDistinctFunc">复制用户编号</a-button>
+        <a-button type="primary" preIcon="ant-design:copy-outlined" @click="copyAnonymousIdFunc">复制设备编号</a-button>
+      </template>
+    </BasicTable>
 
     <!-- 表单区域 -->
     <UaeChinagoodsModal @register="registerModal" />
@@ -47,6 +52,7 @@
   import { useUserStore } from '/@/store/modules/user';
   import { useDrawer } from '/@/components/Drawer';
   import { getToken } from '/@/utils/auth';
+  import { copyDistinct, copyAnonymousId } from '/@/utils/sa/tools';
   import md5 from 'crypto-js/md5';
 
   export default defineComponent({
@@ -137,10 +143,13 @@
 
       function websocketonopen() {
         console.log('WebSocket连接成功');
+        createMessage.info('埋点验证已开启，请开始埋点验证，访问需要验证的埋点点位，此处自动会推送埋点内容!!!');
       }
 
       function websocketonerror(e) {
         console.log('WebSocket连接发生错误', e);
+        createMessage.error('埋点验证开启失败，请重新开始埋点验证!!!');
+        submitButtonOptions.value.text = '验证';
       }
       function websocketonmessage(e) {
         JSON.parse(e.data).forEach((data: any) => {
@@ -195,6 +204,8 @@
         },
         registerModal,
         changeLoading,
+        copyDistinctFunc: copyDistinct,
+        copyAnonymousIdFunc: copyAnonymousId,
         handleSubmit: (values: any) => {
           if (!isLoadingFlag.value) {
             // 校验values的值，若values的值为空，则消息提示，必须填写一个参数值
@@ -207,7 +218,7 @@
             submitButtonOptions.value.loading = false;
             submitButtonOptions.value.text = '停止';
             isLoadingFlag.value = true;
-            createMessage.success('click search,values:' + JSON.stringify(values));
+            // createMessage.success('click search,values:' + JSON.stringify(values));
 
             // 初始化websocket
             initWebSocket(values);

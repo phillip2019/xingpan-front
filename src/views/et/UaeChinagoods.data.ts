@@ -9,43 +9,67 @@ export const columns: BasicColumn[] = [
     title: '用户标识',
     align: 'center',
     sorter: true,
+    width: 120,
     dataIndex: 'distinctId',
+    helpMessage: '用户标识，若用户登录，则此标识为用户编号，否则则为设备编号',
   },
   {
-    title: '上报包',
+    title: 'SDK',
     align: 'center',
     sorter: true,
     dataIndex: 'lib',
+    width: 50,
+    helpMessage: '上报包名，SDK名称',
   },
   {
     title: '事件',
     align: 'center',
     sorter: true,
     dataIndex: 'event',
+    width: 100,
+    helpMessage: '事件名称，埋点事件名称',
+  },
+  {
+    title: '时间',
+    align: 'center',
+    sorter: true,
+    width: 150,
+    dataIndex: 'createdAt',
+    customRender: ({ value }) => {
+      if (!value) {
+        return '';
+      }
+
+      return !value ? '' : formatTSToDateTime(Number(value));
+    },
   },
   {
     title: '采集类别',
     align: 'center',
     sorter: true,
     dataIndex: 'type',
+    width: 80,
   },
   {
     title: '属性内容',
     align: 'center',
     sorter: true,
     dataIndex: 'allJson',
+    width: 120,
   },
   {
     title: 'IP',
     align: 'center',
     sorter: true,
     dataIndex: 'ip',
+    width: 80,
   },
   {
     title: 'IP归属城市',
     align: 'center',
     sorter: true,
     dataIndex: 'ipCity',
+    width: 80,
     customRender: ({ value }) => {
       if (!value) {
         return '';
@@ -60,25 +84,14 @@ export const columns: BasicColumn[] = [
     align: 'center',
     sorter: true,
     dataIndex: 'referrer',
+    width: 120,
   },
   {
     title: '上报备注',
     align: 'center',
     sorter: true,
     dataIndex: 'remark',
-  },
-  {
-    title: '时间',
-    align: 'center',
-    sorter: true,
-    dataIndex: 'createdAt',
-    customRender: ({ value }) => {
-      if (!value) {
-        return '';
-      }
-
-      return !value ? '' : formatTSToDateTime(Number(value));
-    },
+    width: 80,
   },
 ];
 //查询数据

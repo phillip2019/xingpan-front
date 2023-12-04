@@ -115,7 +115,7 @@ export const searchFormSchema: FormSchema[] = [
     colProps: { span: 6 },
     componentProps: ({ schema, tableAction, formActionType, formModel }) => {
       let sqlPreTpl = 'mkt_channel_link,utm_campaign,utm_campaign,1=1 ';
-      sqlPreTpl += ' group by utm_campaign order by create_time desc';
+      sqlPreTpl += ' group by utm_campaign';
       return {
         dictCode: sqlPreTpl,
       };
@@ -129,7 +129,7 @@ export const searchFormSchema: FormSchema[] = [
     colProps: { span: 6 },
     componentProps: ({ schema, tableAction, formActionType, formModel }) => {
       let sqlPreTpl = 'mkt_channel_link,utm_source,utm_source,1=1 ';
-      sqlPreTpl += ' group by utm_source order by create_time desc';
+      sqlPreTpl += ' group by utm_source';
       return {
         dictCode: sqlPreTpl,
       };
@@ -143,7 +143,7 @@ export const searchFormSchema: FormSchema[] = [
     colProps: { span: 6 },
     componentProps: ({ schema, tableAction, formActionType, formModel }) => {
       let sqlPreTpl = 'mkt_channel_link,utm_medium,utm_medium,1=1 ';
-      sqlPreTpl += ' group by utm_medium order by create_time desc';
+      sqlPreTpl += ' group by utm_medium';
       return {
         dictCode: sqlPreTpl,
       };
@@ -171,7 +171,7 @@ export const searchFormSchema: FormSchema[] = [
     colProps: { span: 6 },
     componentProps: ({ schema, tableAction, formActionType, formModel }) => {
       let sqlPreTpl = 'mkt_channel_link,create_by,create_by,1=1 ';
-      sqlPreTpl += ' group by create_by order by create_time desc';
+      sqlPreTpl += ' group by create_by';
       return {
         dictCode: sqlPreTpl,
       };

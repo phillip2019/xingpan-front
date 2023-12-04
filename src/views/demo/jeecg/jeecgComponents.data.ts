@@ -383,6 +383,7 @@ export const schemas: FormSchema[] = [
     colProps: {
       span: 12,
     },
+    JSelectInput,
   },
   {
     field: 'ts',

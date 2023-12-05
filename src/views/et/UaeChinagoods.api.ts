@@ -27,10 +27,15 @@ export const getImportUrl = Api.importExcel;
  */
 export const list = (params) => {
   // FixedBug 针对客户端类型为空情况，置值为undefined，避免向后端传递
-  if (params['platformType'] === '') {
-    params['platformType'] = undefined;
+  const paramsObj = {};
+  let key: string, value: string;
+  for (key in params) {
+    if (params.hasOwnProperty(key)) {
+      value = params[key];
+      paramsObj[key] = value;
+    }
   }
-  return defHttp.get({ url: Api.list, params });
+  return defHttp.get({ url: Api.list, params: paramsObj });
 };
 
 /**

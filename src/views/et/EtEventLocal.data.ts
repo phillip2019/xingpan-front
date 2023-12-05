@@ -475,36 +475,31 @@ export const searchFormSchema: FormSchema[] = [
     },
   },
   {
-    label: '事件场景',
+    label: '场景',
     field: 'scene',
-    // component: 'JSearchSelect',
-    component: 'JDictSelectTag',
+    component: 'JSearchSelect',
     helpMessage: ['请选择事件场景'],
     componentProps: ({ schema, tableAction, formActionType, formModel }) => {
-      let sqlPreTpl = 'et_event,scene,scene,1=1 ';
-      sqlPreTpl += ' group by scene';
+      const sqlPreTpl = 'et_event where 1 = 1 and status = 2 and scene is not null group by scene,scene,scene';
       return {
-        dictCode: sqlPreTpl,
-        // dict: 'et_event,name,name',
+        dict: sqlPreTpl,
       };
     },
     colProps: { span: 6 },
   },
   {
-    label: '事件名',
+    label: '事件',
     field: 'event',
-    // component: 'JSearchSelect',
-    component: 'JDictSelectTag',
+    component: 'JSearchSelect',
     helpMessage: ['请选择事件名称场景'],
     componentProps: ({ schema, tableAction, formActionType, formModel }) => {
-      let sqlPreTpl = 'et_event,max(zh_name),name,1=1 ';
+      let sqlPreTpl = 'et_event where 1 = 1 and status = 2';
       if (formModel.scene) {
         sqlPreTpl = sqlPreTpl + " and scene = '" + formModel.scene + "'";
       }
-      sqlPreTpl += ' group by name';
+      sqlPreTpl += ',name,name';
       return {
-        dictCode: sqlPreTpl,
-        // dict: 'et_event,name,name',
+        dict: sqlPreTpl,
       };
     },
     colProps: { span: 6 },

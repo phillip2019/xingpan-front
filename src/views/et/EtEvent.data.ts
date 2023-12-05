@@ -103,14 +103,12 @@ export const searchFormSchema: FormSchema[] = [
   {
     label: '项目名',
     field: 'buProjectNameId',
-    // component: 'JSearchSelect',
-    component: 'JDictSelectTag',
+    component: 'JSearchSelect',
     helpMessage: ['请选择项目'],
     componentProps: ({ schema, tableAction, formActionType, formModel }) => {
-      let sqlPreTpl = 'et_bu_project,name,max(id),1=1 ';
-      sqlPreTpl += ' group by `name`';
+      const sqlPreTpl = 'et_bu_project where 1 = 1 and name is not null,`name`,id';
       return {
-        dictCode: sqlPreTpl,
+        dict: sqlPreTpl,
       };
     },
     colProps: { span: 6 },
@@ -118,23 +116,15 @@ export const searchFormSchema: FormSchema[] = [
   {
     label: '场景',
     field: 'scene',
-    component: 'JDictSelectTag',
+    component: 'JSearchSelect',
     helpMessage: ['请选择事件场景'],
     componentProps: ({ schema, tableAction, formActionType, formModel }) => {
-      let sqlPreTpl = 'et_event,scene,scene,1=1 ';
-      sqlPreTpl += ' group by scene';
+      const sqlPreTpl = 'et_event where 1 = 1 and scene is not null group by scene,scene,scene';
       return {
-        dictCode: sqlPreTpl,
+        dict: sqlPreTpl,
       };
     },
     colProps: { span: 6 },
-  },
-  {
-    label: '事件名',
-    field: 'name',
-    component: 'JInput',
-    colProps: { span: 4 },
-    helpMessage: ['请输入事件英文名过滤，支持模糊搜索'],
   },
   {
     label: '事件名',
@@ -154,6 +144,13 @@ export const searchFormSchema: FormSchema[] = [
       };
     },
     colProps: { span: 6 },
+  },
+  {
+    label: '事件名',
+    field: 'name',
+    component: 'JInput',
+    colProps: { span: 4 },
+    helpMessage: ['请输入事件英文名过滤，支持模糊搜索'],
   },
   {
     label: '事件中文名',

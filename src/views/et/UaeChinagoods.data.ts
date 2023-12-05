@@ -122,14 +122,35 @@ export const searchFormSchema: FormSchema[] = [
     },
   },
   {
+    label: '场景',
+    field: 'scene',
+    component: 'JSearchSelect',
+    helpMessage: ['请选择事件场景'],
+    componentProps: ({ schema, tableAction, formActionType, formModel }) => {
+      const sqlPreTpl = 'et_event where 1 = 1 and status = 2 and scene is not null group by scene ,scene,scene';
+      return {
+        dict: sqlPreTpl,
+      };
+    },
+    colProps: { span: 6 },
+  },
+  {
     label: '事件',
     field: 'event',
-    component: 'Input',
-    helpMessage: ['请输入埋点事件名称'],
-    show: true,
-    colProps: {
-      span: 12,
+    // component: 'JSearchSelect',
+    component: 'JSearchSelect',
+    helpMessage: ['请选择事件名称场景'],
+    componentProps: ({ schema, tableAction, formActionType, formModel }) => {
+      let sqlPreTpl = 'et_event where 1 = 1 and status = 2';
+      if (formModel.scene) {
+        sqlPreTpl = sqlPreTpl + " and scene = '" + formModel.scene + "'";
+      }
+      sqlPreTpl += 'order by create_time desc,name,name';
+      return {
+        dict: sqlPreTpl,
+      };
     },
+    colProps: { span: 6 },
   },
   {
     label: 'IP',
@@ -267,14 +288,12 @@ export const teSearchSchemas: FormSchema[] = [
   {
     label: '项目名',
     field: 'buProjectNameId',
-    // component: 'JSearchSelect',
-    component: 'JDictSelectTag',
+    component: 'JSearchSelect',
     helpMessage: ['请选择项目'],
     componentProps: ({ schema, tableAction, formActionType, formModel }) => {
-      let sqlPreTpl = 'et_bu_project,name,max(id),1=1 ';
-      sqlPreTpl += ' group by `name`';
+      const sqlPreTpl = 'et_bu_project where 1 = 1,name,id';
       return {
-        dictCode: sqlPreTpl,
+        dict: sqlPreTpl,
       };
     },
     colProps: { span: 6 },
@@ -282,13 +301,12 @@ export const teSearchSchemas: FormSchema[] = [
   {
     label: '场景',
     field: 'scene',
-    component: 'JDictSelectTag',
+    component: 'JSearchSelect',
     helpMessage: ['请选择事件场景'],
     componentProps: ({ schema, tableAction, formActionType, formModel }) => {
-      let sqlPreTpl = 'et_event,scene,scene,1=1 ';
-      sqlPreTpl += ' group by scene';
+      const sqlPreTpl = 'et_event where 1 = 1 and status = 2 group by scene,scene,scene';
       return {
-        dictCode: sqlPreTpl,
+        dict: sqlPreTpl,
       };
     },
     colProps: { span: 6 },

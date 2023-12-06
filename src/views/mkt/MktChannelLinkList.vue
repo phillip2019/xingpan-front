@@ -58,9 +58,13 @@
       <template #htmlSlot="{ text }">
         <div v-html="text"></div>
       </template>
-      <!--二维码插槽: qrCode-->
-      <template #qrCode="{ record, text }">
-        <QrCode :value="text" :width="200" ref="qrRef" shape="square" style="marginright: '1px'" :logo="LogoImg" />
+      <!--二维码插槽: pcQrCode-->
+      <template #pcQrCode="{ record, text }">
+        <QrCode v-if="text !== null" :value="text" :width="200" ref="pcQrRef" shape="square" style="marginright: '1px'" :logo="LogoImg" />
+      </template>
+      <!--二维码插槽: wapQrCode-->
+      <template #wapQrCode="{ record, text }">
+        <QrCode v-if="text !== null" :value="text" :width="200" ref="wapQrRef" shape="square" style="marginright: '1px'" :logo="LogoImg" />
       </template>
       <!--状态显示栏-->
       <template #status="{ record, text }">
@@ -100,7 +104,8 @@
 
   const { hasPermission } = usePermission();
   const checkedKeys = ref<Array<string | number>>([]);
-  const qrRef = ref<Nullable<QrCodeActionType>>(null);
+  const pcQrRef = ref<Nullable<QrCodeActionType>>(null);
+  const wapQrRef = ref<Nullable<QrCodeActionType>>(null);
 
   //注册model
   const [registerModal, { openModal }] = useModal();
@@ -120,7 +125,7 @@
         fieldMapToTime: [],
       },
       actionColumn: {
-        width: 360,
+        width: 240,
         fixed: 'right',
       },
     },
@@ -176,8 +181,15 @@
   /**
    * 复制目标地址事件
    */
-  function handleCopyTargetUrl(record: Recordable) {
-    clipboard.copy(record.targetUrl);
+  function handleCopyPCTargetUrl(record: Recordable) {
+    record.pcTargetUrl && clipboard.copy(record.pcTargetUrl);
+    message.success('复制成功');
+  }
+  /**
+   * 复制wap端目标地址事件
+   */
+  function handleCopyWAPTargetUrl(record: Recordable) {
+    record.wapTargetUrl && clipboard.copy(record.wapTargetUrl);
     message.success('复制成功');
   }
   /**
@@ -237,12 +249,12 @@
   function getTableAction(record) {
     return [
       {
-        label: '链接复制',
-        onClick: handleCopyTargetUrl.bind(null, record),
+        label: 'PC链复制',
+        onClick: handleCopyPCTargetUrl.bind(null, record),
       },
       {
-        label: '下载二维码',
-        onClick: handleDownload.bind(null, record),
+        label: 'M链复制',
+        onClick: handleCopyWAPTargetUrl.bind(null, record),
       },
       {
         label: '复制',
@@ -251,10 +263,17 @@
     ];
   }
 
-  function handleDownload(record: any) {
-    const qrEl = unref(qrRef);
+  function handleWAPDownload(record: any) {
+    const qrEl = unref(wapQrRef);
     if (!qrEl) return;
-    const qrCodeFileName = `${record.utmCampaign}-${record.utmTerm}-${record.utmContent}.png`;
+    const qrCodeFileName = `${record.utmCampaign}-${record.utmTerm}-${record.utmContent}_wap.png`;
+    qrEl.download(qrCodeFileName);
+  }
+
+  function handlePCDownload(record: any) {
+    const qrEl = unref(pcQrRef);
+    if (!qrEl) return;
+    const qrCodeFileName = `${record.utmCampaign}-${record.utmTerm}-${record.utmContent}_pc.png`;
     qrEl.download(qrCodeFileName);
   }
 
@@ -271,6 +290,14 @@
       {
         label: '详情',
         onClick: handleDetail.bind(null, record),
+      },
+      {
+        label: 'WAP二维码',
+        onClick: handleWAPDownload.bind(null, record),
+      },
+      {
+        label: 'PC二维码',
+        onClick: handlePCDownload.bind(null, record),
       },
       {
         label: '下线',

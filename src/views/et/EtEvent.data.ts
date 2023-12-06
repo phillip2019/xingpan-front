@@ -134,13 +134,14 @@ export const searchFormSchema: FormSchema[] = [
     helpMessage: ['请选择事件名称场景'],
     componentProps: ({ schema, tableAction, formActionType, formModel }) => {
       let sqlPreTpl = 'et_event,name,name,1=1 ';
+      // console.log('事件场景为: ', formModel.scene);
       if (formModel.scene) {
         sqlPreTpl = sqlPreTpl + " and scene = '" + formModel.scene + "'";
       }
       sqlPreTpl += ' group by name';
+      // console.log('当前sql为: ', sqlPreTpl);
       return {
         dictCode: sqlPreTpl,
-        // dict: 'et_event,name,name',
       };
     },
     colProps: { span: 6 },

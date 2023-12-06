@@ -36,7 +36,6 @@
       if (data.record !== undefined) {
         const copyRecord = cloneDeep(toRaw(data.record));
         copyRecord.id = null;
-        console.log('拷贝后的属性值为： ', copyRecord);
         // 复制逻辑，拷贝所有内容
         await setFieldsValue({
           ...copyRecord,
@@ -53,32 +52,41 @@
     try {
       let values = await validate();
       setModalProps({ confirmLoading: true });
-      let sourceUrl = values['sourceUrl'];
-      var url = new URL(sourceUrl);
+      let pcSourceUrl = values['pcSourceUrl'];
+      let wapSourceUrl = values['wapSourceUrl'];
+      var pcUrl = new URL(pcSourceUrl);
       // 使用URL对象的searchParams属性获取URLSearchParams对象
-      var params = url.searchParams;
-      if (params.size === 0) {
-        params = new URLSearchParams();
+      var pcParams = pcUrl.searchParams;
+      if (pcParams.size === 0) {
+        pcParams = new URLSearchParams();
       }
-      console.log('当前请求参数: ', params);
+
+      var wapUrl = new URL(wapSourceUrl);
+      // 使用URL对象的searchParams属性获取URLSearchParams对象
+      var wapParams = wapUrl.searchParams;
+      if (wapParams.size === 0) {
+        wapParams = new URLSearchParams();
+      }
 
       let utmCampaign = values['utmCampaign'];
       let utmSource = values['utmSource'];
       let utmMedium = values['utmMedium'];
       let utmTerm = values['utmTerm'];
       let utmContent = values['utmContent'];
-      let targetUrl = `${sourceUrl}`;
-      params.append('utm_campaign', utmCampaign);
-      params.append('utm_source', utmSource);
-      params.append('utm_medium', utmMedium);
-      params.append('utm_term', utmTerm);
-      params.append('utm_content', utmContent);
-      url.search = params.toString();
+      let pcTargetUrl: string, wapTargetUrl: string;
+      pcParams.append('utm_campaign', utmCampaign);
+      pcParams.append('utm_source', utmSource);
+      pcParams.append('utm_medium', utmMedium);
+      pcParams.append('utm_term', utmTerm);
+      pcParams.append('utm_content', utmContent);
+      pcUrl.search = pcParams.toString();
 
       // 若为pc，则参数不需要转码
-      targetUrl = url.href;
-      values['targetUrl'] = targetUrl;
-      console.log('待提交参数值： ', values);
+      pcTargetUrl = pcUrl.href;
+      values['pcTargetUrl'] = pcTargetUrl;
+
+      wapTargetUrl = wapUrl.href;
+      values['wapTargetUrl'] = wapTargetUrl;
       //提交表单
       await saveOrUpdate(values, isUpdate.value);
       //关闭弹窗

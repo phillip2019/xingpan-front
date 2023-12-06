@@ -5,13 +5,22 @@ import { render } from '/@/utils/common/renderUtils';
 //列表数据
 export const columns: BasicColumn[] = [
   {
-    title: '推广页面地址',
+    title: 'PC地址',
     align: 'center',
     sorter: true,
-    dataIndex: 'sourceUrl',
+    dataIndex: 'pcSourceUrl',
     filtered: true,
     customRender: render.renderEventHref,
-    helpMessage: '推广页面地址，需要推广的网页地址',
+    helpMessage: 'PC端推广页面地址，需要推广的网页地址',
+  },
+  {
+    title: 'M地址',
+    align: 'center',
+    sorter: true,
+    dataIndex: 'wapSourceUrl',
+    filtered: true,
+    customRender: render.renderEventHref,
+    helpMessage: 'M端推广页面地址，需要推广的网页地址',
   },
   {
     title: '状态',
@@ -59,12 +68,20 @@ export const columns: BasicColumn[] = [
     helpMessage: '广告系列内容utm_content，一般用于区分广告，主要适用A/B-test和按内容定位广告',
   },
   {
-    title: '带参二维码',
+    title: 'PC端带参二维码',
     align: 'center',
     sorter: true,
-    dataIndex: 'targetUrl',
+    dataIndex: 'pcTargetUrl',
     width: 200,
-    slots: { customRender: 'qrCode' },
+    slots: { customRender: 'pcQrCode' },
+  },
+  {
+    title: 'M端带参二维码',
+    align: 'center',
+    sorter: true,
+    dataIndex: 'wapTargetUrl',
+    width: 200,
+    slots: { customRender: 'wapQrCode' },
   },
   {
     title: '创建人',
@@ -88,11 +105,18 @@ export const columns: BasicColumn[] = [
 //查询数据
 export const searchFormSchema: FormSchema[] = [
   {
-    label: '推广页面地址',
-    field: 'sourceUrl',
+    label: 'PC地址',
+    field: 'pcSourceUrl',
     component: 'JInput',
     colProps: { span: 6 },
-    helpMessage: '请输入原始推广地址，支持模糊搜索',
+    helpMessage: '请输入PC端原始推广地址，支持模糊搜索',
+  },
+  {
+    label: 'M地址',
+    field: 'wapSourceUrl',
+    component: 'JInput',
+    colProps: { span: 6 },
+    helpMessage: '请输入M端原始推广地址，支持模糊搜索',
   },
   {
     label: '状态',
@@ -194,11 +218,19 @@ export const searchFormSchema: FormSchema[] = [
 //表单数据
 export const formSchema: FormSchema[] = [
   {
-    label: '推广页面地址',
-    field: 'sourceUrl',
+    label: 'PC地址',
+    field: 'pcSourceUrl',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入推广页面地址!' }];
+      return [{ required: true, message: '请输入PC端推广页面地址!' }];
+    },
+  },
+  {
+    label: 'M地址',
+    field: 'wapSourceUrl',
+    component: 'Input',
+    dynamicRules: ({ model, schema }) => {
+      return [{ required: true, message: '请输入M端推广页面地址!' }];
     },
   },
   {

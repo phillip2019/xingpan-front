@@ -40,7 +40,7 @@
               </a-menu-item>
               <a-menu-item key="1" @click="batchHandleOnline" v-if="hasPermission('org.jeecg.modules.demo:mkt_channel_link:updateBatch')">
                 <Icon icon="ant-design:online-outlined" />
-                下线
+                上线
               </a-menu-item>
             </a-menu>
           </template>

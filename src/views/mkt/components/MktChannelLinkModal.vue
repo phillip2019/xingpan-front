@@ -49,6 +49,10 @@
   const title = computed(() => (!unref(isUpdate) ? '新增' : '编辑'));
 
   function genAdvUrl(sourceUrl: string, record: any, isPc: boolean) {
+    // 校验源地址是否是https或http开头，若不是，则添加上https或http开头
+    if (!sourceUrl.startsWith('https://') && !sourceUrl.startsWith('http://')) {
+      sourceUrl = 'https://' + sourceUrl;
+    }
     var url = new URL(sourceUrl);
     var params = url.searchParams;
     if (params.size === 0) {

@@ -85,6 +85,12 @@
       pcTargetUrl = pcUrl.href;
       values['pcTargetUrl'] = pcTargetUrl;
 
+      wapParams.append('utm_campaign', utmCampaign);
+      wapParams.append('utm_source', utmSource);
+      wapParams.append('utm_medium', utmMedium);
+      wapParams.append('utm_term', utmTerm);
+      wapParams.append('utm_content', utmContent);
+      pcUrl.search = wapParams.toString();
       wapTargetUrl = wapUrl.href;
       values['wapTargetUrl'] = wapTargetUrl;
       //提交表单

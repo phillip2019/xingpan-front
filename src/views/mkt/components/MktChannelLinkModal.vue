@@ -47,6 +47,28 @@
   });
   //设置标题
   const title = computed(() => (!unref(isUpdate) ? '新增' : '编辑'));
+
+  function genAdvUrl(sourceUrl: string, record: any, isPc: boolean) {
+    var url = new URL(sourceUrl);
+    var params = url.searchParams;
+    if (params.size === 0) {
+      params = new URLSearchParams();
+    }
+
+    let utmCampaign = record['utmCampaign'];
+    let utmSource = record['utmSource'];
+    let utmMedium = record['utmMedium'];
+    let utmTerm = record['utmTerm'];
+    let utmContent = record['utmContent'];
+    params.append('utm_campaign', utmCampaign);
+    params.append('utm_source', utmSource);
+    params.append('utm_medium', utmMedium);
+    params.append('utm_term', utmTerm);
+    params.append('utm_content', utmContent);
+    url.search = params.toString();
+    return url.href;
+  }
+
   //表单提交事件
   async function handleSubmit(v) {
     try {
@@ -54,43 +76,10 @@
       setModalProps({ confirmLoading: true });
       let pcSourceUrl = values['pcSourceUrl'];
       let wapSourceUrl = values['wapSourceUrl'];
-      var pcUrl = new URL(pcSourceUrl);
-      // 使用URL对象的searchParams属性获取URLSearchParams对象
-      var pcParams = pcUrl.searchParams;
-      if (pcParams.size === 0) {
-        pcParams = new URLSearchParams();
-      }
+      let pcTargetUrl = genAdvUrl(pcSourceUrl, values, true);
+      let wapTargetUrl = genAdvUrl(wapSourceUrl, values, false);
 
-      let utmCampaign = values['utmCampaign'];
-      let utmSource = values['utmSource'];
-      let utmMedium = values['utmMedium'];
-      let utmTerm = values['utmTerm'];
-      let utmContent = values['utmContent'];
-      let pcTargetUrl: string, wapTargetUrl: string;
-      pcParams.append('utm_campaign', utmCampaign);
-      pcParams.append('utm_source', utmSource);
-      pcParams.append('utm_medium', utmMedium);
-      pcParams.append('utm_term', utmTerm);
-      pcParams.append('utm_content', utmContent);
-      pcUrl.search = pcParams.toString();
-
-      // 若为pc，则参数不需要转码
-      pcTargetUrl = pcUrl.href;
       values['pcTargetUrl'] = pcTargetUrl;
-
-      var wapUrl = new URL(wapSourceUrl);
-      // 使用URL对象的searchParams属性获取URLSearchParams对象
-      var wapParams = wapUrl.searchParams;
-      if (wapParams.size === 0) {
-        wapParams = new URLSearchParams();
-      }
-      wapParams.append('utm_campaign', utmCampaign);
-      wapParams.append('utm_source', utmSource);
-      wapParams.append('utm_medium', utmMedium);
-      wapParams.append('utm_term', utmTerm);
-      wapParams.append('utm_content', utmContent);
-      wapUrl.search = wapParams.toString();
-      wapTargetUrl = wapUrl.href;
       values['wapTargetUrl'] = wapTargetUrl;
       //提交表单
       await saveOrUpdate(values, isUpdate.value);

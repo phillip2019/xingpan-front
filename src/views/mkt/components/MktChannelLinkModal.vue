@@ -61,13 +61,6 @@
         pcParams = new URLSearchParams();
       }
 
-      var wapUrl = new URL(wapSourceUrl);
-      // 使用URL对象的searchParams属性获取URLSearchParams对象
-      var wapParams = wapUrl.searchParams;
-      if (wapParams.size === 0) {
-        wapParams = new URLSearchParams();
-      }
-
       let utmCampaign = values['utmCampaign'];
       let utmSource = values['utmSource'];
       let utmMedium = values['utmMedium'];
@@ -85,12 +78,18 @@
       pcTargetUrl = pcUrl.href;
       values['pcTargetUrl'] = pcTargetUrl;
 
+      var wapUrl = new URL(wapSourceUrl);
+      // 使用URL对象的searchParams属性获取URLSearchParams对象
+      var wapParams = wapUrl.searchParams;
+      if (wapParams.size === 0) {
+        wapParams = new URLSearchParams();
+      }
       wapParams.append('utm_campaign', utmCampaign);
       wapParams.append('utm_source', utmSource);
       wapParams.append('utm_medium', utmMedium);
       wapParams.append('utm_term', utmTerm);
       wapParams.append('utm_content', utmContent);
-      pcUrl.search = wapParams.toString();
+      wapUrl.search = wapParams.toString();
       wapTargetUrl = wapUrl.href;
       values['wapTargetUrl'] = wapTargetUrl;
       //提交表单

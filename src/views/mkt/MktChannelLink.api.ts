@@ -13,6 +13,7 @@ enum Api {
   importExcel = '/mkt/mktChannelLink/importExcel',
   exportXls = '/mkt/mktChannelLink/exportXls',
   updateBatch = '/mkt/mktChannelLink/updateBatch',
+  updateBatch2 = '/mkt/mktChannelLink/updateBatch2',
 }
 /**
  * 导出api
@@ -29,9 +30,9 @@ export const getImportUrl = Api.importExcel;
  */
 export const list = (params) => {
   return new Promise((resolve) => {
-    defHttp.get({ url: Api.list, params }).then((res) => {
+    defHttp.get({ url: Api.list, params }).then(async (res) => {
       // 处理pc、wap带参链接
-      console.log('原始参数为： ', res.records);
+      // console.log('原始参数为： ', res.records);
       // 遍历返回数据，将pc、wap带参链接替换成直接链接
       res.records.forEach((item) => {
         const pcSourceUrl = item['pcSourceUrl'];
@@ -42,7 +43,9 @@ export const list = (params) => {
         item['pcTargetUrl'] = pcTargetUrl;
         item['wapTargetUrl'] = wapTargetUrl;
       });
-      console.log('拼装处理之后参数为： ', res.records);
+      // console.log('拼装处理之后参数为： ', res.records);
+      // 批量更新请求渠道链接
+      await defHttp.put({ url: Api.updateBatch2, data: res.records });
       resolve(res.records);
     });
   });

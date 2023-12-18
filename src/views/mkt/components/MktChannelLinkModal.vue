@@ -11,6 +11,7 @@
   import { formSchema } from '../MktChannelLink.data';
   import { saveOrUpdate } from '../MktChannelLink.api';
   import { cloneDeep } from 'lodash-es';
+  import { genAdvUrl } from '/@/utils/common/compUtils';
   // Emits声明
   const emit = defineEmits(['register', 'success']);
   const isUpdate = ref(true);
@@ -47,31 +48,6 @@
   });
   //设置标题
   const title = computed(() => (!unref(isUpdate) ? '新增' : '编辑'));
-
-  function genAdvUrl(sourceUrl: string, record: any, isPc: boolean) {
-    // 校验源地址是否是https或http开头，若不是，则添加上https或http开头
-    if (!sourceUrl.startsWith('https://') && !sourceUrl.startsWith('http://')) {
-      sourceUrl = 'https://' + sourceUrl;
-    }
-    var url = new URL(sourceUrl);
-    var params = url.searchParams;
-    if (params.size === 0) {
-      params = new URLSearchParams();
-    }
-
-    let utmCampaign = record['utmCampaign'];
-    let utmSource = record['utmSource'];
-    let utmMedium = record['utmMedium'];
-    let utmTerm = record['utmTerm'];
-    let utmContent = record['utmContent'];
-    params.append('utm_campaign', utmCampaign);
-    params.append('utm_source', utmSource);
-    params.append('utm_medium', utmMedium);
-    params.append('utm_term', utmTerm);
-    params.append('utm_content', utmContent);
-    url.search = params.toString();
-    return url.href;
-  }
 
   //表单提交事件
   async function handleSubmit(v) {

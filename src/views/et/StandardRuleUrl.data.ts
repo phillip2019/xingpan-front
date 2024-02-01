@@ -184,6 +184,20 @@ export const searchFormSchema: FormSchema[] = [
     colProps: { span: 6 },
     helpMessage: ['标准url，完成相应清洗，转化之后的url'],
   },
+  {
+    label: '正则表达式',
+    field: 'regex',
+    component: 'JInput',
+    colProps: { span: 6 },
+    helpMessage: ['正则表达式，针对原始url进行正则表达式匹配，根据匹配结果进行标准化处理'],
+  },
+  {
+    label: '替换参数',
+    field: 'params',
+    component: 'JInput',
+    colProps: { span: 6 },
+    helpMessage: ['正则表达式中，替换的参数，例如：{1}表示第一个参数，{2}表示第二个参数'],
+  },
 ];
 //表单数据
 export const formSchema: FormSchema[] = [
@@ -262,6 +276,18 @@ export const formSchema: FormSchema[] = [
     field: 'standardUrl',
     component: 'Input',
     helpMessage: ['标准url，完成相应清洗，转化之后的url'],
+  },
+  {
+    label: '正则表达式',
+    field: 'regex',
+    component: 'Input',
+    helpMessage: ['正则表达式，针对原始url进行正则表达式匹配，根据匹配结果进行标准化处理'],
+  },
+  {
+    label: '替换参数',
+    field: 'params',
+    component: 'Input',
+    helpMessage: ['替换参数，针对原始url进行正则表达式匹配，根据匹配结果使用替换参数进行标准化处理'],
   },
   // TODO 主键隐藏字段，目前写死为ID
   {

@@ -5,80 +5,68 @@ import { render } from '/@/utils/common/renderUtils';
 //列表数据
 export const columns: BasicColumn[] = [
   {
-    title: 'Project',
-    align: 'center',
-    sorter: true,
-    dataIndex: 'project',
-    helpMessage: '项目名称，数据上报项目名称，不同数据上报不同项目中，例如中英文卖家版为chinagoods，卖家版为bp_chinagoods!',
-  },
-  {
     title: '客户端名称',
     align: 'center',
     sorter: true,
     dataIndex: 'platformType',
     helpMessage: '客户端名称，页面所属客户端名称，例如pc、wap、Android、ios...',
+    width: 150,
   },
   {
     title: '平台语言',
     align: 'center',
     sorter: true,
-    dataIndex: 'platformLang',
+    dataIndex: 'lang',
     helpMessage: '平台语言，页面所属平台语言，例如zh、en...',
+    width: 120,
   },
   {
     title: '一级页面模块',
     align: 'center',
     sorter: true,
     dataIndex: 'unit',
+    slots: { customRender: 'copySlot' },
     helpMessage: '页面所属一级模块，针对页面进行模块划分，例如首页、商品详情页...',
+    width: 150,
   },
   {
     title: '二级页面模块',
     align: 'center',
     sorter: true,
     dataIndex: 'subUnit',
+    slots: { customRender: 'copySlot' },
     helpMessage: '页面所属二级模块，针对页面进行子模块划分，例如首页资讯中心、首页品类...',
+    width: 150,
   },
   {
     title: '页面名称',
     align: 'center',
     sorter: true,
     dataIndex: 'pageName',
+    width: 200,
+    slots: { customRender: 'copySlot' },
     helpMessage:
       '页面名称，针对页面进行人为命名，其中URL地址和APP页面为类名，这种类名是非人类可读的，因此进行页面命名，方便后续针对页面进行精细化运营...',
   },
   {
-    title: '页面路径',
+    title: '原始URL',
     align: 'center',
     sorter: true,
-    dataIndex: 'path',
-    helpMessage: '页面路径，页面路径，例如:https://www.baidu.com/index.html-> /index.html，此处为进行页面模式划分，可以处理路径中含变量情况',
+    dataIndex: 'scUrl',
+    customRender: render.renderFullUrlHref,
+    helpMessage: '原始url，如果原始url存在于特殊url表standard_special_url中，则正则表达式字段不能为空',
   },
   {
-    title: '页面参数',
+    title: '标准URL',
     align: 'center',
     sorter: true,
-    dataIndex: 'parameter',
-    helpMessage:
-      '页面参数，页面请求参数，例如https://www.baidu.com/index.html?a=1&b=2-> a=1&b=2，此处为进行页面模式划分，可以处理路径中请求参数中含变量情况，参数顺序无关，只要参数最大化匹配，页面就会进行相应标识',
+    dataIndex: 'standardUrl',
+    slots: { customRender: 'copySlot' },
+    helpMessage: '标准url，完成相应清洗，转化之后的url',
   },
 ];
 //查询数据
 export const searchFormSchema: FormSchema[] = [
-  {
-    label: 'Project',
-    field: 'project',
-    component: 'JSearchSelect',
-    defaultValue: 'chinagoods',
-    helpMessage: ['项目名称，数据上报项目名称，不同数据上报不同项目中，请选择页面项目名称，例如中英文卖家版为chinagoods，卖家版为bp_chinagoods!'],
-    colProps: { span: 6 },
-    componentProps: ({ schema, tableAction, formActionType, formModel }) => {
-      const sqlPreTpl = 'et_platform_site_code where 1 = 1 and platform_site_name is not null group by project,`project`,`project`';
-      return {
-        dict: sqlPreTpl,
-      };
-    },
-  },
   {
     label: '客户端名称',
     field: 'platformType',
@@ -95,7 +83,7 @@ export const searchFormSchema: FormSchema[] = [
   },
   {
     label: '平台语言',
-    field: 'platformLang',
+    field: 'lang',
     component: 'JSearchSelect',
     colProps: { span: 6 },
     defaultValue: 'zh',
@@ -110,86 +98,95 @@ export const searchFormSchema: FormSchema[] = [
   {
     label: '一级页面模块',
     field: 'unit',
-    component: 'JSearchSelect',
-    helpMessage: ['页面所属一级模块，针对页面进行模块划分，例如首页、商品详情页...'],
+    component: 'JInput',
     colProps: { span: 6 },
-    componentProps: ({ schema, tableAction, formActionType, formModel }) => {
-      const sqlPreTpl = 'web_path_map_pip where 1 = 1 and unit is not null group by unit,`unit`,`unit`';
-      return {
-        dict: sqlPreTpl,
-      };
-    },
+    helpMessage: ['页面所属一级模块，针对页面进行模块划分，例如首页、商品详情页...'],
   },
   {
     label: '二级页面模块',
     field: 'subUnit',
-    component: 'JSearchSelect',
+    component: 'JInput',
     colProps: { span: 6 },
     helpMessage: ['页面所属二级模块，针对页面进行子模块划分，例如首页资讯中心、首页品类...'],
-    componentProps: ({ schema, tableAction, formActionType, formModel }) => {
-      let sqlPreTpl = 'web_path_map_pip where 1 = 1 and sub_unit is not null';
-      if (formModel.unit) {
-        sqlPreTpl += ' and unit = "' + formModel.unit + '"';
-      }
-      sqlPreTpl += ' group by sub_unit,`sub_unit`,`sub_unit`';
-      return {
-        dict: sqlPreTpl,
-      };
-    },
   },
   {
     label: '页面名称',
-    field: 'pageName',
-    component: 'JSearchSelect',
+    field: 'scUrl',
+    component: 'JInput',
+    colProps: { span: 6 },
     helpMessage: [
       '页面名称，针对页面进行人为命名，其中URL地址和APP页面为类名，这种类名是非人类可读的，因此进行页面命名，方便后续针对页面进行精细化运营...',
     ],
-    colProps: { span: 6 },
-    componentProps: ({ schema, tableAction, formActionType, formModel }) => {
-      let sqlPreTpl = 'web_path_map_pip where 1 = 1 and page_name is not null';
-      if (formModel.unit) {
-        sqlPreTpl += ' and unit = "' + formModel.unit + '"';
-      }
-      if (formModel.subUnit) {
-        sqlPreTpl += ' and sub_unit = "' + formModel.subUnit + '"';
-      }
-      sqlPreTpl += ' group by page_name,`page_name`,`page_name`';
-      return {
-        dict: sqlPreTpl,
-      };
-    },
   },
+  // {
+  //   label: '一级页面模块',
+  //   field: 'unit',
+  //   component: 'JSearchSelect',
+  //   helpMessage: ['页面所属一级模块，针对页面进行模块划分，例如首页、商品详情页...'],
+  //   colProps: { span: 6 },
+  //   componentProps: ({ schema, tableAction, formActionType, formModel }) => {
+  //     const sqlPreTpl = 'standard_rule_url where 1 = 1 and unit is not null group by unit,`unit`,`unit`';
+  //     return {
+  //       dict: sqlPreTpl,
+  //     };
+  //   },
+  // },
+  // {
+  //   label: '二级页面模块',
+  //   field: 'subUnit',
+  //   component: 'JSearchSelect',
+  //   colProps: { span: 6 },
+  //   helpMessage: ['页面所属二级模块，针对页面进行子模块划分，例如首页资讯中心、首页品类...'],
+  //   componentProps: ({ schema, tableAction, formActionType, formModel }) => {
+  //     let sqlPreTpl = 'standard_rule_url where 1 = 1 and sub_unit is not null';
+  //     if (formModel.unit) {
+  //       sqlPreTpl += ' and unit = "' + formModel.unit + '"';
+  //     }
+  //     sqlPreTpl += ' group by sub_unit,`sub_unit`,`sub_unit`';
+  //     return {
+  //       dict: sqlPreTpl,
+  //     };
+  //   },
+  // },
+  // {
+  //   label: '页面名称',
+  //   field: 'pageName',
+  //   component: 'JSearchSelect',
+  //   helpMessage: [
+  //     '页面名称，针对页面进行人为命名，其中URL地址和APP页面为类名，这种类名是非人类可读的，因此进行页面命名，方便后续针对页面进行精细化运营...',
+  //   ],
+  //   colProps: { span: 6 },
+  //   componentProps: ({ schema, tableAction, formActionType, formModel }) => {
+  //     let sqlPreTpl = 'standard_rule_url where 1 = 1 and page_name is not null';
+  //     if (formModel.unit) {
+  //       sqlPreTpl += ' and unit = "' + formModel.unit + '"';
+  //     }
+  //     if (formModel.subUnit) {
+  //       sqlPreTpl += ' and sub_unit = "' + formModel.subUnit + '"';
+  //     }
+  //     sqlPreTpl += ' group by page_name,`page_name`,`page_name`';
+  //     return {
+  //       dict: sqlPreTpl,
+  //     };
+  //   },
+  // },
   {
-    label: '页面路径',
-    field: 'path',
+    label: '原始URL',
+    field: 'scUrl',
     component: 'JInput',
     colProps: { span: 6 },
+    helpMessage: ['原始url，如果原始url存在于特殊url表standard_special_url中，则正则表达式字段不能为空'],
   },
   {
-    label: '参数',
-    field: 'parameter',
+    label: '标准URL',
+    field: 'standardUrl',
     component: 'JInput',
     colProps: { span: 6 },
+    helpMessage: ['标准url，完成相应清洗，转化之后的url'],
   },
 ];
 //表单数据
 export const formSchema: FormSchema[] = [
-  {
-    label: 'Project',
-    field: 'project',
-    component: 'JSearchSelect',
-    defaultValue: 'chinagoods',
-    dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入项目名!' }];
-    },
-    componentProps: ({ schema, tableAction, formActionType, formModel }) => {
-      const sqlPreTpl = 'et_platform_site_code where 1 = 1 and platform_site_name is not null group by project,`project`,`project`';
-      return {
-        dict: sqlPreTpl,
-      };
-    },
-    helpMessage: '项目名称，数据上报项目名称，不同数据上报不同项目中，例如中英文卖家版为chinagoods，卖家版为bp_chinagoods',
-  },
   {
     label: '客户端名称',
     field: 'platformType',
@@ -208,7 +205,7 @@ export const formSchema: FormSchema[] = [
   },
   {
     label: '平台语言',
-    field: 'platformLang',
+    field: 'lang',
     component: 'JSearchSelect',
     defaultValue: 'zh',
     dynamicRules: ({ model, schema }) => {
@@ -252,21 +249,19 @@ export const formSchema: FormSchema[] = [
     ],
   },
   {
-    label: '页面路径',
-    field: 'path',
+    label: '原始URL',
+    field: 'scUrl',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
       return [{ required: true, message: '请输入页面路径!' }];
     },
-    helpMessage: ['页面路径，页面路径，例如:https://www.baidu.com/index.html-> /index.html，此处为进行页面模式划分，可以处理路径中含变量情况'],
+    helpMessage: ['原始url，如果原始url存在于特殊url表standard_special_url中，则正则表达式字段不能为空'],
   },
   {
-    label: '页面参数',
-    field: 'parameter',
+    label: '标准URL',
+    field: 'standardUrl',
     component: 'Input',
-    helpMessage: [
-      '页面参数，页面请求参数，例如https://www.baidu.com/index.html?a=1&b=2-> a=1&b=2，此处为进行页面模式划分，可以处理路径中请求参数中含变量情况，参数顺序无关，只要参数最大化匹配，页面就会进行相应标识',
-    ],
+    helpMessage: ['标准url，完成相应清洗，转化之后的url'],
   },
   // TODO 主键隐藏字段，目前写死为ID
   {

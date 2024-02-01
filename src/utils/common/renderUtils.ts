@@ -161,6 +161,22 @@ const render = {
     return h('a', { href: text, target: '_blank' }, showText);
   },
   /**
+   * 事件渲染a标签
+   * @param text
+   */
+  renderFullUrlHref: ({ text }) => {
+    if (!text || text === '直接打开') {
+      return '';
+    }
+    const show_len = 2048;
+    let showText = text;
+    if (showText.length > show_len) {
+      showText = showText.substr(0, show_len);
+    }
+    showText = showText.replace('https://', '').replace('http://', '');
+    return h('a', { href: text, target: '_blank' }, showText);
+  },
+  /**
    * yarn任务渲染a标签
    * @param applicationId 任务编号
    */

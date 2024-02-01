@@ -26,6 +26,10 @@
       <template #action="{ record }">
         <TableAction :actions="getTableAction(record)" :dropDownActions="getDropDownAction(record)" />
       </template>
+      <!--可复制插槽: copySlot-->
+      <template #copySlot="{ text }">
+        <JEllipsis :value="text" :length="2048" @click="handleClipboardCopy(text)" />
+      </template>
       <!--字段回显插槽-->
       <template #htmlSlot="{ text }">
         <div v-html="text"></div>
@@ -49,10 +53,13 @@
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { useModal } from '/@/components/Modal';
   import { useListPage } from '/@/hooks/system/useListPage';
-  import WebPathMapPipModal from './components/WebPathMapPipModal.vue';
-  import { columns, searchFormSchema } from './WebPathMapPip.data';
-  import { list, deleteOne, batchDelete, getImportUrl, getExportUrl } from './WebPathMapPip.api';
+  import WebPathMapPipModal from './components/StandardRuleUrlModal.vue';
+  import { columns, searchFormSchema } from './StandardRuleUrl.data';
+  import { list, deleteOne, batchDelete, getImportUrl, getExportUrl } from './StandardRuleUrl.api';
   import { downloadFile } from '/@/utils/common/renderUtils';
+  import { JEllipsis } from '/@/components/Form';
+  import clipboard from 'clipboard';
+  import { message } from 'ant-design-vue';
   const checkedKeys = ref<Array<string | number>>([]);
   //注册model
   const [registerModal, { openModal }] = useModal();
@@ -163,6 +170,15 @@
         },
       },
     ];
+  }
+
+  /**
+   * 属性成功回调
+   */
+  function handleClipboardCopy(value) {
+    // 使用 clipboard 插件复制值
+    clipboard.copy(value);
+    message.success('复制成功');
   }
 </script>
 

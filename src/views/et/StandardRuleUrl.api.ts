@@ -4,13 +4,13 @@ import { useMessage } from '/@/hooks/web/useMessage';
 const { createConfirm } = useMessage();
 
 enum Api {
-  list = '/et/webPathMapPip/list',
-  save = '/et/webPathMapPip/add',
-  edit = '/et/webPathMapPip/edit',
-  deleteOne = '/et/webPathMapPip/delete',
-  deleteBatch = '/et/webPathMapPip/deleteBatch',
-  importExcel = '/et/webPathMapPip/importExcel',
-  exportXls = '/et/webPathMapPip/exportXls',
+  list = '/et/standardRuleUrl/list',
+  save = '/et/standardRuleUrl/add',
+  edit = '/et/standardRuleUrl/edit',
+  deleteOne = '/et/standardRuleUrl/delete',
+  deleteBatch = '/et/standardRuleUrl/deleteBatch',
+  importExcel = '/et/standardRuleUrl/importExcel',
+  exportXls = '/et/standardRuleUrl/exportXls',
 }
 /**
  * 导出api

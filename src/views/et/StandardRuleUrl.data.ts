@@ -111,7 +111,7 @@ export const searchFormSchema: FormSchema[] = [
   },
   {
     label: '页面名称',
-    field: 'scUrl',
+    field: 'pageName',
     component: 'JInput',
     colProps: { span: 6 },
     helpMessage: [

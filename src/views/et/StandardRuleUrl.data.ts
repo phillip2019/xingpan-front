@@ -281,13 +281,21 @@ export const formSchema: FormSchema[] = [
     label: '正则表达式',
     field: 'regex',
     component: 'Input',
-    helpMessage: ['正则表达式，针对原始url进行正则表达式匹配，根据匹配结果进行标准化处理'],
+    helpMessage: [
+      '正则表达式，针对原始url进行正则表达式匹配，根据匹配结果进行标准化处理',
+      '有参url按照正则替换，正则可多个，用/&/分割，params参数也用/&/分割，空使用NULL字符串代替，其他使用0000代替',
+      '正则中\\\\使用\\转义',
+    ],
   },
   {
     label: '替换参数',
     field: 'params',
     component: 'Input',
-    helpMessage: ['替换参数，针对原始url进行正则表达式匹配，根据匹配结果使用替换参数进行标准化处理'],
+    helpMessage: [
+      '替换参数，针对原始url进行正则表达式匹配，根据匹配结果使用替换参数进行标准化处理',
+      '有参url按照正则替换，正则可多个，用/&/分割，params参数也用/&/分割，空使用NULL字符串代替，其他使用0000代替',
+      '正则中\\\\使用\\转义',
+    ],
   },
   // TODO 主键隐藏字段，目前写死为ID
   {

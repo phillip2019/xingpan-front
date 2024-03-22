@@ -46,6 +46,30 @@ export const columns: BasicColumn[] = [
     dataIndex: 'indexUnit',
   },
   {
+    title: '项目化指标',
+    align: 'center',
+    dataIndex: 'isProjectIndex',
+    customRender: ({ text }) => {
+      let rstText = '否';
+      if (text) {
+        rstText = '是';
+      }
+      return rstText;
+    },
+  },
+  {
+    title: '军令状指标',
+    align: 'center',
+    dataIndex: 'isMilitaryOrderIndex',
+    customRender: ({ text }) => {
+      let rstText = '否';
+      if (text) {
+        rstText = '是';
+      }
+      return rstText;
+    },
+  },
+  {
     title: '指标对接人',
     align: 'center',
     dataIndex: 'indicatorDockingPerson',
@@ -100,6 +124,32 @@ export const searchFormSchema: FormSchema[] = [
       async: true,
       parentCode: 'B03',
       placeholder: '请选择部门',
+    },
+    colProps: { span: 6 },
+  },
+  {
+    label: '项目化',
+    field: 'isProjectIndex',
+    component: 'Select',
+    defaultValue: false,
+    componentProps: {
+      options: [
+        { label: '是', value: true },
+        { label: '否', value: false },
+      ],
+    },
+    colProps: { span: 6 },
+  },
+  {
+    label: '军令状',
+    field: 'isMilitaryOrderIndex',
+    component: 'Select',
+    defaultValue: false,
+    componentProps: {
+      options: [
+        { label: '是', value: true },
+        { label: '否', value: false },
+      ],
     },
     colProps: { span: 6 },
   },
@@ -301,6 +351,33 @@ export const formSchema: FormSchema[] = [
         { label: '自动填报', value: 0 },
       ],
     },
+  },
+  {
+    label: '项目化指标',
+    field: 'isProjectIndex',
+    component: 'Select',
+    componentProps: {
+      options: [
+        { label: '是', value: true },
+        { label: '否', value: false },
+      ],
+    },
+  },
+  {
+    label: '军令状指标',
+    field: 'isMilitaryOrderIndex',
+    component: 'Select',
+    componentProps: {
+      options: [
+        { label: '是', value: true },
+        { label: '否', value: false },
+      ],
+    },
+  },
+  {
+    label: '数据来源',
+    field: 'dataSource',
+    component: 'Input',
   },
   {
     label: '备注',

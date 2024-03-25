@@ -49,6 +49,7 @@ export const columns: BasicColumn[] = [
     title: '项目化指标',
     align: 'center',
     dataIndex: 'isProjectIndex',
+    helpMessage: ['是否是项目化指标，大数据公司对集团上报项目，项目所要求的指标，年度集团根据此指标对大数据公司考核'],
     customRender: ({ text }) => {
       let rstText = '否';
       if (text === 1) {
@@ -61,6 +62,7 @@ export const columns: BasicColumn[] = [
     title: '军令状指标',
     align: 'center',
     dataIndex: 'isMilitaryOrderIndex',
+    helpMessage: ['是否军令状指标，各业务部门对大数据公司的承诺指标，部门负责人对大数据公司签订军令状'],
     customRender: ({ text }) => {
       let rstText = '否';
       if (text === 1) {
@@ -360,11 +362,15 @@ export const formSchema: FormSchema[] = [
     field: 'isProjectIndex',
     component: 'Select',
     defaultValue: 1,
+    helpMessage: '大数据公司对集团上报项目，项目所要求的指标，年度集团根据此指标对大数据公司考核',
     componentProps: {
       options: [
         { label: '是', value: 1 },
         { label: '否', value: 0 },
       ],
+    },
+    dynamicRules: ({ model, schema }) => {
+      return [{ required: true, message: '请选择此指标是否项目化指标!' }];
     },
   },
   {
@@ -372,22 +378,28 @@ export const formSchema: FormSchema[] = [
     field: 'isMilitaryOrderIndex',
     component: 'Select',
     defaultValue: 1,
+    helpMessage: '各业务部门对大数据公司的承诺指标，部门负责人对大数据公司签订军令状',
     componentProps: {
       options: [
         { label: '是', value: 1 },
         { label: '否', value: 0 },
       ],
     },
+    dynamicRules: ({ model, schema }) => {
+      return [{ required: true, message: '请选择此指标是否军令状指标!' }];
+    },
   },
   {
     label: '数据来源',
     field: 'dataSource',
     component: 'Input',
+    helpMessage: '此指标考核数据来源，例如CG平台、财务等',
   },
   {
     label: '备注',
     field: 'remark',
     component: 'InputTextArea',
+    helpMessage: '此指标的其它备注信息',
   },
   // TODO 主键隐藏字段，目前写死为ID
   {

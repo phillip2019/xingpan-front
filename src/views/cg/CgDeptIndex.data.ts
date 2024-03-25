@@ -51,7 +51,7 @@ export const columns: BasicColumn[] = [
     dataIndex: 'isProjectIndex',
     customRender: ({ text }) => {
       let rstText = '否';
-      if (text) {
+      if (text === 1) {
         rstText = '是';
       }
       return rstText;
@@ -63,7 +63,7 @@ export const columns: BasicColumn[] = [
     dataIndex: 'isMilitaryOrderIndex',
     customRender: ({ text }) => {
       let rstText = '否';
-      if (text) {
+      if (text === 1) {
         rstText = '是';
       }
       return rstText;
@@ -131,11 +131,10 @@ export const searchFormSchema: FormSchema[] = [
     label: '项目化',
     field: 'isProjectIndex',
     component: 'Select',
-    defaultValue: false,
     componentProps: {
       options: [
-        { label: '是', value: true },
-        { label: '否', value: false },
+        { label: '是', value: 1 },
+        { label: '否', value: 0 },
       ],
     },
     colProps: { span: 6 },
@@ -144,11 +143,10 @@ export const searchFormSchema: FormSchema[] = [
     label: '军令状',
     field: 'isMilitaryOrderIndex',
     component: 'Select',
-    defaultValue: false,
     componentProps: {
       options: [
-        { label: '是', value: true },
-        { label: '否', value: false },
+        { label: '是', value: 1 },
+        { label: '否', value: 0 },
       ],
     },
     colProps: { span: 6 },
@@ -313,11 +311,13 @@ export const formSchema: FormSchema[] = [
     label: '星期几填报',
     field: 'weekDay',
     component: 'Input',
+    defaultValue: '1',
   },
   {
     label: '开始填报时间',
     field: 'dayHourBegin',
     component: 'TimePicker',
+    defaultValue: '2024-03-25 08:30:00',
     componentProps: {
       valueFormat: 'HH:mm:ss',
     },
@@ -326,6 +326,7 @@ export const formSchema: FormSchema[] = [
     label: '截止填报时间',
     field: 'dayHourOver',
     component: 'TimePicker',
+    defaultValue: '2024-03-25 11:30:00',
     componentProps: {
       valueFormat: 'HH:mm:ss',
     },
@@ -334,6 +335,7 @@ export const formSchema: FormSchema[] = [
     label: '指标状态',
     field: 'status',
     component: 'Select',
+    defaultValue: 1,
     componentProps: {
       options: [
         { label: '启用', value: 1 },
@@ -345,6 +347,7 @@ export const formSchema: FormSchema[] = [
     label: '指标填报方式',
     field: 'indexFillingMethod',
     component: 'Select',
+    defaultValue: 0,
     componentProps: {
       options: [
         { label: '手动填报', value: 1 },
@@ -356,10 +359,11 @@ export const formSchema: FormSchema[] = [
     label: '项目化指标',
     field: 'isProjectIndex',
     component: 'Select',
+    defaultValue: 1,
     componentProps: {
       options: [
-        { label: '是', value: true },
-        { label: '否', value: false },
+        { label: '是', value: 1 },
+        { label: '否', value: 0 },
       ],
     },
   },
@@ -367,10 +371,11 @@ export const formSchema: FormSchema[] = [
     label: '军令状指标',
     field: 'isMilitaryOrderIndex',
     component: 'Select',
+    defaultValue: 1,
     componentProps: {
       options: [
-        { label: '是', value: true },
-        { label: '否', value: false },
+        { label: '是', value: 1 },
+        { label: '否', value: 0 },
       ],
     },
   },

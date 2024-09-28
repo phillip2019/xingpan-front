@@ -8,7 +8,7 @@ export const columns: BasicColumn[] = [
     title: '业务线',
     align: 'center',
     sorter: true,
-    dataIndex: 'buName_dictText',
+    dataIndex: 'buName',
   },
   {
     title: 'Conn ID',
@@ -17,22 +17,10 @@ export const columns: BasicColumn[] = [
     dataIndex: 'connectionId',
   },
   {
-    title: '状态',
-    align: 'center',
-    sorter: true,
-    dataIndex: 'status_dictText',
-  },
-  {
     title: '数据源类型',
     align: 'center',
     sorter: true,
-    dataIndex: 'connectionType_dictText',
-  },
-  {
-    title: '备注',
-    align: 'center',
-    sorter: true,
-    dataIndex: 'description',
+    dataIndex: 'connectionType',
   },
   {
     title: 'Host',
@@ -63,6 +51,19 @@ export const columns: BasicColumn[] = [
     align: 'center',
     sorter: true,
     dataIndex: 'version',
+  },
+  {
+    title: '状态',
+    align: 'center',
+    sorter: true,
+    dataIndex: 'status',
+    slots: { customRender: 'status' },
+  },
+  {
+    title: '备注',
+    align: 'center',
+    sorter: true,
+    dataIndex: 'description',
   },
   {
     title: '创建人',
@@ -101,7 +102,13 @@ export const searchFormSchema: FormSchema[] = [
     label: '业务线',
     field: 'buName',
     component: 'JDictSelectTag',
-    componentProps: {},
+    componentProps: ({ schema, tableAction, formActionType, formModel }) => {
+      let sqlPreTpl = 'cg_db_connection_info,bu_name,bu_name,1=1 ';
+      sqlPreTpl += 'group by bu_name';
+      return {
+        dictCode: sqlPreTpl,
+      };
+    },
     colProps: { span: 6 },
   },
   {
@@ -113,21 +120,26 @@ export const searchFormSchema: FormSchema[] = [
   {
     label: '状态',
     field: 'status',
-    component: 'JDictSelectTag',
-    componentProps: {},
+    component: 'Select',
     colProps: { span: 6 },
+    componentProps: {
+      options: [
+        { label: '启用', value: 1 },
+        { label: '停用', value: 0 },
+      ],
+    },
   },
   {
     label: '数据源类型',
     field: 'connectionType',
     component: 'JDictSelectTag',
-    componentProps: {},
-    colProps: { span: 6 },
-  },
-  {
-    label: '备注',
-    field: 'description',
-    component: 'Input',
+    componentProps: ({ schema, tableAction, formActionType, formModel }) => {
+      let sqlPreTpl = 'cg_db_connection_info,connection_type,connection_type,1=1 ';
+      sqlPreTpl += 'group by connection_type';
+      return {
+        dictCode: sqlPreTpl,
+      };
+    },
     colProps: { span: 6 },
   },
   {
@@ -139,7 +151,7 @@ export const searchFormSchema: FormSchema[] = [
   {
     label: 'DB',
     field: 'schemaName',
-    component: 'Input',
+    component: 'JInput',
     colProps: { span: 6 },
   },
   {
@@ -160,18 +172,6 @@ export const searchFormSchema: FormSchema[] = [
     component: 'Input',
     colProps: { span: 6 },
   },
-  {
-    label: '创建人',
-    field: 'createBy',
-    component: 'Input',
-    colProps: { span: 6 },
-  },
-  {
-    label: '创建时间',
-    field: 'createTime',
-    component: 'DatePicker',
-    colProps: { span: 6 },
-  },
 ];
 //表单数据
 export const formSchema: FormSchema[] = [
@@ -180,7 +180,7 @@ export const formSchema: FormSchema[] = [
     field: 'buName',
     component: 'JDictSelectTag',
     componentProps: {
-      dictCode: '',
+      dictCode: 'bu_name',
     },
     dynamicRules: ({ model, schema }) => {
       return [{ required: true, message: '请输入业务线名称!' }];
@@ -193,7 +193,7 @@ export const formSchema: FormSchema[] = [
     dynamicRules: ({ model, schema }) => {
       return [
         { required: true, message: '请输入数据库连接ID(英文名)!' },
-        { ...rules.duplicateCheckRule('cg_db_connection_info', 'connection_id', model, schema)[0] },
+        { ...rules.duplicateCheckRule('cg_db_connection_info', 'connection_id,version', model, schema)[0] },
       ];
     },
   },
@@ -203,7 +203,10 @@ export const formSchema: FormSchema[] = [
     defaultValue: 1,
     component: 'JDictSelectTag',
     componentProps: {
-      dictCode: '',
+      options: [
+        { label: '失效', value: 0 },
+        { label: '正常', value: 1 },
+      ],
     },
     dynamicRules: ({ model, schema }) => {
       return [{ required: true, message: '请输入状态!' }];
@@ -214,7 +217,7 @@ export const formSchema: FormSchema[] = [
     field: 'connectionType',
     component: 'JDictSelectTag',
     componentProps: {
-      dictCode: '',
+      dictCode: 'connection_type',
     },
     dynamicRules: ({ model, schema }) => {
       return [{ required: true, message: '请输入数据库连接类型!' }];
@@ -225,7 +228,7 @@ export const formSchema: FormSchema[] = [
     field: 'description',
     component: 'InputTextArea',
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入数据库连接描述内容!' }];
+      return [{ required: false, message: '请输入数据库连接描述内容!' }];
     },
   },
   {
@@ -234,6 +237,17 @@ export const formSchema: FormSchema[] = [
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
       return [{ required: true, message: '请输入数据库连接主机!' }];
+    },
+  },
+  {
+    label: 'Port',
+    field: 'port',
+    component: 'InputNumber',
+    dynamicRules: ({ model, schema }) => {
+      return [
+        { required: true, message: '请输入数据库连接端口!' },
+        { pattern: /^-?\d+$/, message: '请输入整数!' },
+      ];
     },
   },
   {
@@ -249,7 +263,7 @@ export const formSchema: FormSchema[] = [
     field: 'login',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入用户名!' }];
+      return [{ required: false, message: '请输入用户名!' }];
     },
   },
   {
@@ -257,18 +271,7 @@ export const formSchema: FormSchema[] = [
     field: 'password',
     component: 'InputPassword',
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入密码!' }];
-    },
-  },
-  {
-    label: 'Port',
-    field: 'port',
-    component: 'InputNumber',
-    dynamicRules: ({ model, schema }) => {
-      return [
-        { required: true, message: '请输入数据库连接端口!' },
-        { pattern: /^-?\d+$/, message: '请输入整数!' },
-      ];
+      return [{ required: false, message: '请输入密码!' }];
     },
   },
   {
@@ -276,7 +279,7 @@ export const formSchema: FormSchema[] = [
     field: 'extra',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入额外连接信息!' }];
+      return [{ required: false, message: '请输入额外连接信息!' }];
     },
   },
   {

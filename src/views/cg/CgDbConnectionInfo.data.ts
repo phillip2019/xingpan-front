@@ -2,6 +2,8 @@ import { BasicColumn } from '/@/components/Table';
 import { FormSchema } from '/@/components/Table';
 import { rules } from '/@/utils/helper/validator';
 import { render } from '/@/utils/common/renderUtils';
+import { on } from 'events';
+import { watch } from 'fs';
 //列表数据
 export const columns: BasicColumn[] = [
   {
@@ -11,7 +13,7 @@ export const columns: BasicColumn[] = [
     dataIndex: 'buName',
   },
   {
-    title: 'Conn ID',
+    title: 'Conn_ID',
     align: 'center',
     sorter: true,
     dataIndex: 'connectionId',
@@ -112,7 +114,7 @@ export const searchFormSchema: FormSchema[] = [
     colProps: { span: 6 },
   },
   {
-    label: 'Conn ID',
+    label: 'Conn_ID',
     field: 'connectionId',
     component: 'JInput',
     colProps: { span: 6 },
@@ -187,13 +189,13 @@ export const formSchema: FormSchema[] = [
     },
   },
   {
-    label: 'Conn ID',
+    label: 'Conn_ID',
     field: 'connectionId',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
       return [
         { required: true, message: '请输入数据库连接ID(英文名)!' },
-        { ...rules.duplicateCheckRule('cg_db_connection_info', 'connection_id,version', model, schema)[0] },
+        { ...rules.duplicateCheckRule('cg_db_connection_info', 'connection_id', model, schema)[0] },
       ];
     },
   },
@@ -216,8 +218,28 @@ export const formSchema: FormSchema[] = [
     label: '数据源类型',
     field: 'connectionType',
     component: 'JDictSelectTag',
-    componentProps: {
-      dictCode: 'connection_type',
+    componentProps: ({ formModel }) => {
+      const DEFULT_CONNECTION_TYPE_PORT = {
+        oracle: 1521,
+        sqlserver: 1433,
+        mysql: 3306,
+        postgresql: 5432,
+        redis: 6379,
+      };
+      return {
+        dictCode: 'connection_type',
+        onChange: (val, option) => {
+          if (val) {
+            formModel.port = DEFULT_CONNECTION_TYPE_PORT[val];
+          }
+        },
+        onDeselect: () => {
+          formModel.port = null;
+          if (formModel.hasOwnProperty('port')) {
+            formModel.port = null;
+          }
+        },
+      };
     },
     dynamicRules: ({ model, schema }) => {
       return [{ required: true, message: '请输入数据库连接类型!' }];
@@ -286,6 +308,10 @@ export const formSchema: FormSchema[] = [
     label: '版本',
     field: 'version',
     component: 'InputNumber',
+    defaultValue: 1,
+    componentProps: {
+      disabled: true,
+    },
   },
   {
     label: '连接超时',

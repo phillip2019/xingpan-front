@@ -11,6 +11,7 @@ enum Api {
   deleteBatch = '/cg/cgDbConnectionInfo/deleteBatch',
   importExcel = '/cg/cgDbConnectionInfo/importExcel',
   exportXls = '/cg/cgDbConnectionInfo/exportXls',
+  queryById = '/cg/cgDbConnectionInfo/queryById',
 }
 /**
  * 导出api
@@ -60,4 +61,14 @@ export const batchDelete = (params, handleSuccess) => {
 export const saveOrUpdate = (params, isUpdate) => {
   const url = isUpdate ? Api.edit : Api.save;
   return defHttp.post({ url: url, params });
+};
+
+/**
+ * 查询某一个
+ * @param id
+ */
+export const queryById = (id) => {
+  const url = Api.queryById + '?id=' + id;
+  // 拼接id参数进入url中
+  return defHttp.get({ url: url });
 };

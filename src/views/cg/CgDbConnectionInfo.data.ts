@@ -10,12 +10,13 @@ export const columns: BasicColumn[] = [
     title: '业务线',
     align: 'center',
     sorter: true,
-    dataIndex: 'buName',
+    dataIndex: 'buName_dictText',
   },
   {
     title: 'Conn_ID',
     align: 'center',
     sorter: true,
+    width: 150,
     dataIndex: 'connectionId',
   },
   {
@@ -58,7 +59,7 @@ export const columns: BasicColumn[] = [
     title: '状态',
     align: 'center',
     sorter: true,
-    dataIndex: 'status',
+    dataIndex: 'status_dictText',
     slots: { customRender: 'status' },
   },
   {
@@ -126,8 +127,8 @@ export const searchFormSchema: FormSchema[] = [
     colProps: { span: 6 },
     componentProps: {
       options: [
-        { label: '启用', value: 1 },
-        { label: '停用', value: 0 },
+        { label: '有效', value: 1 },
+        { label: '无效', value: 0 },
       ],
     },
   },

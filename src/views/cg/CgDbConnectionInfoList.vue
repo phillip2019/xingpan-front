@@ -32,8 +32,8 @@
       </template>
       <!--状态显示栏-->
       <template #status="{ record, text }">
-        <a-tag color="pink" v-if="text == 0">失效</a-tag>
-        <a-tag color="#87d068" v-if="text == 1">正常</a-tag>
+        <a-tag color="pink" v-if="record.status == 0">无效</a-tag>
+        <a-tag color="#87d068" v-if="record.status == 1">有效</a-tag>
       </template>
       <!--省市区字段回显插槽-->
       <template #pcaSlot="{ text }">

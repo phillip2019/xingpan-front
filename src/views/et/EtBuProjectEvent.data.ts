@@ -29,7 +29,7 @@ export const columns: BasicColumn[] = [
     sorter: true,
   },
   {
-    title: '状态 1-初始化 2-埋点中 3-测试中 4-测试完成 5-上线',
+    title: '状态',
     align: 'center',
     dataIndex: 'status',
     sorter: true,

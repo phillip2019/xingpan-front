@@ -11,31 +11,36 @@ export const columns: BasicColumn[] = [
     align: 'center',
     sorter: true,
     dataIndex: 'buName_dictText',
+    helpMessage: '该数据源所归属业务线',
   },
   {
     title: 'Conn_ID',
     align: 'center',
     sorter: true,
-    width: 150,
+    width: 200,
     dataIndex: 'connectionId',
+    helpMessage: '数据源Con ID，英文名，唯一连接编号',
   },
   {
     title: '数据源类型',
     align: 'center',
     sorter: true,
     dataIndex: 'connectionType',
+    helpMessage: '数据源应用名称',
   },
   {
     title: 'Host',
     align: 'center',
     sorter: true,
     dataIndex: 'host',
+    helpMessage: '数据源主机地址',
   },
   {
-    title: 'DB',
+    title: 'Schema',
     align: 'center',
     sorter: true,
     dataIndex: 'schemaName',
+    helpMessage: '数据源SCHEMA，数据库名称',
   },
   {
     title: 'UserName',
@@ -61,18 +66,21 @@ export const columns: BasicColumn[] = [
     sorter: true,
     dataIndex: 'status_dictText',
     slots: { customRender: 'status' },
+    helpMessage: '数据源状态，有效、无效',
   },
   {
     title: '备注',
     align: 'center',
     sorter: true,
     dataIndex: 'description',
+    helpMessage: '数据源备注',
   },
   {
     title: '创建人',
     align: 'center',
     sorter: true,
     dataIndex: 'createBy',
+    helpMessage: '数据源创建人',
   },
   {
     title: '创建时间',
@@ -82,12 +90,14 @@ export const columns: BasicColumn[] = [
     customRender: ({ text }) => {
       return !text ? '' : text.length > 10 ? text.substr(0, 10) : text;
     },
+    helpMessage: '数据源创建时间',
   },
   {
     title: '更新人',
     align: 'center',
     sorter: true,
     dataIndex: 'updateBy',
+    helpMessage: '数据源更新人',
   },
   {
     title: '更新时间',
@@ -97,6 +107,7 @@ export const columns: BasicColumn[] = [
     customRender: ({ text }) => {
       return !text ? '' : text.length > 10 ? text.substr(0, 10) : text;
     },
+    helpMessage: '数据源更新时间',
   },
 ];
 //查询数据
@@ -105,32 +116,36 @@ export const searchFormSchema: FormSchema[] = [
     label: '业务线',
     field: 'buName',
     component: 'JDictSelectTag',
-    componentProps: ({ schema, tableAction, formActionType, formModel }) => {
-      let sqlPreTpl = 'cg_db_connection_info,bu_name,bu_name,1=1 ';
-      sqlPreTpl += 'group by bu_name';
-      return {
-        dictCode: sqlPreTpl,
-      };
+    // componentProps: ({ schema, tableAction, formActionType, formModel }) => {
+    //   let sqlPreTpl = 'cg_db_connection_info,bu_name,bu_name,1=1 ';
+    //   sqlPreTpl += 'group by bu_name';
+    //   return {
+    //     dictCode: sqlPreTpl,
+    //   };
+    // },
+    componentProps: {
+      dictCode: 'bu_name',
     },
     colProps: { span: 6 },
+    helpMessage: '该数据源所归属业务线，下拉搜索',
   },
   {
-    label: 'Conn_ID',
+    label: 'Conn ID',
     field: 'connectionId',
     component: 'JInput',
     colProps: { span: 6 },
+    helpMessage: '该数据源连接ID，支持模糊搜索',
   },
   {
     label: '状态',
     field: 'status',
-    component: 'Select',
+    component: 'JDictSelectTag',
     colProps: { span: 6 },
+    defaultValue: 1,
     componentProps: {
-      options: [
-        { label: '有效', value: 1 },
-        { label: '无效', value: 0 },
-      ],
+      dictCode: 'valid_status',
     },
+    helpMessage: '该数据源状态',
   },
   {
     label: '数据源类型',
@@ -144,36 +159,42 @@ export const searchFormSchema: FormSchema[] = [
       };
     },
     colProps: { span: 6 },
+    helpMessage: '该数据源类型，例如mysql',
   },
   {
     label: 'Host',
     field: 'host',
     component: 'JInput',
     colProps: { span: 6 },
+    helpMessage: '该数据源HOST',
   },
   {
-    label: 'DB',
+    label: 'Schema',
     field: 'schemaName',
     component: 'JInput',
     colProps: { span: 6 },
+    helpMessage: '该数据源Schema',
   },
   {
     label: 'UserName',
     field: 'login',
     component: 'JInput',
     colProps: { span: 6 },
+    helpMessage: '该数据源UserName',
   },
   {
     label: 'Port',
     field: 'port',
     component: 'JInput',
     colProps: { span: 6 },
+    helpMessage: '该数据源Port',
   },
   {
     label: '版本',
     field: 'version',
     component: 'Input',
     colProps: { span: 6 },
+    helpMessage: '该数据源连接信息版本',
   },
 ];
 //表单数据
@@ -203,13 +224,10 @@ export const formSchema: FormSchema[] = [
   {
     label: '状态',
     field: 'status',
-    defaultValue: 1,
+    defaultValue: '有效',
     component: 'JDictSelectTag',
     componentProps: {
-      options: [
-        { label: '失效', value: 0 },
-        { label: '正常', value: 1 },
-      ],
+      dictCode: 'valid_status',
     },
     dynamicRules: ({ model, schema }) => {
       return [{ required: true, message: '请输入状态!' }];

@@ -14,6 +14,13 @@ export const columns: BasicColumn[] = [
     helpMessage: '该数据源所归属业务线',
   },
   {
+    title: '系统',
+    align: 'center',
+    sorter: true,
+    dataIndex: 'sys',
+    helpMessage: '该数据源所归属系统',
+  },
+  {
     title: 'Conn_ID',
     align: 'center',
     sorter: true,
@@ -130,6 +137,20 @@ export const searchFormSchema: FormSchema[] = [
     helpMessage: '该数据源所归属业务线，下拉搜索',
   },
   {
+    label: '系统',
+    field: 'sys',
+    component: 'JDictSelectTag',
+    componentProps: ({ schema, tableAction, formActionType, formModel }) => {
+      let sqlPreTpl = 'cg_db_connection_info,sys,sys,1=1 ';
+      sqlPreTpl += 'group by sys';
+      return {
+        dictCode: sqlPreTpl,
+      };
+    },
+    colProps: { span: 6 },
+    helpMessage: '该数据源所归属系统，下拉搜索',
+  },
+  {
     label: 'Conn ID',
     field: 'connectionId',
     component: 'JInput',
@@ -208,6 +229,14 @@ export const formSchema: FormSchema[] = [
     },
     dynamicRules: ({ model, schema }) => {
       return [{ required: true, message: '请输入业务线名称!' }];
+    },
+  },
+  {
+    label: '系统',
+    field: 'sys',
+    component: 'Input',
+    dynamicRules: ({ model, schema }) => {
+      return [{ required: true, message: '请输入数据库连接归属系统!' }];
     },
   },
   {

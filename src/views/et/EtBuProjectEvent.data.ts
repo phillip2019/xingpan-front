@@ -84,7 +84,7 @@ export const formSchema: FormSchema[] = [
     },
   },
   {
-    label: '状态 1-初始化 2-埋点中 3-测试中 4-测试完成 5-上线',
+    label: '状态',
     field: 'status',
     component: 'InputNumber',
     dynamicRules: ({ model, schema }) => {

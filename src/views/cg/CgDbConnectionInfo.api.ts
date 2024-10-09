@@ -12,6 +12,7 @@ enum Api {
   importExcel = '/cg/cgDbConnectionInfo/importExcel',
   exportXls = '/cg/cgDbConnectionInfo/exportXls',
   queryById = '/cg/cgDbConnectionInfo/queryById',
+  testConnection = '/cg/cgDbConnectionInfo/testConnection',
 }
 /**
  * 导出api
@@ -71,4 +72,13 @@ export const queryById = (id) => {
   const url = Api.queryById + '?id=' + id;
   // 拼接id参数进入url中
   return defHttp.get({ url: url });
+};
+
+/**
+ * post形式，测试是否连接成功
+ * @param id 拼接到url中
+ */
+export const testConnection = (id) => {
+  const url = Api.testConnection + '?id=' + id;
+  return defHttp.post({ url: url });
 };

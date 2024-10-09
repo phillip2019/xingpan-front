@@ -56,8 +56,9 @@
   import { useListPage } from '/@/hooks/system/useListPage';
   import CgDbConnectionInfoModal from './components/CgDbConnectionInfoModal.vue';
   import { columns, searchFormSchema } from './CgDbConnectionInfo.data';
-  import { list, deleteOne, batchDelete, getImportUrl, getExportUrl } from './CgDbConnectionInfo.api';
+  import { list, deleteOne, batchDelete, getImportUrl, getExportUrl, testConnection } from './CgDbConnectionInfo.api';
   import { downloadFile } from '/@/utils/common/renderUtils';
+  import { message } from 'ant-design-vue';
   const checkedKeys = ref<Array<string | number>>([]);
   //注册model
   const [registerModal, { openModal }] = useModal();
@@ -122,6 +123,21 @@
       showFooter: false,
     });
   }
+
+  /**
+   * 测试连接事件
+   */
+  async function handleTestConnection(record: Recordable) {
+    testConnection(record.id)
+      .then((res) => {
+        message.success(res);
+      })
+      .catch((e) => {
+        message.error(e);
+        return;
+      });
+    // handleSuccess();
+  }
   /**
    * 删除事件
    */
@@ -159,6 +175,10 @@
       {
         label: '详情',
         onClick: handleDetail.bind(null, record),
+      },
+      {
+        label: '测试',
+        onClick: handleTestConnection.bind(null, record),
       },
       {
         label: '删除',

@@ -305,7 +305,6 @@ export const formSchema: FormSchema[] = [
     label: '引擎版本',
     field: 'connectionTypeVersion',
     component: 'Input',
-    colProps: { span: 6 },
     helpMessage: '该数据源引擎版本，例如mysql 5.7',
     dynamicRules: ({ model, schema }) => {
       return [{ required: false, message: '请输入数据库该数据源引擎版本!' }];

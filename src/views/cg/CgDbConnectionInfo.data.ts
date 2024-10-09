@@ -307,12 +307,14 @@ export const formSchema: FormSchema[] = [
     component: 'Input',
     colProps: { span: 6 },
     helpMessage: '该数据源引擎版本，例如mysql 5.7',
+    dynamicRules: ({ model, schema }) => {
+      return [{ required: false, message: '请输入数据库该数据源引擎版本!' }];
+    },
   },
   {
     label: '备注',
     field: 'description',
     component: 'InputTextArea',
-
     dynamicRules: ({ model, schema }) => {
       return [{ required: false, message: '请输入数据库连接描述内容!' }];
     },

@@ -280,6 +280,7 @@ export const formSchema: FormSchema[] = [
         mysql: 3306,
         postgresql: 5432,
         redis: 6379,
+        http: 443,
       };
       return {
         dictCode: 'connection_type',
@@ -311,6 +312,7 @@ export const formSchema: FormSchema[] = [
     label: '备注',
     field: 'description',
     component: 'InputTextArea',
+
     dynamicRules: ({ model, schema }) => {
       return [{ required: false, message: '请输入数据库连接描述内容!' }];
     },

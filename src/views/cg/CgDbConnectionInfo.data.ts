@@ -339,7 +339,7 @@ export const formSchema: FormSchema[] = [
     field: 'schemaName',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入数据库连接DB!' }];
+      return [{ required: false, message: '请输入数据库连接DB!' }];
     },
   },
   {

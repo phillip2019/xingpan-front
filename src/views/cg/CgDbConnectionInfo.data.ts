@@ -36,6 +36,13 @@ export const columns: BasicColumn[] = [
     helpMessage: '数据源应用名称',
   },
   {
+    title: '引擎版本',
+    align: 'center',
+    sorter: true,
+    dataIndex: 'connectionTypeVersion',
+    helpMessage: '数据源',
+  },
+  {
     title: 'Host',
     align: 'center',
     sorter: true,
@@ -292,6 +299,13 @@ export const formSchema: FormSchema[] = [
     dynamicRules: ({ model, schema }) => {
       return [{ required: true, message: '请输入数据库连接类型!' }];
     },
+  },
+  {
+    label: '引擎版本',
+    field: 'connectionTypeVersion',
+    component: 'Input',
+    colProps: { span: 6 },
+    helpMessage: '该数据源引擎版本，例如mysql 5.7',
   },
   {
     label: '备注',

@@ -21,12 +21,20 @@ export const columns: BasicColumn[] = [
     helpMessage: '该数据源所归属系统',
   },
   {
-    title: 'Conn_ID',
+    title: 'Conn ID',
     align: 'center',
     sorter: true,
     width: 200,
     dataIndex: 'connectionId',
     helpMessage: '数据源Con ID，英文名，唯一连接编号',
+  },
+  {
+    title: '连接状态',
+    align: 'center',
+    sorter: true,
+    dataIndex: 'connectStatus',
+    slots: { customRender: 'connectStatus' },
+    helpMessage: '数据源连接状态，正常、异常',
   },
   {
     title: '数据源类型',
@@ -69,20 +77,6 @@ export const columns: BasicColumn[] = [
     dataIndex: 'port',
   },
   {
-    title: '版本',
-    align: 'center',
-    sorter: true,
-    dataIndex: 'version',
-  },
-  {
-    title: '状态',
-    align: 'center',
-    sorter: true,
-    dataIndex: 'status_dictText',
-    slots: { customRender: 'status' },
-    helpMessage: '数据源状态，有效、无效',
-  },
-  {
     title: '备注',
     align: 'center',
     sorter: true,
@@ -123,6 +117,20 @@ export const columns: BasicColumn[] = [
     },
     helpMessage: '数据源更新时间',
   },
+  {
+    title: '版本',
+    align: 'center',
+    sorter: true,
+    dataIndex: 'version',
+  },
+  {
+    title: '状态',
+    align: 'center',
+    sorter: true,
+    dataIndex: 'status',
+    slots: { customRender: 'status' },
+    helpMessage: '数据源状态，有效、无效',
+  },
 ];
 //查询数据
 export const searchFormSchema: FormSchema[] = [
@@ -148,7 +156,7 @@ export const searchFormSchema: FormSchema[] = [
     field: 'sys',
     component: 'JDictSelectTag',
     componentProps: ({ schema, tableAction, formActionType, formModel }) => {
-      let sqlPreTpl = 'cg_db_connection_info,sys,sys,1=1 ';
+      let sqlPreTpl = "cg_db_connection_info,sys,sys,1=1 and sys != '' ";
       sqlPreTpl += 'group by sys';
       return {
         dictCode: sqlPreTpl,
@@ -165,11 +173,21 @@ export const searchFormSchema: FormSchema[] = [
     helpMessage: '该数据源连接ID，支持模糊搜索',
   },
   {
+    label: '连接状态',
+    field: 'connectStatus',
+    component: 'JDictSelectTag',
+    colProps: { span: 6 },
+    componentProps: {
+      dictCode: 'connectStatus',
+    },
+    helpMessage: '该数据源连接状态，例如用户名错误，密码错误，数据库拓机等',
+  },
+  {
     label: '状态',
     field: 'status',
     component: 'JDictSelectTag',
     colProps: { span: 6 },
-    defaultValue: 1,
+    defaultValue: '1',
     componentProps: {
       dictCode: 'valid_status',
     },
@@ -204,23 +222,9 @@ export const searchFormSchema: FormSchema[] = [
     helpMessage: '该数据源Schema',
   },
   {
-    label: 'UserName',
-    field: 'login',
-    component: 'JInput',
-    colProps: { span: 6 },
-    helpMessage: '该数据源UserName',
-  },
-  {
-    label: 'Port',
-    field: 'port',
-    component: 'JInput',
-    colProps: { span: 6 },
-    helpMessage: '该数据源Port',
-  },
-  {
     label: '版本',
     field: 'version',
-    component: 'Input',
+    component: 'JInput',
     colProps: { span: 6 },
     helpMessage: '该数据源连接信息版本',
   },
@@ -247,7 +251,7 @@ export const formSchema: FormSchema[] = [
     },
   },
   {
-    label: 'Conn_ID',
+    label: 'Conn ID',
     field: 'connectionId',
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
@@ -260,13 +264,25 @@ export const formSchema: FormSchema[] = [
   {
     label: '状态',
     field: 'status',
-    defaultValue: '有效',
+    defaultValue: '1',
     component: 'JDictSelectTag',
     componentProps: {
       dictCode: 'valid_status',
     },
     dynamicRules: ({ model, schema }) => {
       return [{ required: true, message: '请输入状态!' }];
+    },
+  },
+  {
+    label: '连接状态',
+    field: 'connectStatus',
+    defaultValue: '1',
+    component: 'JDictSelectTag',
+    componentProps: {
+      dictCode: 'connect_status',
+    },
+    dynamicRules: ({ model, schema }) => {
+      return [{ required: true, message: '请选择连接状态!' }];
     },
   },
   {

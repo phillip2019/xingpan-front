@@ -1,6 +1,9 @@
 <template>
   <BasicModal v-bind="$attrs" @register="registerModal" destroyOnClose :title="title" :width="800" @ok="handleSubmit">
     <BasicForm @register="registerForm" />
+    <template #centerFooter="">
+      <a-button type="dashed" @click="handleTestConnection">测试</a-button>
+    </template>
   </BasicModal>
 </template>
 
@@ -9,10 +12,13 @@
   import { BasicModal, useModalInner } from '/@/components/Modal';
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { formSchema } from '../CgDbConnectionInfo.data';
-  import { queryById, saveOrUpdate } from '../CgDbConnectionInfo.api';
+  import { queryById, saveOrUpdate, testConnection2 } from '../CgDbConnectionInfo.api';
+  import { message } from 'ant-design-vue';
+
   // Emits声明
   const emit = defineEmits(['register', 'success']);
   const isUpdate = ref(true);
+  const recordData = ref({ id: '' });
   //表单配置
   const [registerForm, { setProps, resetFields, setFieldsValue, validate }] = useForm({
     //labelWidth: 150,
@@ -27,6 +33,7 @@
     setModalProps({ confirmLoading: false, showCancelBtn: !!data?.showFooter, showOkBtn: !!data?.showFooter });
     isUpdate.value = !!data?.isUpdate;
     if (unref(isUpdate)) {
+      recordData.value = data.record;
       // 查询数据库记录
       const record = await queryById(data.record.id);
 
@@ -34,6 +41,8 @@
       await setFieldsValue({
         ...record,
       });
+    } else {
+      recordData.value = { id: '' };
     }
     // 隐藏底部时禁用整个表单
     setProps({ disabled: !data?.showFooter });
@@ -55,6 +64,24 @@
     } finally {
       setModalProps({ confirmLoading: false });
     }
+  }
+
+  /**
+   * 测试连接事件
+   */
+  async function handleTestConnection() {
+    let values = await validate();
+    // 先将连接状态置为0：异常
+    setFieldsValue({ ...{ connectStatus: '0' } });
+    await testConnection2(values)
+      .then((_) => {
+        setFieldsValue({ ...{ connectStatus: '1' } });
+        values.connectStatus = 1;
+      })
+      .catch(() => {
+        setFieldsValue({ ...{ connectStatus: '0' } });
+      });
+    // handleSuccess();
   }
 </script>
 

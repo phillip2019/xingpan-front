@@ -40,13 +40,13 @@
       });
 
       let formData = {};
-      const queryByIdUrl = '/cg/cgDbConnectionInfo/queryById';
+      // const queryByIdUrl = '/cg/cgDbConnectionInfo/queryById';
       async function initFormData() {
-        let params = { id: props.formData.dataId };
-        const data = await defHttp.get({ url: queryByIdUrl, params });
-        formData = { ...data };
+        // let params = { id: props.formData.dataId };
+        // const data = await defHttp.get({ url: queryByIdUrl, params });
+        // formData = { ...data };
         //设置表单的值
-        await setFieldsValue(formData);
+        await setFieldsValue(props.formData);
         //默认是禁用
         await setProps({ disabled: formDisabled.value });
       }

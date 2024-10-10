@@ -4,13 +4,33 @@
     <BasicTable @register="registerTable" :rowSelection="rowSelection">
       <!--插槽:table标题-->
       <template #tableTitle>
-        <a-button type="primary" @click="handleAdd" preIcon="ant-design:plus-outlined"> 新增</a-button>
-        <a-button type="primary" preIcon="ant-design:export-outlined" @click="onExportXls"> 导出</a-button>
-        <j-upload-button type="primary" preIcon="ant-design:import-outlined" @click="onImportXls">导入</j-upload-button>
+        <a-button
+          type="primary"
+          @click="handleAdd"
+          preIcon="ant-design:plus-outlined"
+          v-if="hasPermission('org.jeecg.modules.demo:cg_db_connection_info:add')"
+        >
+          新增</a-button
+        >
+        <a-button
+          type="primary"
+          preIcon="ant-design:export-outlined"
+          @click="onExportXls"
+          v-if="hasPermission('org.jeecg.modules.demo:cg_db_connection_info:exportXls')"
+        >
+          导出</a-button
+        >
+        <j-upload-button
+          type="primary"
+          preIcon="ant-design:import-outlined"
+          @click="onImportXls"
+          v-if="hasPermission('org.jeecg.modules.demo:cg_db_connection_info:importExcel')"
+          >导入</j-upload-button
+        >
         <a-dropdown v-if="selectedRowKeys.length > 0">
           <template #overlay>
             <a-menu>
-              <a-menu-item key="1" @click="batchHandleDelete">
+              <a-menu-item key="1" @click="batchHandleDelete" v-if="hasPermission('org.jeecg.modules.demo:cg_db_connection_info:deleteBatch')">
                 <Icon icon="ant-design:delete-outlined" />
                 删除
               </a-menu-item>
@@ -35,6 +55,11 @@
         <a-tag color="pink" v-if="record.status == 0">无效</a-tag>
         <a-tag color="#87d068" v-if="record.status == 1">有效</a-tag>
       </template>
+      <!--连接状态显示栏-->
+      <template #connectStatus="{ record, text }">
+        <a-tag color="pink" v-if="record.connectStatus == 0">异常</a-tag>
+        <a-tag color="#87d068" v-if="record.connectStatus == 1">正常</a-tag>
+      </template>
       <!--省市区字段回显插槽-->
       <template #pcaSlot="{ text }">
         {{ getAreaTextByCode(text) }}
@@ -56,9 +81,13 @@
   import { useListPage } from '/@/hooks/system/useListPage';
   import CgDbConnectionInfoModal from './components/CgDbConnectionInfoModal.vue';
   import { columns, searchFormSchema } from './CgDbConnectionInfo.data';
-  import { list, deleteOne, batchDelete, getImportUrl, getExportUrl, testConnection } from './CgDbConnectionInfo.api';
+  import { list, deleteOne, saveOrUpdate, batchDelete, getImportUrl, getExportUrl, testConnection, updateConnectStatus } from './CgDbConnectionInfo.api';
   import { downloadFile } from '/@/utils/common/renderUtils';
-  import { message } from 'ant-design-vue';
+  import { useMessage } from '/@/hooks/web/useMessage';
+  import { usePermission } from '/@/hooks/web/usePermission';
+  const { hasPermission } = usePermission();
+  const { notification } = useMessage();
+
   const checkedKeys = ref<Array<string | number>>([]);
   //注册model
   const [registerModal, { openModal }] = useModal();
@@ -128,15 +157,15 @@
    * 测试连接事件
    */
   async function handleTestConnection(record: Recordable) {
-    testConnection(record.id)
+    await testConnection(record.id)
       .then((res) => {
-        message.success(res);
+        updateConnectStatus(record.id, 1);
       })
-      .catch((e) => {
-        message.error(e);
-        return;
+      .catch(() => {
+        // 单独更新此ID的连接状态
+        updateConnectStatus(record.id, 0);
       });
-    // handleSuccess();
+    handleSuccess();
   }
   /**
    * 删除事件
@@ -164,6 +193,7 @@
       {
         label: '编辑',
         onClick: handleEdit.bind(null, record),
+        auth: 'org.jeecg.modules.demo:cg_db_connection_info:edit',
       },
     ];
   }
@@ -171,14 +201,10 @@
    * 下拉操作栏
    */
   function getDropDownAction(record) {
-    return [
+    const menuList = [
       {
         label: '详情',
         onClick: handleDetail.bind(null, record),
-      },
-      {
-        label: '测试',
-        onClick: handleTestConnection.bind(null, record),
       },
       {
         label: '删除',
@@ -186,8 +212,18 @@
           title: '是否确认删除',
           confirm: handleDelete.bind(null, record),
         },
+        auth: 'org.jeecg.modules.demo:cg_db_connection_info:delete',
       },
     ];
+    // 若数据源数据类型为http， 则不显示测试按钮
+    if (record.connectionType !== 'http') {
+      // 头插入测试按钮
+      menuList.unshift({
+        label: '测试',
+        onClick: handleTestConnection.bind(null, record),
+      });
+    }
+    return menuList;
   }
 </script>
 

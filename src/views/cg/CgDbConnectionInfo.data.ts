@@ -162,7 +162,7 @@ export const searchFormSchema: FormSchema[] = [
     field: 'sys',
     component: 'JDictSelectTag',
     componentProps: ({ schema, tableAction, formActionType, formModel }) => {
-      let sqlPreTpl = "cg_db_connection_info,sys,sys,1=1 and sys != '' ";
+      let sqlPreTpl = "cg_db_connection_info,sys,sys,1=1 and sys != '' and status = 1 ";
       if (formModel.buName) {
         sqlPreTpl = sqlPreTpl + " and bu_name = '" + formModel.buName + "'";
       }
@@ -207,7 +207,7 @@ export const searchFormSchema: FormSchema[] = [
     field: 'connectionType',
     component: 'JDictSelectTag',
     componentProps: ({ schema, tableAction, formActionType, formModel }) => {
-      let sqlPreTpl = 'cg_db_connection_info,connection_type,connection_type,1=1 ';
+      let sqlPreTpl = 'cg_db_connection_info,connection_type,connection_type,1=1 and status = 1 ';
       sqlPreTpl += 'group by connection_type';
       return {
         dictCode: sqlPreTpl,

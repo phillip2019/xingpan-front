@@ -163,6 +163,9 @@ export const searchFormSchema: FormSchema[] = [
     component: 'JDictSelectTag',
     componentProps: ({ schema, tableAction, formActionType, formModel }) => {
       let sqlPreTpl = "cg_db_connection_info,sys,sys,1=1 and sys != '' ";
+      if (formModel.buName) {
+        sqlPreTpl = sqlPreTpl + " and buName = '" + formModel.buName + "'";
+      }
       sqlPreTpl += 'group by sys';
       return {
         dictCode: sqlPreTpl,

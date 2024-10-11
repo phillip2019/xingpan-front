@@ -14,6 +14,7 @@ enum Api {
   queryById = '/cg/cgDbConnectionInfo/queryById',
   testConnection = '/cg/cgDbConnectionInfo/testConnection',
   testConnection2 = '/cg/cgDbConnectionInfo/testConnection2',
+  jdbcUrl = '/cg/cgDbConnectionInfo/jdbcUrl',
 }
 /**
  * 导出api
@@ -96,4 +97,14 @@ export const testConnection = (id: string) => {
 export const testConnection2 = (params: any) => {
   const url = Api.testConnection2;
   return defHttp.post({ url: url, params });
+};
+
+/**
+ * 查询某一个
+ * @param id
+ */
+export const getJdbcURI = (id: string) => {
+  const url = Api.jdbcUrl + '?id=' + id;
+  // 拼接id参数进入url中
+  return defHttp.get({ url: url });
 };

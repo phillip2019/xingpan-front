@@ -11,6 +11,7 @@ export const columns: BasicColumn[] = [
     align: 'center',
     sorter: true,
     dataIndex: 'buName_dictText',
+    slots: { customRender: 'copySlot' },
     helpMessage: '该数据源所归属业务线',
   },
   {
@@ -18,6 +19,7 @@ export const columns: BasicColumn[] = [
     align: 'center',
     sorter: true,
     dataIndex: 'sys',
+    slots: { customRender: 'copySlot' },
     helpMessage: '该数据源所归属系统',
   },
   {
@@ -26,6 +28,7 @@ export const columns: BasicColumn[] = [
     sorter: true,
     width: 200,
     dataIndex: 'connectionId',
+    slots: { customRender: 'copySlot' },
     helpMessage: '数据源Con ID，英文名，唯一连接编号',
   },
   {
@@ -55,6 +58,7 @@ export const columns: BasicColumn[] = [
     align: 'center',
     sorter: true,
     dataIndex: 'host',
+    slots: { customRender: 'copySlot' },
     helpMessage: '数据源主机地址',
   },
   {
@@ -62,12 +66,14 @@ export const columns: BasicColumn[] = [
     align: 'center',
     sorter: true,
     dataIndex: 'schemaName',
+    slots: { customRender: 'copySlot' },
     helpMessage: '数据源SCHEMA，数据库名称',
   },
   {
     title: 'UserName',
     align: 'center',
     sorter: true,
+    slots: { customRender: 'copySlot' },
     dataIndex: 'login',
   },
   {

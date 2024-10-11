@@ -18,6 +18,7 @@
   // Emits声明
   const emit = defineEmits(['register', 'success']);
   const isUpdate = ref(true);
+  const isCopy = ref(false);
   const recordData = ref({ id: '' });
   //表单配置
   const [registerForm, { setProps, resetFields, setFieldsValue, validate }] = useForm({
@@ -32,11 +33,15 @@
     await resetFields();
     setModalProps({ confirmLoading: false, showCancelBtn: !!data?.showFooter, showOkBtn: !!data?.showFooter });
     isUpdate.value = !!data?.isUpdate;
+    isCopy.value = !!data?.isCopy;
+    console.log('record: ', data.record);
     if (unref(isUpdate)) {
       recordData.value = data.record;
-      // 查询数据库记录
-      const record = await queryById(data.record.id);
-
+      let record = data.record;
+      if (!unref(isCopy)) {
+        // 查询数据库记录
+        record = await queryById(data.record.id);
+      }
       //表单赋值
       await setFieldsValue({
         ...record,
@@ -48,7 +53,12 @@
     setProps({ disabled: !data?.showFooter });
   });
   //设置标题
-  const title = computed(() => (!unref(isUpdate) ? '新增' : '编辑'));
+  const title = computed(() => {
+    if (unref(isCopy)) {
+      return '复制';
+    }
+    return !unref(isUpdate) ? '新增' : '编辑';
+  });
 
   //表单提交事件
   async function handleSubmit(v) {

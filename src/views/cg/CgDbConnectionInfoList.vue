@@ -46,6 +46,10 @@
       <template #action="{ record }">
         <TableAction :actions="getTableAction(record)" :dropDownActions="getDropDownAction(record)" />
       </template>
+      <!--可复制插槽: copySlot-->
+      <template #copySlot="{ text }">
+        <JEllipsis :value="text" :length="20" @click="handleClipboardCopy(text)" />
+      </template>
       <!--字段回显插槽-->
       <template #htmlSlot="{ text }">
         <div v-html="text"></div>
@@ -77,14 +81,27 @@
 <script lang="ts" name="cg-cgDbConnectionInfo" setup>
   import { ref, computed, unref } from 'vue';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
+  import { Image, ImagePreviewGroup, Tag, Tooltip, message } from 'ant-design-vue';
   import { useModal } from '/@/components/Modal';
+  import { cloneDeep } from 'lodash-es';
   import { useListPage } from '/@/hooks/system/useListPage';
   import CgDbConnectionInfoModal from './components/CgDbConnectionInfoModal.vue';
   import { columns, searchFormSchema } from './CgDbConnectionInfo.data';
-  import { list, deleteOne, saveOrUpdate, batchDelete, getImportUrl, getExportUrl, testConnection, updateConnectStatus } from './CgDbConnectionInfo.api';
+  import {
+    list,
+    deleteOne,
+    batchDelete,
+    getImportUrl,
+    getExportUrl,
+    testConnection,
+    updateConnectStatus,
+    getJdbcURI,
+  } from './CgDbConnectionInfo.api';
   import { downloadFile } from '/@/utils/common/renderUtils';
   import { useMessage } from '/@/hooks/web/useMessage';
   import { usePermission } from '/@/hooks/web/usePermission';
+  import { JEllipsis } from '/@/components/Form';
+  import clipboard from 'clipboard';
   const { hasPermission } = usePermission();
   const { notification } = useMessage();
 
@@ -107,7 +124,7 @@
         fieldMapToTime: [],
       },
       actionColumn: {
-        width: 120,
+        width: 200,
         fixed: 'right',
       },
     },
@@ -154,6 +171,23 @@
   }
 
   /**
+   * 复制
+   */
+  function handleCopy(record: Recordable) {
+    // 拷贝record记录，排除ID字段
+    const recordCopy = cloneDeep(record);
+    recordCopy.id = '';
+    recordCopy.password = '';
+    recordCopy.connectionId = `${recordCopy.connectionId}_copy`;
+    openModal(true, {
+      record: recordCopy,
+      isUpdate: true,
+      isCopy: true,
+      showFooter: true,
+    });
+  }
+
+  /**
    * 测试连接事件
    */
   async function handleTestConnection(record: Recordable) {
@@ -173,6 +207,15 @@
   async function handleDelete(record) {
     await deleteOne({ id: record.id }, handleSuccess);
   }
+
+  /**
+   * 复制JDBC URI事件
+   */
+  async function handleJdbcUrl(record) {
+    const jdbcURI = await getJdbcURI(record.id);
+    clipboard.copy(jdbcURI);
+  }
+
   /**
    * 批量删除事件
    */
@@ -189,13 +232,28 @@
    * 操作栏
    */
   function getTableAction(record) {
-    return [
+    const menuList = [
+      {
+        label: '复制',
+        onClick: handleCopy.bind(null, record),
+        auth: 'org.jeecg.modules.demo:et_event:edit',
+      },
       {
         label: '编辑',
         onClick: handleEdit.bind(null, record),
         auth: 'org.jeecg.modules.demo:cg_db_connection_info:edit',
       },
     ];
+    // 若数据源数据类型为http， 则不显示测试按钮
+    if (record.connectionType !== 'http') {
+      // 头插入测试按钮
+      menuList.unshift({
+        label: '测试',
+        onClick: handleTestConnection.bind(null, record),
+        auth: 'org.jeecg.modules.demo:et_event:edit',
+      });
+    }
+    return menuList;
   }
   /**
    * 下拉操作栏
@@ -214,16 +272,21 @@
         },
         auth: 'org.jeecg.modules.demo:cg_db_connection_info:delete',
       },
+      {
+        label: 'JDBC URI',
+        onClick: handleJdbcUrl.bind(null, record),
+      },
     ];
-    // 若数据源数据类型为http， 则不显示测试按钮
-    if (record.connectionType !== 'http') {
-      // 头插入测试按钮
-      menuList.unshift({
-        label: '测试',
-        onClick: handleTestConnection.bind(null, record),
-      });
-    }
     return menuList;
+  }
+
+  /**
+   * 属性成功回调
+   */
+  function handleClipboardCopy(value) {
+    // 使用 clipboard 插件复制值
+    clipboard.copy(value);
+    message.success('复制成功');
   }
 </script>
 

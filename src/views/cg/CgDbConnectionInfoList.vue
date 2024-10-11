@@ -96,6 +96,7 @@
     testConnection,
     updateConnectStatus,
     getJdbcURI,
+    syncAirflowConnection,
   } from './CgDbConnectionInfo.api';
   import { downloadFile } from '/@/utils/common/renderUtils';
   import { useMessage } from '/@/hooks/web/useMessage';
@@ -217,6 +218,13 @@
   }
 
   /**
+   * 同步airflow连接事件
+   */
+  async function handleSyncAirflowConnection(record) {
+    await syncAirflowConnection(record.id);
+  }
+
+  /**
    * 批量删除事件
    */
   async function batchHandleDelete() {
@@ -278,6 +286,10 @@
       menuList.push({
         label: 'JDBC URI',
         onClick: handleJdbcUrl.bind(null, record),
+      });
+      menuList.push({
+        label: '同步Airflow',
+        onClick: handleSyncAirflowConnection.bind(null, record),
       });
     }
     return menuList;

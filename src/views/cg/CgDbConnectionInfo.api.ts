@@ -15,6 +15,7 @@ enum Api {
   testConnection = '/cg/cgDbConnectionInfo/testConnection',
   testConnection2 = '/cg/cgDbConnectionInfo/testConnection2',
   jdbcUrl = '/cg/cgDbConnectionInfo/jdbcUrl',
+  syncAirflowConnection = '/cg/cgDbConnectionInfo/syncAirflowConnection',
 }
 /**
  * 导出api
@@ -34,7 +35,7 @@ export const list = (params: any) => defHttp.get({ url: Api.list, params });
 /**
  * 删除单个
  */
-export const deleteOne = (params: { id: any; }, handleSuccess: { (): void; (): void; }) => {
+export const deleteOne = (params: { id: any }, handleSuccess: { (): void; (): void }) => {
   return defHttp.delete({ url: Api.deleteOne, params }, { joinParamsToUrl: true }).then(() => {
     handleSuccess();
   });
@@ -43,7 +44,7 @@ export const deleteOne = (params: { id: any; }, handleSuccess: { (): void; (): v
  * 批量删除
  * @param params
  */
-export const batchDelete = (params: { ids: any[]; }, handleSuccess: { (): void; (): void; }) => {
+export const batchDelete = (params: { ids: any[] }, handleSuccess: { (): void; (): void }) => {
   createConfirm({
     iconType: 'warning',
     title: '确认删除',
@@ -105,6 +106,16 @@ export const testConnection2 = (params: any) => {
  */
 export const getJdbcURI = (id: string) => {
   const url = Api.jdbcUrl + '?id=' + id;
+  // 拼接id参数进入url中
+  return defHttp.get({ url: url });
+};
+
+/**
+ * 同步数据源到airflow中
+ * @param id
+ */
+export const syncAirflowConnection = (id: string) => {
+  const url = Api.syncAirflowConnection + '?id=' + id;
   // 拼接id参数进入url中
   return defHttp.get({ url: url });
 };

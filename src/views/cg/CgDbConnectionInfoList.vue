@@ -272,11 +272,14 @@
         },
         auth: 'org.jeecg.modules.demo:cg_db_connection_info:delete',
       },
-      {
+    ];
+    // 若不为http、redis、mongodb，则插入JDBC URI按钮
+    if (record.connectionType !== 'http' && record.connectionType !== 'redis' && record.connectionType !== 'mongodb') {
+      menuList.push({
         label: 'JDBC URI',
         onClick: handleJdbcUrl.bind(null, record),
-      },
-    ];
+      });
+    }
     return menuList;
   }
 

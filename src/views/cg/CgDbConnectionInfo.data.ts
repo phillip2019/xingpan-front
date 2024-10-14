@@ -327,12 +327,30 @@ export const formSchema: FormSchema[] = [
     },
   },
   {
-    label: '引擎版本',
-    field: 'connectionTypeVersion',
-    component: 'Input',
-    helpMessage: '该数据源引擎版本，例如mysql 5.7',
+    label: 'WEB系统',
+    field: 'webUrlArr',
+    component: 'InputTextArea',
+    helpMessage: '该数据源数据库系统的URL地址，多个以逗号分隔',
     dynamicRules: ({ model, schema }) => {
-      return [{ required: false, message: '请输入数据库该数据源引擎版本!' }];
+      return [{ required: false, message: '该数据源数据库系统的URL地址，多个以逗号分隔!' }];
+    },
+  },
+  {
+    label: '数据库缩写',
+    field: 'dbAbbreviation',
+    component: 'Input',
+    helpMessage: '数据库缩写名称，提供给入数仓使用',
+    dynamicRules: ({ model, schema }) => {
+      return [{ required: false, message: '数据库缩写名称，提供给入数仓使用!' }];
+    },
+  },
+  {
+    label: '数据库缩写',
+    field: 'dbAbbreviation',
+    component: 'Input',
+    helpMessage: '数据库缩写名称，提供给入数仓使用',
+    dynamicRules: ({ model, schema }) => {
+      return [{ required: false, message: '数据库缩写名称，提供给入数仓使用!' }];
     },
   },
   {

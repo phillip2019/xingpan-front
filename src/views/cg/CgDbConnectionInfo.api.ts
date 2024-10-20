@@ -134,7 +134,9 @@ export const batchTestConnection = (params: { ids: any[] }, handleSuccess: { ():
     okText: '确认',
     cancelText: '取消',
     onOk: () => {
-      return defHttp.get({ url: Api.testConnectionBatch, data: params }, { joinParamsToUrl: true }).then(() => {
+      // 拼接ids参数进入url中，ids为params中的ids数组
+      const idsStr = params.ids.join(',');
+      return defHttp.get({ url: Api.testConnectionBatch + '?ids=' + idsStr }, { joinParamsToUrl: true }).then(() => {
         handleSuccess();
       });
     },
@@ -153,7 +155,9 @@ export const batchUpdateConnectionVersion = (params: { ids: any[] }, handleSucce
     okText: '确认',
     cancelText: '取消',
     onOk: () => {
-      return defHttp.get({ url: Api.updateConnectionVersionBatch, data: params }, { joinParamsToUrl: true }).then(() => {
+      // 拼接ids参数进入url中，ids为params中的ids数组
+      const idsStr = params.ids.join(',');
+      return defHttp.get({ url: Api.updateConnectionVersionBatch + '?ids=' + idsStr }, { joinParamsToUrl: true }).then(() => {
         handleSuccess();
       });
     },

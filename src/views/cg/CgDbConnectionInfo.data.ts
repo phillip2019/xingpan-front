@@ -184,7 +184,7 @@ export const searchFormSchema: FormSchema[] = [
       if (formModel.sys) {
         sqlPreTpl = sqlPreTpl + " and sys = '" + formModel.sys + "'";
       }
-      sqlPreTpl += 'group by schema_name';
+      sqlPreTpl += 'group by host';
       return {
         dictCode: sqlPreTpl,
       };

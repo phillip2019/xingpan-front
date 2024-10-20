@@ -16,6 +16,8 @@ enum Api {
   testConnection2 = '/cg/cgDbConnectionInfo/testConnection2',
   jdbcUrl = '/cg/cgDbConnectionInfo/jdbcUrl',
   syncAirflowConnection = '/cg/cgDbConnectionInfo/syncAirflowConnection',
+  testConnectionBatch = '/cg/cgDbConnectionInfo/batchTestConnection',
+  updateConnectionVersionBatch = '/cg/cgDbConnectionInfo/batchUpdateVersion',
 }
 /**
  * 导出api
@@ -118,4 +120,42 @@ export const syncAirflowConnection = (id: string) => {
   const url = Api.syncAirflowConnection + '?id=' + id;
   // 拼接id参数进入url中
   return defHttp.get({ url: url });
+};
+
+/**
+ * 批量测试连接
+ * @param params
+ */
+export const batchTestConnection = (params: { ids: any[] }, handleSuccess: { (): void; (): void }) => {
+  createConfirm({
+    iconType: 'info',
+    title: '确认测试',
+    content: '是否测试选中数据源连通性',
+    okText: '确认',
+    cancelText: '取消',
+    onOk: () => {
+      return defHttp.get({ url: Api.testConnectionBatch, data: params }, { joinParamsToUrl: true }).then(() => {
+        handleSuccess();
+      });
+    },
+  });
+};
+
+/**
+ * 批量更新连接数据源引擎版本
+ * @param params
+ */
+export const batchUpdateConnectionVersion = (params: { ids: any[] }, handleSuccess: { (): void; (): void }) => {
+  createConfirm({
+    iconType: 'info',
+    title: '确认更新',
+    content: '是否更新选中数据源版本号',
+    okText: '确认',
+    cancelText: '取消',
+    onOk: () => {
+      return defHttp.get({ url: Api.updateConnectionVersionBatch, data: params }, { joinParamsToUrl: true }).then(() => {
+        handleSuccess();
+      });
+    },
+  });
 };

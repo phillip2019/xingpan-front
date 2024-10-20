@@ -2,7 +2,7 @@
   <BasicModal v-bind="$attrs" @register="registerModal" destroyOnClose :title="title" :width="800" @ok="handleSubmit">
     <BasicForm @register="registerForm" />
     <template #centerFooter="">
-      <a-button type="dashed" @click="handleTestConnection">测试</a-button>
+      <a-button type="dashed" @click="handleTestConnection" v-if="recordData?.connectionType !== 'http'">测试</a-button>
     </template>
   </BasicModal>
 </template>
@@ -19,7 +19,7 @@
   const emit = defineEmits(['register', 'success']);
   const isUpdate = ref(true);
   const isCopy = ref(false);
-  const recordData = ref({ id: '' });
+  const recordData = ref({ id: '', connectionType: '' });
   //表单配置
   const [registerForm, { setProps, resetFields, setFieldsValue, validate }] = useForm({
     //labelWidth: 150,
@@ -47,7 +47,7 @@
         ...record,
       });
     } else {
-      recordData.value = { id: '' };
+      recordData.value = { id: '', connectionType: '' };
     }
     // 隐藏底部时禁用整个表单
     setProps({ disabled: !data?.showFooter });

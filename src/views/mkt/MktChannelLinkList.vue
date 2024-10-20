@@ -116,6 +116,7 @@
       api: list,
       columns,
       canResize: false,
+      striped: true,
       formConfig: {
         //labelWidth: 120,
         schemas: searchFormSchema,

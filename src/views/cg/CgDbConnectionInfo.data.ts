@@ -52,7 +52,7 @@ export const columns: BasicColumn[] = [
     sorter: true,
     dataIndex: 'connectionTypeVersion',
     helpMessage: '数据源',
-    defaultHidden: true,
+    defaultHidden: false,
   },
   {
     title: 'Host',

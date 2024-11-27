@@ -1,5 +1,5 @@
 FROM nginx
-MAINTAINER jeecgos@163.com
+LABEL maintainer="jeecgos@163.com"
 VOLUME /tmp
 ENV LANG en_US.UTF-8
 

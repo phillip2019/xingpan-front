@@ -8,7 +8,7 @@
 </template>
 <script lang="ts">
   import { Image, ImagePreviewGroup } from 'ant-design-vue';
-  import { defineComponent, ref } from 'vue';
+  import { defineComponent, ref, computed, watch } from 'vue';
   import { propTypes } from '/@/utils/propTypes';
   import { getFileAccessHttpUrl } from '/@/utils/common/compUtils';
   import { toRaw } from '@vue/reactivity';
@@ -25,12 +25,14 @@
     setup(props) {
       const visible = ref(false);
       const currentIndex = ref(0);
-      let imgs: Array<string> = [];
-      const sourceImgArr = toRaw(props.value);
-      for (let index in sourceImgArr) {
-        const item = sourceImgArr[index];
-        imgs.push(getFileAccessHttpUrl(item.screenshot));
-      }
+      // 使用computed让图片列表变成响应式的
+      const imgList = computed(() => {
+        const sourceImgArr = toRaw(props.value) || [];
+        return sourceImgArr.map((item: any) => getFileAccessHttpUrl(item.screenshot));
+      });
+
+      // 第一张图片也使用computed
+      const firstImg = computed(() => imgList.value[0]);
 
       const handlePreview = () => {
         currentIndex.value = 0;
@@ -44,8 +46,8 @@
       return {
         visible,
         currentIndex,
-        firstImg: imgs[0],
-        imgList: imgs,
+        firstImg,
+        imgList,
         handlePreview,
         handleVisibleChange,
       };

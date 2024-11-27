@@ -1,8 +1,8 @@
 <template>
-  <Image :preview="{ visible: false }" :width="40" :src="firstImg" @click="visible = true" />
+  <Image :preview="{ visible: false }" :width="40" :src="firstImg" @click="handlePreview" />
   <div style="display: none">
-    <ImagePreviewGroup :preview="{ visible, onVisibleChange: (vis) => (visible = vis) }">
-      <Image v-for="(item, index) in imgList" :key="index" :src="item" @click="showImgPreview(index)" />
+    <ImagePreviewGroup :preview="{ visible, onVisibleChange: handleVisibleChange, current: currentIndex }">
+      <Image v-for="(item, index) in imgList" :key="index" :src="item" />
     </ImagePreviewGroup>
   </div>
 </template>
@@ -11,10 +11,8 @@
   import { defineComponent, ref } from 'vue';
   import { propTypes } from '/@/utils/propTypes';
   import { getFileAccessHttpUrl } from '/@/utils/common/compUtils';
-  //第一种获取target值的方式，通过vue中的响应式对象可使用toRaw()方法获取原始对象
   import { toRaw } from '@vue/reactivity';
-  const currentImgIndex = ref(0);
-  const visible = ref(false);
+
   export default defineComponent({
     name: 'EtEventImgModal',
     components: {
@@ -25,21 +23,31 @@
       value: propTypes.oneOfType([propTypes.array]),
     },
     setup(props) {
+      const visible = ref(false);
+      const currentIndex = ref(0);
       let imgs: Array<string> = [];
       const sourceImgArr = toRaw(props.value);
-      let item: any;
       for (let index in sourceImgArr) {
-        item = sourceImgArr[index];
+        const item = sourceImgArr[index];
         imgs.push(getFileAccessHttpUrl(item.screenshot));
       }
+
+      const handlePreview = () => {
+        currentIndex.value = 0;
+        visible.value = true;
+      };
+
+      const handleVisibleChange = (vis: boolean) => {
+        visible.value = vis;
+      };
+
       return {
-        visible: visible,
+        visible,
+        currentIndex,
         firstImg: imgs[0],
         imgList: imgs,
-        getFileAccessHttpUrl,
-        showImgPreview: function (index: number) {
-          currentImgIndex.value = index;
-        },
+        handlePreview,
+        handleVisibleChange,
       };
     },
   });

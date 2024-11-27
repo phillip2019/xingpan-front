@@ -3,6 +3,8 @@ MAINTAINER jeecgos@163.com
 VOLUME /tmp
 ENV LANG en_US.UTF-8
 
+RUN echo "client_max_body_size 10m;" > /etc/nginx/conf.d/upload.conf
+
 RUN echo "map \$http_upgrade \$connection_upgrade { \
                 default upgrade; \
                 ''      close; \
@@ -11,6 +13,7 @@ RUN echo "map \$http_upgrade \$connection_upgrade { \
 RUN echo "server {  \
                   listen       80; \
                   server_name  xingpan.chinagoods.com; \
+                  client_max_body_size 10m; \
                   location   /jeecgboot/ { \
                       proxy_pass              http://172.18.5.25:28080/jeecg-boot/; \
                       proxy_redirect          off; \
@@ -24,6 +27,7 @@ RUN echo "server {  \
                       proxy_send_timeout      600s; \
                       proxy_set_header        Upgrade \$http_upgrade; \
                       proxy_set_header        Connection \$connection_upgrade; \
+                      client_max_body_size    10m; \
                   } \
                   location   /jeecg-boot/ { \
                       proxy_pass              http://172.18.5.25:28080/jeecg-boot/; \
@@ -38,6 +42,7 @@ RUN echo "server {  \
                       proxy_send_timeout      600s; \
                       proxy_set_header        Upgrade \$http_upgrade; \
                       proxy_set_header        Connection \$connection_upgrade; \
+                      client_max_body_size    10m; \
                   } \
 
                   #解决Router(mode: 'history')模式下，刷新路由地址不能找到页面的问题 \

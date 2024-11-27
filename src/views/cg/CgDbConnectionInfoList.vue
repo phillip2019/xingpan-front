@@ -34,6 +34,14 @@
                 <Icon icon="ant-design:delete-outlined" />
                 删除
               </a-menu-item>
+              <a-menu-item key="1" @click="batchHandleTestConnection" v-if="hasPermission('org.jeecg.modules.demo:cg_db_connection_info:edit')">
+                <Icon icon="ant-design:delete-outlined" />
+                测试
+              </a-menu-item>
+              <a-menu-item key="1" @click="batchHandleCheckEngineVersion" v-if="hasPermission('org.jeecg.modules.demo:cg_db_connection_info:edit')">
+                <Icon icon="ant-design:delete-outlined" />
+                检测引擎版本
+              </a-menu-item>
             </a-menu>
           </template>
           <a-button
@@ -97,6 +105,8 @@
     updateConnectStatus,
     getJdbcURI,
     syncAirflowConnection,
+    batchTestConnection,
+    batchUpdateConnectionVersion,
   } from './CgDbConnectionInfo.api';
   import { downloadFile } from '/@/utils/common/renderUtils';
   import { useMessage } from '/@/hooks/web/useMessage';
@@ -116,6 +126,7 @@
       api: list,
       columns,
       canResize: false,
+      striped: true,
       formConfig: {
         //labelWidth: 120,
         schemas: searchFormSchema,
@@ -230,6 +241,20 @@
   async function batchHandleDelete() {
     await batchDelete({ ids: selectedRowKeys.value }, handleSuccess);
   }
+
+  /**
+   * 批量连通性测试事件
+   */
+  async function batchHandleTestConnection() {
+    await batchTestConnection({ ids: selectedRowKeys.value }, handleSuccess);
+  }
+
+  /**
+   * 批量检查数据库版本事件
+   */
+  async function batchHandleCheckEngineVersion() {
+    await batchUpdateConnectionVersion({ ids: selectedRowKeys.value }, handleSuccess);
+  }
   /**
    * 成功回调
    */
@@ -300,7 +325,9 @@
    */
   function handleClipboardCopy(value) {
     // 使用 clipboard 插件复制值
-    clipboard.copy(value);
+    // 若是字符串，则直接拷贝
+    // 若是number，则转换成字符串，再进行拷贝
+    clipboard.copy(typeof value === 'string' ? value : String(value));
     message.success('复制成功');
   }
 </script>

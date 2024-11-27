@@ -61,7 +61,6 @@
   import { JEllipsis } from '/@/components/Form';
   import { copyDistinct, copyAnonymousId } from '/@/utils/sa/tools';
 
-
   const checkedKeys = ref<Array<string | number>>([]);
 
   const [registerModal, { openDrawer: openModal }] = useDrawer();
@@ -75,6 +74,7 @@
       api: list,
       columns,
       canResize: false,
+      striped: true,
       formConfig: {
         //labelWidth: 120,
         schemas: searchFormSchema,

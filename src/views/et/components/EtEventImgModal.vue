@@ -1,14 +1,14 @@
 <template>
   <Image :preview="{ visible: false }" :width="40" :src="firstImg" @click="handlePreview" />
   <div style="display: none">
-    <ImagePreviewGroup :preview="{ visible, onVisibleChange: handleVisibleChange, current: currentIndex }">
-      <Image v-for="(item, index) in imgList" :key="index" :src="item" />
+    <ImagePreviewGroup v-if="shouldShow" :preview="{ visible, onVisibleChange: handleVisibleChange }">
+      <Image v-for="(item, index) in imgList" :key="index" :src="getFileAccessHttpUrl(item.screenshot)" />
     </ImagePreviewGroup>
   </div>
 </template>
 <script lang="ts">
   import { Image, ImagePreviewGroup } from 'ant-design-vue';
-  import { defineComponent, ref, computed, watch } from 'vue';
+  import { computed, defineComponent, ref } from 'vue';
   import { propTypes } from '/@/utils/propTypes';
   import { getFileAccessHttpUrl } from '/@/utils/common/compUtils';
   import { toRaw } from '@vue/reactivity';
@@ -24,32 +24,37 @@
     },
     setup(props) {
       const visible = ref(false);
-      const currentIndex = ref(0);
-      // 使用computed让图片列表变成响应式的
-      const imgList = computed(() => {
-        const sourceImgArr = toRaw(props.value) || [];
-        return sourceImgArr.map((item: any) => getFileAccessHttpUrl(item.screenshot));
+      const shouldShow = ref(false);
+      
+      // 直接使用原始数组，不进行URL转换
+      const imgList = computed(() => toRaw(props.value) || []);
+      const firstImg = computed(() => {
+        const firstItem = imgList.value[0] || {};
+        return getFileAccessHttpUrl(firstItem?.screenshot || '');
       });
 
-      // 第一张图片也使用computed
-      const firstImg = computed(() => imgList.value[0]);
-
       const handlePreview = () => {
-        currentIndex.value = 0;
+        shouldShow.value = true;
         visible.value = true;
       };
 
       const handleVisibleChange = (vis: boolean) => {
         visible.value = vis;
+        if (!vis) {
+          setTimeout(() => {
+            shouldShow.value = false;
+          }, 100);
+        }
       };
 
       return {
         visible,
-        currentIndex,
+        shouldShow,
         firstImg,
         imgList,
         handlePreview,
         handleVisibleChange,
+        getFileAccessHttpUrl,
       };
     },
   });

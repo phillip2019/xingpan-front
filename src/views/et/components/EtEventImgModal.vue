@@ -30,7 +30,7 @@
       const imgList = computed(() => toRaw(props.value) || []);
       const firstImg = computed(() => {
         const firstItem = imgList.value[0] || {};
-        return getFileAccessHttpUrl(firstItem?.screenshot || '');
+        return getFileAccessHttpUrl(firstItem.screenshot);
       });
 
       const handlePreview = () => {

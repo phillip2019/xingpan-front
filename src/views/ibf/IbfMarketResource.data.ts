@@ -9,223 +9,258 @@ export const columns: BasicColumn[] = [
     align: 'center',
     sorter: true,
     dataIndex: 'shortMarketId_dictText',
+    helpMessage: '市场，记录市场',
   },
   {
-    title: '市场名称',
+    title: '月份',
     align: 'center',
     sorter: true,
-    dataIndex: 'shortMarketName_dictText',
+    dataIndex: 'monthCol',
+    helpMessage: '月份，记录月份，格式yyyy-MM',
   },
   {
-    title: '所属年月 yyyy-MM',
-    align: 'center',
-    sorter: true,
-    dataIndex: 'monthCol_dictText',
-  },
-  {
-    title: '间数（商位）',
+    title: '间数(商位)',
     align: 'center',
     sorter: true,
     dataIndex: 'boothRoomNumTd',
+    helpMessage: '间数(商位)，记录间数(商位)，单位间',
   },
   {
-    title: '间数（配套）',
+    title: '间数(配套)',
     align: 'center',
     sorter: true,
     dataIndex: 'matchRoomNumTd',
+    helpMessage: '间数(配套)，记录间数(配套)，单位间',
   },
   {
-    title: '已出租间数（商位+配套）',
+    title: '已出租间数(商位+配套)',
     align: 'center',
     sorter: true,
     dataIndex: 'boothMatchRentRoomNum1d',
+    helpMessage: '已出租间数(商位+配套)，记录已出租间数(商位+配套)，单位间',
   },
   {
-    title: '面积（商位）㎡',
+    title: '面积(商位)㎡',
     align: 'center',
     sorter: true,
     dataIndex: 'boothAreaNumTd',
+    helpMessage: '面积(商位)，记录面积(商位)，单位㎡',
   },
   {
-    title: '面积（配套）㎡',
+    title: '面积(配套)㎡',
     align: 'center',
     sorter: true,
     dataIndex: 'matchAreaNumTd',
+    helpMessage: '面积(配套)，记录面积(配套)，单位㎡',
   },
   {
-    title: '已出租面积（商位+配套）㎡',
+    title: '已出租面积(商位+配套)㎡',
     align: 'center',
     sorter: true,
     dataIndex: 'boothMatchRentAreaNum1d',
+    helpMessage: '已出租面积(商位+配套)，记录已出租面积(商位+配套)，单位㎡',
   },
   {
-    title: '人流（人次）',
+    title: '人流',
     align: 'center',
     sorter: true,
     dataIndex: 'marketBuyerEntrNum1m',
+    helpMessage: '人流(人次)，记录人流(人次)，单位人次',
   },
   {
-    title: '车流（人次）',
+    title: '车流',
     align: 'center',
     sorter: true,
     dataIndex: 'carEntrNum1m',
+    helpMessage: '车流(人次)，记录车流(人次)，单位人次',
   },
   {
-    title: '外商（人次）',
+    title: '外商',
     align: 'center',
     sorter: true,
     dataIndex: 'foreignBuyerEntrNum1m',
+    helpMessage: '外商(人次)，记录外商(人次)，单位人次',
   },
   {
-    title: '开门率 %',
+    title: '开门率',
     align: 'center',
     sorter: true,
     dataIndex: 'boothOpeningRate1m',
+    helpMessage: '开门率，记录开门率',
+    // 添加*100， 添加%，显示2位小数
+    customRender: ({ record }) => `${(record.boothOpeningRate1m * 100).toFixed(2)}%`,
   },
   {
-    title: '市场成交额（亿）',
+    title: '市场成交额',
     align: 'center',
     sorter: true,
     dataIndex: 'marketGmv1m',
+    helpMessage: '记录市场成交额(亿元)，单位亿元',
   },
   {
     title: '商位转让笔数',
     align: 'center',
     sorter: true,
     dataIndex: 'marketTransferNum1m',
+    helpMessage: '记录商位转让笔数，单位笔',
   },
   {
-    title: '商位转让均价（元）',
+    title: '商位转让均价(元)',
     align: 'center',
     sorter: true,
     dataIndex: 'marketTransferPriceAvg1m',
+    helpMessage: '记录商位转让均价(元)，单位元',
   },
   {
     title: '商位转租笔数',
     align: 'center',
     sorter: true,
     dataIndex: 'marketRentNum1m',
+    helpMessage: '记录商位转租笔数，单位笔',
   },
   {
-    title: '商位转租均价（元）',
+    title: '商位转租均价',
     align: 'center',
     sorter: true,
     dataIndex: 'marketRentPriceAvg1m',
+    helpMessage: '记录商位转租均价(万元)，单位万元',
   },
   {
     title: '商位质押笔数',
     align: 'center',
     sorter: true,
     dataIndex: 'pledgeApplyNum1m',
+    helpMessage: '商位质押笔数，记录商位质押笔数，单位笔',
   },
   {
-    title: '商位质押总金额（元）',
+    title: '商位质押总金额',
     align: 'center',
     sorter: true,
     dataIndex: 'pledgeApplyIncome1m',
+    helpMessage: '记录商位质押总金额(万元)，单位万元',
   },
   {
     title: '商位普通装修笔数',
     align: 'center',
     sorter: true,
     dataIndex: 'normalRenovationNum1m',
+    helpMessage: '记录商位普通装修笔数，单位笔',
   },
   {
     title: '商位个性化装修笔数',
     align: 'center',
     sorter: true,
     dataIndex: 'specialRenovationNum1m',
+    helpMessage: '记录商位个性化装修笔数，单位笔',
   },
   {
     title: '本年招商户数',
     align: 'center',
     sorter: true,
     dataIndex: 'invstHoldsNumSd',
+    helpMessage: '记录本年招商户数，单位户',
   },
   {
     title: '当前空置户数',
     align: 'center',
     sorter: true,
     dataIndex: 'emptyBoothHoldsNumTd',
+    helpMessage: '记录当前空置户数，单位户',
   },
   {
-    title: '本年入场资格费收入（万）',
+    title: '本年入场资格费收入',
     align: 'center',
     sorter: true,
     dataIndex: 'entryQualificationIncomeSd',
+    helpMessage: '记录本年入场资格费收入(万元)，单位万元',
   },
   {
-    title: '本年续租户数（户）',
+    title: '本年续租户数',
     align: 'center',
     sorter: true,
     dataIndex: 'renewLeaseHoldsNumSd',
+    helpMessage: '记录本年续租户数，单位户',
   },
   {
-    title: '本年退租户数（户）',
+    title: '本年退租户数',
     align: 'center',
     sorter: true,
     dataIndex: 'surrenderLeaseHoldsNumSd',
+    helpMessage: '记录本年退租户数，单位户',
   },
   {
-    title: '本年到期户数（户）',
+    title: '本年到期户数',
     align: 'center',
     sorter: true,
     dataIndex: 'expiredHoldsNumSd',
+    helpMessage: '记录本年到期户数，单位户',
   },
   {
-    title: '本年续租收入（万）',
+    title: '本年续租收入',
     align: 'center',
     sorter: true,
     dataIndex: 'renewLeaseIncomeSd',
+    helpMessage: '记录本年续租收入(亿元)，单位亿元',
   },
   {
     title: '创建时间',
     align: 'center',
     dataIndex: 'createTime',
+    helpMessage: '创建时间，记录创建时间',
   },
   {
     title: '修改时间',
     align: 'center',
     dataIndex: 'updateTime',
+    helpMessage: '修改时间，记录修改时间',
   },
   {
     title: '创建人',
     align: 'center',
     dataIndex: 'createBy',
+    helpMessage: '创建人,记录创建人',
   },
   {
     title: '修改人',
     align: 'center',
     dataIndex: 'updateBy',
+    helpMessage: '修改人，记录修改人',
   },
 ];
 //查询数据
 export const searchFormSchema: FormSchema[] = [
   {
-    label: '业务类型，BOSS,OPERATION',
-    field: 'businessVersion',
-    component: 'Input',
-    colProps: { span: 6 },
-  },
-  {
-    label: '市场id  1001:一区 1003:二区 1004:三区 1006:四区 1007:五区 1008:篁园 1011:义西 1002:宾王',
+    label: '市场',
     field: 'shortMarketId',
-    component: 'JDictSelectTag',
-    componentProps: {},
+    component: 'JSelectMultiple',
+    componentProps: {
+      dictCode: 'short_market_id',
+    },
     colProps: { span: 6 },
   },
   {
-    label: '市场名称',
-    field: 'shortMarketName',
-    component: 'JDictSelectTag',
-    componentProps: {},
-    colProps: { span: 6 },
-  },
-  {
-    label: '所属年月 yyyy-MM',
+    label: '月份',
     field: 'monthCol',
     component: 'JDictSelectTag',
-    componentProps: {},
+    defaultValue: '2024-11',
+    componentProps: {
+      options: (() => {
+        const now = new Date();
+        const months = [];
+        for (let i = 1; i <= 24; i++) {
+          const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+          const value = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+          months.push({ label: value, value });
+        }
+        return months;
+      })(),
+    },
+    colProps: { span: 6 },
+  },
+  {
+    label: '创建人',
+    field: 'createBy',
+    component: 'JInput',
     colProps: { span: 6 },
   },
   {
@@ -238,6 +273,12 @@ export const searchFormSchema: FormSchema[] = [
     colProps: { span: 6 },
   },
   {
+    label: '修改人',
+    field: 'updateBy',
+    component: 'JInput',
+    colProps: { span: 6 },
+  },
+  {
     label: '修改时间',
     field: 'updateTime',
     component: 'RangePicker',
@@ -246,157 +287,143 @@ export const searchFormSchema: FormSchema[] = [
     },
     colProps: { span: 6 },
   },
-  {
-    label: '创建人',
-    field: 'createBy',
-    component: 'Input',
-    colProps: { span: 6 },
-  },
-  {
-    label: '修改人',
-    field: 'updateBy',
-    component: 'Input',
-    colProps: { span: 6 },
-  },
 ];
 //表单数据
 export const formSchema: FormSchema[] = [
   {
-    label: '市场id  1001:一区 1003:二区 1004:三区 1006:四区 1007:五区 1008:篁园 1011:义西 1002:宾王',
+    label: '市场',
     field: 'shortMarketId',
     defaultValue: '1001',
     component: 'JDictSelectTag',
     componentProps: {
-      dictCode: '',
+      dictCode: 'short_market_id',
     },
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入市场id  1001:一区 1003:二区 1004:三区 1006:四区 1007:五区 1008:篁园 1011:义西 1002:宾王!' }];
+      return [{ required: true, message: '请选择市场' }];
     },
   },
   {
-    label: '市场名称',
-    field: 'shortMarketName',
-    defaultValue: '一区',
-    component: 'JDictSelectTag',
-    componentProps: {
-      dictCode: '',
-    },
-    dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入市场名称!' }];
-    },
-  },
-  {
-    label: '所属年月 yyyy-MM',
+    label: '月份',
     field: 'monthCol',
     component: 'JDictSelectTag',
+    defaultValue: '2024-11',
     componentProps: {
-      dictCode: '',
+      options: (() => {
+        const now = new Date();
+        const months = [];
+        for (let i = 1; i <= 24; i++) {
+          const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+          const value = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+          months.push({ label: value, value });
+        }
+        return months;
+      })(),
     },
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入所属年月 yyyy-MM!' }];
+      return [{ required: true, message: '请选择月份!' }];
     },
   },
   {
-    label: '间数（商位）',
+    label: '间数(商位)',
     field: 'boothRoomNumTd',
     component: 'InputNumber',
     dynamicRules: ({ model, schema }) => {
       return [
-        { required: true, message: '请输入间数（商位）!' },
+        { required: true, message: '请输入间数(商位)!' },
         { pattern: /^-?\d+\.?\d*$/, message: '请输入数字!' },
       ];
     },
   },
   {
-    label: '间数（配套）',
+    label: '间数(配套)',
     field: 'matchRoomNumTd',
     component: 'InputNumber',
-    dynamicRules: ({ model, schema }) => {
+    dynamicRules: () => {
       return [
-        { required: true, message: '请输入间数（配套）!' },
+        { required: true, message: '请输入间数(配套)!' },
         { pattern: /^-?\d+\.?\d*$/, message: '请输入数字!' },
       ];
     },
   },
   {
-    label: '已出租间数（商位+配套）',
+    label: '已出租间数(商位+配套)',
     field: 'boothMatchRentRoomNum1d',
     component: 'InputNumber',
     dynamicRules: ({ model, schema }) => {
       return [
-        { required: true, message: '请输入已出租间数（商位+配套）!' },
+        { required: true, message: '请输入已出租间数(商位+配套)!' },
         { pattern: /^-?\d+\.?\d*$/, message: '请输入数字!' },
       ];
     },
   },
   {
-    label: '面积（商位）㎡',
+    label: '面积(商位)㎡',
     field: 'boothAreaNumTd',
     component: 'InputNumber',
     dynamicRules: ({ model, schema }) => {
       return [
-        { required: true, message: '请输入面积（商位）㎡!' },
+        { required: true, message: '请输入面积(商位)㎡!' },
         { pattern: /^-?\d+$/, message: '请输入整数!' },
       ];
     },
   },
   {
-    label: '面积（配套）㎡',
+    label: '面积(配套)㎡',
     field: 'matchAreaNumTd',
     component: 'InputNumber',
     dynamicRules: ({ model, schema }) => {
       return [
-        { required: true, message: '请输入面积（配套）㎡!' },
+        { required: true, message: '请输入面积(配套)㎡!' },
         { pattern: /^-?\d+\.?\d*$/, message: '请输入数字!' },
       ];
     },
   },
   {
-    label: '已出租面积（商位+配套）㎡',
+    label: '已出租面积(商位+配套)㎡',
     field: 'boothMatchRentAreaNum1d',
     component: 'InputNumber',
     dynamicRules: ({ model, schema }) => {
       return [
-        { required: true, message: '请输入已出租面积（商位+配套）㎡!' },
+        { required: true, message: '请输入已出租面积(商位+配套)㎡!' },
         { pattern: /^-?\d+\.?\d*$/, message: '请输入数字!' },
       ];
     },
   },
   {
-    label: '人流（人次）',
+    label: '人流',
     field: 'marketBuyerEntrNum1m',
     component: 'InputNumber',
     dynamicRules: ({ model, schema }) => {
       return [
-        { required: true, message: '请输入人流（人次）!' },
+        { required: true, message: '请输入人流(人次)!' },
         { pattern: /^-?\d+$/, message: '请输入整数!' },
       ];
     },
   },
   {
-    label: '车流（人次）',
+    label: '车流',
     field: 'carEntrNum1m',
     component: 'InputNumber',
     dynamicRules: ({ model, schema }) => {
       return [
-        { required: true, message: '请输入车流（人次）!' },
+        { required: true, message: '请输入车流(人次)!' },
         { pattern: /^-?\d+$/, message: '请输入整数!' },
       ];
     },
   },
   {
-    label: '外商（人次）',
+    label: '外商',
     field: 'foreignBuyerEntrNum1m',
     component: 'InputNumber',
     dynamicRules: ({ model, schema }) => {
       return [
-        { required: true, message: '请输入外商（人次）!' },
+        { required: true, message: '请输入外商(人次)!' },
         { pattern: /^-?\d+$/, message: '请输入整数!' },
       ];
     },
   },
   {
-    label: '开门率 %',
+    label: '开门率',
     field: 'boothOpeningRate1m',
     component: 'InputNumber',
     dynamicRules: ({ model, schema }) => {
@@ -407,12 +434,12 @@ export const formSchema: FormSchema[] = [
     },
   },
   {
-    label: '市场成交额（亿）',
+    label: '市场成交额',
     field: 'marketGmv1m',
     component: 'InputNumber',
     dynamicRules: ({ model, schema }) => {
       return [
-        { required: true, message: '请输入市场成交额（亿）!' },
+        { required: true, message: '请输入市场成交额(亿)!' },
         { pattern: /^(([1-9][0-9]*)|([0]\.\d{0,2}|[1-9][0-9]*\.\d{0,2}))$/, message: '请输入正确的金额!' },
       ];
     },
@@ -429,12 +456,12 @@ export const formSchema: FormSchema[] = [
     },
   },
   {
-    label: '商位转让均价（元）',
+    label: '商位转让均价',
     field: 'marketTransferPriceAvg1m',
     component: 'InputNumber',
     dynamicRules: ({ model, schema }) => {
       return [
-        { required: true, message: '请输入商位转让均价（元）!' },
+        { required: true, message: '请输入商位转让均价(万元)!' },
         { pattern: /^(([1-9][0-9]*)|([0]\.\d{0,2}|[1-9][0-9]*\.\d{0,2}))$/, message: '请输入正确的金额!' },
       ];
     },
@@ -451,12 +478,12 @@ export const formSchema: FormSchema[] = [
     },
   },
   {
-    label: '商位转租均价（元）',
+    label: '商位转租均价',
     field: 'marketRentPriceAvg1m',
     component: 'InputNumber',
     dynamicRules: ({ model, schema }) => {
       return [
-        { required: true, message: '请输入商位转租均价（元）!' },
+        { required: true, message: '请输入商位转租均价(万元)!' },
         { pattern: /^(([1-9][0-9]*)|([0]\.\d{0,2}|[1-9][0-9]*\.\d{0,2}))$/, message: '请输入正确的金额!' },
       ];
     },
@@ -473,12 +500,12 @@ export const formSchema: FormSchema[] = [
     },
   },
   {
-    label: '商位质押总金额（元）',
+    label: '商位质押总金额',
     field: 'pledgeApplyIncome1m',
     component: 'InputNumber',
     dynamicRules: ({ model, schema }) => {
       return [
-        { required: true, message: '请输入商位质押总金额（元）!' },
+        { required: true, message: '请输入商位质押总金额(万元)!' },
         { pattern: /^(([1-9][0-9]*)|([0]\.\d{0,2}|[1-9][0-9]*\.\d{0,2}))$/, message: '请输入正确的金额!' },
       ];
     },
@@ -528,56 +555,56 @@ export const formSchema: FormSchema[] = [
     },
   },
   {
-    label: '本年入场资格费收入（万）',
+    label: '本年入场资格费收入',
     field: 'entryQualificationIncomeSd',
     component: 'InputNumber',
     dynamicRules: ({ model, schema }) => {
       return [
-        { required: true, message: '请输入本年入场资格费收入（万）!' },
+        { required: true, message: '请输入本年入场资格费收入(万元)!' },
         { pattern: /^(([1-9][0-9]*)|([0]\.\d{0,2}|[1-9][0-9]*\.\d{0,2}))$/, message: '请输入正确的金额!' },
       ];
     },
   },
   {
-    label: '本年续租户数（户）',
+    label: '本年续租户数',
     field: 'renewLeaseHoldsNumSd',
     component: 'InputNumber',
     dynamicRules: ({ model, schema }) => {
       return [
-        { required: true, message: '请输入本年续租户数（户）!' },
+        { required: true, message: '请输入本年续租户数(户)!' },
         { pattern: /^-?\d+\.?\d*$/, message: '请输入数字!' },
       ];
     },
   },
   {
-    label: '本年退租户数（户）',
+    label: '本年退租户数',
     field: 'surrenderLeaseHoldsNumSd',
     component: 'InputNumber',
     dynamicRules: ({ model, schema }) => {
       return [
-        { required: true, message: '请输入本年退租户数（户）!' },
+        { required: true, message: '请输入本年退租户数(户)!' },
         { pattern: /^-?\d+\.?\d*$/, message: '请输入数字!' },
       ];
     },
   },
   {
-    label: '本年到期户数（户）',
+    label: '本年到期户数',
     field: 'expiredHoldsNumSd',
     component: 'InputNumber',
     dynamicRules: ({ model, schema }) => {
       return [
-        { required: true, message: '请输入本年到期户数（户）!' },
+        { required: true, message: '请输入本年到期户数(户)!' },
         { pattern: /^-?\d+\.?\d*$/, message: '请输入数字!' },
       ];
     },
   },
   {
-    label: '本年续租收入（万）',
+    label: '本年续租收入',
     field: 'renewLeaseIncomeSd',
     component: 'InputNumber',
     dynamicRules: ({ model, schema }) => {
       return [
-        { required: true, message: '请输入本年续租收入（万）!' },
+        { required: true, message: '请输入本年续租收入(万元)!' },
         { pattern: /^(([1-9][0-9]*)|([0]\.\d{0,2}|[1-9][0-9]*\.\d{0,2}))$/, message: '请输入正确的金额!' },
       ];
     },

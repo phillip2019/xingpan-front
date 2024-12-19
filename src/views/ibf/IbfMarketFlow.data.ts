@@ -7,11 +7,12 @@ export const columns: BasicColumn[] = [
    {
     title: '市场',
     align:"center",
+    helpMessage: '市场，记录市场',
     sorter: true,
     dataIndex: 'shortMarketId_dictText'
    },
    {
-    title: '日期 yyyy-MM-dd',
+    title: '日期',
     align:"center",
     sorter: true,
     dataIndex: 'dateCol',
@@ -23,19 +24,22 @@ export const columns: BasicColumn[] = [
     title: '日人流量',
     align:"center",
     sorter: true,
-    dataIndex: 'marketBuyerEntrNum1d'
+    dataIndex: 'marketBuyerEntrNum1d',
+    helpMessage: '日人流量，记录日人流量，单位人次',
    },
    {
     title: '日车流量',
     align:"center",
     sorter: true,
-    dataIndex: 'carEntrNum1d'
+    dataIndex: 'carEntrNum1d',
+    helpMessage: '日车流量，记录日车流量，单位车次',
    },
    {
     title: '日开门率',
     align:"center",
     sorter: true,
-    dataIndex: 'boothOpeningRate1d'
+    dataIndex: 'boothOpeningRate1d',
+    helpMessage: '日开门率，记录日开门率，开门的商位数/出租的商位数，按照商位号去重，AB摊位算1个',
    },
    {
     title: '创建时间',
@@ -65,28 +69,28 @@ export const columns: BasicColumn[] = [
 //查询数据
 export const searchFormSchema: FormSchema[] = [
 	{
-      label: "市场id  1001:一区 1003:二区 1004:三区 1006:四区 1007:五区 1008:篁园 1011:义西 1002:宾王 9000:海城 9999:市场运营
-999999:全部市场 12345:一至五区 123456:一至五区、篁园 1234567:一至五区、篁园、义西 ",
+      label: "市场",
       field: 'shortMarketId',
-      component: 'JDictSelectTag',
+      component: 'JSelectMultiple',
+      helpMessage: '市场，记录市场，请选择市场',
       componentProps:{
+        dictCode: 'short_market_id',
       },
       colProps: {span: 6},
  	},
 	{
-      label: "市场名称",
-      field: 'shortMarketName',
-      component: 'JDictSelectTag',
-      componentProps:{
-      },
-      colProps: {span: 6},
- 	},
-	{
-      label: "日期 yyyy-MM-dd",
+      label: "日期",
       field: 'dateCol',
+      helpMessage: '日期，记录日期，格式yyyy-MM-dd',
       component: 'DatePicker',
       colProps: {span: 6},
  	},
+   {
+    label: "创建人",
+    field: 'createBy',
+    component: 'JInput',
+    colProps: {span: 6},
+ },
 	{
       label: "创建时间",
       field: 'createTime',
@@ -97,6 +101,12 @@ export const searchFormSchema: FormSchema[] = [
        },
       colProps: {span: 6},
  	},
+   {
+    label: "修改人",
+    field: 'updateBy',
+    component: 'JInput',
+    colProps: {span: 6},
+ },
 	{
       label: "修改时间",
       field: 'updateTime',
@@ -107,55 +117,29 @@ export const searchFormSchema: FormSchema[] = [
        },
       colProps: {span: 6},
  	},
-	{
-      label: "创建人",
-      field: 'createBy',
-      component: 'Input',
-      colProps: {span: 6},
- 	},
-	{
-      label: "修改人",
-      field: 'updateBy',
-      component: 'Input',
-      colProps: {span: 6},
- 	},
 ];
 //表单数据
 export const formSchema: FormSchema[] = [
   {
-    label: '市场id  1001:一区 1003:二区 1004:三区 1006:四区 1007:五区 1008:篁园 1011:义西 1002:宾王 9000:海城 9999:市场运营
-999999:全部市场 12345:一至五区 123456:一至五区、篁园 1234567:一至五区、篁园、义西 ',
+    label: '市场',
     field: 'shortMarketId',
-    defaultValue: "1001",
     component: 'JDictSelectTag',
+    defaultValue: '1001',
+    helpMessage: '市场，记录市场，请选择市场',
     componentProps:{
-        dictCode:""
+        dictCode:"short_market_id"
      },
     dynamicRules: ({model,schema}) => {
           return [
-                 { required: true, message: '请输入市场id  1001:一区 1003:二区 1004:三区 1006:四区 1007:五区 1008:篁园 1011:义西 1002:宾王 9000:海城 9999:市场运营
-999999:全部市场 12345:一至五区 123456:一至五区、篁园 1234567:一至五区、篁园、义西 !'},
+                 { required: true, message: '请选择市场!'},
           ];
      },
   },
   {
-    label: '市场名称',
-    field: 'shortMarketName',
-    defaultValue: "一区",
-    component: 'JDictSelectTag',
-    componentProps:{
-        dictCode:""
-     },
-    dynamicRules: ({model,schema}) => {
-          return [
-                 { required: true, message: '请输入市场名称!'},
-          ];
-     },
-  },
-  {
-    label: '日期 yyyy-MM-dd',
+    label: '日期',
     field: 'dateCol',
     component: 'DatePicker',
+    helpMessage: '日期，记录日期，格式yyyy-MM-dd',
     dynamicRules: ({model,schema}) => {
           return [
                  { required: true, message: '请输入日期 yyyy-MM-dd!'},
@@ -166,6 +150,7 @@ export const formSchema: FormSchema[] = [
     label: '日人流量',
     field: 'marketBuyerEntrNum1d',
     component: 'InputNumber',
+    helpMessage: '日人流量，记录日人流量，单位人次',
     dynamicRules: ({model,schema}) => {
           return [
                  { required: true, message: '请输入日人流量!'},
@@ -177,6 +162,7 @@ export const formSchema: FormSchema[] = [
     label: '日车流量',
     field: 'carEntrNum1d',
     component: 'InputNumber',
+    helpMessage: '日车流量，记录日车流量，单位车次',
     dynamicRules: ({model,schema}) => {
           return [
                  { required: true, message: '请输入日车流量!'},
@@ -188,6 +174,7 @@ export const formSchema: FormSchema[] = [
     label: '日开门率',
     field: 'boothOpeningRate1d',
     component: 'InputNumber',
+    helpMessage: '日开门率，记录日开门率，开门的商位数/出租的商位数，按照商位号去重，AB摊位算1个',
     dynamicRules: ({model,schema}) => {
           return [
                  { required: true, message: '请输入日开门率!'},

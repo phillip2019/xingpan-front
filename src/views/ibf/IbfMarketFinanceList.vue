@@ -9,7 +9,7 @@
           @click="handleAdd" 
           preIcon="ant-design:plus-outlined"
           v-if="hasPermission('org.jeecg.modules.demo:ibf_market_finance:add')"
-        >
+        > 
           新增
         </a-button>
         <a-button 
@@ -17,13 +17,14 @@
           preIcon="ant-design:export-outlined" 
           @click="onExportXls"
           v-if="hasPermission('org.jeecg.modules.demo:ibf_market_finance:exportXls')"
-        >
+        > 
           导出
         </a-button>
-        <j-upload-button 
-          type="primary" 
-          preIcon="ant-design:import-outlined" 
-          @click="onImportXls"
+        <j-upload-button
+          type="primary"
+          preIcon="ant-design:import-outlined"
+          :customRequest="customRequest"
+          accept=".xls,.xlsx"
           v-if="hasPermission('org.jeecg.modules.demo:ibf_market_finance:importExcel')"
         >
           导入
@@ -41,8 +42,8 @@
               </a-menu-item>
             </a-menu>
           </template>
-          <a-button>
-            批量操作
+          <a-button
+            >批量操作
             <Icon icon="mdi:chevron-down" />
           </a-button>
         </a-dropdown>
@@ -61,16 +62,7 @@
       </template>
       <template #fileSlot="{ text }">
         <span v-if="!text" style="font-size: 12px; font-style: italic">无文件</span>
-        <a-button 
-          v-else 
-          :ghost="true" 
-          type="primary" 
-          preIcon="ant-design:download-outlined" 
-          size="small" 
-          @click="downloadFile(text)"
-        >
-          下载
-        </a-button>
+        <a-button v-else :ghost="true" type="primary" preIcon="ant-design:download-outlined" size="small" @click="downloadFile(text)">下载</a-button>
       </template>
     </BasicTable>
     <!-- 表单区域 -->
@@ -87,16 +79,32 @@
   import { columns, searchFormSchema } from './IbfMarketFinance.data';
   import { list, deleteOne, batchDelete, getImportUrl, getExportUrl } from './IbfMarketFinance.api';
   import { downloadFile } from '/@/utils/common/renderUtils';
+  import { useRoute } from 'vue-router';
   import { usePermission } from '/@/hooks/web/usePermission';
   const { hasPermission } = usePermission();
   const checkedKeys = ref<Array<string | number>>([]);
   //注册model
   const [registerModal, { openModal }] = useModal();
+  // 获取路由实例
+  const route = useRoute();
+
+  // 获取business_version参数，如果URL中没有则默认为'BOSS'
+  const businessVersion = computed(() => {
+    const version = route.query.business_version as string;
+    return version || 'BOSS';
+  });
+
   //注册table数据
-  const { prefixCls, tableContext, onExportXls, onImportXls } = useListPage({
+  const { prefixCls, tableContext, onExportXls, onImportXls: baseImportXls } = useListPage({
     tableProps: {
       title: '业务一体-财务填报',
-      api: list,
+      api: (params) => {
+        // 合并请求参数，添加business_version
+        return list({
+          ...params,
+          businessVersion: businessVersion.value,
+        });
+      },
       columns,
       canResize: false,
       formConfig: {
@@ -118,9 +126,12 @@
     exportConfig: {
       name: '业务一体-财务填报',
       url: getExportUrl,
+      params: {
+        businessVersion: businessVersion.value,
+      },
     },
     importConfig: {
-      url: getImportUrl,
+      url: () => getImportUrl(businessVersion.value),
       success: handleSuccess,
     },
   });
@@ -134,6 +145,7 @@
     openModal(true, {
       isUpdate: false,
       showFooter: true,
+      business_version: businessVersion.value,
     });
   }
   /**
@@ -204,6 +216,17 @@
         auth: 'org.jeecg.modules.demo:ibf_market_finance:delete',
       },
     ];
+  }
+
+  /**
+   * 自定义上传请求
+   */
+  function customRequest(options) {
+    const { file } = options;
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('businessVersion', businessVersion.value);
+    baseImportXls(formData);
   }
 </script>
 

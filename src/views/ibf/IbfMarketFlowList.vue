@@ -4,13 +4,13 @@
     <BasicTable @register="registerTable" :rowSelection="rowSelection">
       <!--插槽:table标题-->
       <template #tableTitle>
-        <a-button type="primary" @click="handleAdd" preIcon="ant-design:plus-outlined"> 新增</a-button>
-        <a-button type="primary" preIcon="ant-design:export-outlined" @click="onExportXls"> 导出</a-button>
-        <j-upload-button type="primary" preIcon="ant-design:import-outlined" :customRequest="customRequest" accept=".xls,.xlsx">导入</j-upload-button>
+        <a-button type="primary" @click="handleAdd" preIcon="ant-design:plus-outlined" v-if="hasPermission('org.jeecg.modules.demo:ibf_market_flow:add')"> 新增</a-button>
+        <a-button type="primary" preIcon="ant-design:export-outlined" @click="onExportXls" v-if="hasPermission('org.jeecg.modules.demo:ibf_market_flow:exportXls')"> 导出</a-button>
+        <j-upload-button type="primary" preIcon="ant-design:import-outlined" :customRequest="customRequest" accept=".xls,.xlsx" v-if="hasPermission('org.jeecg.modules.demo:ibf_market_flow:importExcel')">导入</j-upload-button>
         <a-dropdown v-if="selectedRowKeys.length > 0">
           <template #overlay>
             <a-menu>
-              <a-menu-item key="1" @click="batchHandleDelete">
+              <a-menu-item key="1" @click="batchHandleDelete" v-if="hasPermission('org.jeecg.modules.demo:ibf_market_flow:deleteBatch')">
                 <Icon icon="ant-design:delete-outlined" />
                 删除
               </a-menu-item>
@@ -54,6 +54,8 @@
   import { list, deleteOne, batchDelete, getImportUrl, getExportUrl } from './IbfMarketFlow.api';
   import { downloadFile } from '/@/utils/common/renderUtils';
   import { useRoute } from 'vue-router';
+  import { usePermission } from '/@/hooks/web/usePermission';
+  const { hasPermission } = usePermission();
   const checkedKeys = ref<Array<string | number>>([]);
   //注册model
   const [registerModal, { openModal }] = useModal();
@@ -169,6 +171,7 @@
       {
         label: '编辑',
         onClick: handleEdit.bind(null, record),
+        auth: 'org.jeecg.modules.demo:ibf_market_flow:edit',
       },
     ];
   }
@@ -184,9 +187,10 @@
       {
         label: '删除',
         popConfirm: {
-          title: '是否确删除',
+          title: '是否确认删除',
           confirm: handleDelete.bind(null, record),
         },
+        auth: 'org.jeecg.modules.demo:ibf_market_flow:delete',
       },
     ];
   }

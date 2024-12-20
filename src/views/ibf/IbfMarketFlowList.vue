@@ -6,7 +6,7 @@
       <template #tableTitle>
           <a-button type="primary" @click="handleAdd" preIcon="ant-design:plus-outlined"> 新增</a-button>
           <a-button  type="primary" preIcon="ant-design:export-outlined" @click="onExportXls"> 导出</a-button>
-          <j-upload-button  type="primary" preIcon="ant-design:import-outlined" @click="onImportXls">导入</j-upload-button>
+          <j-upload-button  type="primary" preIcon="ant-design:import-outlined" :customRequest="customRequest" accept=".xls,.xlsx">导入</j-upload-button>
           <a-dropdown v-if="selectedRowKeys.length > 0">
               <template #overlay>
                 <a-menu>
@@ -52,14 +52,28 @@
   import {columns, searchFormSchema} from './IbfMarketFlow.data';
   import {list, deleteOne, batchDelete, getImportUrl,getExportUrl} from './IbfMarketFlow.api';
   import { downloadFile } from '/@/utils/common/renderUtils';
+  import { useRoute } from 'vue-router';
   const checkedKeys = ref<Array<string | number>>([]);
   //注册model
   const [registerModal, {openModal}] = useModal();
+  // 获取路由实例
+  const route = useRoute();
+  // 获取business_version参数，如果URL中没有则默认为'BOSS'
+  const businessVersion = computed(() => {
+    const version = route.query.business_version as string;
+    return version || 'BOSS';
+  });
   //注册table数据
-  const { prefixCls,tableContext,onExportXls,onImportXls } = useListPage({
+  const { prefixCls,tableContext,onExportXls,onImportXls: baseImportXls } = useListPage({
       tableProps:{
            title: '业财一体-每日填报市场流量',
-           api: list,
+           api: (params) => {
+             // 合并请求参数，添加business_version
+             return list({
+               ...params,
+               businessVersion: businessVersion.value,
+             });
+           },
            columns,
            canResize:false,
            formConfig: {
@@ -80,9 +94,12 @@
        exportConfig: {
             name:"业财一体-每日填报市场流量",
             url: getExportUrl,
+            params: {
+              businessVersion: businessVersion.value,
+            },
           },
           importConfig: {
-            url: getImportUrl,
+            url: () => getImportUrl(businessVersion.value),
             success: handleSuccess
           },
   })
@@ -96,6 +113,7 @@
      openModal(true, {
        isUpdate: false,
        showFooter: true,
+       business_version: businessVersion.value,
      });
   }
    /**
@@ -158,13 +176,23 @@
          }, {
            label: '删除',
            popConfirm: {
-             title: '是否确认删除',
+             title: '是否确删除',
              confirm: handleDelete.bind(null, record),
            }
          }
        ]
    }
 
+   /**
+    * 自定义上传请求
+    */
+  function customRequest(options) {
+    const { file } = options;
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('businessVersion', businessVersion.value);
+    baseImportXls(formData);
+  }
 
 </script>
 

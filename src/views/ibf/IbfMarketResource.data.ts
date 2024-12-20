@@ -252,7 +252,6 @@ export const searchFormSchema: FormSchema[] = [
     label: '月份',
     field: 'monthCol',
     component: 'JDictSelectTag',
-    defaultValue: '2024-11',
     componentProps: {
       options: (() => {
         const now = new Date();
@@ -270,6 +269,7 @@ export const searchFormSchema: FormSchema[] = [
   {
     label: '创建人',
     field: 'createBy',
+    helpMessage: '创建人，记录创建人，支持模糊查询',
     component: 'JInput',
     colProps: { span: 6 },
   },
@@ -277,8 +277,11 @@ export const searchFormSchema: FormSchema[] = [
     label: '创建时间',
     field: 'createTime',
     component: 'RangePicker',
+    helpMessage: '创建时间，记录创建时间',
     componentProps: {
       showTime: true,
+      valueFormat: 'YYYY-MM-DD HH:mm:ss',
+      placeholder: ['开始时间', '结束时间'],
     },
     colProps: { span: 6 },
   },
@@ -286,14 +289,18 @@ export const searchFormSchema: FormSchema[] = [
     label: '修改人',
     field: 'updateBy',
     component: 'JInput',
+    helpMessage: '修改人，记录修改人，支持模糊查询',
     colProps: { span: 6 },
   },
   {
     label: '修改时间',
     field: 'updateTime',
     component: 'RangePicker',
+    helpMessage: '修改时间，记录修改时间',
     componentProps: {
       showTime: true,
+      valueFormat: 'YYYY-MM-DD HH:mm:ss',
+      placeholder: ['开始时间', '结束时间'],
     },
     colProps: { span: 6 },
   },
@@ -316,7 +323,6 @@ export const formSchema: FormSchema[] = [
     label: '月份',
     field: 'monthCol',
     component: 'JDictSelectTag',
-    defaultValue: '2024-11',
     componentProps: {
       options: (() => {
         const now = new Date();
@@ -517,7 +523,7 @@ export const formSchema: FormSchema[] = [
         width: '100%',
       },
     },
-    helpMessage: ['数据口径：', '当月的日均人数，市场采样统计', '单位：', '人', '统计周期：', '所属年自然月的起止日期'],
+    helpMessage: ['数据口径：', '当月的日均人数，市场采样统计', '单位：', '人', '统计周期：', '��属年自然月的起止日期'],
     dynamicRules: ({ model, schema }) => {
       return [
         { required: true, message: '请输入外商人数!' },
@@ -563,7 +569,7 @@ export const formSchema: FormSchema[] = [
         width: '100%',
       },
     },
-    helpMessage: ['数据口径：', '人工填报，从求实获取', '单位：亿元，精确到2位小数', '统计周期：', '所属年月自然月起止日期'],
+    helpMessage: ['数据口径：', '人工填报，从求实获取', '单位：亿元，精确到2位小数', '统计周期：', '所��年月自然月起止日期'],
     dynamicRules: ({ model, schema }) => {
       return [
         { required: true, message: '请输入市场成交额(亿)!' },
@@ -841,14 +847,14 @@ export const formSchema: FormSchema[] = [
       '商位+配套用房，本年新主体入驻商户缴纳的入场资格费和拍卖费合计',
       '单位：万元，精确到2位小数',
       '统计时间：',
-      '截至所属年月的月末。其中1月为上月16日至1月31日；12月为截至本年12月16日之前；',
+      '截至所属年月的月末。其中1月为上月16日至1月31日；12月为11月16日至本年12月16日之前；',
       '本年是指上一自然年12月16日-本自然年12月15日',
       '例：所属年月选了2024/12，则统计的范围为2023/12/16-2024/12/15',
       '例：所属年月选择了2024/01，则统计的范围为2023/12/16-2024/01/31',
     ],
     dynamicRules: ({ model, schema }) => {
       return [
-        { required: true, message: '请输入本年入场���格费收入!' },
+        { required: true, message: '请输入本年入场资格费收入!' },
         { pattern: /^-?\d+\.?\d{0,2}$/, message: '请输入数字，最多2位小数!' },
       ];
     },
@@ -922,7 +928,7 @@ export const formSchema: FormSchema[] = [
       '本年租赁费用到期的户数，若A摊或B摊都算1户，若条目中商位间数大于1，则按大于1的间数算户数商位+配套。',
       '单位：户',
       '统计时间：',
-      '截至所属年月的月末。其中1月为上月16日��1月31日；12月为截至本年12月16日之前；',
+      '统计至所属年月的月末。其中1月为上月16日至1月31日；12月为截至本年12月16日之前；',
       '本年是指上一自然年12月16日-本自然年12月15日',
       '例：所属年月选了2024/12，则统计的范围为2023/12/16-2024/12/15',
       '例：所属年月选择了2024/01，则统计的范围为2023/12/16-2024/01/31',

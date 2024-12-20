@@ -124,7 +124,7 @@ export const searchFormSchema: FormSchema[] = [
   {
     label: '创建人',
     field: 'createBy',
-    helpMessage: '创建人，记录创建人',
+    helpMessage: '创建人，记录创建人，支持模糊查询',
     component: 'JInput',
     colProps: { span: 6 },
   },
@@ -134,13 +134,15 @@ export const searchFormSchema: FormSchema[] = [
     component: 'RangePicker',
     componentProps: {
       showTime: true,
+      valueFormat: 'YYYY-MM-DD HH:mm:ss',
+      placeholder: ['开始时间', '结束时间'],
     },
     colProps: { span: 6 },
   },
   {
     label: '修改人',
     field: 'updateBy',
-    helpMessage: '创建人，记录更新人',
+    helpMessage: '修改人，记录更新人，支持模糊查询',
     component: 'JInput',
     colProps: { span: 6 },
   },
@@ -150,6 +152,8 @@ export const searchFormSchema: FormSchema[] = [
     component: 'RangePicker',
     componentProps: {
       showTime: true,
+      valueFormat: 'YYYY-MM-DD HH:mm:ss',
+      placeholder: ['开始时间', '结束时间'],
     },
     colProps: { span: 6 },
   },

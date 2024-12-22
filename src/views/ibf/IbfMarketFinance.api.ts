@@ -20,8 +20,7 @@ export const getExportUrl = Api.exportXls;
 /**
  * 导入api
  */
-export const getImportUrl = (businessVersion: string) => 
-  `${Api.importExcel}?businessVersion=${businessVersion}`;
+export const getImportUrl = Api.importExcel;
 /**
  * 列表接口
  * @param params

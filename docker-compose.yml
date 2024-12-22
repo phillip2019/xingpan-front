@@ -9,6 +9,7 @@ services:
     hostname: xingpan-front
     ports:
       - 23100:80
+      - 80:80
     volumes:
       - /var/log/nginx:/var/log/nginx
 

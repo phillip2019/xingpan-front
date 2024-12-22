@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-
+git pull
 yarnpkg run build
 
 docker-compose build

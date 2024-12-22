@@ -31,11 +31,6 @@
             await setFieldsValue({
                 ...data.record,
             });
-        } else {
-            // 新增时设置business_version
-            await setFieldsValue({
-                businessVersion: data.business_version,
-            });
         }
         // 隐藏底部时禁用整个表单
        setProps({ disabled: !data?.showFooter })

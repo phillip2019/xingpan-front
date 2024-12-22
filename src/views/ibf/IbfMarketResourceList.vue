@@ -30,10 +30,6 @@
       <template #htmlSlot="{ text }">
         <div v-html="text"></div>
       </template>
-      <!--省市区字段回显插槽-->
-      <template #pcaSlot="{ text }">
-        {{ getAreaTextByCode(text) }}
-      </template>
       <template #fileSlot="{ text }">
         <span v-if="!text" style="font-size: 12px; font-style: italic">无文件</span>
         <a-button v-else :ghost="true" type="primary" preIcon="ant-design:download-outlined" size="small" @click="downloadFile(text)">下载</a-button>
@@ -68,10 +64,6 @@
     return version || 'BOSS';
   });
 
-  onMounted(() => {
-    console.log('Business Version:', businessVersion.value);
-  });
-
   //注册table数据
   const { prefixCls, tableContext, onExportXls, onImportXls } = useListPage({
     tableProps: {
@@ -102,7 +94,7 @@
       },
     },
     exportConfig: {
-      name: '业财一体-市场资源填报表',
+      name: '业财一体-市场资源��报表',
       url: getExportUrl,
       params: {
         businessVersion: businessVersion.value,

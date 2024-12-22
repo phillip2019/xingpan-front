@@ -33,6 +33,10 @@ function createPageGuard(router: Router) {
   const loadedPageMap = new Map<string, boolean>();
 
   router.beforeEach(async (to) => {
+    // 若fullPath中有business_version参数，则将to.path设置为to.fullPath
+    if (to.fullPath.includes('business_version')) {
+      to.path = to.fullPath;
+    }
     // The page has already been loaded, it will be faster to open it again, you don’t need to do loading and other processing
     to.meta.loaded = !!loadedPageMap.get(to.path);
     // Notify routing changes

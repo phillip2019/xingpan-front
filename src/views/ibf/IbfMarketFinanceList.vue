@@ -4,39 +4,13 @@
     <BasicTable @register="registerTable" :rowSelection="rowSelection">
       <!--插槽:table标题-->
       <template #tableTitle>
-        <a-button 
-          type="primary" 
-          @click="handleAdd" 
-          preIcon="ant-design:plus-outlined"
-          v-if="hasPermission('org.jeecg.modules.demo:ibf_market_finance:add')"
-        > 
-          新增
-        </a-button>
-        <a-button 
-          type="primary" 
-          preIcon="ant-design:export-outlined" 
-          @click="onExportXls"
-          v-if="hasPermission('org.jeecg.modules.demo:ibf_market_finance:exportXls')"
-        > 
-          导出
-        </a-button>
-        <j-upload-button
-          type="primary"
-          preIcon="ant-design:import-outlined"
-          :customRequest="customRequest"
-          accept=".xls,.xlsx"
-          v-if="hasPermission('org.jeecg.modules.demo:ibf_market_finance:importExcel')"
-        >
-          导入
-        </j-upload-button>
+        <a-button v-auth="'org.jeecg.modules.demo:ibf_market_finance:add'" type="primary" @click="handleAdd" preIcon="ant-design:plus-outlined"> 新增</a-button>
+        <a-button v-auth="'org.jeecg.modules.demo:ibf_market_finance:export'" type="primary" preIcon="ant-design:export-outlined" @click="onExportXls"> 导出</a-button>
+        <j-upload-button v-auth="'org.jeecg.modules.demo:ibf_market_finance:import'" type="primary" preIcon="ant-design:import-outlined" :customRequest="customRequest" accept=".xls,.xlsx">导入</j-upload-button>
         <a-dropdown v-if="selectedRowKeys.length > 0">
           <template #overlay>
             <a-menu>
-              <a-menu-item 
-                key="1" 
-                @click="batchHandleDelete"
-                v-if="hasPermission('org.jeecg.modules.demo:ibf_market_finance:deleteBatch')"
-              >
+              <a-menu-item key="1" @click="batchHandleDelete">
                 <Icon icon="ant-design:delete-outlined" />
                 删除
               </a-menu-item>
@@ -55,6 +29,10 @@
       <!--字段回显插槽-->
       <template #htmlSlot="{ text }">
         <div v-html="text"></div>
+      </template>
+      <!--省市区字段回显插槽-->
+      <template #pcaSlot="{ text }">
+        {{ getAreaTextByCode(text) }}
       </template>
       <template #fileSlot="{ text }">
         <span v-if="!text" style="font-size: 12px; font-style: italic">无文件</span>
@@ -76,8 +54,6 @@
   import { list, deleteOne, batchDelete, getImportUrl, getExportUrl } from './IbfMarketFinance.api';
   import { downloadFile } from '/@/utils/common/renderUtils';
   import { useRoute } from 'vue-router';
-  import { usePermission } from '/@/hooks/web/usePermission';
-  const { hasPermission } = usePermission();
   const checkedKeys = ref<Array<string | number>>([]);
   //注册model
   const [registerModal, { openModal }] = useModal();
@@ -93,7 +69,7 @@
   //注册table数据
   const { prefixCls, tableContext, onExportXls, onImportXls: baseImportXls } = useListPage({
     tableProps: {
-      title: '业务一体-财务填报',
+      title: '��务一体-财务填报',
       api: (params) => {
         // 合并请求参数，添加business_version
         return list({
@@ -189,8 +165,8 @@
     return [
       {
         label: '编辑',
-        onClick: handleEdit.bind(null, record),
         auth: 'org.jeecg.modules.demo:ibf_market_finance:edit',
+        onClick: handleEdit.bind(null, record),
       },
     ];
   }
@@ -201,15 +177,16 @@
     return [
       {
         label: '详情',
+        auth: 'org.jeecg.modules.demo:ibf_market_finance:detail',
         onClick: handleDetail.bind(null, record),
       },
       {
         label: '删除',
+        auth: 'org.jeecg.modules.demo:ibf_market_finance:delete',
         popConfirm: {
           title: '是否确认删除',
           confirm: handleDelete.bind(null, record),
         },
-        auth: 'org.jeecg.modules.demo:ibf_market_finance:delete',
       },
     ];
   }

@@ -4,13 +4,13 @@
     <BasicTable @register="registerTable" :rowSelection="rowSelection">
       <!--插槽:table标题-->
       <template #tableTitle>
-        <a-button type="primary" @click="handleAdd" preIcon="ant-design:plus-outlined" v-if="hasPermission('org.jeecg.modules.demo:ibf_market_resource:add')"> 新增</a-button>
-        <a-button type="primary" preIcon="ant-design:export-outlined" @click="onExportXls" v-if="hasPermission('org.jeecg.modules.demo:ibf_market_resource:exportXls')"> 导出</a-button>
-        <j-upload-button type="primary" preIcon="ant-design:import-outlined" @click="onImportXls" v-if="hasPermission('org.jeecg.modules.demo:ibf_market_resource:importExcel')">导入</j-upload-button>
+        <a-button v-auth="'org.jeecg.modules.demo:ibf_market_resource:add'" type="primary" @click="handleAdd" preIcon="ant-design:plus-outlined"> 新增</a-button>
+        <a-button v-auth="'org.jeecg.modules.demo:ibf_market_resource:export'" type="primary" preIcon="ant-design:export-outlined" @click="onExportXls"> 导出</a-button>
+        <j-upload-button v-auth="'org.jeecg.modules.demo:ibf_market_resource:import'" type="primary" preIcon="ant-design:import-outlined" @click="onImportXls">导入</j-upload-button>
         <a-dropdown v-if="selectedRowKeys.length > 0">
           <template #overlay>
             <a-menu>
-              <a-menu-item key="1" @click="batchHandleDelete" v-if="hasPermission('org.jeecg.modules.demo:ibf_market_resource:deleteBatch')">
+              <a-menu-item key="1" @click="batchHandleDelete">
                 <Icon icon="ant-design:delete-outlined" />
                 删除
               </a-menu-item>
@@ -29,6 +29,10 @@
       <!--字段回显插槽-->
       <template #htmlSlot="{ text }">
         <div v-html="text"></div>
+      </template>
+      <!--省市区字段回显插槽-->
+      <template #pcaSlot="{ text }">
+        {{ getAreaTextByCode(text) }}
       </template>
       <template #fileSlot="{ text }">
         <span v-if="!text" style="font-size: 12px; font-style: italic">无文件</span>
@@ -50,8 +54,6 @@
   import { columns, searchFormSchema } from './IbfMarketResource.data';
   import { list, deleteOne, batchDelete, getImportUrl, getExportUrl } from './IbfMarketResource.api';
   import { downloadFile } from '/@/utils/common/renderUtils';
-  import { usePermission } from '/@/hooks/web/usePermission';
-  const { hasPermission } = usePermission();
   const checkedKeys = ref<Array<string | number>>([]);
   //注册model
   const [registerModal, { openModal }] = useModal();
@@ -62,6 +64,10 @@
   const businessVersion = computed(() => {
     const version = route.query.business_version as string;
     return version || 'BOSS';
+  });
+
+  onMounted(() => {
+    console.log('Business Version:', businessVersion.value);
   });
 
   //注册table数据
@@ -94,7 +100,7 @@
       },
     },
     exportConfig: {
-      name: '业财一体-市场资源��报表',
+      name: '业财一体-市场资源填报表',
       url: getExportUrl,
       params: {
         businessVersion: businessVersion.value,
@@ -163,8 +169,8 @@
     return [
       {
         label: '编辑',
-        onClick: handleEdit.bind(null, record),
         auth: 'org.jeecg.modules.demo:ibf_market_resource:edit',
+        onClick: handleEdit.bind(null, record),
       },
     ];
   }
@@ -175,15 +181,16 @@
     return [
       {
         label: '详情',
+        auth: 'org.jeecg.modules.demo:ibf_market_resource:detail',
         onClick: handleDetail.bind(null, record),
       },
       {
         label: '删除',
+        auth: 'org.jeecg.modules.demo:ibf_market_resource:delete',
         popConfirm: {
           title: '是否确认删除',
           confirm: handleDelete.bind(null, record),
         },
-        auth: 'org.jeecg.modules.demo:ibf_market_resource:delete',
       },
     ];
   }

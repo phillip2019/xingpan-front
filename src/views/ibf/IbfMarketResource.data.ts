@@ -2,6 +2,8 @@ import { BasicColumn } from '/@/components/Table';
 import { FormSchema } from '/@/components/Table';
 import { rules } from '/@/utils/helper/validator';
 import { render } from '/@/utils/common/renderUtils';
+import { checkUnique } from './IbfMarketResource.api';
+import { message } from 'ant-design-vue';
 //列表数据
 export const columns: BasicColumn[] = [
   {
@@ -228,7 +230,7 @@ export const columns: BasicColumn[] = [
     title: '修改人',
     align: 'center',
     dataIndex: 'updateBy',
-    helpMessage: '修改人，记录修改人',
+    helpMessage: '��改人，记录修改人',
   },
   {
     title: '修改时间',
@@ -303,34 +305,87 @@ export const formSchema: FormSchema[] = [
   {
     label: '市场',
     field: 'shortMarketId',
-    defaultValue: '1001',
     component: 'JDictSelectTag',
-    componentProps: {
-      dictCode: 'short_market_id',
+    defaultValue: '1001',
+    componentProps: ({ formActionType, formModel }) => {
+      const { setFieldsValue } = formActionType;
+      return {
+        dictCode: 'short_market_id',
+        disabled: formModel.id ? true : false,
+        onChange: async (e) => {
+          if (!e) return;
+          // 重置表单数据
+          const resetData = {};
+          Object.keys(formModel).forEach(key => {
+            if (!['shortMarketId', 'businessVersion'].includes(key)) {
+              resetData[key] = undefined;
+            }
+          });
+          setFieldsValue(resetData);
+        }
+      };
     },
-    dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请选择市场' }];
+    helpMessage: '市场，记录市场',
+    dynamicRules: () => {
+      return [
+        { required: true, message: '请选择市场!' },
+      ];
     },
   },
   {
     label: '月份',
     field: 'monthCol',
     component: 'JDictSelectTag',
-    defaultValue: '2024-11',
-    componentProps: {
-      options: (() => {
-        const now = new Date();
-        const months = [];
-        for (let i = 1; i <= 24; i++) {
-          const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
-          const value = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
-          months.push({ label: value, value });
+    componentProps: ({ formActionType, formModel }) => {
+      const { setFieldsValue } = formActionType;
+      return {
+        disabled: formModel.id ? true : false,
+        options: (() => {
+          const now = new Date();
+          const months = [];
+          for (let i = 1; i <= 24; i++) {
+            const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+            const value = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+            months.push({ label: value, value });
+          }
+          return months;
+        })(),
+        onChange: async (e) => {
+          if (!e) return;
+          // 重置表单数据
+          const resetData = {};
+          Object.keys(formModel).forEach(key => {
+            if (!['shortMarketId', 'monthCol', 'businessVersion'].includes(key)) {
+              resetData[key] = undefined;
+            }
+          });
+          setFieldsValue(resetData);
+          
+          // 获取非proxyObject的formModel
+          const formModelWithoutProxy = JSON.parse(JSON.stringify(formModel));
+          // 只在有市场和月份时进行唯一性校验
+          if (formModelWithoutProxy.shortMarketId && formModelWithoutProxy.monthCol && 
+              typeof formModelWithoutProxy.monthCol === 'string' && 
+              typeof formModelWithoutProxy.shortMarketId === 'string') {
+            try {
+              const result = await checkUnique(formModelWithoutProxy);
+              // 如果返回了数据，说明记录已存在
+              if (result && typeof result === 'object') {
+                // 使用返回的数据填充表单，包括id字段
+                setFieldsValue(result);
+                // 提示用户
+                message.warning(`该市场在${formModel.monthCol}月份已有记录`);
+              }
+            } catch (error) {
+              console.error('唯一性校验失败:', error);
+            }
+          }
         }
-        return months;
-      })(),
+      };
     },
-    dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请选择月份!' }];
+    helpMessage: '所属年月，记录所属年月',
+    dynamicRules: () => {
+      return [{ required: true, message: '请选择月份，格式为yyyy-MM!' }];
     },
   },
   {
@@ -373,7 +428,7 @@ export const formSchema: FormSchema[] = [
       'AB摊算1间（I型商位间数大于1的，则按大于1的间数计算；II型商位算0.5）',
       '配套，包含配套用房系统中的配套用房和配套设施场地',
       '单位：',
-      '间，精确到1位小数',
+      '间，精确到1位��数',
       '统计时间：',
       '所属年月的月末',
     ],
@@ -420,7 +475,7 @@ export const formSchema: FormSchema[] = [
         width: '100%',
       },
     },
-    helpMessage: ['单位：', '㎡，精确到2位小数', '统计时间：', '所属年月的月末'],
+    helpMessage: ['单位：', '㎡，精��到2位小数', '统计时间：', '所属年月的月末'],
     dynamicRules: ({ model, schema }) => {
       return [
         { required: true, message: '请输入面积(商位)㎡!' },
@@ -458,10 +513,10 @@ export const formSchema: FormSchema[] = [
     },
     helpMessage: [
       '数据口径：',
-      '其中配套，包含配套用房系统中的配套用房和配套设施场地',
+      '其中配套，包含配套用房系统中的配套用房和配套设施用地',
       '单位：',
       '㎡，精确到2位小数',
-      '统计时间：',
+      '统计时��：',
       '所属年月的月末',
     ],
     dynamicRules: ({ model, schema }) => {
@@ -667,7 +722,7 @@ export const formSchema: FormSchema[] = [
     dynamicRules: ({ model, schema }) => {
       return [
         { required: true, message: '请输入商位转租均价!' },
-        { pattern: /^-?\d+\.?\d{0,2}$/, message: '请输入数字，最多2位小数!' },
+        { pattern: /^-?\d+\.?\d{0,2}$/, message: '请输入数字��最多2位小数!' },
       ];
     },
   },
@@ -871,7 +926,7 @@ export const formSchema: FormSchema[] = [
       '截至所属年月的月末。其中1月为上月16日至1月31日；12月为截至本年12月16日之前；',
       '本年是指上一自然年12月16日-本自然年12月15日',
       '例：所属年月选了2024/12，则统计的范围为2023/12/16-2024/12/15',
-      '例：所属年月选择了2024/01，则统计的范围为2023/12/16-2024/01/31',
+      '例：所属年月选择了2024/01��则统计的范围为2023/12/16-2024/01/31',
     ],
     dynamicRules: ({ model, schema }) => {
       return [

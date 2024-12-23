@@ -47,8 +47,13 @@
       try {
         let values = await validate();
         setModalProps({ confirmLoading: true });
+        // 若id为空，则新增
+        let isUpdateFlag = false;
+        if (values.id) {
+          isUpdateFlag = true;
+        } 
         //提交表单
-        await saveOrUpdate(values, isUpdate.value);
+        await saveOrUpdate(values, isUpdateFlag);
         //关闭弹窗
         closeModal();
         //刷新列表

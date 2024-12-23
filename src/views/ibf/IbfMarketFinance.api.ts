@@ -1,5 +1,6 @@
 import {defHttp} from '/@/utils/http/axios';
 import { useMessage } from "/@/hooks/web/useMessage";
+import { Modal } from 'ant-design-vue';
 
 const { createConfirm } = useMessage();
 
@@ -11,6 +12,7 @@ enum Api {
   deleteBatch = '/ibf/ibfMarketFinance/deleteBatch',
   importExcel = '/ibf/ibfMarketFinance/importExcel',
   exportXls = '/ibf/ibfMarketFinance/exportXls',
+  checkUnique = '/ibf/ibfMarketFinance/checkUnique',
 }
 /**
  * 导出api
@@ -63,3 +65,36 @@ export const saveOrUpdate = (params, isUpdate) => {
   let url = isUpdate ? Api.edit : Api.save;
   return defHttp.post({url: url, params});
 }
+
+/**
+ * 唯一性校验
+ */
+export const checkUnique = async (params) => {
+  try {
+    const result = await defHttp.get({
+      url: Api.checkUnique,
+      params: {
+        shortMarketId: params.shortMarketId,
+        monthCol: params.monthCol,
+        businessVersion: params.businessVersion
+      }
+    });
+    
+    if (result?.success && result.result) {
+      // 存在记录，回填数据
+      Object.keys(result.result).forEach(key => {
+        if (params.hasOwnProperty(key)) {
+          params[key] = result.result[key];
+        }
+      });
+      Modal.warning({
+        title: '提示',
+        content: '该记录已存在，已自动回填数据',
+      });
+    }
+    return result;
+  } catch (error) {
+    console.error('唯一性校验失败:', error);
+    return null;
+  }
+};

@@ -2,6 +2,8 @@ import {BasicColumn} from '/@/components/Table';
 import {FormSchema} from '/@/components/Table';
 import { rules} from '/@/utils/helper/validator';
 import { render } from '/@/utils/common/renderUtils';
+import { checkUnique } from './IbfMarketFlow.api';
+import { message } from 'ant-design-vue';
 //列表数据
 export const columns: BasicColumn[] = [
    {
@@ -125,26 +127,76 @@ export const formSchema: FormSchema[] = [
     field: 'shortMarketId',
     component: 'JDictSelectTag',
     defaultValue: '1001',
-    helpMessage: '市场，记录市场，请选择市场',
-    componentProps:{
-        dictCode:"short_market_id"
-     },
-    dynamicRules: ({model,schema}) => {
-          return [
-                 { required: true, message: '请选择市场!'},
-          ];
-     },
+    componentProps: ({ formActionType, formModel }) => {
+      const { setFieldsValue } = formActionType;
+      return {
+        dictCode: 'short_market_id',
+        disabled: formModel.id ? true : false,
+        onChange: async (e) => {
+          if (!e) return;
+          // 重置表单数据
+          const resetData = {};
+          Object.keys(formModel).forEach(key => {
+            if (!['shortMarketId', 'businessVersion'].includes(key)) {
+              resetData[key] = undefined;
+            }
+          });
+          setFieldsValue(resetData);
+        }
+      };
+    },
+    helpMessage: '市场，记录市场',
+    dynamicRules: () => {
+      return [
+        { required: true, message: '请选择市场!' },
+      ];
+    },
   },
   {
     label: '日期',
     field: 'dateCol',
     component: 'DatePicker',
+    componentProps: ({ formActionType, formModel }) => {
+      const { setFieldsValue } = formActionType;
+      return {
+        disabled: formModel.id ? true : false,
+        onChange: async (e) => {
+          if (!e) return;
+          // 重置表单数据
+          const resetData = {};
+          Object.keys(formModel).forEach(key => {
+            if (!['shortMarketId', 'dateCol', 'businessVersion'].includes(key)) {
+              resetData[key] = undefined;
+            }
+          });
+          setFieldsValue(resetData);
+          
+          // 获取非proxyObject的formModel
+          const formModelWithoutProxy = JSON.parse(JSON.stringify(formModel));
+          // 只在有市场和日期时进行唯一性校验
+          if (formModelWithoutProxy.shortMarketId && formModelWithoutProxy.dateCol) {
+            try {
+              const result = await checkUnique(formModelWithoutProxy);
+              // 如果返回了数据，说明记录已存在
+              if (result && typeof result === 'object') {
+                // 使用返回的数据填充表单，包括id字段
+                setFieldsValue(result);
+                // 提示用户
+                message.warning(`该市场在${formModel.dateCol}已有记录`);
+              }
+            } catch (error) {
+              console.error('唯一性校验失败:', error);
+            }
+          }
+        }
+      };
+    },
     helpMessage: '日期，记录日期，格式yyyy-MM-dd',
-    dynamicRules: ({model,schema}) => {
-          return [
-                 { required: true, message: '请输入日期 yyyy-MM-dd!'},
-          ];
-     },
+    dynamicRules: () => {
+      return [
+        { required: true, message: '请输入日期 yyyy-MM-dd!' },
+      ];
+    },
   },
   {
     label: '日人流量',

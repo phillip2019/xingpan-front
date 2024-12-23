@@ -11,6 +11,7 @@ enum Api {
   deleteBatch = '/ibf/ibfMarketFlow/deleteBatch',
   importExcel = '/ibf/ibfMarketFlow/importExcel',
   exportXls = '/ibf/ibfMarketFlow/exportXls',
+  checkUnique = '/ibf/ibfMarketFlow/checkUnique',
 }
 /**
  * 导出api
@@ -20,8 +21,7 @@ export const getExportUrl = Api.exportXls;
 /**
  * 导入api
  */
-export const getImportUrl = (businessVersion: string) => 
-  `${Api.importExcel}?businessVersion=${businessVersion}`;
+export const getImportUrl = Api.importExcel;
 /**
  * 列表接口
  * @param params
@@ -42,17 +42,16 @@ export const deleteOne = (params,handleSuccess) => {
  * @param params
  */
 export const batchDelete = (params, handleSuccess) => {
-  createConfirm({
+  createConfirm({content: '确定删除选中的记录吗?', 
     iconType: 'warning',
-    title: '确认删除',
-    content: '是否删除选中数据',
-    okText: '确认',
+    title: '提示',
+    okText: '确定',
     cancelText: '取消',
     onOk: () => {
-      return defHttp.delete({url: Api.deleteBatch, data: params}, {joinParamsToUrl: true}).then(() => {
+      return defHttp.delete({url: Api.deleteOne, data: params}, {joinParamsToUrl: true}).then(() => {
         handleSuccess();
       });
-    }
+    },
   });
 }
 /**
@@ -62,4 +61,12 @@ export const batchDelete = (params, handleSuccess) => {
 export const saveOrUpdate = (params, isUpdate) => {
   let url = isUpdate ? Api.edit : Api.save;
   return defHttp.post({url: url, params});
+}
+
+/**
+ * 唯一性检查
+ * @param params
+ */
+export const checkUnique = (params) => {
+  return defHttp.get({url: Api.checkUnique, params});
 }

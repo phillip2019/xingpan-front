@@ -442,7 +442,7 @@ export const formSchema: FormSchema[] = [
     dynamicRules: ({ model, schema }) => {
       return [
         { required: true, message: '请输入面积(配套)㎡!' },
-        { pattern: /^-?\d+\.?\d{0,2}$/, message: '请输入数字，最多2位小数!' },
+        { pattern: /^-?\d+\.?\d{0,4}$/, message: '请输入数字，最多4位小数!' },
       ];
     },
   },
@@ -848,7 +848,7 @@ export const formSchema: FormSchema[] = [
     ],
     dynamicRules: ({ model, schema }) => {
       return [
-        { required: true, message: '请输入本年入场���格费收入!' },
+        { required: true, message: '请输入本年入场资格费收入!' },
         { pattern: /^-?\d+\.?\d{0,2}$/, message: '请输入数字，最多2位小数!' },
       ];
     },
@@ -922,7 +922,7 @@ export const formSchema: FormSchema[] = [
       '本年租赁费用到期的户数，若A摊或B摊都算1户，若条目中商位间数大于1，则按大于1的间数算户数商位+配套。',
       '单位：户',
       '统计时间：',
-      '截至所属年月的月末。其中1月为上月16日��1月31日；12月为截至本年12月16日之前；',
+      '截至所属年月的月末。其中1月为上月16日至1月31日；12月为截至本年12月16日之前；',
       '本年是指上一自然年12月16日-本自然年12月15日',
       '例：所属年月选了2024/12，则统计的范围为2023/12/16-2024/12/15',
       '例：所属年月选择了2024/01，则统计的范围为2023/12/16-2024/01/31',

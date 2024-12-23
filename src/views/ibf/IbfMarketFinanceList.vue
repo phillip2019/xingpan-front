@@ -69,7 +69,7 @@
   //注册table数据
   const { prefixCls, tableContext, onExportXls, onImportXls: baseImportXls } = useListPage({
     tableProps: {
-      title: '��务一体-财务填报',
+      title: '业财一体-财务填报',
       api: (params) => {
         // 合并请求参数，添加business_version
         return list({

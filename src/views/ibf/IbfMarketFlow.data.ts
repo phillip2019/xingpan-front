@@ -199,7 +199,7 @@ export const formSchema: FormSchema[] = [
     dynamicRules: ({model,schema}) => {
       return [
         { required: true, message: '请输入日开门率!'},
-        { pattern: /^-?\d+\.?\d{0,2}$/, message: '请输入数字，最多2��小数!'},
+        { pattern: /^-?\d+\.?\d{0,2}$/, message: '请输入数字，最多2位小数!'},
       ];
     },
   },

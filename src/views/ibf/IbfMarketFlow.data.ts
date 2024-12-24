@@ -42,6 +42,10 @@ export const columns: BasicColumn[] = [
     sorter: true,
     dataIndex: 'boothOpeningRate1d',
     helpMessage: '日开门率，记录日开门率开门的商位数/出租的商位数，按照商位号去重，AB摊位算1个',
+    customRender: ({ text }) => {
+      if (!text && text !== 0) return '';
+      return `${(text * 100).toFixed(2)}%`;
+    },
   },
   {
     title: '创建时间',

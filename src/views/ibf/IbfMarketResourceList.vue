@@ -6,7 +6,7 @@
       <template #tableTitle>
         <a-button v-auth="'org.jeecg.modules.demo:ibf_market_resource:add'" type="primary" @click="handleAdd" preIcon="ant-design:plus-outlined"> 新增</a-button>
         <a-button v-auth="'org.jeecg.modules.demo:ibf_market_resource:exportXls'" type="primary" preIcon="ant-design:export-outlined" @click="onExportXls"> 导出</a-button>
-        <j-upload-button v-auth="'org.jeecg.modules.demo:ibf_market_resource:importXls'" type="primary" preIcon="ant-design:import-outlined" @click="onImportXls">导入</j-upload-button>
+        <j-upload-button v-auth="'org.jeecg.modules.demo:ibf_market_resource:importExcel'" type="primary" preIcon="ant-design:import-outlined" @click="onImportXls">导入</j-upload-button>
         <a-dropdown v-if="selectedRowKeys.length > 0">
           <template #overlay>
             <a-menu>

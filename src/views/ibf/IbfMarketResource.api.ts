@@ -8,6 +8,7 @@ enum Api {
   save = '/ibf/ibfMarketResource/add',
   edit = '/ibf/ibfMarketResource/edit',
   delete = '/ibf/ibfMarketResource/delete',
+  deleteBatch = '/ibf/ibfMarketResource/deleteBatch',
   importExcel = '/ibf/ibfMarketResource/importExcel',
   exportXls = '/ibf/ibfMarketResource/exportXls',
   checkUnique = '/ibf/ibfMarketResource/checkUnique',
@@ -49,7 +50,7 @@ export const batchDelete = (params, handleSuccess) => {
     okText: '确定',
     cancelText: '取消',
     onOk: () => {
-      return defHttp.delete({ url: Api.delete, data: params }, { joinParamsToUrl: true }).then(() => {
+      return defHttp.delete({ url: Api.deleteBatch, data: params }, { joinParamsToUrl: true }).then(() => {
         handleSuccess();
       });
     },

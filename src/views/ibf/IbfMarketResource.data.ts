@@ -230,7 +230,7 @@ export const columns: BasicColumn[] = [
     title: '修改人',
     align: 'center',
     dataIndex: 'updateBy',
-    helpMessage: '��改人，记录修改人',
+    helpMessage: '修改人，记录修改人',
   },
   {
     title: '修改时间',

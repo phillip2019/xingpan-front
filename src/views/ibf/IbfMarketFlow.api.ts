@@ -48,7 +48,7 @@ export const batchDelete = (params, handleSuccess) => {
     okText: '确定',
     cancelText: '取消',
     onOk: () => {
-      return defHttp.delete({url: Api.deleteOne, data: params}, {joinParamsToUrl: true}).then(() => {
+      return defHttp.delete({url: Api.deleteBatch, data: params}, {joinParamsToUrl: true}).then(() => {
         handleSuccess();
       });
     },

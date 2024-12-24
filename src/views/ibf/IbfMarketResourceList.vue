@@ -181,7 +181,6 @@
     return [
       {
         label: '详情',
-        auth: 'org.jeecg.modules.demo:ibf_market_resource:detail',
         onClick: handleDetail.bind(null, record),
       },
       {

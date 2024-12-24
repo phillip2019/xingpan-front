@@ -177,7 +177,6 @@
     return [
       {
         label: '详情',
-        auth: 'org.jeecg.modules.demo:ibf_market_finance:detail',
         onClick: handleDetail.bind(null, record),
       },
       {

@@ -97,7 +97,7 @@
     },
     exportConfig: {
       name: '业财一体-每日填报市场流量',
-      url: getExportUrl,
+      url: () => getExportUrl(businessVersion.value),
       params: {
         businessVersion: businessVersion.value,
       },

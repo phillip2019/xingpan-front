@@ -16,12 +16,18 @@ enum Api {
 
 /**
  * 导出api
+ * @param businessVersion 业务版本号
  */
-export const getExportUrl = Api.exportXls;
+export const getExportUrl = (businessVersion: string) => {
+  return `${Api.exportXls}?businessVersion=${businessVersion}`;
+};
+
 /**
  * 导入api
  */
-export const getImportUrl = Api.importExcel;
+export const getImportUrl = (businessVersion: string) => {
+  return `${Api.importExcel}?businessVersion=${businessVersion}`;
+};
 
 /**
  * 列表接口

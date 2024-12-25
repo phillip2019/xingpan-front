@@ -101,7 +101,7 @@
     },
     exportConfig: {
       name: '业财一体-市场资源填报表',
-      url: getExportUrl,
+      url: () => getExportUrl(businessVersion.value),
       params: {
         businessVersion: businessVersion.value,
       },

@@ -97,7 +97,7 @@
     },
     exportConfig: {
       name: '业务一体-财务填报',
-      url: getExportUrl,
+      url: () => getExportUrl(businessVersion.value),
       params: {
         businessVersion: businessVersion.value,
       },

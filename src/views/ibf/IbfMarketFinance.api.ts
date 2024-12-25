@@ -1,13 +1,13 @@
-import {defHttp} from '/@/utils/http/axios';
-import { useMessage } from "/@/hooks/web/useMessage";
+import { defHttp } from '/@/utils/http/axios';
+import { useMessage } from '/@/hooks/web/useMessage';
 import { Modal } from 'ant-design-vue';
 
 const { createConfirm } = useMessage();
 
 enum Api {
   list = '/ibf/ibfMarketFinance/list',
-  save='/ibf/ibfMarketFinance/add',
-  edit='/ibf/ibfMarketFinance/edit',
+  save = '/ibf/ibfMarketFinance/add',
+  edit = '/ibf/ibfMarketFinance/edit',
   deleteOne = '/ibf/ibfMarketFinance/delete',
   deleteBatch = '/ibf/ibfMarketFinance/deleteBatch',
   importExcel = '/ibf/ibfMarketFinance/importExcel',
@@ -16,29 +16,32 @@ enum Api {
 }
 /**
  * 导出api
- * @param params
+ * @param businessVersion 业务版本号
  */
-export const getExportUrl = Api.exportXls;
+export const getExportUrl = (businessVersion: string) => {
+  return `${Api.exportXls}?businessVersion=${businessVersion}`;
+};
+
 /**
  * 导入api
  */
-export const getImportUrl = (businessVersion: string) => 
-  `${Api.importExcel}?businessVersion=${businessVersion}`;
+export const getImportUrl = (businessVersion: string) => {
+  return `${Api.importExcel}?businessVersion=${businessVersion}`;
+};
 /**
  * 列表接口
  * @param params
  */
-export const list = (params) =>
-  defHttp.get({url: Api.list, params});
+export const list = (params) => defHttp.get({ url: Api.list, params });
 
 /**
  * 删除单个
  */
-export const deleteOne = (params,handleSuccess) => {
-  return defHttp.delete({url: Api.deleteOne, params}, {joinParamsToUrl: true}).then(() => {
+export const deleteOne = (params, handleSuccess) => {
+  return defHttp.delete({ url: Api.deleteOne, params }, { joinParamsToUrl: true }).then(() => {
     handleSuccess();
   });
-}
+};
 /**
  * 批量删除
  * @param params
@@ -51,20 +54,20 @@ export const batchDelete = (params, handleSuccess) => {
     okText: '确认',
     cancelText: '取消',
     onOk: () => {
-      return defHttp.delete({url: Api.deleteBatch, data: params}, {joinParamsToUrl: true}).then(() => {
+      return defHttp.delete({ url: Api.deleteBatch, data: params }, { joinParamsToUrl: true }).then(() => {
         handleSuccess();
       });
-    }
+    },
   });
-}
+};
 /**
  * 保存或者更新
  * @param params
  */
 export const saveOrUpdate = (params, isUpdate) => {
-  let url = isUpdate ? Api.edit : Api.save;
-  return defHttp.post({url: url, params});
-}
+  const url = isUpdate ? Api.edit : Api.save;
+  return defHttp.post({ url: url, params });
+};
 
 /**
  * 唯一性校验
@@ -76,13 +79,13 @@ export const checkUnique = async (params) => {
       params: {
         shortMarketId: params.shortMarketId,
         monthCol: params.monthCol,
-        businessVersion: params.businessVersion
-      }
+        businessVersion: params.businessVersion,
+      },
     });
-    
+
     if (result?.success && result.result) {
       // 存在记录，回填数据
-      Object.keys(result.result).forEach(key => {
+      Object.keys(result.result).forEach((key) => {
         if (params.hasOwnProperty(key)) {
           params[key] = result.result[key];
         }

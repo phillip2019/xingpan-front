@@ -199,7 +199,7 @@ export const formSchema: FormSchema[] = [
         options: (() => {
           const now = new Date();
           const months = [];
-          for (let i = 1; i <= 24; i++) {
+          for (let i = 0; i <= 24; i++) {
             const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
             const value = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
             months.push({ label: value, value });

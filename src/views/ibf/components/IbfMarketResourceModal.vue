@@ -1,6 +1,6 @@
 <template>
   <BasicModal v-bind="$attrs" @register="registerModal" destroyOnClose :title="title" :width="800" @ok="handleSubmit">
-    <BasicForm @register="registerForm" />
+    <BasicForm @register="registerForm" @formValuesChange="handleFormValuesChange"/>
   </BasicModal>
 </template>
 
@@ -60,6 +60,23 @@
       emit('success');
     } finally {
       setModalProps({ confirmLoading: false });
+    }
+  }
+  // 处理表单值变化
+  function handleFormValuesChange(changedValues: Recordable) {
+    // 当月份发生变化时
+    if ('monthCol' in changedValues) {
+      const monthCol = changedValues.monthCol;
+      if (monthCol) {
+        // 设置所有统计日期为当月20号
+        const statisticsDate = `${monthCol}-20`;
+        setFieldsValue({
+          resourceStatisticsDate: statisticsDate,
+          merchantStatisticsDate: statisticsDate,
+          remainRentRateStatisticsDate: statisticsDate,
+          renewLeaseRateStatisticsDate: statisticsDate,
+        });
+      }
     }
   }
 </script>

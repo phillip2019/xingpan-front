@@ -611,19 +611,7 @@ export const formSchema: FormSchema[] = [
     },
     helpMessage: ['统计日期：', '默认为所属月份的20日', '例，选择24年12月，则默认为24年12月20日'],
     dynamicRules: ({ model }) => {
-      return [
-        { required: true, message: '请选择资源统计日期!' },
-        {
-          validator: async (_, value) => {
-            if (value && model.monthCol) {
-              const monthPrefix = model.monthCol;
-              if (!value.startsWith(monthPrefix)) {
-                throw new Error('统计日期必须在所属月份内!');
-              }
-            }
-          },
-        },
-      ];
+      return [{ required: true, message: '请选择资源统计日期!' }];
     },
   },
   {
@@ -693,19 +681,7 @@ export const formSchema: FormSchema[] = [
     },
     helpMessage: ['统计日期：', '默认为所属月份的20日', '例，选择24年12月，则默认为24年12月20日'],
     dynamicRules: ({ model }) => {
-      return [
-        { required: true, message: '请选择商人统计日期!' },
-        {
-          validator: async (_, value) => {
-            if (value && model.monthCol) {
-              const monthPrefix = model.monthCol;
-              if (!value.startsWith(monthPrefix)) {
-                throw new Error('统计日期必须在所属月份内!');
-              }
-            }
-          },
-        },
-      ];
+      return [{ required: true, message: '请选择商人统计日期!' }];
     },
   },
   {
@@ -753,19 +729,7 @@ export const formSchema: FormSchema[] = [
     },
     helpMessage: ['统计日期：', '默认为所属月份的20日', '例，选择24年12月，则默认为24年12月20日'],
     dynamicRules: ({ model }) => {
-      return [
-        { required: true, message: '请选择剩余商位出租率统计日期!' },
-        {
-          validator: async (_, value) => {
-            if (value && model.monthCol) {
-              const monthPrefix = model.monthCol;
-              if (!value.startsWith(monthPrefix)) {
-                throw new Error('统计日期必须在所属月份内!');
-              }
-            }
-          },
-        },
-      ];
+      return [{ required: true, message: '请选择剩余商位出租率统计日期!' }];
     },
   },
   {
@@ -781,19 +745,7 @@ export const formSchema: FormSchema[] = [
     },
     helpMessage: ['统计日期：', '默认为所属月份的20日', '例，选择24年12月，则默认为24年12月20日'],
     dynamicRules: ({ model }) => {
-      return [
-        { required: true, message: '请选择续租完成率统计日期!' },
-        {
-          validator: async (_, value) => {
-            if (value && model.monthCol) {
-              const monthPrefix = model.monthCol;
-              if (!value.startsWith(monthPrefix)) {
-                throw new Error('统计日期必须在所属月份内!');
-              }
-            }
-          },
-        },
-      ];
+      return [{ required: true, message: '请选择续租完成率统计日期!' }];
     },
   },
   {

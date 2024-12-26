@@ -112,7 +112,7 @@
       },
     },
     exportConfig: {
-      name: '业务一体-财务填报',
+      name: '业财一体-财务填报',
       url: () => getExportUrl(businessVersion.value),
       params: {
         businessVersion: businessVersion.value,

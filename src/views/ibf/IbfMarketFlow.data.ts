@@ -89,6 +89,10 @@ export const searchFormSchema: FormSchema[] = [
     field: 'dateCol',
     helpMessage: '日期，记录日期，格式yyyy-MM-dd',
     component: 'DatePicker',
+    componentProps: {
+      showTime: false,
+      valueFormat: 'YYYY-MM-DD',
+    },
     colProps: { span: 6 },
   },
   {

@@ -733,6 +733,22 @@ export const formSchema: FormSchema[] = [
     },
   },
   {
+    label: '资源统计日期',
+    field: 'resourceStatisticsDate',
+    component: 'DatePicker',
+    componentProps: ({ formModel }) => {
+      return {
+        valueFormat: 'YYYY-MM-DD',
+        placeholder: '请选择资源统计日期',
+        defaultValue: formModel.monthCol ? `${formModel.monthCol}-20` : null,
+      };
+    },
+    helpMessage: ['统计日期：', '默认为所属月份的20日', '例，选择24年12月，则默认为24年12月20日'],
+    dynamicRules: ({ model }) => {
+      return [{ required: true, message: '请选择资源统计日期!' }];
+    },
+  },
+  {
     label: '间数(商位)',
     field: 'boothRoomNumTd',
     component: 'InputNumber',
@@ -877,19 +893,19 @@ export const formSchema: FormSchema[] = [
     },
   },
   {
-    label: '资源统计日期',
-    field: 'resourceStatisticsDate',
+    label: '商人统计日期',
+    field: 'merchantStatisticsDate',
     component: 'DatePicker',
     componentProps: ({ formModel }) => {
       return {
         valueFormat: 'YYYY-MM-DD',
-        placeholder: '请选择资源统计日期',
+        placeholder: '请选择商人统计日期',
         defaultValue: formModel.monthCol ? `${formModel.monthCol}-20` : null,
       };
     },
     helpMessage: ['统计日期：', '默认为所属月份的20日', '例，选择24年12月，则默认为24年12月20日'],
     dynamicRules: ({ model }) => {
-      return [{ required: true, message: '请选择资源统计日期!' }];
+      return [{ required: true, message: '请选择商人统计日期!' }];
     },
   },
   {
@@ -947,19 +963,20 @@ export const formSchema: FormSchema[] = [
     },
   },
   {
-    label: '商人统计日期',
-    field: 'merchantStatisticsDate',
+    label: '剩余商位出租率统计日期',
+    field: 'remainRentRateStatisticsDate',
+    labelWidth: 240,
     component: 'DatePicker',
     componentProps: ({ formModel }) => {
       return {
         valueFormat: 'YYYY-MM-DD',
-        placeholder: '请选择商人统计日期',
+        placeholder: '请选择剩余商位出租率统计日期',
         defaultValue: formModel.monthCol ? `${formModel.monthCol}-20` : null,
       };
     },
     helpMessage: ['统计日期：', '默认为所属月份的20日', '例，选择24年12月，则默认为24年12月20日'],
     dynamicRules: ({ model }) => {
-      return [{ required: true, message: '请选择商人统计日期!' }];
+      return [{ required: true, message: '请选择剩余商位出租率统计日期!' }];
     },
   },
   {
@@ -1017,19 +1034,91 @@ export const formSchema: FormSchema[] = [
     },
   },
   {
-    label: '出租率统计日期',
-    field: 'remainRentRateStatisticsDate',
-    component: 'DatePicker',
-    componentProps: ({ formModel }) => {
-      return {
-        valueFormat: 'YYYY-MM-DD',
-        placeholder: '请选择剩余商位出租率统计日期',
-        defaultValue: formModel.monthCol ? `${formModel.monthCol}-20` : null,
-      };
+    label: '本年招商户数',
+    field: 'invstHoldsNumSd',
+    component: 'InputNumber',
+    componentProps: {
+      suffix: '户',
+      style: {
+        width: '100%',
+      },
     },
-    helpMessage: ['统计日期：', '默认为所属月份的20日', '例，选择24年12月，则默认为24年12月20日'],
-    dynamicRules: ({ model }) => {
-      return [{ required: true, message: '请选择剩余商位出租率统计日期!' }];
+    helpMessage: [
+      '数据口径：',
+      '招商条目中，A或B摊都算1户，间数大于1的，则按大于1的算户数',
+      '单位：',
+      '户',
+      '统计时间：',
+      '按所属年月在统计意义上的月末进行统计。',
+      '1月是统计本年1月1日至1月20日最后一秒这个时间点的最新数据；',
+      '2-11月是统计上月21日至当月20日。',
+      '//例，所属年月选择了2024年11月，即统计本年累计至11月20日最后一秒这个时间点的数据。',
+      '在12月，按所属年月在自然月意义上的月末进行统计。',
+      '//例，所属年月选择了2024年12月，即统计本年累计至12月31日最后一秒这个时间点的数据。',
+    ],
+    dynamicRules: ({ model, schema }) => {
+      return [
+        { required: true, message: '请输入本年招商户数!' },
+        { pattern: /^-?\d+$/, message: '请输入整数!' },
+      ];
+    },
+  },
+  {
+    label: '当前空置户数',
+    field: 'emptyBoothHoldsNumTd',
+    component: 'InputNumber',
+    componentProps: {
+      suffix: '户',
+      style: {
+        width: '100%',
+      },
+    },
+    helpMessage: [
+      '数据口径：',
+      'A或B摊都算1户，间数大于1的，则按大于1的算户数',
+      '单位：',
+      '户',
+      '统计时间：',
+      '在1-10月，按所属年月在统计意义上的月末进行统计。',
+      '统计期是上月21日至当月20日。',
+      '//例，所属年月选择了2024年10月，即统计本年10月20日最后一秒这个时间点的数据。',
+      '在11-12月，都只统计到11月15日最后一秒这个时间点的数据。',
+    ],
+    dynamicRules: ({ model, schema }) => {
+      return [
+        { required: true, message: '请输入当前空置户数!' },
+        { pattern: /^-?\d+$/, message: '请输入整数!' },
+      ];
+    },
+  },
+  {
+    label: '本年入场资格费',
+    field: 'entryQualificationIncomeSd',
+    component: 'InputNumber',
+    componentProps: {
+      suffix: '万元',
+      style: {
+        width: '100%',
+      },
+    },
+    helpMessage: [
+      '数据口径：',
+      '商位+配套用房，本年新主体入驻商户缴纳的入场资格费和拍卖费合计',
+      '单位：',
+      '万元，精确到2位小数',
+      '统计时间：',
+      '按所属年月在统计意义上的月末进行统计。',
+      '1月是统计本年1月1日至1月20日最后一秒这个时间点的最新数据；',
+      '2-11月是统计上月21日至当月20日。',
+      '//例，所属年月选择了2024年11月，即统计本年累计至11月20日最后一秒这个时间点的数据。',
+      '在12月，按所属年月在自然月意义上的月末进行统计。',
+      '//例，所属年月选择了2024年12月，即统计本年累计至12月31日最后一秒这个时间点的数据。',
+    ],
+    dynamicRules: ({ model, schema }) => {
+      return [
+        { required: true, message: '请输入本年入场资格费收入!' },
+        { pattern: /^-?\d+\.?\d{0,2}$/, message: '请输入数字，最多2位小数!' },
+      ];
     },
   },
   {
@@ -1046,6 +1135,125 @@ export const formSchema: FormSchema[] = [
     helpMessage: ['统计日期：', '默认为所属月份的20日', '例，选择24年12月，则默认为24年12月20日'],
     dynamicRules: ({ model }) => {
       return [{ required: true, message: '请选择续租完成率统计日期!' }];
+    },
+  },
+  {
+    label: '本年续租户数',
+    field: 'renewLeaseHoldsNumSd',
+    component: 'InputNumber',
+    componentProps: {
+      suffix: '户',
+      style: {
+        width: '100%',
+      },
+    },
+    helpMessage: [
+      '数据口径：',
+      '本年续租户数，续租批次中已完成的户数，若A摊位或B摊位都算1户，若条目中商位间数大于1，则按大于1的间数算户数。',
+      '单位：',
+      '户',
+      '统计时间：',
+      '按所属年月在统计意义上的月末进行统计。',
+      '1月是统计本年1月1日至1月20日最后一秒这个时间点的最新数据；',
+      '2-11月是统计上月21日至当月20日。',
+      '//例，所属年月选择了2024年11月，即统计本年累计至11月20日最后一秒这个时间点的数据。',
+      '在12月，按所属年月在自然月意义上的月末进行统计。',
+      '//例，所属年月选择了2024年12月，即统计本年累计至12月31日最后一秒这个时间点的数据。',
+    ],
+    dynamicRules: ({ model, schema }) => {
+      return [
+        { required: true, message: '请输入本年续租户数!' },
+        { pattern: /^-?\d+$/, message: '请输入整数!' },
+      ];
+    },
+  },
+  {
+    label: '本年退租户数',
+    field: 'surrenderLeaseHoldsNumSd',
+    component: 'InputNumber',
+    componentProps: {
+      suffix: '户',
+      style: {
+        width: '100%',
+      },
+    },
+    helpMessage: [
+      '数据口径：',
+      '本年退租户数。若A摊位或B摊位都算1户，若条目中商位间数大于1，则按大于1的间数算户数。',
+      '单位：',
+      '户',
+      '统计时间：',
+      '按所属年月在统计意义上的月末进行统计。',
+      '1月是统计本年1月1日至1月20日最后一秒这个时间点的最新数据；',
+      '2-11月是统计上月21日至当月20日。',
+      '//例，所属年月选择了2024年11月，即统计本年累计至11月20日最后一秒这个时间点的数据。',
+      '在12月，按所属年月在自然月意义上的月末进行统计。',
+      '//例，所属年月选择了2024年12月，即统计本年累计至12月31日最后一秒这个时间点的数据。',
+    ],
+    dynamicRules: ({ model, schema }) => {
+      return [
+        { required: true, message: '请输入本年退租户数!' },
+        { pattern: /^-?\d+$/, message: '请输入整数!' },
+      ];
+    },
+  },
+  {
+    label: '本年到期户数',
+    field: 'expiredHoldsNumSd',
+    component: 'InputNumber',
+    componentProps: {
+      suffix: '户',
+      style: {
+        width: '100%',
+      },
+    },
+    helpMessage: [
+      '数据口径：',
+      '本年租赁费用到期的户数，若A摊或B摊都算1户，若条目中商位间数大于1，则按大于1的间数算户数商位+配套。',
+      '单位：',
+      '户',
+      '统计时间：',
+      '按所属年月在统计意义上的月末进行统计。',
+      '1月是统计本年1月1日至1月20日最后一秒这个时间点的最新数据；',
+      '2-11月是统计上月21日至当月20日。',
+      '//例，所属年月选择了2024年11月，即统计本年累计至11月20日最后一秒这个时间点的数据。',
+      '在12月，按所属年月在自然月意义上的月末进行统计。',
+      '//例，所属年月选择了2024年12月，即统计本年累计至12月31日最后一秒这个时间点的数据。',
+    ],
+    dynamicRules: ({ model, schema }) => {
+      return [
+        { required: true, message: '请输入本年到期户数!' },
+        { pattern: /^-?\d+$/, message: '请输入整数!' },
+      ];
+    },
+  },
+  {
+    label: '本年续租收入',
+    field: 'renewLeaseIncomeSd',
+    component: 'InputNumber',
+    componentProps: {
+      suffix: '万元',
+      style: {
+        width: '100%',
+      },
+    },
+    helpMessage: [
+      '数据口径：',
+      '商位+配套用房，下一轮租赁中完成续租缴费的金额合计',
+      '单位：万元，精确到2位小数',
+      '统计时间：',
+      '按所属年月在统计意义上的月末进行统计。',
+      '1月是统计本年1月1日至1月20日最后一秒这个时间点的最新数据；',
+      '2-11月是统计上月21日至当月20日。',
+      '//例，所属年月选择了2024年11月，即统计本年累计至11月20日最后一秒这个时间点的数据。',
+      '在12月，按所属年月在自然月意义上的月末进行统计。',
+      '//例，所属年月选择了2024年12月，即统计本年累计至12月31日最后一秒这个时间点的数据。',
+    ],
+    dynamicRules: ({ model, schema }) => {
+      return [
+        { required: true, message: '请输入本年续租收入!' },
+        { pattern: /^-?\d+\.?\d{0,2}$/, message: '请输入数字，最多2位小数!' },
+      ];
     },
   },
   {
@@ -1384,213 +1592,6 @@ export const formSchema: FormSchema[] = [
       return [
         { required: true, message: '请输入商位个性化装修笔数!' },
         { pattern: /^-?\d+$/, message: '请输入整数!' },
-      ];
-    },
-  },
-  {
-    label: '本年招商户数',
-    field: 'invstHoldsNumSd',
-    component: 'InputNumber',
-    componentProps: {
-      suffix: '户',
-      style: {
-        width: '100%',
-      },
-    },
-    helpMessage: [
-      '数据口径：',
-      '招商条目中，A或B摊都算1户，间数大于1的，则按大于1的算户数',
-      '单位：',
-      '户',
-      '统计时间：',
-      '按所属年月在统计意义上的月末进行统计。',
-      '1月是统计本年1月1日至1月20日最后一秒这个时间点的最新数据；',
-      '2-11月是统计上月21日至当月20日。',
-      '//例，所属年月选择了2024年11月，即统计本年累计至11月20日最后一秒这个时间点的数据。',
-      '在12月，按所属年月在自然月意义上的月末进行统计。',
-      '//例，所属年月选择了2024年12月，即统计本年累计至12月31日最后一秒这个时间点的数据。',
-    ],
-    dynamicRules: ({ model, schema }) => {
-      return [
-        { required: true, message: '请输入本年招商户数!' },
-        { pattern: /^-?\d+$/, message: '请输入整数!' },
-      ];
-    },
-  },
-  {
-    label: '当前空置户数',
-    field: 'emptyBoothHoldsNumTd',
-    component: 'InputNumber',
-    componentProps: {
-      suffix: '户',
-      style: {
-        width: '100%',
-      },
-    },
-    helpMessage: [
-      '数据口径：',
-      'A或B摊都算1户，间数大于1的，则按大于1的算户数',
-      '单位：',
-      '户',
-      '统计时间：',
-      '在1-10月，按所属年月在统计意义上的月末进行统计。',
-      '统计期是上月21日至当月20日。',
-      '//例，所属年月选择了2024年10月，即统计本年10月20日最后一秒这个时间点的数据。',
-      '在11-12月，都只统计到11月15日最后一秒这个时间点的数据。',
-    ],
-    dynamicRules: ({ model, schema }) => {
-      return [
-        { required: true, message: '请输入当前空置户数!' },
-        { pattern: /^-?\d+$/, message: '请输入整数!' },
-      ];
-    },
-  },
-  {
-    label: '本年入场资格费',
-    field: 'entryQualificationIncomeSd',
-    component: 'InputNumber',
-    componentProps: {
-      suffix: '万元',
-      style: {
-        width: '100%',
-      },
-    },
-    helpMessage: [
-      '数据口径：',
-      '商位+配套用房，本年新主体入驻商户缴纳的入场资格费和拍卖费合计',
-      '单位：',
-      '万元，精确到2位小数',
-      '统计时间：',
-      '按所属年月在统计意义上的月末进行统计。',
-      '1月是统计本年1月1日至1月20日最后一秒这个时间点的最新数据；',
-      '2-11月是统计上月21日至当月20日。',
-      '//例，所属年月选择了2024年11月，即统计本年累计至11月20日最后一秒这个时间点的数据。',
-      '在12月，按所属年月在自然月意义上的月末进行统计。',
-      '//例，所属年月选择了2024年12月，即统计本年累计至12月31日最后一秒这个时间点的数据。',
-    ],
-    dynamicRules: ({ model, schema }) => {
-      return [
-        { required: true, message: '请输入本年入场资格费收入!' },
-        { pattern: /^-?\d+\.?\d{0,2}$/, message: '请输入数字，最多2位小数!' },
-      ];
-    },
-  },
-  {
-    label: '本年续租户数',
-    field: 'renewLeaseHoldsNumSd',
-    component: 'InputNumber',
-    componentProps: {
-      suffix: '户',
-      style: {
-        width: '100%',
-      },
-    },
-    helpMessage: [
-      '数据口径：',
-      '本年续租户数，续租批次中已完成的户数，若A摊位或B摊位都算1户，若条目中商位间数大于1，则按大于1的间数算户数。',
-      '单位：',
-      '户',
-      '统计时间：',
-      '按所属年月在统计意义上的月末进行统计。',
-      '1月是统计本年1月1日至1月20日最后一秒这个时间点的最新数据；',
-      '2-11月是统计上月21日至当月20日。',
-      '//例，所属年月选择了2024年11月，即统计本年累计至11月20日最后一秒这个时间点的数据。',
-      '在12月，按所属年月在自然月意义上的月末进行统计。',
-      '//例，所属年月选择了2024年12月，即统计本年累计至12月31日最后一秒这个时间点的数据。',
-    ],
-    dynamicRules: ({ model, schema }) => {
-      return [
-        { required: true, message: '请输入本年续租户数!' },
-        { pattern: /^-?\d+$/, message: '请输入整数!' },
-      ];
-    },
-  },
-  {
-    label: '本年退租户数',
-    field: 'surrenderLeaseHoldsNumSd',
-    component: 'InputNumber',
-    componentProps: {
-      suffix: '户',
-      style: {
-        width: '100%',
-      },
-    },
-    helpMessage: [
-      '数据口径：',
-      '本年退租户数。若A摊位或B摊位都算1户，若条目中商位间数大于1，则按大于1的间数算户数。',
-      '单位：',
-      '户',
-      '统计时间：',
-      '按所属年月在统计意义上的月末进行统计。',
-      '1月是统计本年1月1日至1月20日最后一秒这个时间点的最新数据；',
-      '2-11月是统计上月21日至当月20日。',
-      '//例，所属年月选择了2024年11月，即统计本年累计至11月20日最后一秒这个时间点的数据。',
-      '在12月，按所属年月在自然月意义上的月末进行统计。',
-      '//例，所属年月选择了2024年12月，即统计本年累计至12月31日最后一秒这个时间点的数据。',
-    ],
-    dynamicRules: ({ model, schema }) => {
-      return [
-        { required: true, message: '请输入本年退租户数!' },
-        { pattern: /^-?\d+$/, message: '请输入整数!' },
-      ];
-    },
-  },
-  {
-    label: '本年到期户数',
-    field: 'expiredHoldsNumSd',
-    component: 'InputNumber',
-    componentProps: {
-      suffix: '户',
-      style: {
-        width: '100%',
-      },
-    },
-    helpMessage: [
-      '数据口径：',
-      '本年租赁费用到期的户数，若A摊或B摊都算1户，若条目中商位间数大于1，则按大于1的间数算户数商位+配套。',
-      '单位：',
-      '户',
-      '统计时间：',
-      '按所属年月在统计意义上的月末进行统计。',
-      '1月是统计本年1月1日至1月20日最后一秒这个时间点的最新数据；',
-      '2-11月是统计上月21日至当月20日。',
-      '//例，所属年月选择了2024年11月，即统计本年累计至11月20日最后一秒这个时间点的数据。',
-      '在12月，按所属年月在自然月意义上的月末进行统计。',
-      '//例，所属年月选择了2024年12月，即统计本年累计至12月31日最后一秒这个时间点的数据。',
-    ],
-    dynamicRules: ({ model, schema }) => {
-      return [
-        { required: true, message: '请输入本年到期户数!' },
-        { pattern: /^-?\d+$/, message: '请输入整数!' },
-      ];
-    },
-  },
-  {
-    label: '本年续租收入',
-    field: 'renewLeaseIncomeSd',
-    component: 'InputNumber',
-    componentProps: {
-      suffix: '万元',
-      style: {
-        width: '100%',
-      },
-    },
-    helpMessage: [
-      '数据口径：',
-      '商位+配套用房，下一轮租赁中完成续租缴费的金额合计',
-      '单位：万元，精确到2位小数',
-      '统计时间：',
-      '按所属年月在统计意义上的月末进行统计。',
-      '1月是统计本年1月1日至1月20日最后一秒这个时间点的最新数据；',
-      '2-11月是统计上月21日至当月20日。',
-      '//例，所属年月选择了2024年11月，即统计本年累计至11月20日最后一秒这个时间点的数据。',
-      '在12月，按所属年月在自然月意义上的月末进行统计。',
-      '//例，所属年月选择了2024年12月，即统计本年累计至12月31日最后一秒这个时间点的数据。',
-    ],
-    dynamicRules: ({ model, schema }) => {
-      return [
-        { required: true, message: '请输入本年续租收入!' },
-        { pattern: /^-?\d+\.?\d{0,2}$/, message: '请输入数字，最多2位小数!' },
       ];
     },
   },

@@ -41,7 +41,7 @@ export const columns: BasicColumn[] = [
   },
   {
     title: '本年目标营收',
-    helpMessage: '本年目标营��，单位万元',
+    helpMessage: '本年目标营收，单位万元',
     align: 'right',
     sorter: true,
     dataIndex: 'targetTurnoverIncomeSd',

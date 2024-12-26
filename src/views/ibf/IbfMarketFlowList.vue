@@ -4,9 +4,25 @@
     <BasicTable @register="registerTable" :rowSelection="rowSelection">
       <!--插槽:table标题-->
       <template #tableTitle>
-        <a-button v-auth="'org.jeecg.modules.demo:ibf_market_flow:add'" type="primary" @click="handleAdd" preIcon="ant-design:plus-outlined"> 新增</a-button>
-        <a-button v-auth="'org.jeecg.modules.demo:ibf_market_flow:exportXls'" type="primary" preIcon="ant-design:export-outlined" @click="onExportXls"> 导出</a-button>
-        <j-upload-button v-auth="'org.jeecg.modules.demo:ibf_market_flow:importExcel'" type="primary" preIcon="ant-design:import-outlined" :customRequest="customRequest" accept=".xls,.xlsx">导入</j-upload-button>
+        <a-button v-auth="'org.jeecg.modules.demo:ibf_market_flow:add'" type="primary" @click="handleAdd" preIcon="ant-design:plus-outlined">
+          新增</a-button
+        >
+        <a-button
+          v-auth="'org.jeecg.modules.demo:ibf_market_flow:exportXls'"
+          type="primary"
+          preIcon="ant-design:export-outlined"
+          @click="onExportXls"
+        >
+          导出</a-button
+        >
+        <j-upload-button
+          v-auth="'org.jeecg.modules.demo:ibf_market_flow:importExcel'"
+          type="primary"
+          preIcon="ant-design:import-outlined"
+          @click="onImportXls"
+          accept=".xls,.xlsx"
+          >导入</j-upload-button
+        >
         <a-dropdown v-if="selectedRowKeys.length > 0">
           <template #overlay>
             <a-menu>
@@ -65,12 +81,7 @@
     return version || 'BOSS';
   });
   //注册table数据
-  const {
-    prefixCls,
-    tableContext,
-    onExportXls,
-    onImportXls: baseImportXls,
-  } = useListPage({
+  const { prefixCls, tableContext, onExportXls, onImportXls } = useListPage({
     tableProps: {
       title: '业财一体-每日填报市场流量',
       api: (params) => {
@@ -188,17 +199,6 @@
         },
       },
     ];
-  }
-
-  /**
-   * 自定义上传请求
-   */
-  function customRequest(options) {
-    const { file } = options;
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('businessVersion', businessVersion.value);
-    baseImportXls(formData);
   }
 </script>
 

@@ -55,7 +55,7 @@ export const columns: BasicColumn[] = [
   },
   {
     title: '已出租间数(商位+配套)',
-    align: 'center',
+    align: 'right',
     sorter: true,
     dataIndex: 'boothMatchRentRoomNum1d',
     helpMessage: [
@@ -123,7 +123,7 @@ export const columns: BasicColumn[] = [
   },
   {
     title: '商位使用权人数',
-    align: 'center',
+    align: 'right',
     sorter: true,
     dataIndex: 'boothOwnerNum',
     helpMessage: [
@@ -182,7 +182,7 @@ export const columns: BasicColumn[] = [
   },
   {
     title: '当前空置间数',
-    align: 'center',
+    align: 'right',
     sorter: true,
     dataIndex: 'emptyBoothRoomNumTd',
     helpMessage: [
@@ -199,7 +199,7 @@ export const columns: BasicColumn[] = [
   },
   {
     title: '出租率统计日期',
-    align: 'center',
+    align: 'right',
     sorter: true,
     dataIndex: 'remainRentRateStatisticsDate',
     helpMessage: '剩余商位出租率统计日期，格式yyyy-MM-dd',
@@ -213,7 +213,7 @@ export const columns: BasicColumn[] = [
   },
   {
     title: '人流',
-    align: 'center',
+    align: 'right',
     sorter: true,
     dataIndex: 'marketBuyerEntrNum1m',
     helpMessage: [
@@ -228,7 +228,7 @@ export const columns: BasicColumn[] = [
   },
   {
     title: '车流',
-    align: 'center',
+    align: 'right',
     sorter: true,
     dataIndex: 'carEntrNum1m',
     helpMessage: [
@@ -243,7 +243,7 @@ export const columns: BasicColumn[] = [
   },
   {
     title: '外商',
-    align: 'center',
+    align: 'right',
     sorter: true,
     dataIndex: 'foreignBuyerEntrNum1m',
     helpMessage: [
@@ -328,7 +328,7 @@ export const columns: BasicColumn[] = [
   },
   {
     title: '商位转租笔数',
-    align: 'center',
+    align: 'right',
     sorter: true,
     dataIndex: 'marketRentNum1m',
     helpMessage: [
@@ -344,7 +344,7 @@ export const columns: BasicColumn[] = [
   },
   {
     title: '商位转租均价',
-    align: 'center',
+    align: 'right',
     sorter: true,
     dataIndex: 'marketRentPriceAvg1m',
     helpMessage: [
@@ -360,7 +360,7 @@ export const columns: BasicColumn[] = [
   },
   {
     title: '商位质押笔数',
-    align: 'center',
+    align: 'right',
     sorter: true,
     dataIndex: 'pledgeApplyNum1m',
     helpMessage: [
@@ -375,7 +375,7 @@ export const columns: BasicColumn[] = [
   },
   {
     title: '商位质押总金额',
-    align: 'center',
+    align: 'right',
     sorter: true,
     dataIndex: 'pledgeApplyIncome1m',
     helpMessage: [
@@ -390,7 +390,7 @@ export const columns: BasicColumn[] = [
   },
   {
     title: '商位普通装修笔数',
-    align: 'center',
+    align: 'right',
     sorter: true,
     dataIndex: 'normalRenovationNum1m',
     helpMessage: [
@@ -405,7 +405,7 @@ export const columns: BasicColumn[] = [
   },
   {
     title: '商位个性化装修笔数',
-    align: 'center',
+    align: 'right',
     sorter: true,
     dataIndex: 'specialRenovationNum1m',
     helpMessage: [
@@ -440,7 +440,7 @@ export const columns: BasicColumn[] = [
   },
   {
     title: '当前空置户数',
-    align: 'center',
+    align: 'right',
     sorter: true,
     dataIndex: 'emptyBoothHoldsNumTd',
     helpMessage: [
@@ -457,7 +457,7 @@ export const columns: BasicColumn[] = [
   },
   {
     title: '本年入场资格费收入',
-    align: 'center',
+    align: 'right',
     sorter: true,
     dataIndex: 'entryQualificationIncomeSd',
     helpMessage: [
@@ -476,7 +476,7 @@ export const columns: BasicColumn[] = [
   },
   {
     title: '本年续租户数',
-    align: 'center',
+    align: 'right',
     sorter: true,
     dataIndex: 'renewLeaseHoldsNumSd',
     helpMessage: [
@@ -495,7 +495,7 @@ export const columns: BasicColumn[] = [
   },
   {
     title: '本年退租户数',
-    align: 'center',
+    align: 'right',
     sorter: true,
     dataIndex: 'surrenderLeaseHoldsNumSd',
     helpMessage: [
@@ -514,7 +514,7 @@ export const columns: BasicColumn[] = [
   },
   {
     title: '本年到期户数',
-    align: 'center',
+    align: 'right',
     sorter: true,
     dataIndex: 'expiredHoldsNumSd',
     helpMessage: [
@@ -533,7 +533,7 @@ export const columns: BasicColumn[] = [
   },
   {
     title: '本年续租收入',
-    align: 'center',
+    align: 'right',
     sorter: true,
     dataIndex: 'renewLeaseIncomeSd',
     helpMessage: [
@@ -580,7 +580,7 @@ export const searchFormSchema: FormSchema[] = [
   {
     label: '市场',
     field: 'shortMarketId',
-    component: 'JSelectMultiple',
+    component: 'JDictSelectTag',
     componentProps: {
       dictCode: 'short_market_id',
     },
@@ -590,12 +590,11 @@ export const searchFormSchema: FormSchema[] = [
     label: '月份',
     field: 'monthCol',
     component: 'JDictSelectTag',
-    defaultValue: '2024-11',
     componentProps: {
       options: (() => {
         const now = new Date();
         const months = [];
-        for (let i = 1; i <= 24; i++) {
+        for (let i = 0; i <= 24; i++) {
           const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
           const value = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
           months.push({ label: value, value });
@@ -648,7 +647,7 @@ export const formSchema: FormSchema[] = [
       return {
         dictCode: 'short_market_id',
         disabled: formModel.id ? true : false,
-        onChange: async (e) => {
+        onChange: async (e) => {  
           if (!e) return;
           // 重置表单数据
           const resetData = {};

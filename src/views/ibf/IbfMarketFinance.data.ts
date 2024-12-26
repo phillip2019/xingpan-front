@@ -99,9 +99,9 @@ export const searchFormSchema: FormSchema[] = [
   {
     label: '市场',
     field: 'shortMarketId',
-    component: 'JSelectMultiple',
+    component: 'JDictSelectTag',
     componentProps: {
-      dictCode: 'short_market_id',
+      dictCode: 'finance_short_market_id',
     },
     colProps: { span: 6 },
   },
@@ -166,26 +166,24 @@ export const formSchema: FormSchema[] = [
     componentProps: ({ formActionType, formModel }) => {
       const { setFieldsValue } = formActionType;
       return {
-        dictCode: 'short_market_id',
+        dictCode: 'finance_short_market_id',
         disabled: formModel.id ? true : false,
         onChange: async (e) => {
           if (!e) return;
           // 重置表单数据
           const resetData = {};
-          Object.keys(formModel).forEach(key => {
+          Object.keys(formModel).forEach((key) => {
             if (!['shortMarketId', 'businessVersion'].includes(key)) {
               resetData[key] = undefined;
             }
           });
           setFieldsValue(resetData);
-        }
+        },
       };
     },
     helpMessage: '市场，记录市场',
     dynamicRules: () => {
-      return [
-        { required: true, message: '请选择市场!' },
-      ];
+      return [{ required: true, message: '请选择市场!' }];
     },
   },
   {
@@ -210,19 +208,22 @@ export const formSchema: FormSchema[] = [
           if (!e) return;
           // 重置表单数据
           const resetData = {};
-          Object.keys(formModel).forEach(key => {
+          Object.keys(formModel).forEach((key) => {
             if (!['shortMarketId', 'monthCol', 'businessVersion'].includes(key)) {
               resetData[key] = undefined;
             }
           });
           setFieldsValue(resetData);
-          
+
           // 获取非proxyObject的formModel
           const formModelWithoutProxy = JSON.parse(JSON.stringify(formModel));
           // 只在有市场和月份时进行唯一性校验
-          if (formModelWithoutProxy.shortMarketId && formModelWithoutProxy.monthCol && 
-              typeof formModelWithoutProxy.monthCol === 'string' && 
-              typeof formModelWithoutProxy.shortMarketId === 'string') {
+          if (
+            formModelWithoutProxy.shortMarketId &&
+            formModelWithoutProxy.monthCol &&
+            typeof formModelWithoutProxy.monthCol === 'string' &&
+            typeof formModelWithoutProxy.shortMarketId === 'string'
+          ) {
             try {
               const result = await checkUnique(formModelWithoutProxy);
               // 如果返回了数据，说明记录已存在
@@ -236,7 +237,7 @@ export const formSchema: FormSchema[] = [
               console.error('唯一性校验失败:', error);
             }
           }
-        }
+        },
       };
     },
     helpMessage: '所属年月，记录所属年月',

@@ -24,21 +24,21 @@ export const columns: BasicColumn[] = [
   },
   {
     title: '日人流量',
-    align: 'center',
+    align: 'right',
     sorter: true,
     dataIndex: 'marketBuyerEntrNum1d',
     helpMessage: '日人流量，记录日人流量，单位人次',
   },
   {
     title: '日车流量',
-    align: 'center',
+    align: 'right',
     sorter: true,
     dataIndex: 'carEntrNum1d',
     helpMessage: '日车流量，记录日车流量，单位车次',
   },
   {
     title: '日开门率',
-    align: 'center',
+    align: 'right',
     sorter: true,
     dataIndex: 'boothOpeningRate1d',
     helpMessage: '日开门率，记录日开门率开门的商位数/出租的商位数，按照商位号去重，AB摊位算1个',
@@ -77,7 +77,7 @@ export const searchFormSchema: FormSchema[] = [
   {
     label: '市场',
     field: 'shortMarketId',
-    component: 'JSelectMultiple',
+    component: 'JDictSelectTag',
     helpMessage: '市场，记录市场，请选择市场',
     componentProps: {
       dictCode: 'short_market_id',

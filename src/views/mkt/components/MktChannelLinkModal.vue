@@ -11,7 +11,6 @@
   import { formSchema } from '../MktChannelLink.data';
   import { saveOrUpdate } from '../MktChannelLink.api';
   import { cloneDeep } from 'lodash-es';
-  import { genAdvUrl } from '/@/utils/common/compUtils';
   // Emits声明
   const emit = defineEmits(['register', 'success']);
   const isUpdate = ref(true);
@@ -54,13 +53,6 @@
     try {
       let values = await validate();
       setModalProps({ confirmLoading: true });
-      let pcSourceUrl = values['pcSourceUrl'];
-      let wapSourceUrl = values['wapSourceUrl'];
-      let pcTargetUrl = genAdvUrl(pcSourceUrl, values, true);
-      let wapTargetUrl = genAdvUrl(wapSourceUrl, values, false);
-
-      values['pcTargetUrl'] = pcTargetUrl;
-      values['wapTargetUrl'] = wapTargetUrl;
       //提交表单
       await saveOrUpdate(values, isUpdate.value);
       //关闭弹窗

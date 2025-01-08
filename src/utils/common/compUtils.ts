@@ -376,32 +376,3 @@ export function getQueryString(name) {
   if (r != null) return unescape(r[2]);
   return null;
 }
-
-export function genAdvUrl(sourceUrl: string, record: any, isPc: boolean) {
-  if (!sourceUrl) {
-    return '';
-  }
-  // 校验源地址是否是https或http开头，若不是，则添加上https或http开头
-  if (sourceUrl && !sourceUrl.startsWith('https://') && !sourceUrl.startsWith('http://')) {
-    sourceUrl = 'https://' + sourceUrl;
-  }
-  // TODO 后续优化各渠道链接生成逻辑
-  const url = new URL(sourceUrl);
-  let params = url.searchParams;
-  if (params.size === 0) {
-    params = new URLSearchParams();
-  }
-
-  const utmCampaign = record['utmCampaign'];
-  const utmSource = record['utmSource'];
-  const utmMedium = record['utmMedium'];
-  const utmTerm = record['utmTerm'];
-  const utmContent = record['utmContent'];
-  params.append('utm_campaign', utmCampaign);
-  params.append('utm_source', utmSource);
-  params.append('utm_medium', utmMedium);
-  params.append('utm_term', utmTerm);
-  params.append('utm_content', utmContent);
-  url.search = params.toString();
-  return url.href;
-}

@@ -123,7 +123,19 @@
         autoSubmitOnEnter: true,
         showAdvancedButton: true,
         fieldMapToNumber: [],
-        fieldMapToTime: [],
+        fieldMapToTime: [
+          ['createTime', ['createTime_begin', 'createTime_end'], 'YYYY-MM-DD HH:mm:ss'],
+          ['updateTime', ['updateTime_begin', 'updateTime_end'], 'YYYY-MM-DD HH:mm:ss'],
+        ],
+      },
+      pagination: {
+        pageSize: 10,
+        defaultPageSize: 10,
+        pageSizeOptions: ['10', '20', '50', '100', '200', '500'],
+        defaultCurrent: 1,
+        showTotal: (total) => `共 ${total} 条数据`,
+        showSizeChanger: true,
+        showQuickJumper: true,
       },
       actionColumn: {
         width: 240,

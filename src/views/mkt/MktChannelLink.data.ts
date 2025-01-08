@@ -5,7 +5,7 @@ import { render } from '/@/utils/common/renderUtils';
 //列表数据
 export const columns: BasicColumn[] = [
   {
-    title: 'PC地址',
+    title: 'PC端落地页',
     align: 'center',
     sorter: true,
     dataIndex: 'pcSourceUrl',
@@ -14,7 +14,7 @@ export const columns: BasicColumn[] = [
     helpMessage: 'PC端推广页面地址，需要推广的网页地址',
   },
   {
-    title: 'M地址',
+    title: '移动端落地页',
     align: 'center',
     sorter: true,
     dataIndex: 'wapSourceUrl',
@@ -123,54 +123,29 @@ export const searchFormSchema: FormSchema[] = [
     field: 'status',
     component: 'JDictSelectTag',
     componentProps: {
-      options: [
-        { label: '初始化', value: 0 },
-        { label: '上线', value: 1 },
-        { label: '下线', value: 2 },
-      ],
+      dictCode: 'CHANNEL_LINK_STATUS',
     },
     colProps: { span: 6 },
   },
   {
     label: '活动名称',
     field: 'utmCampaign',
-    component: 'JDictSelectTag',
+    component: 'JInput',
     colProps: { span: 6 },
-    componentProps: ({ schema, tableAction, formActionType, formModel }) => {
-      let sqlPreTpl = 'mkt_channel_link,utm_campaign,utm_campaign,1=1 ';
-      sqlPreTpl += ' group by utm_campaign';
-      return {
-        dictCode: sqlPreTpl,
-      };
-    },
     helpMessage: '广告系列活动utm_campaign，一般用于标识推广活动名称，例如周末大促，双11活动',
   },
   {
     label: '广告来源',
     field: 'utmSource',
-    component: 'JDictSelectTag',
+    component: 'JInput',
     colProps: { span: 6 },
-    componentProps: ({ schema, tableAction, formActionType, formModel }) => {
-      let sqlPreTpl = 'mkt_channel_link,utm_source,utm_source,1=1 ';
-      sqlPreTpl += ' group by utm_source';
-      return {
-        dictCode: sqlPreTpl,
-      };
-    },
     helpMessage: '广告系列来源utm_source，一般用于标识流量来源，引荐来源网址：baidu、sina、sohu',
   },
   {
     label: '广告媒介',
     field: 'utmMedium',
-    component: 'JDictSelectTag',
+    component: 'JInput',
     colProps: { span: 6 },
-    componentProps: ({ schema, tableAction, formActionType, formModel }) => {
-      let sqlPreTpl = 'mkt_channel_link,utm_medium,utm_medium,1=1 ';
-      sqlPreTpl += ' group by utm_medium';
-      return {
-        dictCode: sqlPreTpl,
-      };
-    },
     helpMessage: '广告系列媒介utm_medium，一般用于标识广告媒介，营销媒介：cpc、banner、edm',
   },
   {
@@ -190,15 +165,8 @@ export const searchFormSchema: FormSchema[] = [
   {
     label: '创建人',
     field: 'createBy',
-    component: 'JDictSelectTag',
+    component: 'JInput',
     colProps: { span: 6 },
-    componentProps: ({ schema, tableAction, formActionType, formModel }) => {
-      let sqlPreTpl = 'mkt_channel_link,create_by,create_by,1=1 ';
-      sqlPreTpl += ' group by create_by';
-      return {
-        dictCode: sqlPreTpl,
-      };
-    },
   },
   {
     label: '创建时间',

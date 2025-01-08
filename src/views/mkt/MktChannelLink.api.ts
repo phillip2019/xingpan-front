@@ -1,6 +1,5 @@
 import { defHttp } from '/@/utils/http/axios';
 import { useMessage } from '/@/hooks/web/useMessage';
-import { genAdvUrl } from '/@/utils/common/compUtils';
 
 const { createConfirm } = useMessage();
 
@@ -28,28 +27,7 @@ export const getImportUrl = Api.importExcel;
  * 列表接口
  * @param params
  */
-export const list = (params) => {
-  return new Promise((resolve) => {
-    defHttp.get({ url: Api.list, params }).then(async (res) => {
-      // 处理pc、wap带参链接
-      // console.log('原始参数为： ', res.records);
-      // 遍历返回数据，将pc、wap带参链接替换成直接链接
-      res.records.forEach((item) => {
-        const pcSourceUrl = item['pcSourceUrl'];
-        const wapSourceUrl = item['wapSourceUrl'];
-        const pcTargetUrl = genAdvUrl(pcSourceUrl, item, true);
-        const wapTargetUrl = genAdvUrl(wapSourceUrl, item, false);
-
-        item['pcTargetUrl'] = pcTargetUrl;
-        item['wapTargetUrl'] = wapTargetUrl;
-      });
-      // console.log('拼装处理之后参数为： ', res.records);
-      // 批量更新请求渠道链接
-      await defHttp.put({ url: Api.updateBatch2, data: res.records });
-      resolve(res.records);
-    });
-  });
-};
+export const list = (params) => defHttp.get({ url: Api.list, params });
 
 /**
  * 删除单个

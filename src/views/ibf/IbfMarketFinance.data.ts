@@ -4,6 +4,18 @@ import { rules } from '/@/utils/helper/validator';
 import { render } from '/@/utils/common/renderUtils';
 import { checkUnique } from './IbfMarketFinance.api';
 import { message } from 'ant-design-vue';
+import { toRaw } from 'vue';
+import { useUserStore } from '/@/store/modules/user';
+const userStore = useUserStore();
+const loginInfo = toRaw(userStore.getLoginInfo) || {};
+const tenantList = loginInfo?.tenantList ?? [];
+const shortMarketIdList: { label: string; value: string }[] = [];
+for (let item of tenantList as any[]) {
+  const label = item.name;
+  const value = item.id;
+  shortMarketIdList.push({ label: label, value: value });
+}
+
 //列表数据
 export const columns: BasicColumn[] = [
   {
@@ -99,9 +111,12 @@ export const searchFormSchema: FormSchema[] = [
   {
     label: '市场',
     field: 'shortMarketId',
-    component: 'JDictSelectTag',
+    component: 'JSelectInput',
     componentProps: {
-      dictCode: 'finance_short_market_id',
+      // dictCode: 'finance_short_market_id',
+      options: (() => {
+        return shortMarketIdList;
+      })(),
     },
     colProps: { span: 6 },
   },
@@ -166,7 +181,10 @@ export const formSchema: FormSchema[] = [
     componentProps: ({ formActionType, formModel }) => {
       const { setFieldsValue } = formActionType;
       return {
-        dictCode: 'finance_short_market_id',
+        // dictCode: 'finance_short_market_id',
+        options: (() => {
+          return shortMarketIdList;
+        })(),
         disabled: formModel.id ? true : false,
         onChange: async (e) => {
           if (!e) return;

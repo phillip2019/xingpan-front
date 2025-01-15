@@ -1,13 +1,20 @@
 <template>
-  <BasicModal v-bind="$attrs" @register="registerModal" destroyOnClose :title="title" :width="800" @ok="handleSubmit">
-    <BasicForm @register="registerForm" @formValuesChange="handleFormValuesChange"/>
-  </BasicModal>
+  <BasicModal v-bind="$attrs" @register="registerModal" destroyOnClose :title="title" :width="1200" @ok="handleSubmit">
+    <PageWrapper title="">
+      <Alert message="注：系统已自动计算指标数值，若与实际不符，请直接修改；对于无计算结果的，请直接填写。"
+      show-icon
+    />
+  <BasicForm autoFocusFirstItem @register="registerForm" @formValuesChange="handleFormValuesChange" :actionColOptions="{ span: 24 }" :labelCol="{ span: 4 }"/>
+</PageWrapper>
+</BasicModal>
 </template>
 
 <script lang="ts" setup>
   import { ref, computed, unref } from 'vue';
   import { BasicModal, useModalInner } from '/@/components/Modal';
   import { BasicForm, useForm } from '/@/components/Form/index';
+  import { PageWrapper } from '/@/components/Page';
+  import { Alert } from 'ant-design-vue';
   import { formSchema } from '../IbfMarketResource.data';
   import { saveOrUpdate } from '../IbfMarketResource.api';
   // Emits声明
@@ -18,7 +25,7 @@
     //labelWidth: 150,
     schemas: formSchema,
     showActionButtonGroup: false,
-    baseColProps: { span: 24 },
+    baseColProps: { span: 12 },
   });
   //表单赋值
   const [registerModal, { setModalProps, closeModal }] = useModalInner(async (data) => {

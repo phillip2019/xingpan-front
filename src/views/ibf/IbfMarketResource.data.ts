@@ -76,9 +76,9 @@ export const columns: BasicColumn[] = [
       '其中配套，包含配套用房系统中的配套用房和配套设施场地',
       '单位：间，精确到1位小数',
       '统计时间：',
-      '所属年月在统计意义上的月末。',
-      '统计期是上月21日至当月20日。',
-      '//例，所属年月选择了2024年11月，即统计11月20日最后一秒这个时间点的数据。',
+      '所属年月在统计意义上的月末',
+      '统计期是上月21日至当月20日',
+      '例：所属年月选择了2024/11，则统计11月20日23:59:59这个时间点的数据',
     ],
   },
   {
@@ -588,6 +588,12 @@ export const searchFormSchema: FormSchema[] = [
 //表单数据
 export const formSchema: FormSchema[] = [
   {
+    field: 'divider-basic',
+    component: 'Divider',
+    label: '',
+    colProps: { span: 24 },
+  },
+  {
     label: '市场',
     field: 'shortMarketId',
     component: 'JSelectInput',
@@ -685,20 +691,10 @@ export const formSchema: FormSchema[] = [
     },
   },
   {
-    label: '资源统计日期',
-    field: 'resourceStatisticsDate',
-    component: 'DatePicker',
-    componentProps: ({ formModel }) => {
-      return {
-        valueFormat: 'YYYY-MM-DD',
-        placeholder: '请选择资源统计日期',
-        defaultValue: formModel.monthCol ? `${formModel.monthCol}-20` : null,
-      };
-    },
-    helpMessage: ['统计日期：', '默认为所属月份的20日', '例，选择24年12月，则默认为24年12月20日'],
-    dynamicRules: ({ model }) => {
-      return [{ required: true, message: '请选择资源统计日期!' }];
-    },
+    field: 'divider-basic',
+    component: 'Divider',
+    label: '资源情况',
+    colProps: { span: 24 },
   },
   {
     label: '间数(商位)',
@@ -753,6 +749,10 @@ export const formSchema: FormSchema[] = [
     label: '已出租间数',
     field: 'boothMatchRentRoomNum1d',
     component: 'InputNumber',
+    colProps: {
+      span: 12,
+      offset: 12,
+    },
     componentProps: {
       suffix: '间',
       style: { width: '100%' },
@@ -777,6 +777,9 @@ export const formSchema: FormSchema[] = [
   {
     label: '面积(商位)',
     field: 'boothAreaNumTd',
+    colProps: {
+      span: 12,
+    },
     component: 'InputNumber',
     componentProps: {
       suffix: '㎡',
@@ -824,6 +827,10 @@ export const formSchema: FormSchema[] = [
     label: '已出租面积',
     field: 'boothMatchRentAreaNum1d',
     component: 'InputNumber',
+    colProps: {
+      span: 12,
+      offset: 12,
+    },
     componentProps: {
       suffix: '㎡',
       style: { width: '100%' },
@@ -845,20 +852,10 @@ export const formSchema: FormSchema[] = [
     },
   },
   {
-    label: '商人统计日期',
-    field: 'merchantStatisticsDate',
-    component: 'DatePicker',
-    componentProps: ({ formModel }) => {
-      return {
-        valueFormat: 'YYYY-MM-DD',
-        placeholder: '请选择商人统计日期',
-        defaultValue: formModel.monthCol ? `${formModel.monthCol}-20` : null,
-      };
-    },
-    helpMessage: ['统计日期：', '默认为所属月份的20日', '例，选择24年12月，则默认为24年12月20日'],
-    dynamicRules: ({ model }) => {
-      return [{ required: true, message: '请选择商人统计日期!' }];
-    },
+    field: 'divider-basic',
+    component: 'Divider',
+    label: '商人数量',
+    colProps: { span: 24 },
   },
   {
     label: '商位使用权人数',
@@ -915,21 +912,10 @@ export const formSchema: FormSchema[] = [
     },
   },
   {
-    label: '剩余商位出租率统计日期',
-    field: 'remainRentRateStatisticsDate',
-    labelWidth: 240,
-    component: 'DatePicker',
-    componentProps: ({ formModel }) => {
-      return {
-        valueFormat: 'YYYY-MM-DD',
-        placeholder: '请选择剩余商位出租率统计日期',
-        defaultValue: formModel.monthCol ? `${formModel.monthCol}-20` : null,
-      };
-    },
-    helpMessage: ['统计日期：', '默认为所属月份的20日', '例，选择24年12月，则默认为24年12月20日'],
-    dynamicRules: ({ model }) => {
-      return [{ required: true, message: '请选择剩余商位出租率统计日期!' }];
-    },
+    field: 'divider-basic',
+    component: 'Divider',
+    label: '市场招商',
+    colProps: { span: 24 },
   },
   {
     label: '本年招商间数',
@@ -1074,20 +1060,10 @@ export const formSchema: FormSchema[] = [
     },
   },
   {
-    label: '续租统计日期',
-    field: 'renewLeaseRateStatisticsDate',
-    component: 'DatePicker',
-    componentProps: ({ formModel }) => {
-      return {
-        valueFormat: 'YYYY-MM-DD',
-        placeholder: '请选择续租完成率统计日期',
-        defaultValue: formModel.monthCol ? `${formModel.monthCol}-20` : null,
-      };
-    },
-    helpMessage: ['统计日期：', '默认为所属月份的20日', '例，选择24年12月，则默认为24年12月20日'],
-    dynamicRules: ({ model }) => {
-      return [{ required: true, message: '请选择续租完成率统计日期!' }];
-    },
+    field: 'divider-basic',
+    component: 'Divider',
+    label: '市场续租',
+    colProps: { span: 24 },
   },
   {
     label: '本年续租户数',
@@ -1209,113 +1185,10 @@ export const formSchema: FormSchema[] = [
     },
   },
   {
-    label: '人流',
-    field: 'marketBuyerEntrNum1m',
-    component: 'InputNumber',
-    componentProps: {
-      suffix: '人次',
-      style: {
-        width: '100%',
-      },
-    },
-    helpMessage: [
-      '数据口径：',
-      '当月的日均人次，市场摄像头监测',
-      '单位：',
-      '人次',
-      '统计周期：',
-      '所属年月自然月的起止日期',
-      '//例，所属年月选择了2024年11月，即统计11月1日至11月30日范围的数据。',
-    ],
-    dynamicRules: ({ model, schema }) => {
-      return [
-        { required: true, message: '请输入人流(人次)!' },
-        { pattern: /^-?\d+$/, message: '请输入整数!' },
-      ];
-    },
-  },
-  {
-    label: '车流',
-    field: 'carEntrNum1m',
-    component: 'InputNumber',
-    componentProps: {
-      suffix: '车次',
-      style: {
-        width: '100%',
-      },
-    },
-    helpMessage: [
-      '数据口径：',
-      '当月的日均，按车辆进入次数统计',
-      '单位：',
-      '车次',
-      '统计周期：',
-      '所属年月自然月的起止日期',
-      '//例，所属年月选择了2024年11月，即统计11月1日至11月30日范围的数据。',
-    ],
-    dynamicRules: ({ model, schema }) => {
-      return [
-        { required: true, message: '请输入车流(车次)!' },
-        { pattern: /^-?\d+$/, message: '请输入整数!' },
-      ];
-    },
-  },
-  {
-    label: '外商',
-    field: 'foreignBuyerEntrNum1m',
-    component: 'InputNumber',
-    componentProps: {
-      suffix: '人',
-      style: {
-        width: '100%',
-      },
-    },
-    helpMessage: [
-      '数据口径：',
-      '当月的日均人数，市场采样统计',
-      '单位：',
-      '人',
-      '统计周期：',
-      '所属年月自然月的起止日期',
-      '//例，所属年月选择了2024年11月，即统计11月1日至11月30日范围的数据。',
-    ],
-    dynamicRules: ({ model, schema }) => {
-      return [
-        { required: true, message: '请输入外商人数!' },
-        { pattern: /^-?\d+$/, message: '请输入整数!' },
-      ];
-    },
-  },
-  {
-    label: '开门率',
-    field: 'boothOpeningRate1m',
-    component: 'InputNumber',
-    componentProps: {
-      step: 0.01,
-      suffix: '%',
-      style: {
-        width: '100%',
-      },
-    },
-    helpMessage: [
-      '数据口径：',
-      '=有用电的商位总数/各市场去重的有使用权人的商位数(AB摊位算一间商位)。',
-      '单位：',
-      '% ，精确到4位小数',
-      '//例，99.99%，请填写0.9999',
-      '统计周期：',
-      '所属年月自然月的起止日期',
-      '//例，所属年月选择了2024年11月，即统计11月1日至11月30日范围的数据。',
-    ],
-    dynamicRules: ({ model, schema }) => {
-      return [
-        { required: true, message: '请输入开门率!' },
-        {
-          pattern: /^(0|0\.\d{1,4}|1|1\.0{1,4})$/,
-          message: '请输入0-1之间的数字，最多4位小数!',
-        },
-      ];
-    },
+    field: 'divider-basic',
+    component: 'Divider',
+    label: '商位转租、转让、质押、装修',
+    colProps: { span: 24 },
   },
   {
     label: '商位转让笔数',

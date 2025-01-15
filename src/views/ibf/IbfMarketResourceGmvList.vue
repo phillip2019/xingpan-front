@@ -70,6 +70,8 @@
               fieldMapToNumber: [
               ],
               fieldMapToTime: [
+                ['createTime', ['createTime_begin', 'createTime_end'], 'YYYY-MM-DD HH:mm:ss'],
+                ['updateTime', ['updateTime_begin', 'updateTime_end'], 'YYYY-MM-DD HH:mm:ss'],
               ],
             },
            actionColumn: {

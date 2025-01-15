@@ -10,7 +10,7 @@ const userStore = useUserStore();
 const loginInfo = toRaw(userStore.getLoginInfo) || {};
 const tenantList = loginInfo?.tenantList ?? [];
 const shortMarketIdList: { label: string; value: string }[] = [];
-for (let item of tenantList as any[]) {
+for (const item of tenantList as any[]) {
   const label = item.name;
   const value = item.id;
   shortMarketIdList.push({ label: label, value: value });
@@ -222,71 +222,6 @@ export const columns: BasicColumn[] = [
     sorter: true,
     dataIndex: 'renewLeaseRateStatisticsDate',
     helpMessage: '续租完成率统计日期',
-  },
-  {
-    title: '人流',
-    align: 'right',
-    sorter: true,
-    dataIndex: 'marketBuyerEntrNum1m',
-    helpMessage: [
-      '数据口径：',
-      '当月的日均人次，市场摄像头监测',
-      '单位：',
-      '人次',
-      '统计周期：',
-      '所属年月自然月的起止日期',
-      '//例，所属年月选择了2024年11月，即统计11月1日至11月30日范围的数据。',
-    ],
-  },
-  {
-    title: '车流',
-    align: 'right',
-    sorter: true,
-    dataIndex: 'carEntrNum1m',
-    helpMessage: [
-      '数据口径：',
-      '当月的日均，按车辆进入次数统计',
-      '单位：',
-      '车次',
-      '统计周期：',
-      '所属年月自然月的起止日期',
-      '//例，所属年月选择了2024年11月，即统计11月1日至11月30日范围的数据。',
-    ],
-  },
-  {
-    title: '外商',
-    align: 'right',
-    sorter: true,
-    dataIndex: 'foreignBuyerEntrNum1m',
-    helpMessage: [
-      '数据口径：',
-      '当月的日均人数，市场采样统计',
-      '单位：',
-      '人',
-      '统计周期：',
-      '所属年月自然月的起止日期',
-      '//例，所属年月选择了2024年11月，即统计11月1日至11月30日范围的数据。',
-    ],
-  },
-  {
-    title: '开门率',
-    align: 'right',
-    sorter: true,
-    dataIndex: 'boothOpeningRate1m',
-    helpMessage: [
-      '数据口径：',
-      '=有用电的商位总数/各市场去重的有使用权人的商位数(AB摊位算一间商位)。',
-      '单位：',
-      '% ，精确到4位小数',
-      '//例，99.99%，请填写0.9999',
-      '统计周期：',
-      '所属年月自然月的起止日期',
-      '//例，所属年月选择了2024年11月，即统计11月1日至11月30日范围的数据。',
-    ],
-    customRender: ({ text }) => {
-      if (!text && text !== 0) return '';
-      return `${(text * 100).toFixed(2)}%`;
-    },
   },
   {
     title: '市场成交额',
@@ -664,12 +599,12 @@ export const formSchema: FormSchema[] = [
           return shortMarketIdList;
         })(),
         disabled: formModel.id ? true : false,
-        onChange: async (e) => {  
+        onChange: async (e) => {
           if (!e) return;
           // 重置表单数据
           const resetData = {};
           Object.keys(formModel).forEach((key) => {
-            if (!['shortMarketId', 'businessVersion'].includes(key)) {
+            if (!['shortMarketId'].includes(key)) {
               resetData[key] = undefined;
             }
           });
@@ -705,7 +640,7 @@ export const formSchema: FormSchema[] = [
           // 重置表单数据
           const resetData = {};
           Object.keys(formModel).forEach((key) => {
-            if (!['shortMarketId', 'monthCol', 'businessVersion'].includes(key)) {
+            if (!['shortMarketId', 'monthCol'].includes(key)) {
               resetData[key] = undefined;
             }
           });
@@ -1383,32 +1318,6 @@ export const formSchema: FormSchema[] = [
     },
   },
   {
-    label: '市场成交额',
-    field: 'marketGmv1m',
-    component: 'InputNumber',
-    componentProps: {
-      suffix: '亿元',
-      style: {
-        width: '100%',
-      },
-    },
-    helpMessage: [
-      '数据口径：',
-      '人工填报，从求实获取',
-      '单位：',
-      '亿元，精确到2位小数',
-      '统计周期：',
-      '所属年月自然月的起止日期',
-      '//例，所属年月选择了2024年11月，即统计11月1日至11月30日发生的数据。',
-    ],
-    dynamicRules: ({ model, schema }) => {
-      return [
-        { required: true, message: '请输入市场成交额(亿)!' },
-        { pattern: /^-?\d+\.?\d{0,2}$/, message: '请输入数字，最多2位小数!' },
-      ];
-    },
-  },
-  {
     label: '商位转让笔数',
     field: 'marketTransferNum1m',
     component: 'InputNumber',
@@ -1611,13 +1520,6 @@ export const formSchema: FormSchema[] = [
         { pattern: /^-?\d+$/, message: '请输入整数!' },
       ];
     },
-  },
-  // TODO 业务模式隐藏字段
-  {
-    label: '',
-    field: 'businessVersion',
-    component: 'Input',
-    show: false,
   },
   // TODO 主键隐藏字段，目前写死为ID
   {

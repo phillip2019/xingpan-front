@@ -162,7 +162,7 @@ export const formSchema: FormSchema[] = [
           // 重置表单数据
           const resetData = {};
           Object.keys(formModel).forEach((key) => {
-            if (!['shortMarketId', 'businessVersion'].includes(key)) {
+            if (!['shortMarketId'].includes(key)) {
               resetData[key] = undefined;
             }
           });
@@ -273,12 +273,6 @@ export const formSchema: FormSchema[] = [
   {
     label: '',
     field: 'id',
-    component: 'Input',
-    show: false,
-  },
-  {
-    label: '',
-    field: 'businessVersion',
     component: 'Input',
     show: false,
   },

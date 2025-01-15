@@ -1,16 +1,14 @@
 import { BasicColumn } from '/@/components/Table';
 import { FormSchema } from '/@/components/Table';
-import { rules } from '/@/utils/helper/validator';
-import { render } from '/@/utils/common/renderUtils';
-import { checkUnique } from './IbfMarketFinance.api';
-import { message } from 'ant-design-vue';
-import { toRaw } from 'vue';
 import { useUserStore } from '/@/store/modules/user';
+import { message } from 'ant-design-vue';
+import { checkUnique } from './IbfMarketFinance.api';
+import { toRaw } from 'vue';
 const userStore = useUserStore();
 const loginInfo = toRaw(userStore.getLoginInfo) || {};
 const tenantList = loginInfo?.tenantList ?? [];
 const shortMarketIdList: { label: string; value: string }[] = [];
-for (let item of tenantList as any[]) {
+for (const item of tenantList as any[]) {
   const label = item.name;
   const value = item.id;
   shortMarketIdList.push({ label: label, value: value });
@@ -23,87 +21,86 @@ export const columns: BasicColumn[] = [
     align: 'center',
     sorter: true,
     dataIndex: 'shortMarketId_dictText',
+    helpMessage: '市场，记录市场',
   },
   {
     title: '月份',
     align: 'center',
     sorter: true,
     dataIndex: 'monthCol',
+    helpMessage: '月份，记录月份，格式yyyy-MM',
   },
   {
-    title: '本期收入',
-    helpMessage: '本期收入，单位万元',
-    // 数值右对齐
+    title: '人流',
     align: 'right',
     sorter: true,
-    dataIndex: 'curPeriodIncome1m',
+    dataIndex: 'marketBuyerEntrNum1m',
+    helpMessage: [
+      '数据口径：',
+      '当月的日均人次，市场摄像头监测',
+      '单位：',
+      '人次',
+      '统计周期：',
+      '所属年月自然月的起止日期',
+      '//例，所属年月选择了2024年11月，即统计11月1日至11月30日范围的数据。',
+    ],
+  },
+  {
+    title: '车流',
+    align: 'right',
+    sorter: true,
+    dataIndex: 'carEntrNum1m',
+    helpMessage: [
+      '数据口径：',
+      '当月的日均，按车辆进入次数统计',
+      '单位：',
+      '车次',
+      '统计周期：',
+      '所属年月自然月的起止日期',
+      '//例，所属年月选择了2024年11月，即统计11月1日至11月30日范围的数据。',
+    ],
+  },
+  {
+    title: '外商',
+    align: 'right',
+    sorter: true,
+    dataIndex: 'foreignBuyerEntrNum1m',
+    helpMessage: [
+      '数据口径：',
+      '当月的日均人数，市场采样统计',
+      '单位：',
+      '人',
+      '统计周期：',
+      '所属年月自然月的起止日期',
+      '//例，所属年月选择了2024年11月，即统计11月1日至11月30日范围的数据。',
+    ],
+  },
+  {
+    title: '开门率',
+    align: 'right',
+    sorter: true,
+    dataIndex: 'boothOpeningRate1m',
+    helpMessage: [
+      '数据口径：',
+      '=有用电的商位总数/各市场去重的有使用权人的商位数(AB摊位算一间商位)。',
+      '单位：',
+      '% ，精确到4位小数',
+      '//例，99.99%，请填写0.9999',
+      '统计周期：',
+      '所属年月自然月的起止日期',
+      '//例，所属年月选择了2024年11月，即统计11月1日至11月30日范围的数据。',
+    ],
     customRender: ({ text }) => {
-      return text ? `${text}万` : '';
+      if (!text && text !== 0) return '';
+      return `${(text * 100).toFixed(2)}%`;
     },
   },
   {
-    title: '本期营收',
-    helpMessage: '本期营收，单位万元',
-    align: 'right',
-    sorter: true,
-    dataIndex: 'turnoverIncomeSd',
-    customRender: ({ text }) => {
-      return text ? `${text}万` : '';
-    },
-  },
-  {
-    title: '本年目标营收',
-    helpMessage: '本年目标营收，单位万元',
-    align: 'right',
-    sorter: true,
-    dataIndex: 'targetTurnoverIncomeSd',
-    customRender: ({ text }) => {
-      return text ? `${text}万` : '';
-    },
-  },
-  {
-    title: '本期利润',
-    helpMessage: '本期利润，单位万元',
-    align: 'right',
-    sorter: true,
-    dataIndex: 'accumulateProfitIncomeSd',
-    customRender: ({ text }) => {
-      return text ? `${text}万` : '';
-    },
-  },
-  {
-    title: '本年目标利润',
-    helpMessage: '本年目标利润，单位万元',
-    align: 'right',
-    sorter: true,
-    dataIndex: 'targetProfitIncomeSd',
-    customRender: ({ text }) => {
-      return text ? `${text}万` : '';
-    },
-  },
-  {
-    title: '创建人',
+    title: '发布',
     align: 'center',
     sorter: true,
-    dataIndex: 'createBy',
-  },
-  {
-    title: '创建时间',
-    align: 'center',
-    sorter: true,
-    dataIndex: 'createTime',
-  },
-  {
-    title: '修改人',
-    align: 'center',
-    sorter: true,
-    dataIndex: 'updateBy',
-  },
-  {
-    title: '修改时间',
-    align: 'center',
-    sorter: true,
-    dataIndex: 'updateTime',
+    dataIndex: 'isPublish_dictText',
+    helpMessage: '是否发布，记录此填报数据是否发布，若已发布，则数据不可修改',
   },
 ];
 //查询数据
@@ -113,7 +110,7 @@ export const searchFormSchema: FormSchema[] = [
     field: 'shortMarketId',
     component: 'JSelectInput',
     componentProps: {
-      // dictCode: 'finance_short_market_id',
+      // dictCode: 'short_market_id',
       options: (() => {
         return shortMarketIdList;
       })(),
@@ -127,8 +124,8 @@ export const searchFormSchema: FormSchema[] = [
     componentProps: {
       options: (() => {
         const now = new Date();
-        const months = [];
-        for (let i = 1; i <= 24; i++) {
+        const months: { label: string; value: string }[] = [];
+        for (let i = 0; i <= 24; i++) {
           const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
           const value = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
           months.push({ label: value, value });
@@ -141,7 +138,6 @@ export const searchFormSchema: FormSchema[] = [
   {
     label: '创建人',
     field: 'createBy',
-    helpMessage: '创建人，记录创建人',
     component: 'JInput',
     colProps: { span: 6 },
   },
@@ -157,7 +153,6 @@ export const searchFormSchema: FormSchema[] = [
   {
     label: '修改人',
     field: 'updateBy',
-    helpMessage: '创建人，记录更新人',
     component: 'JInput',
     colProps: { span: 6 },
   },
@@ -176,12 +171,11 @@ export const formSchema: FormSchema[] = [
   {
     label: '市场',
     field: 'shortMarketId',
-    component: 'JDictSelectTag',
-    defaultValue: '1001',
+    component: 'JSelectInput',
     componentProps: ({ formActionType, formModel }) => {
       const { setFieldsValue } = formActionType;
       return {
-        // dictCode: 'finance_short_market_id',
+        // dictCode: 'short_market_id',
         options: (() => {
           return shortMarketIdList;
         })(),
@@ -250,6 +244,14 @@ export const formSchema: FormSchema[] = [
                 setFieldsValue(result);
                 // 提示用户
                 message.warning(`该市场在${formModel.monthCol}月份已有记录`);
+              } else {
+                // 设置日期
+                setFieldsValue({
+                  resourceStatisticsDate: `${e}-20`,
+                  merchantStatisticsDate: `${e}-20`,
+                  remainRentRateStatisticsDate: `${e}-20`,
+                  renewLeaseRateStatisticsDate: `${e}-20`,
+                });
               }
             } catch (error) {
               console.error('唯一性校验失败:', error);
@@ -264,86 +266,111 @@ export const formSchema: FormSchema[] = [
     },
   },
   {
-    label: '本期收入',
-    field: 'curPeriodIncome1m',
+    label: '人流',
+    field: 'marketBuyerEntrNum1m',
     component: 'InputNumber',
+    componentProps: {
+      suffix: '人次',
+      style: {
+        width: '100%',
+      },
+    },
     helpMessage: [
       '数据口径：',
-      '所选自然月起止日发生的收入资金流水。',
+      '当月的日均人次，市场摄像头监测',
       '单位：',
-      '万元，精确到2位小数',
+      '人次',
       '统计周期：',
-      '所属年月的起止日期。其中1月为上月16日至1月31日；12月为12月1日至12月15日。',
-      '例：所属年月2024年11月，则只统计2024/11/01-2024/11/30期间发生的收入',
+      '所属年月自然月的起止日期',
+      '//例，所属年月选择了2024年11月，即统计11月1日至11月30日范围的数据。',
     ],
     dynamicRules: ({ model, schema }) => {
       return [
-        { required: true, message: '请输入本期收入(万)!' },
-        { pattern: /^(([1-9][0-9]*)|([0]\.\d{0,2}|[1-9][0-9]*\.\d{0,2}))$/, message: '请输入正确的金额!' },
+        { required: true, message: '请输入人流(人次)!' },
+        { pattern: /^-?\d+$/, message: '请输入整数!' },
       ];
     },
   },
   {
-    label: '本期营收',
-    field: 'turnoverIncomeSd',
+    label: '车流',
+    field: 'carEntrNum1m',
     component: 'InputNumber',
+    componentProps: {
+      suffix: '车次',
+      style: {
+        width: '100%',
+      },
+    },
     helpMessage: [
       '数据口径：',
-      '经确认的营业收入。',
+      '当月的日均，按车辆进入次数统计',
       '单位：',
-      '万元，精确到2位小数',
+      '车次',
       '统计周期：',
-      '所属年月的起止日期。其中1月为上月16日至1月31日；12月为12月1日至12月15日。',
-      '例：所属年月2024年11月，���只统计2024/11/01-2024/11/30期间结转的营收。',
+      '所属年月自然月的起止日期',
+      '//例，所属年月选择了2024年11月，即统计11月1日至11月30日范围的数据。',
     ],
     dynamicRules: ({ model, schema }) => {
       return [
-        { required: true, message: '请输入本期营收(万)!' },
-        { pattern: /^(([1-9][0-9]*)|([0]\.\d{0,2}|[1-9][0-9]*\.\d{0,2}))$/, message: '请输入正确的金额!' },
+        { required: true, message: '请输入车流(车次)!' },
+        { pattern: /^-?\d+$/, message: '请输入整数!' },
       ];
     },
   },
   {
-    label: '本年目标营收',
-    field: 'targetTurnoverIncomeSd',
+    label: '外商',
+    field: 'foreignBuyerEntrNum1m',
     component: 'InputNumber',
-    helpMessage: ['数据口径：', '本年目标营业收入，来自于业绩指标合同', '单位：', '万元，精确到2位小数', '统计周期：', '上年12月16日至本年12月15日'],
-    dynamicRules: ({ model, schema }) => {
-      return [
-        { required: true, message: '请输入本年目标营收(万)!' },
-        { pattern: /^(([1-9][0-9]*)|([0]\.\d{0,2}|[1-9][0-9]*\.\d{0,2}))$/, message: '请输入正确的金额!' },
-      ];
+    componentProps: {
+      suffix: '人',
+      style: {
+        width: '100%',
+      },
     },
-  },
-  {
-    label: '本期利润',
-    field: 'accumulateProfitIncomeSd',
-    component: 'InputNumber',
     helpMessage: [
       '数据口径：',
-      '经确认的利润。',
+      '当月的日均人数，市场采样统计',
       '单位：',
-      '万元，精确到2位小数',
+      '人',
       '统计周期：',
-      '所属年月的起止日期。其中1月为上月16日至1月31日；12月为12月1日至12月15日截止',
-      '例：所属年月2024年11月，则只统计2024/11/01-2024/11/30期间产生的利润',
+      '所属年月自然月的起止日期',
+      '//例，所属年月选择了2024年11月，即统计11月1日至11月30日范围的数据。',
     ],
     dynamicRules: ({ model, schema }) => {
       return [
-        { required: true, message: '请输入本期利润(万)!' },
-        { pattern: /^(([1-9][0-9]*)|([0]\.\d{0,2}|[1-9][0-9]*\.\d{0,2}))$/, message: '请输入正确的金额!' },
+        { required: true, message: '请输入外商人数!' },
+        { pattern: /^-?\d+$/, message: '请输入整数!' },
       ];
     },
   },
   {
-    label: '本年目标利润',
-    field: 'targetProfitIncomeSd',
+    label: '开门率',
+    field: 'boothOpeningRate1m',
     component: 'InputNumber',
-    helpMessage: ['数据口径：', '本年本年目标利润，来自于业绩指标合同', '单位：', '万元，精确到2位小数', '统计周期：', '上年12月16日至本年12月15日'],
+    componentProps: {
+      step: 0.01,
+      suffix: '%',
+      style: {
+        width: '100%',
+      },
+    },
+    helpMessage: [
+      '数据口径：',
+      '=有用电的商位总数/各市场去重的有使用权人的商位数(AB摊位算一间商位)。',
+      '单位：',
+      '% ，精确到4位小数',
+      '//例，99.99%，请填写0.9999',
+      '统计周期：',
+      '所属年月自然月的起止日期',
+      '//例，所属年月选择了2024年11月，即统计11月1日至11月30日范围的数据。',
+    ],
     dynamicRules: ({ model, schema }) => {
       return [
-        { required: true, message: '请输入本年目标利润(万)!' },
-        { pattern: /^(([1-9][0-9]*)|([0]\.\d{0,2}|[1-9][0-9]*\.\d{0,2}))$/, message: '请输入正确的金额!' },
+        { required: true, message: '请输入开门率!' },
+        {
+          pattern: /^(0|0\.\d{1,4}|1|1\.0{1,4})$/,
+          message: '请输入0-1之间的数字，最多4位小数!',
+        },
       ];
     },
   },
@@ -361,6 +388,6 @@ export const formSchema: FormSchema[] = [
  * @param param
  */
 export function getBpmFormSchema(_formData): FormSchema[] {
-  // 默认和原表单保持一致 如果流程中配置了权限数据，这里需要单独处理formSchema
+  // 默认和原始表单保持一致 如果流程中配置了权限数据，这里需要单独处理formSchema
   return formSchema;
 }

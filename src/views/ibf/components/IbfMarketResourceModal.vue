@@ -1,10 +1,10 @@
 <template>
-  <BasicModal v-bind="$attrs" @register="registerModal" destroyOnClose :title="title" :width="1200" @ok="handleSubmit">
+  <BasicModal v-bind="$attrs" @register="registerModal" destroyOnClose :title="title" :width="800" @ok="handleSubmit">
     <PageWrapper title="">
       <Alert message="注：系统已自动计算指标数值，若与实际不符，请直接修改；对于无计算结果的，请直接填写。"
       show-icon
     />
-  <BasicForm autoFocusFirstItem @register="registerForm" @formValuesChange="handleFormValuesChange" :actionColOptions="{ span: 24 }" :labelCol="{ span: 4 }"/>
+  <BasicForm autoFocusFirstItem @register="registerForm" @formValuesChange="handleFormValuesChange" :actionColOptions="{ span: 24 }" :labelCol="{ span: 12 }"/>
 </PageWrapper>
 </BasicModal>
 </template>

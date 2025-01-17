@@ -700,9 +700,9 @@ export const formSchema: FormSchema[] = [
     label: '间数(商位)',
     field: 'boothRoomNumTd',
     component: 'InputNumber',
+    slot: 'InputNumberSlot',
     componentProps: {
       suffix: '间',
-      style: { width: '100%' },
     },
     helpMessage: [
       '数据口径：',
@@ -724,6 +724,7 @@ export const formSchema: FormSchema[] = [
     label: '间数(配套)',
     field: 'matchRoomNumTd',
     component: 'InputNumber',
+    slot: 'InputNumberSlot',
     componentProps: {
       suffix: '间',
       style: { width: '100%' },
@@ -749,9 +750,9 @@ export const formSchema: FormSchema[] = [
     label: '已出租间数',
     field: 'boothMatchRentRoomNum1d',
     component: 'InputNumber',
+    slot: 'InputNumberSlot',
     colProps: {
       span: 12,
-      offset: 12,
     },
     componentProps: {
       suffix: '间',
@@ -775,8 +776,15 @@ export const formSchema: FormSchema[] = [
     },
   },
   {
+    field: 'divider-basic',
+    component: 'Divider',
+    label: '',
+    colProps: { span: 12 },
+  },
+  {
     label: '面积(商位)',
     field: 'boothAreaNumTd',
+    slot: 'InputNumberSlot',
     colProps: {
       span: 12,
     },
@@ -802,6 +810,7 @@ export const formSchema: FormSchema[] = [
   {
     label: '面积(配套)',
     field: 'matchAreaNumTd',
+    slot: 'InputNumberSlot',
     component: 'InputNumber',
     componentProps: {
       suffix: '㎡',
@@ -826,10 +835,10 @@ export const formSchema: FormSchema[] = [
   {
     label: '已出租面积',
     field: 'boothMatchRentAreaNum1d',
+    slot: 'InputNumberSlot',
     component: 'InputNumber',
     colProps: {
       span: 12,
-      offset: 12,
     },
     componentProps: {
       suffix: '㎡',
@@ -860,6 +869,7 @@ export const formSchema: FormSchema[] = [
   {
     label: '商位使用权人数',
     field: 'boothOwnerNum',
+    slot: 'InputNumberSlot',
     component: 'InputNumber',
     componentProps: {
       suffix: '人',
@@ -888,6 +898,7 @@ export const formSchema: FormSchema[] = [
     label: '实际经营人数',
     field: 'boothOperatorNum',
     component: 'InputNumber',
+    slot: 'InputNumberSlot',
     componentProps: {
       suffix: '人',
       style: {
@@ -921,6 +932,7 @@ export const formSchema: FormSchema[] = [
     label: '本年招商间数',
     field: 'invstRoomNumSd',
     component: 'InputNumber',
+    slot: 'InputNumberSlot',
     componentProps: {
       suffix: '间',
       style: { width: '100%' },
@@ -949,6 +961,7 @@ export const formSchema: FormSchema[] = [
     label: '当前空置间数',
     field: 'emptyBoothRoomNumTd',
     component: 'InputNumber',
+    slot: 'InputNumberSlot',
     componentProps: {
       suffix: '间',
       style: { width: '100%' },
@@ -975,6 +988,7 @@ export const formSchema: FormSchema[] = [
     label: '本年招商户数',
     field: 'invstHoldsNumSd',
     component: 'InputNumber',
+    slot: 'InputNumberSlot',
     componentProps: {
       suffix: '户',
       style: {
@@ -1005,6 +1019,7 @@ export const formSchema: FormSchema[] = [
     label: '当前空置户数',
     field: 'emptyBoothHoldsNumTd',
     component: 'InputNumber',
+    slot: 'InputNumberSlot',
     componentProps: {
       suffix: '户',
       style: {
@@ -1033,6 +1048,7 @@ export const formSchema: FormSchema[] = [
     label: '本年入场资格费',
     field: 'entryQualificationIncomeSd',
     component: 'InputNumber',
+    slot: 'InputNumberSlot',
     componentProps: {
       suffix: '万元',
       style: {
@@ -1069,6 +1085,7 @@ export const formSchema: FormSchema[] = [
     label: '本年续租户数',
     field: 'renewLeaseHoldsNumSd',
     component: 'InputNumber',
+    slot: 'InputNumberSlot',
     componentProps: {
       suffix: '户',
       style: {
@@ -1099,6 +1116,7 @@ export const formSchema: FormSchema[] = [
     label: '本年退租户数',
     field: 'surrenderLeaseHoldsNumSd',
     component: 'InputNumber',
+    slot: 'InputNumberSlot',
     componentProps: {
       suffix: '户',
       style: {
@@ -1129,6 +1147,7 @@ export const formSchema: FormSchema[] = [
     label: '本年到期户数',
     field: 'expiredHoldsNumSd',
     component: 'InputNumber',
+    slot: 'InputNumberSlot',
     componentProps: {
       suffix: '户',
       style: {
@@ -1159,6 +1178,7 @@ export const formSchema: FormSchema[] = [
     label: '本年续租收入',
     field: 'renewLeaseIncomeSd',
     component: 'InputNumber',
+    slot: 'InputNumberSlot',
     componentProps: {
       suffix: '万元',
       style: {
@@ -1194,11 +1214,10 @@ export const formSchema: FormSchema[] = [
     label: '商位转让笔数',
     field: 'marketTransferNum1m',
     component: 'InputNumber',
+    slot: 'InputNumberSlot',
     componentProps: {
       suffix: '笔',
-      style: {
-        width: '100%',
-      },
+      style: { width: '100%' },
     },
     helpMessage: [
       '数据口径：',
@@ -1221,11 +1240,10 @@ export const formSchema: FormSchema[] = [
     label: '商位转让均价',
     field: 'marketTransferPriceAvg1m',
     component: 'InputNumber',
+    slot: 'InputNumberSlot',
     componentProps: {
-      suffix: '元',
-      style: {
-        width: '100%',
-      },
+      suffix: '万元',
+      style: { width: '100%' },
     },
     helpMessage: [
       '数据口径：',
@@ -1248,11 +1266,10 @@ export const formSchema: FormSchema[] = [
     label: '商位转租笔数',
     field: 'marketRentNum1m',
     component: 'InputNumber',
+    slot: 'InputNumberSlot',
     componentProps: {
       suffix: '笔',
-      style: {
-        width: '100%',
-      },
+      style: { width: '100%' },
     },
     helpMessage: [
       '数据口径：',
@@ -1275,11 +1292,10 @@ export const formSchema: FormSchema[] = [
     label: '商位转租均价',
     field: 'marketRentPriceAvg1m',
     component: 'InputNumber',
+    slot: 'InputNumberSlot',
     componentProps: {
       suffix: '万元',
-      style: {
-        width: '100%',
-      },
+      style: { width: '100%' },
     },
     helpMessage: [
       '数据口径：',
@@ -1302,6 +1318,7 @@ export const formSchema: FormSchema[] = [
     label: '商位质押笔数',
     field: 'pledgeApplyNum1m',
     component: 'InputNumber',
+    slot: 'InputNumberSlot',
     componentProps: {
       suffix: '笔',
       style: { width: '100%' },
@@ -1326,6 +1343,7 @@ export const formSchema: FormSchema[] = [
     label: '商位质押总金额',
     field: 'pledgeApplyIncome1m',
     component: 'InputNumber',
+    slot: 'InputNumberSlot',
     componentProps: {
       suffix: '元',
       style: { width: '100%' },
@@ -1350,6 +1368,7 @@ export const formSchema: FormSchema[] = [
     label: '普通装修笔数',
     field: 'normalRenovationNum1m',
     component: 'InputNumber',
+    slot: 'InputNumberSlot',
     componentProps: {
       suffix: '笔',
       style: { width: '100%' },
@@ -1374,6 +1393,7 @@ export const formSchema: FormSchema[] = [
     label: '个性化装修笔数',
     field: 'specialRenovationNum1m',
     component: 'InputNumber',
+    slot: 'InputNumberSlot',
     componentProps: {
       suffix: '笔',
       style: { width: '100%' },

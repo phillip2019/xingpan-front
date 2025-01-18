@@ -7,6 +7,7 @@ enum Api {
   list = '/ibf/ibfReportingSummary/list',
   save='/ibf/ibfReportingSummary/add',
   edit='/ibf/ibfReportingSummary/edit',
+  copy='/ibf/ibfReportingSummary/copy',
   deleteOne = '/ibf/ibfReportingSummary/delete',
   deleteBatch = '/ibf/ibfReportingSummary/deleteBatch',
   importExcel = '/ibf/ibfReportingSummary/importExcel',
@@ -49,6 +50,24 @@ export const batchDelete = (params, handleSuccess) => {
     cancelText: '取消',
     onOk: () => {
       return defHttp.delete({url: Api.deleteBatch, data: params}, {joinParamsToUrl: true}).then(() => {
+        handleSuccess();
+      });
+    }
+  });
+}
+
+/**
+ * 复制 
+ */
+export const copyRecord = (params, handleSuccess) => {
+  createConfirm({
+    iconType: 'warning',
+    title: '确认复制',
+    content: '是否复制选中数据',
+    okText: '确认',
+    cancelText: '取消',
+    onOk: () => {
+      return defHttp.post({url: Api.copy, data: params}, {joinParamsToUrl: true}).then(() => {
         handleSuccess();
       });
     }

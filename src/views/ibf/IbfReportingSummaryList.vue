@@ -57,7 +57,7 @@
   import { useListPage } from '/@/hooks/system/useListPage';
   import IbfReportingSummaryModal from './components/IbfReportingSummaryModal.vue';
   import { columns, searchFormSchema } from './IbfReportingSummary.data';
-  import { list, deleteOne, batchDelete, getImportUrl, getExportUrl } from './IbfReportingSummary.api';
+  import { list, deleteOne, batchDelete, getImportUrl, getExportUrl, copyRecord } from './IbfReportingSummary.api';
   import { downloadFile } from '/@/utils/common/renderUtils';
   const checkedKeys = ref<Array<string | number>>([]);
   //注册model
@@ -131,6 +131,12 @@
    */
   async function handleDelete(record) {
     await deleteOne({ id: record.id }, handleSuccess);
+  } 
+  /**
+   * 复制事件
+   */
+  async function handleCopy(record) {
+    await copyRecord(record.id, handleSuccess);
   }
   /**
    * 批量删除事件
@@ -148,12 +154,19 @@
    * 操作栏
    */
   function getTableAction(record) {
-    return [
-      {
-        label: '编辑',
-        onClick: handleEdit.bind(null, record),
-      },
-    ];
+    const actionArr: any[] = [];
+    // 若记录是发布状态且未拷贝，则显示复制按钮
+    if (record.isPublish === 1 && record.isCopy === 0) {
+      actionArr.push({
+        label: '复制',
+        onClick: handleCopy.bind(null, record),
+      });
+    }
+    // actionArr.push({
+    //   label: '编辑',
+    //   onClick: handleEdit.bind(null, record),
+    // });
+    return actionArr;
   }
   /**
    * 下拉操作栏

@@ -31,6 +31,13 @@ export const columns: BasicColumn[] = [
     helpMessage: '月份，记录月份，格式yyyy-MM',
   },
   {
+    title: '状态',
+    align: 'center',
+    dataIndex: 'isPublish',
+    slots: { customRender: 'isPublish' },
+    helpMessage: '大屏发布数据状态，分为3个状态，0 校准, 1 发布，2 已过期；若是发布状态，则当前正在大屏显示中!',
+  },
+  {
     title: '人流',
     align: 'right',
     sorter: true,
@@ -96,11 +103,22 @@ export const columns: BasicColumn[] = [
     },
   },
   {
-    title: '发布',
+    title: '创建时间',
     align: 'center',
-    sorter: true,
-    dataIndex: 'isPublish_dictText',
-    helpMessage: '是否发布，记录此填报数据是否发布，若已发布，则数据不可修改',
+    dataIndex: 'createTime',
+    helpMessage: '创建时间，记录创建时间',
+  },
+  {
+    title: '修改人',
+    align: 'center',
+    dataIndex: 'updateBy',
+    helpMessage: '修改人，记录修改人',
+  },
+  {
+    title: '修改时间',
+    align: 'center',
+    dataIndex: 'updateTime',
+    helpMessage: '修改时间，记录修改时间',
   },
 ];
 //查询数据

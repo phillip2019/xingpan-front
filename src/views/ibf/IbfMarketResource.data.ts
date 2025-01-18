@@ -33,6 +33,13 @@ export const columns: BasicColumn[] = [
     helpMessage: '月份，记录月份，格式yyyy-MM',
   },
   {
+    title: '状态',
+    align: 'center',
+    dataIndex: 'isPublish',
+    slots: { customRender: 'isPublish' },
+    helpMessage: '大屏发布数据状态，分为3个状态，0 校准, 1 发布，2 已过期；若是发布状态，则当前正在大屏显示中!',
+  },
+  {
     title: '间数(商位)',
     align: 'right',
     sorter: true,
@@ -69,7 +76,7 @@ export const columns: BasicColumn[] = [
     title: '已出租间数(商位+配套)',
     align: 'right',
     sorter: true,
-    dataIndex: 'boothMatchRentRoomNum1d',
+    dataIndex: 'boothMatchRentRoomNumTd',
     helpMessage: [
       '数据口径：',
       'AB摊算1间（I型商位间数大于1的，则按大于1的间数计算；II型商位算0.5）',
@@ -115,7 +122,7 @@ export const columns: BasicColumn[] = [
     title: '已出租面积(商位+配套)㎡',
     align: 'right',
     sorter: true,
-    dataIndex: 'boothMatchRentAreaNum1d',
+    dataIndex: 'boothMatchRentAreaNumTd',
     helpMessage: [
       '数据口径：',
       '其中配套，包含配套用房系统中的配套用房和配套设施场地',
@@ -132,6 +139,7 @@ export const columns: BasicColumn[] = [
     sorter: true,
     dataIndex: 'resourceStatisticsDate',
     helpMessage: '资源情况统计日期',
+    ifShow: false,
   },
   {
     title: '商位使用权人数',
@@ -151,7 +159,7 @@ export const columns: BasicColumn[] = [
   },
   {
     title: '实际经营人数',
-    align: 'center',
+    align: 'right',
     sorter: true,
     dataIndex: 'boothOperatorNum',
     helpMessage: [
@@ -171,6 +179,7 @@ export const columns: BasicColumn[] = [
     sorter: true,
     dataIndex: 'merchantStatisticsDate',
     helpMessage: '商人统计日期，格式yyyy-MM-dd',
+    ifShow: false,
   },
   {
     title: '本年招商间数',
@@ -215,6 +224,7 @@ export const columns: BasicColumn[] = [
     sorter: true,
     dataIndex: 'remainRentRateStatisticsDate',
     helpMessage: '剩余商位出租率统计日期，格式yyyy-MM-dd',
+    ifShow: false,
   },
   {
     title: '续租统计日期',
@@ -222,22 +232,7 @@ export const columns: BasicColumn[] = [
     sorter: true,
     dataIndex: 'renewLeaseRateStatisticsDate',
     helpMessage: '续租完成率统计日期',
-  },
-  {
-    title: '市场成交额',
-    align: 'right',
-    sorter: true,
-    dataIndex: 'marketGmv1m',
-    helpMessage: [
-      '数据口径：',
-      '人工填报，从求实获取',
-      '单位：',
-      '亿元，精确到2位小数',
-      '统计周期：',
-      '所属年月自然月的起止日期',
-      '//例，所属年月选择了2024年11月，即统计11月1日至11月30日发生的数据。',
-    ],
-    customRender: ({ text }) => (text ? `${text}亿元` : ''),
+    ifShow: false,
   },
   {
     title: '商位转让笔数',
@@ -748,7 +743,7 @@ export const formSchema: FormSchema[] = [
   },
   {
     label: '已出租间数',
-    field: 'boothMatchRentRoomNum1d',
+    field: 'boothMatchRentRoomNumTd',
     component: 'InputNumber',
     slot: 'InputNumberSlot',
     colProps: {

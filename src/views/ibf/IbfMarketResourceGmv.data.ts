@@ -30,6 +30,13 @@ export const columns: BasicColumn[] = [
     helpMessage: '月份，记录月份，格式yyyy-MM',
   },
   {
+    title: '状态',
+    align: 'center',
+    dataIndex: 'isPublish',
+    slots: { customRender: 'isPublish' },
+    helpMessage: '大屏发布数据状态，分为3个状态，0 校准, 1 发布，2 已过期；若是发布状态，则当前正在大屏显示中!',
+  },
+  {
     title: '市场成交额',
     align: 'right',
     sorter: true,
@@ -43,14 +50,25 @@ export const columns: BasicColumn[] = [
       '所属年月自然月的起止日期',
       '//例，所属年月选择了2024年11月，即统计11月1日至11月30日发生的数据。',
     ],
-    customRender: ({ text }) => (text ? `${text}亿元` : ''),
+    customRender: ({ text }) => `${text}亿元`,
   },
   {
-    title: '是否发布',
+    title: '创建时间',
     align: 'center',
-    sorter: true,
-    dataIndex: 'isPublish_dictText',
-    helpMessage: '是否发布，记录此填报数据是否发布，若已发布，则数据不可修改',
+    dataIndex: 'createTime',
+    helpMessage: '创建时间，记录创建时间',
+  },
+  {
+    title: '修改人',
+    align: 'center',
+    dataIndex: 'updateBy',
+    helpMessage: '修改人，记录修改人',
+  },
+  {
+    title: '修改时间',
+    align: 'center',
+    dataIndex: 'updateTime',
+    helpMessage: '修改时间，记录修改时间',
   },
 ];
 //查询数据

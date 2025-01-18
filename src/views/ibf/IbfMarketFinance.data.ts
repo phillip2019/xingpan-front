@@ -31,6 +31,13 @@ export const columns: BasicColumn[] = [
     dataIndex: 'monthCol',
   },
   {
+    title: '状态',
+    align: 'center',
+    dataIndex: 'isPublish',
+    slots: { customRender: 'isPublish' },
+    helpMessage: '大屏发布数据状态，分为3个状态，0 校准, 1 发布，2 已过期；若是发布状态，则当前正在大屏显示中!',
+  },
+  {
     title: '本期收入',
     helpMessage: '本期收入，单位万元',
     // 数值右对齐
@@ -38,7 +45,7 @@ export const columns: BasicColumn[] = [
     sorter: true,
     dataIndex: 'curPeriodIncome1m',
     customRender: ({ text }) => {
-      return text ? `${text}万` : '';
+      return `${text}万`;
     },
   },
   {
@@ -48,7 +55,7 @@ export const columns: BasicColumn[] = [
     sorter: true,
     dataIndex: 'turnoverIncomeSd',
     customRender: ({ text }) => {
-      return text ? `${text}万` : '';
+      return `${text}万`;
     },
   },
   {
@@ -58,7 +65,7 @@ export const columns: BasicColumn[] = [
     sorter: true,
     dataIndex: 'targetTurnoverIncomeSd',
     customRender: ({ text }) => {
-      return text ? `${text}万` : '';
+      return `${text}万`;
     },
   },
   {
@@ -68,7 +75,7 @@ export const columns: BasicColumn[] = [
     sorter: true,
     dataIndex: 'accumulateProfitIncomeSd',
     customRender: ({ text }) => {
-      return text ? `${text}万` : '';
+      return `${text}万`;
     },
   },
   {
@@ -78,7 +85,7 @@ export const columns: BasicColumn[] = [
     sorter: true,
     dataIndex: 'targetProfitIncomeSd',
     customRender: ({ text }) => {
-      return text ? `${text}万` : '';
+      return `${text}万`;
     },
   },
   {
@@ -294,7 +301,7 @@ export const formSchema: FormSchema[] = [
       '万元，精确到2位小数',
       '统计周期：',
       '所属年月的起止日期。其中1月为上月16日至1月31日；12月为12月1日至12月15日。',
-      '例：所属年月2024年11月，���只统计2024/11/01-2024/11/30期间结转的营收。',
+      '例：所属年月2024年11月，则只统计2024/11/01-2024/11/30期间结转的营收。',
     ],
     dynamicRules: ({ model, schema }) => {
       return [

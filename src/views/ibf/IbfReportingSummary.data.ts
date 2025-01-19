@@ -48,6 +48,12 @@ export const columns: BasicColumn[] = [
     helpMessage: '大屏发布数据备注',
   },
   {
+    title: '创建人',
+    align: 'center',
+    dataIndex: 'createBy',
+    helpMessage: '创建人，记录创建人',
+  },
+  {
     title: '创建时间',
     align: 'center',
     dataIndex: 'createTime',

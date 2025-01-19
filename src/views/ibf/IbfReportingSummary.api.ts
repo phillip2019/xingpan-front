@@ -32,7 +32,7 @@ export const list = (params) =>
 /**
  * 删除单个
  */
-export const deleteOne = (params,handleSuccess) => {
+export const deleteOne = (params, handleSuccess) => {
   return defHttp.delete({url: Api.deleteOne, params}, {joinParamsToUrl: true}).then(() => {
     handleSuccess();
   });
@@ -45,7 +45,7 @@ export const batchDelete = (params, handleSuccess) => {
   createConfirm({
     iconType: 'warning',
     title: '确认删除',
-    content: '是否删除选中数据',
+    content: '是否删除选中数据和待校准的数据记录',
     okText: '确认',
     cancelText: '取消',
     onOk: () => {

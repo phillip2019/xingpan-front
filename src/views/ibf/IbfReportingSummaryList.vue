@@ -136,7 +136,7 @@
    * 复制事件
    */
   async function handleCopy(record) {
-    await copyRecord(record.id, handleSuccess);
+    await copyRecord({ id: record.id }, handleSuccess);
   }
   /**
    * 批量删除事件
@@ -155,6 +155,7 @@
    */
   function getTableAction(record) {
     const actionArr: any[] = [];
+    console.log('记录为...', record);
     // 若记录是发布状态且未拷贝，则显示复制按钮
     if (record.isPublish === 1 && record.isCopy === 0) {
       actionArr.push({
@@ -172,19 +173,22 @@
    * 下拉操作栏
    */
   function getDropDownAction(record) {
-    return [
-      {
-        label: '详情',
-        onClick: handleDetail.bind(null, record),
-      },
-      {
+    const actionArr: any[] = [];
+    actionArr.push({
+      label: '详情',
+      onClick: handleDetail.bind(null, record),
+    });
+    // 若记录状态为核准状态，且创建人不是系统，则显示删除按钮
+    if (record.isPublish === 0 && record.createBy !== 'system') {
+      actionArr.push({
         label: '删除',
         popConfirm: {
-          title: '是否确认删除',
+          title: '是否确认删除和待校准的数据记录',
           confirm: handleDelete.bind(null, record),
         },
-      },
-    ];
+      });
+    }
+    return actionArr;
   }
 </script>
 

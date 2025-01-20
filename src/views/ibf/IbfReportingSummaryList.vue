@@ -4,13 +4,15 @@
     <BasicTable @register="registerTable" :rowSelection="rowSelection">
       <!--插槽:table标题-->
       <template #tableTitle>
-        <a-button type="primary" @click="handleAdd" preIcon="ant-design:plus-outlined"> 新增</a-button>
+        <a-button type="primary" @click="handleAdd" preIcon="ant-design:plus-outlined" v-auth="'org.jeecg.modules.demo:ibf_reporting_summary:add'">
+          新增</a-button
+        >
         <a-button type="primary" preIcon="ant-design:export-outlined" @click="onExportXls"> 导出</a-button>
         <j-upload-button type="primary" preIcon="ant-design:import-outlined" @click="onImportXls">导入</j-upload-button>
         <a-dropdown v-if="selectedRowKeys.length > 0">
           <template #overlay>
             <a-menu>
-              <a-menu-item key="1" @click="batchHandleDelete">
+              <a-menu-item key="1" @click="batchHandleDelete" v-auth="'org.jeecg.modules.demo:ibf_reporting_summary:deleteBatch'">
                 <Icon icon="ant-design:delete-outlined" />
                 删除
               </a-menu-item>
@@ -32,7 +34,7 @@
       </template>
       <!--状态显示栏-->
       <template #isPublish="{ record, text }">
-        <a-tag color="blue" v-if="text == 0">校准</a-tag>
+        <a-tag color="blue" v-if="text == 0">待发布</a-tag>
         <a-tag color="#87d068" v-if="text == 1">发布</a-tag>
         <a-tag color="pink" v-if="text == 2">下线</a-tag>
       </template>
@@ -57,8 +59,20 @@
   import { useListPage } from '/@/hooks/system/useListPage';
   import IbfReportingSummaryModal from './components/IbfReportingSummaryModal.vue';
   import { columns, searchFormSchema } from './IbfReportingSummary.data';
-  import { list, deleteOne, batchDelete, getImportUrl, getExportUrl, copyRecord } from './IbfReportingSummary.api';
+  import {
+    list,
+    deleteOne,
+    batchDelete,
+    getImportUrl,
+    getExportUrl,
+    copyRecord,
+    publishRecord,
+    getResourceUrl,
+    getFinanceUrl,
+  } from './IbfReportingSummary.api';
   import { downloadFile } from '/@/utils/common/renderUtils';
+  import { message } from 'ant-design-vue';
+
   const checkedKeys = ref<Array<string | number>>([]);
   //注册model
   const [registerModal, { openModal }] = useModal();
@@ -131,12 +145,18 @@
    */
   async function handleDelete(record) {
     await deleteOne({ id: record.id }, handleSuccess);
-  } 
+  }
   /**
    * 复制事件
    */
   async function handleCopy(record) {
     await copyRecord({ id: record.id }, handleSuccess);
+  }
+  /**
+   * 发布事件
+   */
+  async function handlePublish(record) {
+    await publishRecord({ id: record.id }, handleSuccess);
   }
   /**
    * 批量删除事件
@@ -155,19 +175,48 @@
    */
   function getTableAction(record) {
     const actionArr: any[] = [];
-    console.log('记录为...', record);
+
     // 若记录是发布状态且未拷贝，则显示复制按钮
     if (record.isPublish === 1 && record.isCopy === 0) {
       actionArr.push({
         label: '复制',
+        auth: 'org.jeecg.modules.demo:ibf_reporting_summary:copy',
         onClick: handleCopy.bind(null, record),
+      });
+    }
+    // 若记录为校准状态，且flag为1，则显示发布按钮，可以进行发布
+    if (record.isPublish === 0 && record.flag === 1) {
+      actionArr.push({
+        label: '发布',
+        auth: 'org.jeecg.modules.demo:ibf_reporting_summary:publish',
+        onClick: handlePublish.bind(null, record),
       });
     }
     // actionArr.push({
     //   label: '编辑',
     //   onClick: handleEdit.bind(null, record),
+    //   auth: 'org.jeecg.modules.demo:ibf_reporting_summary:edit',
     // });
     return actionArr;
+  }
+  /**
+   * 获取资源总览链接
+   */
+  async function handleResourceUrl(record) {
+    const res = await getResourceUrl();
+    console.log('资源总览链接为...', res);
+    // 打开新页面
+    window.open(res + '&isPublish=' + record.isPublish + '&flag=' + record.flag, '_blank');
+  }
+
+  /**
+   * 获取财务总览链接
+   */
+  async function handleFinanceUrl(record) {
+    const res = await getFinanceUrl();
+    console.log('财务总览链接为...', res);
+    // 打开新页面
+    window.open(res + '&isPublish=' + record.isPublish + '&flag=' + record.flag, '_blank');
   }
   /**
    * 下拉操作栏
@@ -178,12 +227,27 @@
       label: '详情',
       onClick: handleDetail.bind(null, record),
     });
+    // 若记录是核准状态，则显示资源总览预览
+    if (record.isPublish === 1 || record.isPublish === 0) {
+      actionArr.push({
+        label: '预览资源总览',
+        onClick: handleResourceUrl.bind(null, record),
+        auth: 'org.jeecg.modules.demo:ibf_reporting_summary:preview_resource',
+      });
+
+      actionArr.push({
+        label: '预览财务总览',
+        onClick: handleFinanceUrl.bind(null, record),
+        auth: 'org.jeecg.modules.demo:ibf_reporting_summary:preview_finance',
+      });
+    }
     // 若记录状态为核准状态，且创建人不是系统，则显示删除按钮
     if (record.isPublish === 0 && record.createBy !== 'system') {
       actionArr.push({
         label: '删除',
         popConfirm: {
           title: '是否确认删除和待校准的数据记录',
+          auth: 'org.jeecg.modules.demo:ibf_reporting_summary:delete',
           confirm: handleDelete.bind(null, record),
         },
       });

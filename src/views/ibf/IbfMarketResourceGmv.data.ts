@@ -137,6 +137,12 @@ export const searchFormSchema: FormSchema[] = [
 //表单数据
 export const formSchema: FormSchema[] = [
   {
+    field: 'divider-basic',
+    component: 'Divider',
+    label: '',
+    colProps: { span: 24 },
+  },
+  {
     label: '市场',
     field: 'shortMarketId',
     component: 'JSelectInput',
@@ -161,6 +167,7 @@ export const formSchema: FormSchema[] = [
         },
       };
     },
+    colProps: { span: 12 },
     helpMessage: '市场，记录市场',
     dynamicRules: () => {
       return [{ required: true, message: '请选择市场!' }];
@@ -228,21 +235,30 @@ export const formSchema: FormSchema[] = [
         },
       };
     },
+    colProps: { span: 12 },
     helpMessage: '所属年月，记录所属年月',
     dynamicRules: () => {
       return [{ required: true, message: '请选择月份，格式为yyyy-MM!' }];
     },
   },
   {
+    field: 'divider-basic',
+    component: 'Divider',
+    label: '成交额',
+    colProps: { span: 24 },
+  },
+  {
     label: '市场成交额',
     field: 'marketGmv1m',
     component: 'InputNumber',
+    slot: 'InputNumberSlot',
     componentProps: {
       suffix: '亿元',
       style: {
         width: '100%',
       },
     },
+    colProps: { span: 12 },
     helpMessage: [
       '数据口径：',
       '人工填报，从求实获取',

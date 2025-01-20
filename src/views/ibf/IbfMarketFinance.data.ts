@@ -181,10 +181,15 @@ export const searchFormSchema: FormSchema[] = [
 //表单数据
 export const formSchema: FormSchema[] = [
   {
+    field: 'divider-basic',
+    component: 'Divider',
+    label: '',
+    colProps: { span: 24 },
+  },
+  {
     label: '市场',
     field: 'shortMarketId',
     component: 'JDictSelectTag',
-    defaultValue: '1001',
     componentProps: ({ formActionType, formModel }) => {
       const { setFieldsValue } = formActionType;
       return {
@@ -206,6 +211,7 @@ export const formSchema: FormSchema[] = [
         },
       };
     },
+    colProps: { span: 12 },
     helpMessage: '市场，记录市场',
     dynamicRules: () => {
       return [{ required: true, message: '请选择市场!' }];
@@ -265,15 +271,23 @@ export const formSchema: FormSchema[] = [
         },
       };
     },
+    colProps: { span: 12 },
     helpMessage: '所属年月，记录所属年月',
     dynamicRules: () => {
       return [{ required: true, message: '请选择月份，格式为yyyy-MM!' }];
     },
   },
   {
+    field: 'divider-basic',
+    component: 'Divider',
+    label: '收入',
+    colProps: { span: 24 },
+  },
+  {
     label: '本期收入',
     field: 'curPeriodIncome1m',
     component: 'InputNumber',
+    colProps: { span: 12 },
     helpMessage: [
       '数据口径：',
       '所选自然月起止日发生的收入资金流水。',
@@ -294,6 +308,7 @@ export const formSchema: FormSchema[] = [
     label: '本期营收',
     field: 'turnoverIncomeSd',
     component: 'InputNumber',
+    colProps: { span: 12 },
     helpMessage: [
       '数据口径：',
       '经确认的营业收入。',
@@ -314,6 +329,7 @@ export const formSchema: FormSchema[] = [
     label: '本年目标营收',
     field: 'targetTurnoverIncomeSd',
     component: 'InputNumber',
+    colProps: { span: 12 },
     helpMessage: ['数据口径：', '本年目标营业收入，来自于业绩指标合同', '单位：', '万元，精确到2位小数', '统计周期：', '上年12月16日至本年12月15日'],
     dynamicRules: ({ model, schema }) => {
       return [
@@ -326,6 +342,7 @@ export const formSchema: FormSchema[] = [
     label: '本期利润',
     field: 'accumulateProfitIncomeSd',
     component: 'InputNumber',
+    colProps: { span: 12 },
     helpMessage: [
       '数据口径：',
       '经确认的利润。',
@@ -346,6 +363,7 @@ export const formSchema: FormSchema[] = [
     label: '本年目标利润',
     field: 'targetProfitIncomeSd',
     component: 'InputNumber',
+    colProps: { span: 12 },
     helpMessage: ['数据口径：', '本年本年目标利润，来自于业绩指标合同', '单位：', '万元，精确到2位小数', '统计周期：', '上年12月16日至本年12月15日'],
     dynamicRules: ({ model, schema }) => {
       return [

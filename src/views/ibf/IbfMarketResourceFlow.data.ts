@@ -3,6 +3,8 @@ import { FormSchema } from '/@/components/Table';
 import { useUserStore } from '/@/store/modules/user';
 import { message } from 'ant-design-vue';
 import { checkUnique } from './IbfMarketFinance.api';
+import { rules } from '/@/utils/helper/validator';
+import { render } from '/@/utils/common/renderUtils';
 import { toRaw } from 'vue';
 const userStore = useUserStore();
 const loginInfo = toRaw(userStore.getLoginInfo) || {};
@@ -187,6 +189,12 @@ export const searchFormSchema: FormSchema[] = [
 //表单数据
 export const formSchema: FormSchema[] = [
   {
+    field: 'divider-basic',
+    component: 'Divider',
+    label: '',
+    colProps: { span: 24 },
+  },
+  {
     label: '市场',
     field: 'shortMarketId',
     component: 'JSelectInput',
@@ -210,6 +218,9 @@ export const formSchema: FormSchema[] = [
           setFieldsValue(resetData);
         },
       };
+    },
+    colProps: {
+      span: 12,
     },
     helpMessage: '市场，记录市场',
     dynamicRules: () => {
@@ -278,20 +289,33 @@ export const formSchema: FormSchema[] = [
         },
       };
     },
+    colProps: {
+      span: 12,
+    },
     helpMessage: '所属年月，记录所属年月',
     dynamicRules: () => {
       return [{ required: true, message: '请选择月份，格式为yyyy-MM!' }];
     },
   },
   {
+    field: 'divider-basic',
+    component: 'Divider',
+    label: '流量情况',
+    colProps: { span: 24 },
+  },
+  {
     label: '人流',
     field: 'marketBuyerEntrNum1m',
     component: 'InputNumber',
+    slot: 'InputNumberSlot',
     componentProps: {
       suffix: '人次',
       style: {
         width: '100%',
       },
+    },
+    colProps: {
+      span: 12,
     },
     helpMessage: [
       '数据口径：',
@@ -313,11 +337,15 @@ export const formSchema: FormSchema[] = [
     label: '车流',
     field: 'carEntrNum1m',
     component: 'InputNumber',
+    slot: 'InputNumberSlot',
     componentProps: {
       suffix: '车次',
       style: {
         width: '100%',
       },
+    },
+    colProps: {
+      span: 12,
     },
     helpMessage: [
       '数据口径：',
@@ -339,11 +367,12 @@ export const formSchema: FormSchema[] = [
     label: '外商',
     field: 'foreignBuyerEntrNum1m',
     component: 'InputNumber',
+    slot: 'InputNumberSlot',
     componentProps: {
       suffix: '人',
-      style: {
-        width: '100%',
-      },
+    },
+    colProps: {
+      span: 12,
     },
     helpMessage: [
       '数据口径：',
@@ -362,15 +391,22 @@ export const formSchema: FormSchema[] = [
     },
   },
   {
+    field: 'divider-basic',
+    component: 'Divider',
+    label: '开门率',
+    colProps: { span: 24 },
+  },
+  {
     label: '开门率',
     field: 'boothOpeningRate1m',
     component: 'InputNumber',
+    slot: 'InputNumberSlot',
     componentProps: {
       step: 0.01,
       suffix: '%',
-      style: {
-        width: '100%',
-      },
+    },
+    colProps: {
+      span: 12,
     },
     helpMessage: [
       '数据口径：',

@@ -4,9 +4,6 @@
     <BasicTable @register="registerTable" :rowSelection="rowSelection">
       <!--插槽:table标题-->
       <template #tableTitle>
-        <a-button v-auth="'org.jeecg.modules.demo:ibf_market_resource:add'" type="primary" @click="handleAdd" preIcon="ant-design:plus-outlined">
-          新增</a-button
-        >
         <a-button
           v-auth="'org.jeecg.modules.demo:ibf_market_resource:exportXls'"
           type="primary"
@@ -26,10 +23,10 @@
         <a-dropdown v-if="selectedRowKeys.length > 0">
           <template #overlay>
             <a-menu>
-              <a-menu-item key="1" @click="batchHandleDelete">
+              <!-- <a-menu-item key="1" @click="batchHandleDelete">
                 <Icon icon="ant-design:delete-outlined" />
                 删除
-              </a-menu-item>
+              </a-menu-item> -->
             </a-menu>
           </template>
           <a-button
@@ -200,20 +197,26 @@
    * 下拉操作栏
    */
   function getDropDownAction(record) {
-    return [
+    const actionArr: any[] = [
       {
         label: '详情',
         onClick: handleDetail.bind(null, record),
       },
-      {
-        label: '删除',
-        auth: 'org.jeecg.modules.demo:ibf_market_resource:delete',
-        popConfirm: {
-          title: '是否确认删除',
-          confirm: handleDelete.bind(null, record),
-        },
-      },
     ];
+
+    // 若是发布状态和过期状态，不允许删除
+    // if (record.isPublish === 0) {
+    //   actionArr.push({
+    //     label: '删除',
+    //     auth: 'org.jeecg.modules.demo:ibf_market_resource:delete',
+    //     popConfirm: {
+    //       title: '是否确认删除',
+    //       confirm: handleDelete.bind(null, record),
+    //     },
+    //   });
+    // }
+
+    return actionArr;
   }
 </script>
 

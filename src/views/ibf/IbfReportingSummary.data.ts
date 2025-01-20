@@ -2,6 +2,8 @@ import { BasicColumn } from '/@/components/Table';
 import { FormSchema } from '/@/components/Table';
 import { rules } from '/@/utils/helper/validator';
 import { render } from '/@/utils/common/renderUtils';
+import { message } from 'ant-design-vue';
+import { checkUnique } from './IbfMarketFinance.api';
 //列表数据
 export const columns: BasicColumn[] = [
   {

@@ -829,7 +829,7 @@ export const formSchema: FormSchema[] = [
   },
   {
     label: '已出租面积',
-    field: 'boothMatchRentAreaNum1d',
+    field: 'boothMatchRentAreaNumTd',
     slot: 'InputNumberSlot',
     component: 'InputNumber',
     colProps: {

@@ -17,9 +17,9 @@
             :style="{ width: '100%' }"
             :addonAfter="schema.componentProps?.suffix"
           />
-          <div class="calcu-value" v-if="modelClcu[field + '_clcu'] !== undefined" @click="copyCalcuValue(modelClcu[field + '_clcu'])">
+          <div class="calcu-value" v-if="modelClcu[field] !== undefined" @click="copyCalcuValue(modelClcu[field])">
             <span class="calcu-label">系统计算结果： </span>
-            <span class="calcu-number">{{ modelClcu[field + '_clcu'] }}</span>
+            <span class="calcu-number">{{ modelClcu[field] }}</span>
           </div>
         </template>
       </BasicForm>
@@ -28,7 +28,7 @@
 </template>
 
 <script lang="ts" setup>
-  import { ref, computed, unref } from 'vue';
+  import { ref, computed, unref, toRaw } from 'vue';
   import { BasicModal, useModalInner } from '/@/components/Modal';
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { PageWrapper } from '/@/components/Page';
@@ -36,6 +36,7 @@
   import { InputNumber } from 'ant-design-vue';
   import { formSchema } from '../IbfMarketResource.data';
   import { saveOrUpdate } from '../IbfMarketResource.api';
+  import { getSys } from '../IbfMarketResourceSys.api';
   import { message } from 'ant-design-vue';
   // Emits声明
   const emit = defineEmits(['register', 'success']);
@@ -47,7 +48,7 @@
     //labelWidth: 150,
     schemas: formSchema,
     showActionButtonGroup: false,
-    baseColProps: { span: 12 },
+    baseColProps: { span: 24 },
   });
   //表单赋值
   const [registerModal, { setModalProps, closeModal }] = useModalInner(async (data) => {
@@ -55,32 +56,19 @@
     await resetFields();
     setModalProps({ confirmLoading: false, showCancelBtn: !!data?.showFooter });
     isUpdate.value = !!data?.isUpdate;
-    // 系统计算值
-    modelClcu.value = data?.record2 || {
-      boothRoomNumTd_clcu: 100,
-      matchRoomNumTd_clcu: 200,
-      boothAreaNumTd_clcu: 300,
-      matchAreaNumTd_clcu: 400,
-      boothMatchRentRoomNum1d_clcu: 500,
-      boothMatchRentAreaNum1d_clcu: 600,
-    };
+    
     if (unref(isUpdate)) {
+      // 系统计算值
+      modelClcu.value = await getSys({ monthCol: data?.record?.monthCol, shortMarketId: data?.record?.shortMarketId });
       //表单赋值
       await setFieldsValue({
         ...data.record,
+        businessVersion: data.business_version,
       });
     } else {
-      // 遍历所有_clcu结尾的键值，设置到对应的表单字段
-      const formValues = {};
-      Object.keys(modelClcu.value).forEach((key) => {
-        if (key.endsWith('_clcu')) {
-          const formKey = key.replace('_clcu', '');
-          formValues[formKey] = modelClcu.value[key];
-        }
-      });
-      //新增时，使用传入的business_version
+      
+      // 新增时，使用传入的business_version
       await setFieldsValue({
-        ...formValues,
         businessVersion: data.business_version,
       });
     }
@@ -162,9 +150,7 @@
       color: #999;
     }
 
-    .calcu-number {
-      color: #1890ff;
-      font-weight: 1000;
-    }
+    // .calcu-number {
+    // }
   }
 </style>

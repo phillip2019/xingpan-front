@@ -23,7 +23,7 @@ export const columns: BasicColumn[] = [
     align: 'center',
     dataIndex: 'isPublish',
     slots: { customRender: 'isPublish' },
-    helpMessage: '大屏发布数据状态，分为3个状态，0 校准, 1 发布，2 已过期；若是发布状态，则当前正在大屏显示中!',
+    helpMessage: '大屏发布数据状态，分为3个状态，待发布 -> 发布 -> 下线或过期!',
   },
   {
     title: '统计开始日期',

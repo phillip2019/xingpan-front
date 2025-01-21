@@ -182,6 +182,10 @@
         auth: 'org.jeecg.modules.demo:ibf_market_finance:edit',
         onClick: handleEdit.bind(null, record),
       },
+      {
+        label: '详情',
+        onClick: handleDetail.bind(null, record),
+      },
     ];
   }
   /**
@@ -189,10 +193,6 @@
    */
   function getDropDownAction(record) {
     const actionArr: any[] = [
-      {
-        label: '详情',
-        onClick: handleDetail.bind(null, record),
-      },
     ];
 
     return actionArr;

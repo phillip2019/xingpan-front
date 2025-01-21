@@ -193,6 +193,27 @@
         onClick: handlePublish.bind(null, record),
       });
     }
+
+    let resourceReportName = '预览资源';
+    let financeReportName = '预览财务';
+    // 若记录是核准状态，则显示资源总览预览
+    if ((record.isPublish === 1 && record.flag === 0) || (record.isPublish === 0 && record.flag <= 1)) {
+      if (record.isPublish === 1) {
+        resourceReportName = '资源总览';
+        financeReportName = '财务总览';
+      }
+      actionArr.push({
+        label: resourceReportName,
+        onClick: handleResourceUrl.bind(null, record),
+        auth: 'org.jeecg.modules.demo:ibf_reporting_summary:preview_resource',
+      });
+
+      actionArr.push({
+        label: financeReportName,
+        onClick: handleFinanceUrl.bind(null, record),
+        auth: 'org.jeecg.modules.demo:ibf_reporting_summary:preview_finance',
+      });
+    }
     // actionArr.push({
     //   label: '编辑',
     //   onClick: handleEdit.bind(null, record),
@@ -228,27 +249,6 @@
       label: '详情',
       onClick: handleDetail.bind(null, record),
     });
-
-    let resourceReportName = '预览资源总览';
-    let financeReportName = '预览财务总览';
-    // 若记录是核准状态，则显示资源总览预览
-    if ((record.isPublish === 1 && record.flag === 0) || (record.isPublish === 0 && record.flag <= 1)) {
-      if (record.isPublish === 1) {
-        resourceReportName = '资源总览';
-        financeReportName = '财务总览';
-      }
-      actionArr.push({
-        label: resourceReportName,
-        onClick: handleResourceUrl.bind(null, record),
-        auth: 'org.jeecg.modules.demo:ibf_reporting_summary:preview_resource',
-      });
-
-      actionArr.push({
-        label: financeReportName,
-        onClick: handleFinanceUrl.bind(null, record),
-        auth: 'org.jeecg.modules.demo:ibf_reporting_summary:preview_finance',
-      });
-    }
     // 若记录状态为核准状态，且创建人不是系统，则显示删除按钮
     if (record.isPublish === 0 && record.createBy !== 'system') {
       actionArr.push({

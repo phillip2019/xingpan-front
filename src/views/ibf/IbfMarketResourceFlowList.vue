@@ -160,18 +160,17 @@
         label: '编辑',
         onClick: handleEdit.bind(null, record),
       },
+      {
+        label: '详情',
+        onClick: handleDetail.bind(null, record),
+      },
     ];
   }
   /**
    * 下拉操作栏
    */
   function getDropDownAction(record) {
-    const actionArr: any[] = [
-      {
-        label: '详情',
-        onClick: handleDetail.bind(null, record),
-      },
-    ];
+    const actionArr: any[] = [];
 
     return actionArr;
   }

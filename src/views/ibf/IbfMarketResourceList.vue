@@ -191,18 +191,17 @@
         auth: 'org.jeecg.modules.demo:ibf_market_resource:edit',
         onClick: handleEdit.bind(null, record),
       },
+      {
+        label: '详情',
+        onClick: handleDetail.bind(null, record),
+      },
     ];
   }
   /**
    * 下拉操作栏
    */
   function getDropDownAction(record) {
-    const actionArr: any[] = [
-      {
-        label: '详情',
-        onClick: handleDetail.bind(null, record),
-      },
-    ];
+    const actionArr: any[] = [];
 
     // 若是发布状态和过期状态，不允许删除
     // if (record.isPublish === 0) {

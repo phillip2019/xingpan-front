@@ -613,6 +613,7 @@ export const formSchema: FormSchema[] = [
         },
       };
     },
+    colProps: { span: 12 },
     helpMessage: '市场，记录市场',
     dynamicRules: () => {
       return [{ required: true, message: '请选择市场!' }];
@@ -680,6 +681,7 @@ export const formSchema: FormSchema[] = [
         },
       };
     },
+    colProps: { span: 12 },
     helpMessage: '所属年月，记录所属年月',
     dynamicRules: () => {
       return [{ required: true, message: '请选择月份，格式为yyyy-MM!' }];
@@ -699,6 +701,7 @@ export const formSchema: FormSchema[] = [
     componentProps: {
       suffix: '间',
     },
+    colProps: { span: 12 },
     helpMessage: [
       '数据口径：',
       'AB摊算1间（I型商位间数大于1的，则按大于1的间数计算；II型商位算0.5）',
@@ -724,6 +727,7 @@ export const formSchema: FormSchema[] = [
       suffix: '间',
       style: { width: '100%' },
     },
+    colProps: { span: 12 },
     helpMessage: [
       '数据口径：',
       'AB摊算1间（I型商位间数大于1的，则按大于1的间数计算；II型商位算0.5）',
@@ -811,6 +815,7 @@ export const formSchema: FormSchema[] = [
       suffix: '㎡',
       style: { width: '100%' },
     },
+    colProps: { span: 12 },
     helpMessage: [
       '数据口径：',
       '配套，包含配套用房系统中的配套用房和配套设施场地',
@@ -872,6 +877,7 @@ export const formSchema: FormSchema[] = [
         width: '100%',
       },
     },
+    colProps: { span: 12 },
     helpMessage: [
       '数据口径：',
       '按照商位系统使用权人关联表中按照使用权人身份证号去重统计，排除海城市场',
@@ -900,6 +906,7 @@ export const formSchema: FormSchema[] = [
         width: '100%',
       },
     },
+    colProps: { span: 12 },
     helpMessage: [
       '数据口径：',
       '按照商位系统经营权人经营记录统计 ，按照经营权人身份证号去重统计，排除海城市场',
@@ -932,6 +939,7 @@ export const formSchema: FormSchema[] = [
       suffix: '间',
       style: { width: '100%' },
     },
+    colProps: { span: 12 },
     helpMessage: [
       '数据口径：',
       'AB摊算1间（I型商位算1,II型商位算0.5）',
@@ -961,6 +969,7 @@ export const formSchema: FormSchema[] = [
       suffix: '间',
       style: { width: '100%' },
     },
+    colProps: { span: 12 },
     helpMessage: [
       '数据口径：',
       'AB摊算1间（I型商位算1,II型商位算0.5）',
@@ -990,6 +999,7 @@ export const formSchema: FormSchema[] = [
         width: '100%',
       },
     },
+    colProps: { span: 12 },
     helpMessage: [
       '数据口径：',
       '招商条目中，A或B摊都算1户，间数大于1的，则按大于1的算户数',
@@ -1021,6 +1031,7 @@ export const formSchema: FormSchema[] = [
         width: '100%',
       },
     },
+    colProps: { span: 12 },
     helpMessage: [
       '数据口径：',
       'A或B摊都算1户，间数大于1的，则按大于1的算户数',
@@ -1050,6 +1061,7 @@ export const formSchema: FormSchema[] = [
         width: '100%',
       },
     },
+    colProps: { span: 12 },
     helpMessage: [
       '数据口径：',
       '商位+配套用房，本年新主体入驻商户缴纳的入场资格费和拍卖费合计',
@@ -1087,6 +1099,7 @@ export const formSchema: FormSchema[] = [
         width: '100%',
       },
     },
+    colProps: { span: 12 },
     helpMessage: [
       '数据口径：',
       '本年续租户数，续租批次中已完成的户数，若A摊位或B摊位都算1户，若条目中商位间数大于1，则按大于1的间数算户数。',
@@ -1118,6 +1131,7 @@ export const formSchema: FormSchema[] = [
         width: '100%',
       },
     },
+    colProps: { span: 12 },
     helpMessage: [
       '数据口径：',
       '本年退租户数。若A摊位或B摊位都算1户，若条目中商位间数大于1，则按大于1的间数算户数。',
@@ -1149,6 +1163,7 @@ export const formSchema: FormSchema[] = [
         width: '100%',
       },
     },
+    colProps: { span: 12 },
     helpMessage: [
       '数据口径：',
       '本年租赁费用到期的户数，若A摊或B摊都算1户，若条目中商位间数大于1，则按大于1的间数算户数商位+配套。',
@@ -1180,6 +1195,7 @@ export const formSchema: FormSchema[] = [
         width: '100%',
       },
     },
+    colProps: { span: 12 },
     helpMessage: [
       '数据口径：',
       '商位+配套用房，下一轮租赁中完成续租缴费的金额合计',
@@ -1214,6 +1230,7 @@ export const formSchema: FormSchema[] = [
       suffix: '笔',
       style: { width: '100%' },
     },
+    colProps: { span: 12 },
     helpMessage: [
       '数据口径：',
       '市场商位转让商位笔数，不含直系亲属转让、转赠的商位使用权变更的情况',
@@ -1240,6 +1257,7 @@ export const formSchema: FormSchema[] = [
       suffix: '万元',
       style: { width: '100%' },
     },
+    colProps: { span: 12 },
     helpMessage: [
       '数据口径：',
       '转让总金额/转让总面积',
@@ -1266,6 +1284,7 @@ export const formSchema: FormSchema[] = [
       suffix: '笔',
       style: { width: '100%' },
     },
+    colProps: { span: 12 },
     helpMessage: [
       '数据口径：',
       '市场商位转租商位笔数',
@@ -1292,6 +1311,7 @@ export const formSchema: FormSchema[] = [
       suffix: '万元',
       style: { width: '100%' },
     },
+    colProps: { span: 12 },
     helpMessage: [
       '数据口径：',
       '转租总金额/转租总面积，排除转租金额为0的数据',
@@ -1318,6 +1338,7 @@ export const formSchema: FormSchema[] = [
       suffix: '笔',
       style: { width: '100%' },
     },
+    colProps: { span: 12 },
     helpMessage: [
       '数据口径：',
       '市场商位质押笔数，统计质押申请的。',
@@ -1343,6 +1364,7 @@ export const formSchema: FormSchema[] = [
       suffix: '元',
       style: { width: '100%' },
     },
+    colProps: { span: 12 },
     helpMessage: [
       '数据口径：',
       '市场商位质押总金额，统计质押申请的。',
@@ -1368,6 +1390,7 @@ export const formSchema: FormSchema[] = [
       suffix: '笔',
       style: { width: '100%' },
     },
+    colProps: { span: 12 },
     helpMessage: [
       '数据口径：',
       '市场商位申请普通装修笔数',
@@ -1393,6 +1416,7 @@ export const formSchema: FormSchema[] = [
       suffix: '笔',
       style: { width: '100%' },
     },
+    colProps: { span: 12 },
     helpMessage: [
       '数据口径：',
       '市场商位申请个性化装修笔数',

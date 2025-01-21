@@ -34,9 +34,10 @@
       </template>
       <!--状态显示栏-->
       <template #isPublish="{ record, text }">
-        <a-tag color="blue" v-if="text == 0">待发布</a-tag>
-        <a-tag color="#87d068" v-if="text == 1">发布</a-tag>
-        <a-tag color="pink" v-if="text == 2">下线</a-tag>
+        <a-tag color="blue" v-if="text === 0">待发布</a-tag>
+        <a-tag color="#87d068" v-if="text === 1">发布</a-tag>
+        <a-tag color="pink" v-if="text === 2">下线</a-tag>
+        <a-tag color="pink" v-if="text === 3">过期</a-tag>
       </template>
       <!--省市区字段回显插槽-->
       <template #pcaSlot="{ text }">
@@ -177,7 +178,7 @@
     const actionArr: any[] = [];
 
     // 若记录是发布状态且未拷贝，则显示复制按钮
-    if (record.isPublish === 1 && record.isCopy === 0) {
+    if (record.isPublish === 1 && record.isCopy === 0 && record.flag === 0) {
       actionArr.push({
         label: '复制',
         auth: 'org.jeecg.modules.demo:ibf_reporting_summary:copy',
@@ -185,7 +186,7 @@
       });
     }
     // 若记录为校准状态，且flag为1，则显示发布按钮，可以进行发布
-    if (record.isPublish === 0 && record.flag === 1) {
+    if (record.isPublish === 0 && (record.flag === 1 || record.flag === 0)) {
       actionArr.push({
         label: '发布',
         auth: 'org.jeecg.modules.demo:ibf_reporting_summary:publish',
@@ -227,16 +228,23 @@
       label: '详情',
       onClick: handleDetail.bind(null, record),
     });
+
+    let resourceReportName = '预览资源总览';
+    let financeReportName = '预览财务总览';
     // 若记录是核准状态，则显示资源总览预览
-    if (record.isPublish === 1 || record.isPublish === 0) {
+    if ((record.isPublish === 1 && record.flag === 0) || (record.isPublish === 0 && record.flag <= 1)) {
+      if (record.isPublish === 1) {
+        resourceReportName = '资源总览';
+        financeReportName = '财务总览';
+      }
       actionArr.push({
-        label: '预览资源总览',
+        label: resourceReportName,
         onClick: handleResourceUrl.bind(null, record),
         auth: 'org.jeecg.modules.demo:ibf_reporting_summary:preview_resource',
       });
 
       actionArr.push({
-        label: '预览财务总览',
+        label: financeReportName,
         onClick: handleFinanceUrl.bind(null, record),
         auth: 'org.jeecg.modules.demo:ibf_reporting_summary:preview_finance',
       });

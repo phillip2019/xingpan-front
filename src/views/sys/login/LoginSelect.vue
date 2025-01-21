@@ -73,7 +73,7 @@
     tenantId: number;
   }
   export default defineComponent({
-    name: 'loginSelect',
+    name: 'LoginSelect',
     components: {
       Avatar,
       BasicModal,
@@ -84,7 +84,7 @@
       const { notification } = useMessage();
       //租户配置
       const isMultiTenant = ref(false);
-      const tenantList = ref([]);
+      const tenantList = ref<any[]>([]);
       const validate_status = ref('');
       //部门配置
       const isMultiDepart = ref(false);
@@ -158,7 +158,7 @@
        * 处理租户情况
        */
       function bizTenantList(loginResult) {
-        let tenantArr = loginResult.tenantList;
+        let tenantArr: any[] = loginResult.tenantList;
         if (Array.isArray(tenantArr)) {
           if (tenantArr.length === 0) {
             isMultiTenant.value = false;
@@ -168,8 +168,23 @@
             isMultiTenant.value = false;
             userStore.setTenant(formState.tenantId);
           } else {
-            isMultiTenant.value = true;
-            tenantList.value = tenantArr;
+            // 若租户ID为1001、1002、1003、1004-9999数值，则此为市场ID，不显示选择租户菜单
+            // 检查是否所有租户ID都在市场ID范围内
+            const isAllMarketIds = tenantArr.every((tenant) => {
+              const id = Number(tenant.id);
+              return (id >= 1001 && id <= 9999) || [1001, 1002, 1003].includes(id);
+            });
+
+            // 如果都是市场ID，则不显示租户选择
+            if (isAllMarketIds) {
+              isMultiTenant.value = false;
+              // 如果需要，可以设置默认租户
+              formState.tenantId = tenantArr[0].id;
+              userStore.setTenant(formState.tenantId);
+            } else {
+              isMultiTenant.value = true;
+              tenantList.value = tenantArr;
+            }
           }
         }
       }

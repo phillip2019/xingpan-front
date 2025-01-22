@@ -201,10 +201,10 @@ export const formSchema: FormSchema[] = [
     componentProps: ({ formActionType, formModel }) => {
       const { setFieldsValue } = formActionType;
       return {
-        // dictCode: 'short_market_id',
-        options: (() => {
-          return shortMarketIdList;
-        })(),
+        dictCode: 'short_market_id',
+        // options: (() => {
+        //   return shortMarketIdList;
+        // })(),
         disabled: formModel.id ? true : false,
         onChange: async (e) => {
           if (!e) return;
@@ -422,8 +422,8 @@ export const formSchema: FormSchema[] = [
       return [
         { required: true, message: '请输入开门率!' },
         {
-          pattern: /^(0|[1-99]\.\d{1,4}|100)$/,
-          message: '请输入1-100之间的数字，最多2位小数!',
+          pattern: /^(0|[0-9]{1,2}(\.\d{1,4})?|100)$/,
+          message: '请输入1-100之间的数字，最多4位小数!',
         },
       ];
     },

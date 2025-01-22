@@ -193,10 +193,10 @@ export const formSchema: FormSchema[] = [
     componentProps: ({ formActionType, formModel }) => {
       const { setFieldsValue } = formActionType;
       return {
-        // dictCode: 'finance_short_market_id',
-        options: (() => {
-          return shortMarketIdList;
-        })(),
+        dictCode: 'finance_short_market_id',
+        // options: (() => {
+        //   return shortMarketIdList;
+        // })(),
         disabled: formModel.id ? true : false,
         onChange: async (e) => {
           if (!e) return;

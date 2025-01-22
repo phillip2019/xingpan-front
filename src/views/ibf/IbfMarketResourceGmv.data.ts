@@ -145,14 +145,14 @@ export const formSchema: FormSchema[] = [
   {
     label: '市场',
     field: 'shortMarketId',
-    component: 'JSelectInput',
+    component: 'JDictSelectTag',
     componentProps: ({ formActionType, formModel }) => {
       const { setFieldsValue } = formActionType;
       return {
-        // dictCode: 'short_market_id',
-        options: (() => {
-          return shortMarketIdList;
-        })(),
+        dictCode: 'short_market_id',
+        // options: (() => {
+        //   return shortMarketIdList;
+        // })(),
         disabled: formModel.id ? true : false,
         onChange: async (e) => {
           if (!e) return;

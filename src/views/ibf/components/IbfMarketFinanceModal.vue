@@ -51,7 +51,7 @@
     isUpdate.value = !!data?.isUpdate;
     if (unref(isUpdate)) {
       // 系统计算值
-      modelClcu.value = await getSys({ monthCol: data?.record?.monthCol, shortMarketId: data?.record?.shortMarketId });
+      modelClcu.value = (await getSys({ monthCol: data?.record?.monthCol, shortMarketId: data?.record?.shortMarketId })) || {};
 
       //表单赋值
       await setFieldsValue({

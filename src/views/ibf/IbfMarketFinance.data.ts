@@ -31,6 +31,18 @@ export const columns: BasicColumn[] = [
     dataIndex: 'monthCol',
   },
   {
+    title: '确认人',
+    align: 'center',
+    sorter: true,
+    dataIndex: 'updateBy',
+  },
+  {
+    title: '确认时间',
+    align: 'center',
+    sorter: true,
+    dataIndex: 'updateTime',
+  },
+  {
     title: '状态',
     align: 'center',
     dataIndex: 'isPublish',
@@ -99,18 +111,6 @@ export const columns: BasicColumn[] = [
     align: 'center',
     sorter: true,
     dataIndex: 'createTime',
-  },
-  {
-    title: '修改人',
-    align: 'center',
-    sorter: true,
-    dataIndex: 'updateBy',
-  },
-  {
-    title: '修改时间',
-    align: 'center',
-    sorter: true,
-    dataIndex: 'updateTime',
   },
 ];
 //查询数据

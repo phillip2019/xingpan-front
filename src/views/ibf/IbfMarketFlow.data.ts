@@ -35,6 +35,18 @@ export const columns: BasicColumn[] = [
     },
   },
   {
+    title: '确认人',
+    align: 'center',
+    sorter: true,
+    dataIndex: 'updateBy',
+  },
+  {
+    title: '确认时间',
+    align: 'center',
+    sorter: true,
+    dataIndex: 'updateTime',
+  },
+  {
     title: '状态',
     align: 'center',
     dataIndex: 'isPublish',
@@ -73,22 +85,10 @@ export const columns: BasicColumn[] = [
     dataIndex: 'createTime',
   },
   {
-    title: '修改时间',
-    align: 'center',
-    sorter: true,
-    dataIndex: 'updateTime',
-  },
-  {
     title: '创建人',
     align: 'center',
     sorter: true,
     dataIndex: 'createBy',
-  },
-  {
-    title: '修改人',
-    align: 'center',
-    sorter: true,
-    dataIndex: 'updateBy',
   },
 ];
 //查询数据

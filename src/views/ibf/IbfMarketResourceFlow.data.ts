@@ -33,6 +33,18 @@ export const columns: BasicColumn[] = [
     helpMessage: '月份，记录月份，格式yyyy-MM',
   },
   {
+    title: '确认人',
+    align: 'center',
+    sorter: true,
+    dataIndex: 'updateBy',
+  },
+  {
+    title: '确认时间',
+    align: 'center',
+    sorter: true,
+    dataIndex: 'updateTime',
+  },
+  {
     title: '状态',
     align: 'center',
     dataIndex: 'isPublish',
@@ -109,18 +121,6 @@ export const columns: BasicColumn[] = [
     align: 'center',
     dataIndex: 'createTime',
     helpMessage: '创建时间，记录创建时间',
-  },
-  {
-    title: '修改人',
-    align: 'center',
-    dataIndex: 'updateBy',
-    helpMessage: '修改人，记录修改人',
-  },
-  {
-    title: '修改时间',
-    align: 'center',
-    dataIndex: 'updateTime',
-    helpMessage: '修改时间，记录修改时间',
   },
 ];
 //查询数据

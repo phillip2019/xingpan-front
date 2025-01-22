@@ -79,16 +79,16 @@ export const columns: BasicColumn[] = [
     },
   },
   {
-    title: '创建时间',
-    align: 'center',
-    sorter: true,
-    dataIndex: 'createTime',
-  },
-  {
     title: '创建人',
     align: 'center',
     sorter: true,
     dataIndex: 'createBy',
+  },
+  {
+    title: '创建时间',
+    align: 'center',
+    sorter: true,
+    dataIndex: 'createTime',
   },
 ];
 //查询数据

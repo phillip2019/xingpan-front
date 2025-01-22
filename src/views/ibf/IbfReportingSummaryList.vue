@@ -185,8 +185,9 @@
         onClick: handleCopy.bind(null, record),
       });
     }
-    // 若记录为校准状态，且flag为1，则显示发布按钮，可以进行发布
-    if (record.isPublish === 0 && (record.flag === 1 || record.flag === 0)) {
+    // 若记录为待发布状态，且flag为1，则显示发布按钮，可以进行发布
+    // 12月特殊，12月是本月， flag为0且当前日期大于26号, 可以发布
+    if (record.isPublish === 0 && record.isCopy === 1) {
       actionArr.push({
         label: '发布',
         auth: 'org.jeecg.modules.demo:ibf_reporting_summary:publish',

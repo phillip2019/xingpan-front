@@ -54,9 +54,10 @@
   const [registerModal, { setModalProps, closeModal }] = useModalInner(async (data) => {
     //重置表单
     await resetFields();
-    setModalProps({ confirmLoading: false, showCancelBtn: !!data?.showFooter });
+    setModalProps({ confirmLoading: false, showCancelBtn: !!data?.showFooter, showOkBtn: !!data?.showFooter });
+    console.log('data', data);
     isUpdate.value = !!data?.isUpdate;
-    
+
     if (unref(isUpdate)) {
       // 系统计算值
       modelClcu.value = await getSys({ monthCol: data?.record?.monthCol, shortMarketId: data?.record?.shortMarketId });
@@ -66,7 +67,6 @@
         businessVersion: data.business_version,
       });
     } else {
-      
       // 新增时，使用传入的business_version
       await setFieldsValue({
         businessVersion: data.business_version,

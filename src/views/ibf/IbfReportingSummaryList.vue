@@ -96,7 +96,7 @@
         ],
       },
       actionColumn: {
-        width: 240,
+        width: 300,
         fixed: 'right',
       },
     },

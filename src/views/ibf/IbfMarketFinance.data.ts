@@ -287,12 +287,19 @@ export const formSchema: FormSchema[] = [
     label: '本期收入',
     field: 'curPeriodIncome1m',
     component: 'InputNumber',
+    slot: 'InputNumberSlot',
+    componentProps: {
+      suffix: '万元',
+      style: {
+        width: '100%',
+      },
+    },
     colProps: { span: 12 },
     helpMessage: [
       '数据口径：',
       '所选自然月起止日发生的收入资金流水。',
       '单位：',
-      '万元，精确到2位小数',
+      '万元，精确到4位小数',
       '统计周期：',
       '所属年月的起止日期。其中1月为上月16日至1月31日；12月为12月1日至12月15日。',
       '例：所属年月2024年11月，则只统计2024/11/01-2024/11/30期间发生的收入',
@@ -300,7 +307,7 @@ export const formSchema: FormSchema[] = [
     dynamicRules: ({ model, schema }) => {
       return [
         { required: true, message: '请输入本期收入(万)!' },
-        { pattern: /^(([1-9][0-9]*)|([0]\.\d{0,2}|[1-9][0-9]*\.\d{0,2}))$/, message: '请输入正确的金额!' },
+        { pattern: /^(([1-9][0-9]*)|([0]\.\d{0,4}|[1-9][0-9]*\.\d{0,4}))$/, message: '请输入正确的金额!' },
       ];
     },
   },
@@ -308,12 +315,19 @@ export const formSchema: FormSchema[] = [
     label: '本期营收',
     field: 'turnoverIncomeSd',
     component: 'InputNumber',
+    slot: 'InputNumberSlot',
+    componentProps: {
+      suffix: '万元',
+      style: {
+        width: '100%',
+      },
+    },
     colProps: { span: 12 },
     helpMessage: [
       '数据口径：',
       '经确认的营业收入。',
       '单位：',
-      '万元，精确到2位小数',
+      '万元，精确到4位小数',
       '统计周期：',
       '所属年月的起止日期。其中1月为上月16日至1月31日；12月为12月1日至12月15日。',
       '例：所属年月2024年11月，则只统计2024/11/01-2024/11/30期间结转的营收。',
@@ -321,7 +335,7 @@ export const formSchema: FormSchema[] = [
     dynamicRules: ({ model, schema }) => {
       return [
         { required: true, message: '请输入本期营收(万)!' },
-        { pattern: /^(([1-9][0-9]*)|([0]\.\d{0,2}|[1-9][0-9]*\.\d{0,2}))$/, message: '请输入正确的金额!' },
+        { pattern: /^(([1-9][0-9]*)|([0]\.\d{0,4}|[1-9][0-9]*\.\d{0,4}))$/, message: '请输入正确的金额!' },
       ];
     },
   },
@@ -329,12 +343,19 @@ export const formSchema: FormSchema[] = [
     label: '本年目标营收',
     field: 'targetTurnoverIncomeSd',
     component: 'InputNumber',
+    slot: 'InputNumberSlot',
+    componentProps: {
+      suffix: '万元',
+      style: {
+        width: '100%',
+      },
+    },
     colProps: { span: 12 },
-    helpMessage: ['数据口径：', '本年目标营业收入，来自于业绩指标合同', '单位：', '万元，精确到2位小数', '统计周期：', '上年12月16日至本年12月15日'],
+    helpMessage: ['数据口径：', '本年目标营业收入，来自于业绩指标合同', '单位：', '万元，精确到4位小数', '统计周期：', '上年12月16日至本年12月15日'],
     dynamicRules: ({ model, schema }) => {
       return [
         { required: true, message: '请输入本年目标营收(万)!' },
-        { pattern: /^(([1-9][0-9]*)|([0]\.\d{0,2}|[1-9][0-9]*\.\d{0,2}))$/, message: '请输入正确的金额!' },
+        { pattern: /^(([1-9][0-9]*)|([0]\.\d{0,4}|[1-9][0-9]*\.\d{0,4}))$/, message: '请输入正确的金额!' },
       ];
     },
   },
@@ -342,12 +363,19 @@ export const formSchema: FormSchema[] = [
     label: '本期利润',
     field: 'accumulateProfitIncomeSd',
     component: 'InputNumber',
+    slot: 'InputNumberSlot',
+    componentProps: {
+      suffix: '万元',
+      style: {
+        width: '100%',
+      },
+    },
     colProps: { span: 12 },
     helpMessage: [
       '数据口径：',
       '经确认的利润。',
       '单位：',
-      '万元，精确到2位小数',
+      '万元，精确到4位小数',
       '统计周期：',
       '所属年月的起止日期。其中1月为上月16日至1月31日；12月为12月1日至12月15日截止',
       '例：所属年月2024年11月，则只统计2024/11/01-2024/11/30期间产生的利润',
@@ -355,7 +383,7 @@ export const formSchema: FormSchema[] = [
     dynamicRules: ({ model, schema }) => {
       return [
         { required: true, message: '请输入本期利润(万)!' },
-        { pattern: /^(([1-9][0-9]*)|([0]\.\d{0,2}|[1-9][0-9]*\.\d{0,2}))$/, message: '请输入正确的金额!' },
+        { pattern: /^(([1-9][0-9]*)|([0]\.\d{0,4}|[1-9][0-9]*\.\d{0,4}))$/, message: '请输入正确的金额!' },
       ];
     },
   },
@@ -363,12 +391,19 @@ export const formSchema: FormSchema[] = [
     label: '本年目标利润',
     field: 'targetProfitIncomeSd',
     component: 'InputNumber',
+    slot: 'InputNumberSlot',
+    componentProps: {
+      suffix: '万元',
+      style: {
+        width: '100%',
+      },
+    },
     colProps: { span: 12 },
-    helpMessage: ['数据口径：', '本年本年目标利润，来自于业绩指标合同', '单位：', '万元，精确到2位小数', '统计周期：', '上年12月16日至本年12月15日'],
+    helpMessage: ['数据口径：', '本年本年目标利润，来自于业绩指标合同', '单位：', '万元，精确到4位小数', '统计周期：', '上年12月16日至本年12月15日'],
     dynamicRules: ({ model, schema }) => {
       return [
         { required: true, message: '请输入本年目标利润(万)!' },
-        { pattern: /^(([1-9][0-9]*)|([0]\.\d{0,2}|[1-9][0-9]*\.\d{0,2}))$/, message: '请输入正确的金额!' },
+        { pattern: /^(([1-9][0-9]*)|([0]\.\d{0,4}|[1-9][0-9]*\.\d{0,4}))$/, message: '请输入正确的金额!' },
       ];
     },
   },

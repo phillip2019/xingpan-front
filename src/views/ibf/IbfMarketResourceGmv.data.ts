@@ -263,7 +263,7 @@ export const formSchema: FormSchema[] = [
       '数据口径：',
       '人工填报，从求实获取',
       '单位：',
-      '亿元，精确到2位小数',
+      '亿元，精确到4位小数',
       '统计周期：',
       '所属年月自然月的起止日期',
       '//例，所属年月选择了2024年11月，即统计11月1日至11月30日发生的数据。',
@@ -271,7 +271,7 @@ export const formSchema: FormSchema[] = [
     dynamicRules: ({ model, schema }) => {
       return [
         { required: true, message: '请输入市场成交额(亿)!' },
-        { pattern: /^-?\d+\.?\d{0,2}$/, message: '请输入数字，最多2位小数!' },
+        { pattern: /^-?\d+\.?\d{0,4}$/, message: '请输入数字，最多2位小数!' },
       ];
     },
   },

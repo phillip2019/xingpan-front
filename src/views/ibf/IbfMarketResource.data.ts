@@ -260,13 +260,13 @@ export const columns: BasicColumn[] = [
       '数据口径：',
       '转让总金额/转让总面积',
       '单位：',
-      '元，精确到2位小数',
+      '万元，精确到4位小数',
       '统计周期：',
       '统计意义上的月起止日期',
       '所属年月的上月21日至当月20日。',
       '//例，所属年月选择了2024/11，则11月的统计周期为2024/10/21-2024/11/20。',
     ],
-    customRender: ({ text }) => (text ? `${text}元` : ''),
+    customRender: ({ text }) => (text ? `${text}万元` : ''),
   },
   {
     title: '商位转租笔数',
@@ -293,7 +293,7 @@ export const columns: BasicColumn[] = [
       '数据口径：',
       '转租总金额/转租总面积，排除转租金额为0的数据',
       '单位：',
-      '元，精确到2位小数',
+      '万元，精确到4位小数',
       '统计周期：',
       '统计意义上的月起止日期',
       '所属年月的上月21日至当月20日。',
@@ -324,7 +324,7 @@ export const columns: BasicColumn[] = [
       '数据口径：',
       '市场商位质押总金额，统计质押申请的。',
       '单位：',
-      '元，精确到2位小数',
+      '万元，精确到4位小数',
       '统计周期：',
       '所属年月的上月21日至当月20日',
       '//例，所属年月选择了2024/11，则11月的统计周期为2024/10/21-2024/11/20。',
@@ -482,7 +482,7 @@ export const columns: BasicColumn[] = [
       '数据口径：',
       '商位+配套用房，下一轮租赁中完成续租缴费的金额合计',
       '单位：',
-      '万元，精确到2位小数',
+      '万元，精确到4位小数',
       '统计时间：',
       '按所属年月在统计意义上的月末进行统计。',
       '1月是统计本年1月1日至1月20日最后一秒这个时间点的最新数据；',
@@ -1066,7 +1066,7 @@ export const formSchema: FormSchema[] = [
       '数据口径：',
       '商位+配套用房，本年新主体入驻商户缴纳的入场资格费和拍卖费合计',
       '单位：',
-      '万元，精确到2位小数',
+      '万元，精确到4位小数',
       '统计时间：',
       '按所属年月在统计意义上的月末进行统计。',
       '1月是统计本年1月1日至1月20日最后一秒这个时间点的最新数据；',
@@ -1078,7 +1078,7 @@ export const formSchema: FormSchema[] = [
     dynamicRules: ({ model, schema }) => {
       return [
         { required: true, message: '请输入本年入场资格费收入!' },
-        { pattern: /^-?\d+\.?\d{0,2}$/, message: '请输入数字，最多2位小数!' },
+        { pattern: /^-?\d+\.?\d{0,4}$/, message: '请输入数字，最多2位小数!' },
       ];
     },
   },
@@ -1199,7 +1199,7 @@ export const formSchema: FormSchema[] = [
     helpMessage: [
       '数据口径：',
       '商位+配套用房，下一轮租赁中完成续租缴费的金额合计',
-      '单位：万元，精确到2位小数',
+      '单位：万元，精确到4位小数',
       '统计时间：',
       '按所属年月在统计意义上的月末进行统计。',
       '1月是统计本年1月1日至1月20日最后一秒这个时间点的最新数据；',
@@ -1211,7 +1211,7 @@ export const formSchema: FormSchema[] = [
     dynamicRules: ({ model, schema }) => {
       return [
         { required: true, message: '请输入本年续租收入!' },
-        { pattern: /^-?\d+\.?\d{0,2}$/, message: '请输入数字，最多2位小数!' },
+        { pattern: /^-?\d+\.?\d{0,4}$/, message: '请输入数字，最多2位小数!' },
       ];
     },
   },
@@ -1262,7 +1262,7 @@ export const formSchema: FormSchema[] = [
       '数据口径：',
       '转让总金额/转让总面积',
       '单位：',
-      '元，精确到2位小数',
+      '万元，精确到4位小数',
       '统计周期：',
       '统计意义上的月起止日期',
       '所属年月的上月21日至当月20日。',
@@ -1271,7 +1271,7 @@ export const formSchema: FormSchema[] = [
     dynamicRules: ({ model, schema }) => {
       return [
         { required: true, message: '请输入商位转让均价!' },
-        { pattern: /^-?\d+\.?\d{0,2}$/, message: '请输入数字，最多2位小数!' },
+        { pattern: /^-?\d+\.?\d{0,4}$/, message: '请输入数字，最多2位小数!' },
       ];
     },
   },
@@ -1316,7 +1316,7 @@ export const formSchema: FormSchema[] = [
       '数据口径：',
       '转租总金额/转租总面积，排除转租金额为0的数据',
       '单位：',
-      '元，精确到2位小数',
+      '万元，精确到4位小数',
       '统计周期：',
       '统计意义上的月起止日期',
       '所属年月的上月21日至当月20日。',
@@ -1325,7 +1325,7 @@ export const formSchema: FormSchema[] = [
     dynamicRules: ({ model, schema }) => {
       return [
         { required: true, message: '请输入商位转租均价!' },
-        { pattern: /^-?\d+\.?\d{0,2}$/, message: '请输入数字，最多2位小数!' },
+        { pattern: /^-?\d+\.?\d{0,4}$/, message: '请输入数字，最多2位小数!' },
       ];
     },
   },
@@ -1361,7 +1361,7 @@ export const formSchema: FormSchema[] = [
     component: 'InputNumber',
     slot: 'InputNumberSlot',
     componentProps: {
-      suffix: '元',
+      suffix: '万元',
       style: { width: '100%' },
     },
     colProps: { span: 12 },
@@ -1369,7 +1369,7 @@ export const formSchema: FormSchema[] = [
       '数据口径：',
       '市场商位质押总金额，统计质押申请的。',
       '单位：',
-      '元，精确到2位小数',
+      '万元，精确到4位小数',
       '统计周期：',
       '所属年月的上月21日至当月20日',
       '//例，所属年月选择了2024/11，则11月的统计周期为2024/10/21-2024/11/20。',
@@ -1377,7 +1377,7 @@ export const formSchema: FormSchema[] = [
     dynamicRules: ({ model }) => {
       return [
         { required: true, message: '请输入商位质押总金额!' },
-        { pattern: /^-?\d+\.?\d{0,2}$/, message: '请输入数字，最多2位小数!' },
+        { pattern: /^-?\d+\.?\d{0,4}$/, message: '请输入数字，最多2位小数!' },
       ];
     },
   },

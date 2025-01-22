@@ -10,7 +10,7 @@ const userStore = useUserStore();
 const loginInfo = toRaw(userStore.getLoginInfo) || {};
 const tenantList = loginInfo?.tenantList ?? [];
 const shortMarketIdList: { label: string; value: string }[] = [];
-for (let item of tenantList as any[]) {
+for (const item of tenantList as any[]) {
   const label = item.name;
   const value = item.id;
   shortMarketIdList.push({ label: label, value: value });
@@ -63,7 +63,7 @@ export const columns: BasicColumn[] = [
     helpMessage: '日开门率，记录日开门率开门的商位数/出租的商位数，按照商位号去重，AB摊位算1个',
     customRender: ({ text }) => {
       if (!text && text !== 0) return '';
-      return `${(text * 100).toFixed(2)}%`;
+      return `${text.toFixed(2)}%`;
     },
   },
   {
@@ -153,6 +153,12 @@ export const searchFormSchema: FormSchema[] = [
 //表单数据
 export const formSchema: FormSchema[] = [
   {
+    field: 'divider-basic',
+    component: 'Divider',
+    label: '',
+    colProps: { span: 24 },
+  },
+  {
     label: '市场',
     field: 'shortMarketId',
     component: 'JSelectInput',
@@ -177,6 +183,7 @@ export const formSchema: FormSchema[] = [
         },
       };
     },
+    colProps: { span: 12 },
     helpMessage: '市场，记录市场',
     dynamicRules: () => {
       return [{ required: true, message: '请选择市场!' }];
@@ -225,15 +232,30 @@ export const formSchema: FormSchema[] = [
         },
       };
     },
+    colProps: { span: 12 },
     helpMessage: '日期，记录日期，格式yyyy-MM-dd',
     dynamicRules: () => {
       return [{ required: true, message: '请输入日期 yyyy-MM-dd!' }];
     },
   },
   {
+    field: 'divider-basic',
+    component: 'Divider',
+    label: '每日数据',
+    colProps: { span: 24 },
+  },
+  {
     label: '日人流量',
     field: 'marketBuyerEntrNum1d',
     component: 'InputNumber',
+    slot: 'InputNumberSlot',
+    componentProps: {
+      suffix: '人次',
+      style: {
+        width: '100%',
+      },
+    },
+    colProps: { span: 12 },
     helpMessage: ['数据口径：', '当日人次，市场摄像头监测', '单位：', '人次', '统计周期：', '当日自然日内'],
     dynamicRules: ({ model, schema }) => {
       return [
@@ -246,6 +268,14 @@ export const formSchema: FormSchema[] = [
     label: '日车流量',
     field: 'carEntrNum1d',
     component: 'InputNumber',
+    slot: 'InputNumberSlot',
+    componentProps: {
+      suffix: '车次',
+      style: {
+        width: '100%',
+      },
+    },
+    colProps: { span: 12 },
     helpMessage: ['数据口径：', '当日车次，按车辆进入次数统计', '单位：', '车次', '统计周期：', '当日自然日内'],
     dynamicRules: ({ model, schema }) => {
       return [
@@ -258,11 +288,20 @@ export const formSchema: FormSchema[] = [
     label: '日开门率',
     field: 'boothOpeningRate1d',
     component: 'InputNumber',
+    slot: 'InputNumberSlot',
+    componentProps: {
+      suffix: '%',
+      style: {
+        width: '100%',
+      },
+    },
+    colProps: { span: 12 },
     helpMessage: [
       '数据口径：',
       '开门率=有用电的商位总数/各市场去重的有使用权人的商位数(AB摊位算一间商位)。',
       '单位：',
       '% ，精确到4位小数',
+      '//例，99.99%，请填写99.99',
       '统计周期：',
       '当日自然日内',
     ],
@@ -270,8 +309,8 @@ export const formSchema: FormSchema[] = [
       return [
         { required: true, message: '请输入日开门率!' },
         {
-          pattern: /^(0|0\.\d{1,4}|1|1\.0{1,4})$/,
-          message: '请输入0-1之间的数字，最多4位小数!',
+          pattern: /^(0|[1-99]\.\d{1,4}|100)$/,
+          message: '请输入0-100之间的数字，最多4位小数!',
         },
       ];
     },

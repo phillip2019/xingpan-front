@@ -101,7 +101,7 @@ export const columns: BasicColumn[] = [
     ],
     customRender: ({ text }) => {
       if (!text && text !== 0) return '';
-      return `${(text * 100).toFixed(2)}%`;
+      return `${text.toFixed(2)}%`;
     },
   },
   {
@@ -413,7 +413,7 @@ export const formSchema: FormSchema[] = [
       '=有用电的商位总数/各市场去重的有使用权人的商位数(AB摊位算一间商位)。',
       '单位：',
       '% ，精确到4位小数',
-      '//例，99.99%，请填写0.9999',
+      '//例，99.99%，请填写99.99',
       '统计周期：',
       '所属年月自然月的起止日期',
       '//例，所属年月选择了2024年11月，即统计11月1日至11月30日范围的数据。',
@@ -422,8 +422,8 @@ export const formSchema: FormSchema[] = [
       return [
         { required: true, message: '请输入开门率!' },
         {
-          pattern: /^(0|0\.\d{1,4}|1|1\.0{1,4})$/,
-          message: '请输入0-1之间的数字，最多4位小数!',
+          pattern: /^(0|[1-99]\.\d{1,4}|100)$/,
+          message: '请输入1-100之间的数字，最多2位小数!',
         },
       ];
     },

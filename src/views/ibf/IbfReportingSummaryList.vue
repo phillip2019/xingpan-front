@@ -39,6 +39,11 @@
         <a-tag color="pink" v-if="text === 2">下线</a-tag>
         <a-tag color="gray" v-if="text === 3">过期</a-tag>
       </template>
+      <!--可见状态显示栏-->
+      <template #isVisible="{ record, text }">
+        <a-tag color="#87d068" v-if="text === 0">可见</a-tag>
+        <a-tag color="gray" v-if="text === 1">不可见</a-tag>
+      </template>
       <!--省市区字段回显插槽-->
       <template #pcaSlot="{ text }">
         {{ getAreaTextByCode(text) }}
@@ -178,7 +183,8 @@
     const actionArr: any[] = [];
 
     // 若记录是发布状态且未拷贝，则显示复制按钮
-    if (record.isPublish === 1 && record.isCopy === 0 && record.flag === 0) {
+    // TODO 先隐藏复制按钮，避免解释成本
+    if (record.isPublish === 1 && record.isCopy === 0 && record.isVisible === 1 && false) {
       actionArr.push({
         label: '复制',
         auth: 'org.jeecg.modules.demo:ibf_reporting_summary:copy',
@@ -198,7 +204,7 @@
     let resourceReportName = '预览资源';
     let financeReportName = '预览财务';
     // 若记录是核准状态，则显示资源总览预览
-    if ((record.isPublish === 1 && record.flag === 0) || (record.isPublish === 0 && record.flag <= 1)) {
+    if (record.isPublish === 1 && record.isVisible === 1) {
       if (record.isPublish === 1) {
         resourceReportName = '资源总览';
         financeReportName = '财务总览';

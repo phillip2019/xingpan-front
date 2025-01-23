@@ -280,7 +280,7 @@ export const formSchema: FormSchema[] = [
   {
     field: 'divider-basic',
     component: 'Divider',
-    label: '收入',
+    label: '收入和营收',
     colProps: { span: 24 },
   },
   {
@@ -310,6 +310,12 @@ export const formSchema: FormSchema[] = [
         { pattern: /^(([1-9][0-9]*)|([0]\.\d{0,4}|[1-9][0-9]*\.\d{0,4}))$/, message: '请输入正确的金额!' },
       ];
     },
+  },
+  {
+    field: 'divider-basic',
+    component: 'Divider',
+    label: '',
+    colProps: { span: 12 },
   },
   {
     label: '本期营收',

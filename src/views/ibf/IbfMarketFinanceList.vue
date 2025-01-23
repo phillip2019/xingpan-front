@@ -179,7 +179,7 @@
   function getTableAction(record) {
     const actionArr: any[] = [];
     // 只有待确认状态的，可以编辑
-    if (record.isPublish === 0) {
+    if (record.isPublish === 0 || record.isPublish === 1) {
       actionArr.push({
         label: '编辑',
         auth: 'org.jeecg.modules.demo:ibf_market_finance:edit',

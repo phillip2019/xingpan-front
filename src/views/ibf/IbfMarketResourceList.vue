@@ -190,7 +190,7 @@
     const actionArr: any[] = [];
 
     // 若是发布状态和过期状态，不允许删除
-    if (record.isPublish === 0) {
+    if (record.isPublish === 0 || record.isPublish === 1) {
       actionArr.push({
         label: '编辑',
         auth: 'org.jeecg.modules.demo:ibf_market_resource:edit',

@@ -187,17 +187,23 @@
    * 操作栏
    */
   function getTableAction(record) {
-    return [
-      {
-        label: '编辑',
-        auth: 'org.jeecg.modules.demo:ibf_market_resource:edit',
-        onClick: handleEdit.bind(null, record),
-      },
+    const actionArr: any[] = [
       {
         label: '详情',
         onClick: handleDetail.bind(null, record),
       },
     ];
+
+    // 若是发布状态和过期状态，不允许删除
+    if (record.isPublish === 0) {
+      actionArr.push({
+        label: '编辑',
+        auth: 'org.jeecg.modules.demo:ibf_market_resource:edit',
+        onClick: handleEdit.bind(null, record),
+      });
+    }
+
+    return actionArr;
   }
   /**
    * 下拉操作栏

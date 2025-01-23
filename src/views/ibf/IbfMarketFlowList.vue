@@ -180,23 +180,28 @@
    * 操作栏
    */
   function getTableAction(record) {
-    return [
+    const actionArr: any[] = [
       {
+        label: '详情',
+        onClick: handleDetail.bind(null, record),
+      },
+    ];
+
+    // 只有待确认状态的，可以编辑
+    if (record.isPublish === 0) {
+      actionArr.push({
         label: '编辑',
         auth: 'org.jeecg.modules.demo:ibf_market_flow:edit',
         onClick: handleEdit.bind(null, record),
-      },
-    ];
+      });
+    }
+    return actionArr;
   }
   /**
    * 下拉操作栏
    */
   function getDropDownAction(record) {
     return [
-      {
-        label: '详情',
-        onClick: handleDetail.bind(null, record),
-      },
       {
         label: '删除',
         auth: 'org.jeecg.modules.demo:ibf_market_flow:delete',

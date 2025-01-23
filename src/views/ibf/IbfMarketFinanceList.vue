@@ -177,24 +177,29 @@
    * 操作栏
    */
   function getTableAction(record) {
-    return [
-      {
-        label: '编辑',
-        auth: 'org.jeecg.modules.demo:ibf_market_finance:edit',
-        onClick: handleEdit.bind(null, record),
-      },
+    const actionArr: any[] = [
       {
         label: '详情',
         onClick: handleDetail.bind(null, record),
       },
     ];
+
+    // 只有待确认状态的，可以编辑
+    if (record.isPublish === 0) {
+      actionArr.push({
+        label: '编辑',
+        auth: 'org.jeecg.modules.demo:ibf_market_finance:edit',
+        onClick: handleEdit.bind(null, record),
+      });
+    }
+
+    return actionArr;
   }
   /**
    * 下拉操作栏
    */
   function getDropDownAction(record) {
-    const actionArr: any[] = [
-    ];
+    const actionArr: any[] = [];
 
     return actionArr;
   }

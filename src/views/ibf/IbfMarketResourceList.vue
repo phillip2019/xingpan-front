@@ -187,12 +187,7 @@
    * 操作栏
    */
   function getTableAction(record) {
-    const actionArr: any[] = [
-      {
-        label: '详情',
-        onClick: handleDetail.bind(null, record),
-      },
-    ];
+    const actionArr: any[] = [];
 
     // 若是发布状态和过期状态，不允许删除
     if (record.isPublish === 0) {
@@ -202,6 +197,11 @@
         onClick: handleEdit.bind(null, record),
       });
     }
+
+    actionArr.push({
+      label: '详情',
+      onClick: handleDetail.bind(null, record),
+    });
 
     return actionArr;
   }

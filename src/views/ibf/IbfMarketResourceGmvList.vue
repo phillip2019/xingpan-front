@@ -178,7 +178,7 @@
     if (record.isPublish === 0) {
       actionArr.push({
         label: '编辑',
-        auth: 'org.jeecg.modules.demo:ibf_market_resource_gmv:detail',
+        auth: 'org.jeecg.modules.demo:ibf_market_resource_gmv:edit',
         onClick: handleEdit.bind(null, record),
       });
     }

@@ -180,12 +180,7 @@
    * 操作栏
    */
   function getTableAction(record) {
-    const actionArr: any[] = [
-      {
-        label: '详情',
-        onClick: handleDetail.bind(null, record),
-      },
-    ];
+    const actionArr: any[] = [];
 
     // 只有待确认状态的，可以编辑
     if (record.isPublish === 0) {
@@ -195,8 +190,15 @@
         onClick: handleEdit.bind(null, record),
       });
     }
+
+    actionArr.push({
+      label: '详情',
+      onClick: handleDetail.bind(null, record),
+    });
+
     return actionArr;
   }
+
   /**
    * 下拉操作栏
    */

@@ -184,7 +184,7 @@
 
     // 若记录是发布状态且未拷贝，则显示复制按钮
     // TODO 先隐藏复制按钮，避免解释成本
-    if (record.isPublish === 1 && record.isCopy === 0 && record.isVisible === 1 && false) {
+    if (record.isPublish === 1 && record.isCopy === 0 && record.isVisible === 1) {
       actionArr.push({
         label: '复制',
         auth: 'org.jeecg.modules.demo:ibf_reporting_summary:copy',
@@ -204,7 +204,7 @@
     let resourceReportName = '预览资源';
     let financeReportName = '预览财务';
     // 若记录是核准状态，则显示资源总览预览
-    if (record.isPublish === 1 && record.isVisible === 1) {
+    if (record.isVisible === 1) {
       if (record.isPublish === 1) {
         resourceReportName = '资源总览';
         financeReportName = '财务总览';

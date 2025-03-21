@@ -26,13 +26,6 @@ export const columns: BasicColumn[] = [
     helpMessage: '大屏发布数据状态，分为3个状态，待发布 -> 发布 -> 下线或过期!',
   },
   {
-    title: '可见状态',
-    align: 'center',
-    dataIndex: 'isVisible',
-    slots: { customRender: 'isVisible' },
-    helpMessage: '大屏发布可见状态，分为可见和不可见!',
-  },
-  {
     title: '统计开始日期',
     align: 'center',
     dataIndex: 'statStartDate',
@@ -107,15 +100,6 @@ export const searchFormSchema: FormSchema[] = [
     component: 'JDictSelectTag',
     componentProps: {
       dictCode: 'is_publish',
-    },
-    colProps: { span: 6 },
-  },
-  {
-    label: '可见状态',
-    field: 'isVisible',
-    component: 'JDictSelectTag',
-    componentProps: {
-      dictCode: 'is_visible',
     },
     colProps: { span: 6 },
   },

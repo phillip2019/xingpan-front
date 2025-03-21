@@ -39,11 +39,6 @@
         <a-tag color="pink" v-if="text === 2">下线</a-tag>
         <a-tag color="gray" v-if="text === 3">过期</a-tag>
       </template>
-      <!--可见状态显示栏-->
-      <template #isVisible="{ record, text }">
-        <a-tag color="#87d068" v-if="text === 1">可见</a-tag>
-        <a-tag color="pink" v-if="text === 0">不可见</a-tag>
-      </template>
       <!--省市区字段回显插槽-->
       <template #pcaSlot="{ text }">
         {{ getAreaTextByCode(text) }}

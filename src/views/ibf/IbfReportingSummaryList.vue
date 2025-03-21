@@ -235,7 +235,7 @@
     const res = await getResourceUrl();
     console.log('资源总览链接为...', res);
     // 打开新页面
-    window.open(res + '&isPublish=' + record.isPublish + '&flag=' + record.flag, '_blank');
+    window.open(res + '&ms=' + record.ms + '&isPublish=' + record.isPublish + '&flag=' + record.flag, '_blank');
   }
 
   /**
@@ -245,7 +245,7 @@
     const res = await getFinanceUrl();
     console.log('财务总览链接为...', res);
     // 打开新页面
-    window.open(res + '&isPublish=' + record.isPublish + '&flag=' + record.flag, '_blank');
+    window.open(res + '&ms=' + record.ms + '&isPublish=' + record.isPublish + '&flag=' + record.flag, '_blank');
   }
   /**
    * 下拉操作栏

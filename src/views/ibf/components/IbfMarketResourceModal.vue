@@ -16,6 +16,7 @@
             :suffix="schema.componentProps?.suffix"
             :style="{ width: '100%' }"
             :addonAfter="schema.componentProps?.suffix"
+            @change="(e) => handleRentRoomNumChange(field, e)"
           />
           <div class="calcu-value" v-if="modelClcu[field] !== undefined" @click="copyCalcuValue(modelClcu[field])">
             <span class="calcu-label">系统计算结果： </span>
@@ -44,7 +45,7 @@
 
   const modelClcu = ref({});
   //表单配置
-  const [registerForm, { setProps, resetFields, setFieldsValue, validate }] = useForm({
+  const [registerForm, { setProps, resetFields, setFieldsValue, getFieldsValue, validate }] = useForm({
     //labelWidth: 150,
     schemas: formSchema,
     showActionButtonGroup: false,
@@ -121,6 +122,35 @@
       message.success('复制成功');
     } catch (err) {
       message.error('复制失败');
+    }
+  }
+
+  function handleRentRoomNumChange(field, value) {
+    // 获取当前表单值
+    const formValues = getFieldsValue();
+
+    // 修改出租间数
+    if (field === 'boothRentRoomNumTd' || field === 'matchRentRoomNumTd') {
+      // 计算总的出租间数
+      const boothRent = parseFloat(field === 'boothRentRoomNumTd' ? value : formValues.boothRentRoomNumTd || '0');
+      const matchRent = parseFloat(field === 'matchRentRoomNumTd' ? value : formValues.matchRentRoomNumTd || '0');
+
+      // 更新出租间数总计
+      setFieldsValue({
+        boothMatchRentRoomNumTd: (boothRent + matchRent).toFixed(1),
+      });
+    }
+
+    // 修改出租面积
+    else if (field === 'boothRentAreaNumTd' || field === 'matchRentAreaNumTd') {
+      // 计算总的出租间数
+      const boothRent = parseFloat(field === 'boothRentAreaNumTd' ? value : formValues.boothRentAreaNumTd || '0');
+      const matchRent = parseFloat(field === 'matchRentAreaNumTd' ? value : formValues.matchRentAreaNumTd || '0');
+
+      // 更新出租面积总计
+      setFieldsValue({
+        boothMatchRentAreaNumTd: (boothRent + matchRent).toFixed(1),
+      });
     }
   }
 </script>

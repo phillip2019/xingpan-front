@@ -197,7 +197,7 @@ export const columns: BasicColumn[] = [
     title: '本年招商间数',
     align: 'right',
     sorter: true,
-    dataIndex: 'invstRoomNumSd',
+    dataIndex: 'invstHoldsBoothRoomNumSd',
     helpMessage: [
       '数据口径：',
       'AB摊算1间（I型商位算1,II型商位算0.5）',
@@ -376,7 +376,7 @@ export const columns: BasicColumn[] = [
     title: '本年招商户数',
     align: 'right',
     sorter: true,
-    dataIndex: 'invstHoldsNumSd',
+    dataIndex: 'invstHoldsBoothNumSd',
     helpMessage: [
       '数据口径：',
       '招商条目中，A或B摊都算1户，间数大于1的，则按大于1的算户数',
@@ -432,7 +432,7 @@ export const columns: BasicColumn[] = [
     title: '本年续租户数',
     align: 'right',
     sorter: true,
-    dataIndex: 'renewLeaseHoldsNumSd',
+    dataIndex: 'renewLeaseHoldsBoothNumSd',
     helpMessage: [
       '数据口径：',
       '本年续租户数，续租批次中已完成的户数，若A摊位或B摊位都算1户，若条目中商位间数大于1，则按大于1的间数算户数。',
@@ -451,7 +451,7 @@ export const columns: BasicColumn[] = [
     title: '本年退租户数',
     align: 'right',
     sorter: true,
-    dataIndex: 'surrenderLeaseHoldsNumSd',
+    dataIndex: 'surrenderLeaseHoldsBoothNumSd',
     helpMessage: [
       '数据口径：',
       '本年退租户数。若A摊位或B摊位都算1户，若条目中商位间数大于1，则按大于1的间数算户数。',
@@ -470,7 +470,7 @@ export const columns: BasicColumn[] = [
     title: '本年到期户数',
     align: 'right',
     sorter: true,
-    dataIndex: 'expiredHoldsNumSd',
+    dataIndex: 'expiredHoldsBoothNumSd',
     helpMessage: [
       '数据口径：',
       '本年租赁费用到期的户数，若A摊或B摊都算1户，若条目中商位间数大于1，则按大于1的间数算户数商位+配套。',
@@ -746,21 +746,38 @@ export const formSchema: FormSchema[] = [
     },
   },
   {
-    label: '已出租间数',
-    field: 'boothMatchRentRoomNumTd',
+    label: '出租商位间数',
+    field: 'boothRentRoomNumTd',
     component: 'InputNumber',
     slot: 'InputNumberSlot',
     colProps: {
       span: 12,
     },
-    componentProps: {
-      suffix: '间',
-      style: { width: '100%' },
+    componentProps: ({ formActionType, formModel }) => {
+      const { setFieldsValue, getFieldsValue } = formActionType;
+      return {
+        suffix: '间',
+        style: { width: '100%' },
+        // onChange: ({ value }, { formActionType }) => {
+        //   console.log('进入了编辑出租商位间数位置!!!');
+        //   const { setFieldsValue, getFieldsValue } = formActionType;
+        //   const formModel = getFieldsValue();
+        //   const boothMatchRentRoomNumTd = parseFloat(value || '0') + parseFloat(formModel.matchRentRoomNumTd || '0');
+        //   setFieldsValue({
+        //     boothMatchRentRoomNumTd: boothMatchRentRoomNumTd.toFixed(1),
+        //   });
+        // },
+        onChange: (value: any) => {
+          // if (!e) return;
+          console.log(`e: ${value}`);
+          // setFieldsValue({ boothMatchRentRoomNumTd: 100 });
+          console.log('进入了编辑出租商位间数位置');
+        },
+      };
     },
     helpMessage: [
       '数据口径：',
       'AB摊算1间（I型商位间数大于1的，则按大于1的间数计算；II型商位算0.5）',
-      '其中配套，包含配套用房系统中的配套用房和配套设施场地',
       '单位：间，精确到1位小数',
       '统计时间：',
       '所属年月在统计意义上的月末',
@@ -769,10 +786,71 @@ export const formSchema: FormSchema[] = [
     ],
     dynamicRules: ({ model }) => {
       return [
-        { required: true, message: '请输入已出租间数(商位+配套)!' },
+        { required: true, message: '请输入出租商位间数!' },
         { pattern: /^-?\d+\.?\d{0,1}$/, message: '请输入数字，最多1位小数!' },
       ];
     },
+  },
+  {
+    label: '出租配套间数',
+    field: 'matchRentRoomNumTd',
+    component: 'InputNumber',
+    slot: 'InputNumberSlot',
+    colProps: {
+      span: 12,
+    },
+    componentProps: {
+      suffix: '间',
+      style: { width: '100%' },
+      onChange: (value, field, values, schema) => {
+        // const { setFieldsValue } = formActionType;
+        // console.log(`修改了出租配套间数: ${value}, field: ${field}, schema: ${schema}`);
+        console.log(`修改了出租配套间数: values: ${values}, schema: ${schema}`);
+        // const boothMatchRentRoomNumTd = parseFloat(formModel.boothRentRoomNumTd || '0') + parseFloat(value || '0');
+        // setFieldsValue({
+        // boothMatchRentRoomNumTd: boothMatchRentRoomNumTd.toFixed(1),
+        // });
+      },
+    },
+    helpMessage: [
+      '数据口径：',
+      '配套，包含配套用房系统中的配套用房和配套设施场地',
+      '单位：间，精确到1位小数',
+      '统计时间：',
+      '所属年月在统计意义上的月末',
+      '统计期是上月21日至当月20日',
+      '例：所属年月选择了2024/11，则统计11月，则统计11月20日23:59:59这个时间点的数据',
+    ],
+    dynamicRules: ({ model }) => {
+      return [
+        { required: true, message: '请输入出租配套间数!' },
+        { pattern: /^-?\d+\.?\d{0,1}$/, message: '请输入数字，最多1位小数!' },
+      ];
+    },
+  },
+  {
+    label: '出租间数',
+    field: 'boothMatchRentRoomNumTd',
+    component: 'InputNumber',
+    // slot: 'InputNumberSlot',
+    colProps: {
+      span: 12,
+    },
+    componentProps: {
+      addonAfter: '间',
+      style: { width: '100%' },
+      disabled: true,
+    },
+    helpMessage: [
+      '数据口径：（商位+配套）',
+      'AB摊算1间（I型商位间数大于1的，则按大于1的间数计算；II型商位算0.5）',
+      '其中配套，包含配套用房系统中的配套用房和配套设施场地',
+      '单位：间，精确到1位小数',
+      '统计时间：',
+      '所属年月在统计意义上的月末',
+      '统计期是上月21日至当月20日',
+      '例：所属年月选择了2024/11，则统计11月20日23:59:59这个时间点的数据',
+    ],
   },
   {
     field: 'divider-basic',
@@ -833,8 +911,36 @@ export const formSchema: FormSchema[] = [
     },
   },
   {
-    label: '已出租面积',
-    field: 'boothMatchRentAreaNumTd',
+    label: '出租商位面积',
+    field: 'boothRentAreaNumTd',
+    slot: 'InputNumberSlot',
+    component: 'InputNumber',
+    colProps: {
+      span: 12,
+    },
+    componentProps: {
+      suffix: '㎡',
+      style: { width: '100%' },
+    },
+    helpMessage: [
+      '数据口径：',
+      '商位为出租状态的商位面积求和',
+      '单位：㎡，精确到2位小数',
+      '统计时间：',
+      '所属年月在统计意义上的月末',
+      '统计期是上月21日至当月20日',
+      '例：所属年月选择了2024/11，则统计11月20日23:59:59这个时间点的数据',
+    ],
+    dynamicRules: ({ model }) => {
+      return [
+        { required: true, message: '请输入已出租面积(商位)!' },
+        { pattern: /^-?\d+\.?\d{0,2}$/, message: '请输入数字，最多2位小数!' },
+      ];
+    },
+  },
+  {
+    label: '出租配套面积',
+    field: 'matchRentAreaNumTd',
     slot: 'InputNumberSlot',
     component: 'InputNumber',
     colProps: {
@@ -855,10 +961,33 @@ export const formSchema: FormSchema[] = [
     ],
     dynamicRules: ({ model }) => {
       return [
-        { required: true, message: '请输入已出租面积(商位+配套)!' },
+        { required: true, message: '请输入已出租面积(配套)!' },
         { pattern: /^-?\d+\.?\d{0,2}$/, message: '请输入数字，最多2位小数!' },
       ];
     },
+  },
+  {
+    label: '出租面积',
+    field: 'boothMatchRentAreaNumTd',
+    component: 'InputNumber',
+    colProps: {
+      span: 12,
+    },
+    componentProps: {
+      suffix: '㎡',
+      style: { width: '100%' },
+      disabled: true,
+    },
+    helpMessage: [
+      '数据口径：',
+      '为出租状态的商位和配套面积求和',
+      '其中配套，包含配套用房系统中的配套用房和配套设施场地',
+      '单位：㎡，精确到2位小数',
+      '统计时间：',
+      '所属年月在统计意义上的月末',
+      '统计期是上月21日至当月20日',
+      '例：所属年月选择了2024/11，则统计11月20日23:59:59这个时间点的数据',
+    ],
   },
   {
     field: 'divider-basic',
@@ -932,7 +1061,7 @@ export const formSchema: FormSchema[] = [
   },
   {
     label: '本年招商间数',
-    field: 'invstRoomNumSd',
+    field: 'invstHoldsBoothRoomNumSd',
     component: 'InputNumber',
     slot: 'InputNumberSlot',
     componentProps: {
@@ -990,7 +1119,7 @@ export const formSchema: FormSchema[] = [
   },
   {
     label: '本年招商户数',
-    field: 'invstHoldsNumSd',
+    field: 'invstHoldsBoothNumSd',
     component: 'InputNumber',
     slot: 'InputNumberSlot',
     componentProps: {
@@ -1090,7 +1219,7 @@ export const formSchema: FormSchema[] = [
   },
   {
     label: '本年续租户数',
-    field: 'renewLeaseHoldsNumSd',
+    field: 'renewLeaseHoldsBoothNumSd',
     component: 'InputNumber',
     slot: 'InputNumberSlot',
     componentProps: {
@@ -1122,7 +1251,7 @@ export const formSchema: FormSchema[] = [
   },
   {
     label: '本年退租户数',
-    field: 'surrenderLeaseHoldsNumSd',
+    field: 'surrenderLeaseHoldsBoothNumSd',
     component: 'InputNumber',
     slot: 'InputNumberSlot',
     componentProps: {
@@ -1154,7 +1283,7 @@ export const formSchema: FormSchema[] = [
   },
   {
     label: '本年到期户数',
-    field: 'expiredHoldsNumSd',
+    field: 'expiredHoldsBoothNumSd',
     component: 'InputNumber',
     slot: 'InputNumberSlot',
     componentProps: {

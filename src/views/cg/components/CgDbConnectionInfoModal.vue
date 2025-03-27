@@ -42,7 +42,7 @@
       await setFieldsValue({
         ...record,
       });
-    } else if (unref(isUpdate)) {
+    } else if (unref(isCopy)) {
       recordData.value = data.record;
       let record = data.record;
       //表单赋值

@@ -34,14 +34,17 @@
     setModalProps({ confirmLoading: false, showCancelBtn: !!data?.showFooter, showOkBtn: !!data?.showFooter });
     isUpdate.value = !!data?.isUpdate;
     isCopy.value = !!data?.isCopy;
-    console.log('record: ', data.record);
     if (unref(isUpdate)) {
       recordData.value = data.record;
       let record = data.record;
-      if (!unref(isCopy)) {
-        // 查询数据库记录
-        record = await queryById(data.record.id);
-      }
+      record = await queryById(data.record.id);
+      //表单赋值
+      await setFieldsValue({
+        ...record,
+      });
+    } else if (unref(isUpdate)) {
+      recordData.value = data.record;
+      let record = data.record;
       //表单赋值
       await setFieldsValue({
         ...record,

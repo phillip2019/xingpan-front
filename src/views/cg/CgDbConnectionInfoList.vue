@@ -193,7 +193,7 @@
     recordCopy.connectionId = `${recordCopy.connectionId}_copy`;
     openModal(true, {
       record: recordCopy,
-      isUpdate: true,
+      isUpdate: false,
       isCopy: true,
       showFooter: true,
     });

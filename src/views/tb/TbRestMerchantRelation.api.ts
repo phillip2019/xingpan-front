@@ -1,17 +1,16 @@
-import { defHttp } from '/@/utils/http/axios';
-import { useMessage } from '/@/hooks/web/useMessage';
+import {defHttp} from '/@/utils/http/axios';
+import { useMessage } from "/@/hooks/web/useMessage";
 
 const { createConfirm } = useMessage();
 
 enum Api {
-  list = '/tb/TbRestMerchantRelation/list',
-  save = '/tb/TbRestMerchantRelation/add',
-  edit = '/tb/TbRestMerchantRelation/edit',
-  deleteOne = '/tb/TbRestMerchantRelation/delete',
-  deleteBatch = '/tb/TbRestMerchantRelation/deleteBatch',
-  importExcel = '/tb/TbRestMerchantRelation/importExcel',
-  exportXls = '/tb/TbRestMerchantRelation/exportXls',
-  queryById = '/tb/TbRestMerchantRelation/queryById',
+  list = '/tb/tbRestMerchantRelation/list',
+  save='/tb/tbRestMerchantRelation/add',
+  edit='/tb/tbRestMerchantRelation/edit',
+  deleteOne = '/tb/tbRestMerchantRelation/delete',
+  deleteBatch = '/tb/tbRestMerchantRelation/deleteBatch',
+  importExcel = '/tb/tbRestMerchantRelation/importExcel',
+  exportXls = '/tb/tbRestMerchantRelation/exportXls',
 }
 /**
  * 导出api
@@ -26,21 +25,22 @@ export const getImportUrl = Api.importExcel;
  * 列表接口
  * @param params
  */
-export const list = (params: any) => defHttp.get({ url: Api.list, params });
+export const list = (params) =>
+  defHttp.get({url: Api.list, params});
 
 /**
  * 删除单个
  */
-export const deleteOne = (params: { id: any }, handleSuccess: { (): void; (): void }) => {
-  return defHttp.delete({ url: Api.deleteOne, params }, { joinParamsToUrl: true }).then(() => {
+export const deleteOne = (params,handleSuccess) => {
+  return defHttp.delete({url: Api.deleteOne, params}, {joinParamsToUrl: true}).then(() => {
     handleSuccess();
   });
-};
+}
 /**
  * 批量删除
  * @param params
  */
-export const batchDelete = (params: { ids: any[] }, handleSuccess: { (): void; (): void }) => {
+export const batchDelete = (params, handleSuccess) => {
   createConfirm({
     iconType: 'warning',
     title: '确认删除',
@@ -48,29 +48,17 @@ export const batchDelete = (params: { ids: any[] }, handleSuccess: { (): void; (
     okText: '确认',
     cancelText: '取消',
     onOk: () => {
-      return defHttp.delete({ url: Api.deleteBatch, data: params }, { joinParamsToUrl: true }).then(() => {
+      return defHttp.delete({url: Api.deleteBatch, data: params}, {joinParamsToUrl: true}).then(() => {
         handleSuccess();
       });
-    },
+    }
   });
-};
+}
 /**
  * 保存或者更新
  * @param params
  */
-export const saveOrUpdate = (params: Recordable<any>, isUpdate: boolean) => {
-  const url = isUpdate ? Api.edit : Api.save;
-  return defHttp.post({ url: url, params });
-};
-
-
-/**
- * 查询某一个
- * @param id
- */
-export const queryById = (id: string) => {
-  const url = Api.queryById + '?id=' + id;
-  // 拼接id参数进入url中
-  return defHttp.get({ url: url });
-};
-
+export const saveOrUpdate = (params, isUpdate) => {
+  let url = isUpdate ? Api.edit : Api.save;
+  return defHttp.post({url: url, params});
+}

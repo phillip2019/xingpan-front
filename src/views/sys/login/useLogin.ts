@@ -17,7 +17,6 @@ export enum SmsEnum {
   LOGIN = '0',
   REGISTER = '1',
   FORGET_PASSWORD = '2',
-  EMAIL_FORGET_PASSWORD = '3',
 }
 const currentState = ref(LoginStateEnum.LOGIN);
 

@@ -38,6 +38,8 @@ enum Api {
   emailVerify = '/sys/user/emailVerification',
   //修改密码
   passwordChange = '/sys/user/passwordChange',
+  //修改密码
+  passwordChangeByEmail = '/sys/user/passwordChangeByEmail',
   //第三方登录
   thirdLogin = '/sys/thirdLogin/getLoginUser',
   //第三方登录
@@ -168,6 +170,11 @@ export const emailVerify = (params) => defHttp.post({ url: Api.emailVerify, para
  * @param params
  */
 export const passwordChange = (params) => defHttp.get({ url: Api.passwordChange, params }, { isTransformResponse: false });
+/**
+ *通过有邮箱密码修改
+ * @param params
+ */
+export const passwordChangeByEmail = (params) => defHttp.get({ url: Api.passwordChangeByEmail, params }, { isTransformResponse: false });
 /**
  * @description: 第三方登录
  */

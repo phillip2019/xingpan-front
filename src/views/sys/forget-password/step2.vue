@@ -25,7 +25,7 @@
   import { useI18n } from '/@/hooks/web/useI18n';
   import { useMessage } from '/@/hooks/web/useMessage';
   import { useFormRules, useFormValid } from '../login/useLogin';
-  import { passwordChange } from '/@/api/sys/user';
+  import { passwordChange, passwordChangeByEmail } from '/@/api/sys/user';
 
   export default defineComponent({
     name: 'step2',
@@ -70,7 +70,7 @@
       async function handleNext() {
         const data = await validForm();
         if (!data) return;
-        const resultInfo = await passwordChange(
+        const resultInfo = await passwordChangeByEmail(
           toRaw({
             username: data.username,
             password: data.password,

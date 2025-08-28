@@ -79,7 +79,7 @@
       }
       //倒计时执行前的函数
       function sendCodeApi() {
-        return getEmailCaptcha({ email: formData.email, emailmode: SmsEnum.EMAIL_FORGET_PASSWORD });
+        return getEmailCaptcha({ email: formData.email, emailmode: SmsEnum.FORGET_PASSWORD });
       }
       return {
         t,

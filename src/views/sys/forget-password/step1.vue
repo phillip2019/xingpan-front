@@ -1,10 +1,10 @@
 <template>
   <Form class="p-4 enter-x" :model="formData" :rules="getFormRules" ref="formRef">
-    <FormItem name="mobile" class="enter-x">
-      <Input size="large" v-model:value="formData.mobile" :placeholder="t('sys.login.mobile')" />
+    <FormItem name="email" class="enter-x">
+      <Input size="large" v-model:value="formData.email" :placeholder="t('sys.login.email')" />
     </FormItem>
-    <FormItem name="sms" class="enter-x">
-      <CountdownInput size="large" v-model:value="formData.sms" :placeholder="t('sys.login.smsCode')" :sendCodeApi="sendCodeApi" />
+    <FormItem name="emailCode" class="enter-x">
+      <CountdownInput size="large" v-model:value="formData.emailCode" :placeholder="t('sys.login.emailCode')" :sendCodeApi="sendCodeApi" />
     </FormItem>
     <FormItem class="enter-x">
       <Button type="primary" size="large" block @click="handleNext" :loading="loading"> 下一步 </Button>
@@ -15,18 +15,18 @@
   </Form>
 </template>
 <script lang="ts">
-  import { defineComponent, reactive, ref, computed, unref, toRaw } from 'vue';
+  import { defineComponent, reactive, ref, toRaw } from 'vue';
 
-  import { Form, Input, Button, steps } from 'ant-design-vue';
+  import { Form, Input, Button } from 'ant-design-vue';
   import { CountdownInput } from '/@/components/CountDown';
 
   import { useI18n } from '/@/hooks/web/useI18n';
   import { useMessage } from '/@/hooks/web/useMessage';
-  import { useLoginState, useFormRules, useFormValid, LoginStateEnum, SmsEnum } from '../login/useLogin';
-  import { phoneVerify, getCaptcha } from '/@/api/sys/user';
+  import { useLoginState, useFormRules, useFormValid, SmsEnum } from '../login/useLogin';
+  import { emailVerify, getEmailCaptcha } from '/@/api/sys/user';
 
   export default defineComponent({
-    name: 'step1',
+    name: 'ForgetPasswordStep1',
     components: {
       Button,
       Form,
@@ -46,8 +46,8 @@
 
       const loading = ref(false);
       const formData = reactive({
-        mobile: '',
-        sms: '',
+        email: '',
+        emailCode: '',
       });
 
       /**
@@ -56,17 +56,17 @@
       async function handleNext() {
         const data = await validForm();
         if (!data) return;
-        const resultInfo = await phoneVerify(
+        const resultInfo = await emailVerify(
           toRaw({
-            phone: data.mobile,
-            smscode: data.sms,
+            email: data.email,
+            emailcode: data.emailCode,
           })
         );
         if (resultInfo.success) {
           let accountInfo = {
             username: resultInfo.result.username,
-            phone: data.mobile,
-            smscode: resultInfo.result.smscode,
+            email: data.email,
+            emailcode: resultInfo.result.emailcode,
           };
           emit('nextStep', accountInfo);
         } else {
@@ -79,7 +79,7 @@
       }
       //倒计时执行前的函数
       function sendCodeApi() {
-        return getCaptcha({ mobile: formData.mobile, smsmode: SmsEnum.FORGET_PASSWORD });
+        return getEmailCaptcha({ email: formData.email, emailmode: SmsEnum.EMAIL_FORGET_PASSWORD });
       }
       return {
         t,

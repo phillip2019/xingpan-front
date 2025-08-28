@@ -99,6 +99,42 @@ export const rules = {
       },
     ];
   },
+  strongPassword(required) {
+    return [
+      {
+        required: required ? required : false,
+        validator: async (_, value) => {
+          if (required && !value) {
+            return Promise.reject('请输入密码');
+          }
+          if (value) {
+            // 检查密码长度至少12位
+            if (value.length < 12) {
+              return Promise.reject('密码长度至少12位');
+            }
+            // 检查是否包含大写字母
+            if (!/[A-Z]/.test(value)) {
+              return Promise.reject('密码必须包含大写字母');
+            }
+            // 检查是否包含小写字母
+            if (!/[a-z]/.test(value)) {
+              return Promise.reject('密码必须包含小写字母');
+            }
+            // 检查是否包含数字
+            if (!/\d/.test(value)) {
+              return Promise.reject('密码必须包含数字');
+            }
+            // 检查是否包含特殊字符
+            if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(value)) {
+              return Promise.reject('密码必须包含特殊字符');
+            }
+          }
+          return Promise.resolve();
+        },
+        trigger: 'change',
+      },
+    ] as ArrayRule;
+  },
   duplicateCheckRule(tableName, fieldName, model, schema, required?) {
     return [
       {

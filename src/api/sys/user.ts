@@ -24,6 +24,8 @@ enum Api {
   getInputCode = '/sys/randomImage',
   //获取短信验证码的接口
   getCaptcha = '/sys/sms',
+  //获取邮箱验证码的接口
+  getEmailCaptcha = '/sys/email',
   //注册接口
   registerApi = '/sys/user/register',
   //校验用户接口
@@ -32,6 +34,8 @@ enum Api {
   validateCasLogin = '/sys/cas/client/validateLogin',
   //校验手机号
   phoneVerify = '/sys/user/phoneVerification',
+  //校验邮箱
+  emailVerify = '/sys/user/emailVerification',
   //修改密码
   passwordChange = '/sys/user/passwordChange',
   //第三方登录
@@ -121,6 +125,23 @@ export function getCaptcha(params) {
 }
 
 /**
+ * @description: 获取邮箱验证码
+ */
+export function getEmailCaptcha(params) {
+  return new Promise((resolve, reject) => {
+    defHttp.post({ url: Api.getEmailCaptcha, params }, { isTransformResponse: false }).then((res) => {
+      console.log(res);
+      if (res.success) {
+        resolve(true);
+      } else {
+        createErrorModal({ title: '错误提示', content: res.message || '未知问题' });
+        reject();
+      }
+    });
+  });
+}
+
+/**
  * @description: 注册接口
  */
 export function register(params) {
@@ -137,6 +158,11 @@ export const checkOnlyUser = (params) => defHttp.get({ url: Api.checkOnlyUser, p
  * @param params
  */
 export const phoneVerify = (params) => defHttp.post({ url: Api.phoneVerify, params }, { isTransformResponse: false });
+/**
+ *校验邮箱
+ * @param params
+ */
+export const emailVerify = (params) => defHttp.post({ url: Api.emailVerify, params }, { isTransformResponse: false });
 /**
  *密码修改
  * @param params

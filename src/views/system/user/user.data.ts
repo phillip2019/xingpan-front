@@ -330,12 +330,7 @@ export const formPasswordSchema: FormSchema[] = [
     componentProps: {
       placeholder: '请输入登录密码',
     },
-    rules: [
-      {
-        required: true,
-        message: '请输入登录密码',
-      },
-    ],
+    rules: rules.strongPassword(true),
   },
   {
     label: '确认密码',

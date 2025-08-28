@@ -5,7 +5,7 @@
       <Input size="large" v-model:value="formData.account" :placeholder="t('sys.login.userName')" class="fix-auto-fill" />
     </FormItem>
     <FormItem name="password" class="enter-x">
-      <InputPassword size="large" visibilityToggle v-model:value="formData.password" :placeholder="t('sys.login.password')" />
+      <StrengthMeter size="large" v-model:value="formData.password" :placeholder="t('sys.login.password')" />
     </FormItem>
 
     <!--验证码-->
@@ -94,6 +94,7 @@
   import ThirdModal from './ThirdModal.vue';
   import { useI18n } from '/@/hooks/web/useI18n';
   import { useMessage } from '/@/hooks/web/useMessage';
+  import { StrengthMeter } from '/@/components/StrengthMeter';
 
   import { useUserStore } from '/@/store/modules/user';
   import { LoginStateEnum, useLoginState, useFormRules, useFormValid } from './useLogin';
@@ -104,12 +105,11 @@
   const ACol = Col;
   const ARow = Row;
   const FormItem = Form.Item;
-  const InputPassword = Input.Password;
   const IconFont = createFromIconfontCN({
     scriptUrl: '//at.alicdn.com/t/font_2316098_umqusozousr.js',
   });
   const { t } = useI18n();
-  const { notification, createErrorModal } = useMessage();
+  const { notification } = useMessage();
   const { prefixCls } = useDesign('login');
   const userStore = useUserStore();
 

@@ -11,9 +11,7 @@
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { useMessage } from '/@/hooks/web/useMessage';
   // 声明Emits
-  const emit = defineEmits(['register']);
   const $message = useMessage();
-  const formRef = ref();
   const username = ref('');
   //表单配置
   const [registerForm, { resetFields, validate, clearValidate }] = useForm({
@@ -31,12 +29,7 @@
         componentProps: {
           placeholder: '请输入新密码',
         },
-        rules: [
-          {
-            required: true,
-            message: '请输入新密码',
-          },
-        ],
+        rules: rules.strongPassword(true),
       },
       {
         label: '确认新密码',

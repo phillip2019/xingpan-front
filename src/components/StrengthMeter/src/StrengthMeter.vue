@@ -14,7 +14,6 @@
 <script lang="ts">
   import { defineComponent, computed, ref, watch, unref, watchEffect } from 'vue';
   import { Input } from 'ant-design-vue';
-  import { zxcvbn } from '@zxcvbn-ts/core';
   import { useDesign } from '/@/hooks/web/useDesign';
   import { propTypes } from '/@/utils/propTypes';
 
@@ -31,11 +30,56 @@
       const innerValueRef = ref('');
       const { prefixCls } = useDesign('strength-meter');
 
+      // 自定义密码强度评估函数
+      const evaluatePasswordStrength = (password: string): number => {
+        if (!password) return -1;
+
+        let requirements = 0;
+
+        // 检查长度（至少12位）
+        if (password.length >= 12) {
+          requirements += 1;
+        }
+
+        // 检查是否包含大写字母
+        if (/[A-Z]/.test(password)) {
+          requirements += 1;
+        }
+
+        // 检查是否包含小写字母
+        if (/[a-z]/.test(password)) {
+          requirements += 1;
+        }
+
+        // 检查是否包含数字
+        if (/\d/.test(password)) {
+          requirements += 1;
+        }
+
+        // 检查是否包含特殊字符
+        if (/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password)) {
+          requirements += 1;
+        }
+
+        // 根据满足的要求数量返回分数
+        if (requirements === 5) {
+          return 4; // 最高强度 - 绿色
+        } else if (requirements >= 4) {
+          return 3; // 高强度 - 浅绿色
+        } else if (requirements >= 3) {
+          return 2; // 中等强度 - 黄色
+        } else if (requirements >= 2) {
+          return 1; // 低强度 - 红色
+        } else {
+          return 0; // 很弱 - 深红色
+        }
+      };
+
       const getPasswordStrength = computed(() => {
         const { disabled } = props;
         if (disabled) return -1;
         const innerValue = unref(innerValueRef);
-        const score = innerValue ? zxcvbn(unref(innerValueRef)).score : -1;
+        const score = innerValue ? evaluatePasswordStrength(unref(innerValueRef)) : -1;
         emit('score-change', score);
         return score;
       });

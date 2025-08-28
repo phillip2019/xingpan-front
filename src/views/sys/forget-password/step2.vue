@@ -74,8 +74,8 @@
           toRaw({
             username: data.username,
             password: data.password,
-            smscode: accountInfo.obj.smscode,
-            phone: accountInfo.obj.phone,
+            emailcode: accountInfo.obj.emailcode,
+            email: accountInfo.obj.email,
           })
         );
         if (resultInfo.success) {

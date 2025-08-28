@@ -2,7 +2,7 @@
   <template v-if="getShow">
     <!--节点-->
     <a-steps style="margin-bottom: 20px" :current="currentTab">
-      <a-step title="手机验证" />
+      <a-step title="邮箱验证" />
       <a-step title="更改密码" />
       <a-step title="完成" />
     </a-steps>

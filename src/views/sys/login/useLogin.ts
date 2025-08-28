@@ -3,7 +3,7 @@ import type { RuleObject } from 'ant-design-vue/lib/form/interface';
 import { ref, computed, unref, Ref } from 'vue';
 import { useI18n } from '/@/hooks/web/useI18n';
 import { checkOnlyUser } from '/@/api/sys/user';
-import { defHttp } from '/@/utils/http/axios';
+import { rules } from '/@/utils/helper/validator';
 
 export enum LoginStateEnum {
   LOGIN,
@@ -17,6 +17,7 @@ export enum SmsEnum {
   LOGIN = '0',
   REGISTER = '1',
   FORGET_PASSWORD = '2',
+  EMAIL_FORGET_PASSWORD = '3',
 }
 const currentState = ref(LoginStateEnum.LOGIN);
 
@@ -49,7 +50,6 @@ export function useFormRules(formData?: Recordable) {
   const { t } = useI18n();
 
   const getAccountFormRule = computed(() => createRule(t('sys.login.accountPlaceholder')));
-  const getPasswordFormRule = computed(() => createRule(t('sys.login.passwordPlaceholder')));
   const getSmsFormRule = computed(() => createRule(t('sys.login.smsPlaceholder')));
   const getMobileFormRule = computed(() => createRule(t('sys.login.mobilePlaceholder')));
 
@@ -74,7 +74,6 @@ export function useFormRules(formData?: Recordable) {
 
   const getFormRules = computed((): { [k: string]: ValidationRule | ValidationRule[] } => {
     const accountFormRule = unref(getAccountFormRule);
-    const passwordFormRule = unref(getPasswordFormRule);
     const smsFormRule = unref(getSmsFormRule);
     const mobileFormRule = unref(getMobileFormRule);
 
@@ -90,7 +89,7 @@ export function useFormRules(formData?: Recordable) {
       case LoginStateEnum.REGISTER:
         return {
           account: registerAccountRule,
-          password: passwordFormRule,
+          password: rules.strongPassword(true),
           mobile: registerMobileRule,
           sms: smsFormRule,
           confirmPassword: [{ validator: validateConfirmPassword(formData?.password), trigger: 'change' }],
@@ -101,6 +100,7 @@ export function useFormRules(formData?: Recordable) {
       case LoginStateEnum.RESET_PASSWORD:
         return {
           username: accountFormRule,
+          password: rules.strongPassword(true),
           confirmPassword: [{ validator: validateConfirmPassword(formData?.password), trigger: 'change' }],
           ...mobileRule,
         };
@@ -113,7 +113,7 @@ export function useFormRules(formData?: Recordable) {
       default:
         return {
           account: accountFormRule,
-          password: passwordFormRule,
+          password: rules.strongPassword(true),
         };
     }
   });
@@ -138,7 +138,7 @@ function createRegisterAccountRule(type) {
   ];
 }
 
-function checkUsername(rule, value, callback) {
+function checkUsername(rule, value, _callback) {
   const { t } = useI18n();
   if (!value) {
     return Promise.reject(t('sys.login.accountPlaceholder'));
@@ -150,9 +150,8 @@ function checkUsername(rule, value, callback) {
     });
   }
 }
-async function checkPhone(rule, value, callback) {
-  const { t } = useI18n();
-  var reg = /^1[3456789]\d{9}$/;
+async function checkPhone(rule, value, _callback) {
+  const reg = /^1[3456789]\d{9}$/;
   if (!reg.test(value)) {
     return Promise.reject(new Error('请输入正确手机号'));
   } else {
